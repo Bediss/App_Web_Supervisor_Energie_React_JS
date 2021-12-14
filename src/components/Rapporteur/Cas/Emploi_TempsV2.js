@@ -131,7 +131,7 @@ const Emploi_Temps = ({ AjoutTab }) => {
     ];
 
     const [jourArrayHaut,setJourArrayHaut]=useState(["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"])
-    const [jourArrayDans,setJourArrayDans]=useState(["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"])
+    const [jourArrayDans,setJourArrayDans]=useState([])
     const [jourArrayBas,setJourArrayBas]=useState([])
     const [minimumDateHeure,setMinimumDateHeure]=useState([])
     const [minimumDate,setMinimumDate]=useState([])
@@ -197,7 +197,10 @@ const Emploi_Temps = ({ AjoutTab }) => {
     }
 
     function ajoutTab() {
-        var validierAjoutTab=false
+        var validierAjoutTab = false
+      
+        var validierAjoutTabEntre = false
+     
         var att = ""
         var valeur = ""
         var valeur_format=""
@@ -210,7 +213,7 @@ const Emploi_Temps = ({ AjoutTab }) => {
             }else if(timeVar=="dateHeure"){
                 valeur_format="timestamp"
             }else if(timeVar=="jour"){
-                valeur_format="day"
+                valeur_format="date"
             }
 
 
@@ -242,6 +245,7 @@ const Emploi_Temps = ({ AjoutTab }) => {
             sethaut("")
             setbas("")
             validierAjoutTab=true
+            validierAjoutTabEntre=true
         }
         if (haut == "" && bas != "") {
 
@@ -265,33 +269,76 @@ const Emploi_Temps = ({ AjoutTab }) => {
             dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
             sethaut("")
             setbas("")
-            validierAjoutTab=true
+            validierAjoutTab = true
+            validierAjoutTabEntre = true
         }
+        if(timeVar=="jour"){
+var hautValeur= 0
+var basValeur=0
 
-        if (haut != "" && bas != "") {
-            if(bas>haut){
+ if (hautJour != "" && basJour != "") {
+
+console.log("hautJour",hautJour,"basJour",basJour)
+if(hautJour=="Lundi"){
+    hautValeur=1
+}else if(hautJour=="Mardi"){
+    hautValeur=2
+}
+else if(hautJour=="Mercredi"){
+    hautValeur=3
+}
+else if(hautJour=="Jeudi"){
+    hautValeur=4
+}
+else if(hautJour=="Vendredi"){
+    hautValeur=5
+}
+else if(hautJour=="Samedi"){
+    hautValeur=6
+}
+else if(hautJour=="Dimanche"){
+    hautValeur=7
+}
+
+
+
+if(basJour=="Lundi"){
+    basValeur=1
+    }else if(basJour=="Mardi"){
+        basValeur=2
+    }
+    else if(basJour=="Mercredi"){
+        basValeur=3
+    }
+    else if(basJour=="Jeudi"){
+        basValeur=4
+    }
+    else if(basJour=="Vendredi"){
+        basValeur=5
+    }
+    else if(basJour=="Samedi"){
+        basValeur=6
+    }
+    else if(basJour=="Dimanche"){
+        basValeur=7
+    }
+console.log("basValeur",basValeur)
+console.log("hautValeur",hautValeur)
+            if(basValeur>hautValeur){
             att = "Entre"
             setAtt(att)
             valeur = ("''" + haut + "'' and ''" + bas + "''")
             setValeur(valeur)
-         
-
             var valeurDev =""
-            if (timeVar == "jour"){
              valeurDev = hautJour + ',' +basJour
-
-            }else{
-            valeurDev = haut + ',' + bas
-            }
-
             dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
             sethaut("")
             setbas("")
             validierAjoutTab=true
+            validierAjoutTabEntre=true
         }
-        }else if(haut!=""&&bas!=""){
-            if(bas<=haut){
-       
+        }else if(hautJour!=""&&basJour!=""){
+            if(basValeur<=hautValeur){
                 Swal.fire({
                     toast: true,
                     position: 'top',
@@ -303,23 +350,45 @@ const Emploi_Temps = ({ AjoutTab }) => {
                     title: 'Il faut ajouter la valeur Bas Supérieur à la valeur Haut'
                 })
               }
-        }else if(haut != "" && bas != ""){
-            att = "Entre"
-            setAtt(att)
-            valeur = ("''" + haut + "'' and ''" + bas + "''")
-            setValeur(valeur)
-            var valeurDev =""
-            if (timeVar == "jour"){
-             valeurDev = hautJour + ',' +basJour
-
-            }else{
-            valeurDev = haut + ',' + bas
-            }
-            dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
-            sethaut("")
-            setbas("")
-            validierAjoutTab=true
+              validierAjoutTab = false
+              validierAjoutTabEntre = false
         }
+}else{
+    if (haut != "" && bas != "") {
+        if(bas>haut){
+        att = "Entre"
+        setAtt(att)
+        valeur = ("''" + haut + "'' and ''" + bas + "''")
+        setValeur(valeur)
+    
+       var valeurDev = haut + ',' + bas
+      
+
+        dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
+        sethaut("")
+        setbas("")
+        validierAjoutTab=true
+        validierAjoutTabEntre=true
+    }
+    }else if(haut!=""&&bas!=""){
+        if(bas<=haut){
+   
+            Swal.fire({
+                toast: true,
+                position: 'top',
+
+                showConfirmButton: false,
+                timer: 6000,
+                icon: 'warning',
+                width: 600,
+                title: 'Il faut ajouter la valeur Bas Supérieur à la valeur Haut'
+            })
+          }
+          validierAjoutTab=false
+          validierAjoutTabEntre=false
+    }
+}
+       
 
         if (totale_Dans != "") {
 
@@ -332,6 +401,7 @@ const Emploi_Temps = ({ AjoutTab }) => {
             .replace("Mercredi","(date_trunc('week', now())::date + interval '2 day')::date")
             .replace("Mardi","(date_trunc('week', now())::date + interval '1 day')::date")
             .replace("Lundi","(date_trunc('week', now())::date)::date")
+            .replace(/'/g,"''")
             valeur = ("(" + b.slice(0, -1) + ")")
             setValeur(valeur)
 
@@ -346,9 +416,11 @@ const Emploi_Temps = ({ AjoutTab }) => {
             dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
             settotale_Dans("")
             validierAjoutTab=true
+            validierAjoutTabEntre = true
         }
         console.log("validierAjoutTab",validierAjoutTab)
-           if(validierAjoutTab==true){
+        console.log("timeVar",timeVar)
+           if(validierAjoutTab==true&&keyword!=""&&operateur!=""&&validierAjoutTabEntre==true){
                console.log("valeur",valeur)
         JsonOperateurValue.push({ "keyword": keyword, "operateur": operateur, "att": att, "valeur": valeur, "valeur_format": valeur_format })
        console.log("JsonOperateurValue", JsonOperateurValue)
@@ -373,6 +445,49 @@ const Emploi_Temps = ({ AjoutTab }) => {
         $('#BtnModifier').show();
         $('#tab').show();
 
+           }else if (keyword==""){
+            Swal.fire({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 6000,
+                icon: 'warning',
+                width: 600,
+                title: 'Remplir le champ Mot clé'
+            })
+
+           }else if (operateur==""){
+            Swal.fire({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 6000,
+                icon: 'warning',
+                width: 600,
+                title: 'Remplir le champ Traitement'
+            })
+
+           }else if(timeVar==""){
+            Swal.fire({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 6000,
+                icon: 'warning',
+                width: 600,
+                title: 'Remplir le champ operateur'
+            })
+           }else if (validierAjoutTabEntre==false&&keyword=="Intervalle"){
+            Swal.fire({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 6000,
+                icon: 'warning',
+                width: 600,
+                title: 'Il faut ajouter la valeur Bas Supérieur à la valeur Haut'
+            })
+
            }
            else{
             Swal.fire({
@@ -382,7 +497,7 @@ const Emploi_Temps = ({ AjoutTab }) => {
                 timer: 6000,
                 icon: 'warning',
                 width: 600,
-                title: 'Vérifier les champs'
+                title: 'Remplir le champ operateur'
             })
            }
     }
@@ -499,27 +614,29 @@ const Emploi_Temps = ({ AjoutTab }) => {
         }
     }, [haut,bas])
 
+
+    
     useEffect(() => {
         if(timeVar=="jour"){
       if(hautJour=="Dimanche"){
-        sethaut("(date_trunc('week', now())::date + interval '6 day')::date")
+        sethaut("(date_trunc(''week'', now())::date + interval ''6 day'')::date")
       }else if(hautJour=="Samedi"){
-        sethaut("(date_trunc('week', now())::date + interval '5 day')::date")
+        sethaut("(date_trunc(''week'', now())::date + interval ''5 day'')::date")
       }
       else if(hautJour=="Vendredi"){
-        sethaut("(date_trunc('week', now())::date + interval '4 day')::date")
+        sethaut("(date_trunc(''week'', now())::date + interval ''4 day'')::date")
       }
       else if(hautJour=="Jeudi"){
-        sethaut("(date_trunc('week', now())::date + interval '3 day')::date")
+        sethaut("(date_trunc(''week'', now())::date + interval ''3 day'')::date")
       }
       else if(hautJour=="Mercredi"){
-        sethaut("(date_trunc('week', now())::date + interval '2 day')::date")
+        sethaut("(date_trunc(''week'', now())::date + interval ''2 day'')::date")
       }
       else if(hautJour=="Mardi"){
-        sethaut("(date_trunc('week', now())::date + interval '1 day')::date")
+        sethaut("(date_trunc(''week'', now())::date + interval ''1 day'')::date")
       }
       else if(hautJour=="Lundi"){
-        sethaut("(date_trunc('week', now())::date)::date ")
+        sethaut("(date_trunc(''week'', now())::date)::date ")
       }
         }
     }, [timeVar,hautJour])
@@ -528,30 +645,50 @@ const Emploi_Temps = ({ AjoutTab }) => {
     useEffect(() => {
         if(timeVar=="jour"){
       if(basJour=="Dimanche"){
-        setbas("(date_trunc('week', now())::date + interval '6 day')::date")
+        setbas("(date_trunc(''week'', now())::date + interval ''6 day'')::date")
       }else if(basJour=="Samedi"){
-        setbas("(date_trunc('week', now())::date + interval '5 day')::date")
+        setbas("(date_trunc(''week'', now())::date + interval ''5 day'')::date")
       }
       else if(basJour=="Vendredi"){
-        setbas("(date_trunc('week', now())::date + interval '4 day')::date")
+        setbas("(date_trunc(''week'', now())::date + interval ''4 day'')::date")
       }
       else if(basJour=="Jeudi"){
-        setbas("(date_trunc('week', now())::date + interval '3 day')::date")
+        setbas("(date_trunc(''week'', now())::date + interval ''3 day'')::date")
       }
       else if(basJour=="Mercredi"){
-        setbas("(date_trunc('week', now())::date + interval '2 day')::date")
+        setbas("(date_trunc(''week'', now())::date + interval ''2 day'')::date")
       }
       else if(basJour=="Mardi"){
-        setbas("(date_trunc('week', now())::date + interval '1 day')::date")
+        setbas("(date_trunc(''week'', now())::date + interval ''1 day'')::date")
       }
       else if(basJour=="Lundi"){
-        setbas("(date_trunc('week', now())::date)::date ")
+        setbas("(date_trunc(''week'', now())::date)::date ")
       }
         }
     }, [timeVar,basJour])
 
     useEffect(() => {
+        if(timeVar=="jour"){
+     
+    if(jourArrayDans.length==0){
+        var array =["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
+       const index = array.indexOf(dans);
+       if (index > -1) {
+         array.splice(index, 1);
+       }
+       setJourArrayDans(array)
        
+    }else{
+
+     
+        const index = jourArrayDans.indexOf(dans);
+        if (index > -1) {
+        jourArrayDans.splice(index, 1);
+    }
+      
+       setJourArrayDans(jourArrayDans)
+    }
+    }
     }, [timeVar,dans])
     useEffect(() => {
        console.log("jourArrayDans",jourArrayDans)

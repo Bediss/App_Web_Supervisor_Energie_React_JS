@@ -30,6 +30,7 @@ const ModiifierCasIncidentsModale = ({
     callbackmodel,
     Compteur_Incident,
     FormulewithTildee,
+    Sys_equationwithTilde,
     TAG_Formule,
     U_Formule,
     valuedropdown,
@@ -54,7 +55,7 @@ const ModiifierCasIncidentsModale = ({
     TempsUnite,
     num,
     modifier,
-    deleteequation,
+   // deleteequation,
     clearequation,
     ModifierDataEmploi,
     dataEnergyMeasure, 
@@ -83,25 +84,29 @@ const ModiifierCasIncidentsModale = ({
         const [inputValueType,setinputValueType]=useState("number")
         const [inputValueDisabled,setinputValueDisabled]=useState(false)
         const [U_inputobjective_string,setU_inputobjective_string]=useState(false)
-        const [contentValeur,setContentValeur]=useState("")
         const [objectifValeurInput,setObjectifValeurInput]=useState("")
         const [typeValidation,settypeValidation]=useState(false)
+        const [contentValeur,setContentValeur]=useState("")
 
-useEffect(() => {
-  console.log("Sys_inputobjective",Sys_inputobjective[0].valeur[0].content)
-  var valeur = Sys_inputobjective[0].valeur
-  var content=""
-  for (var i=0;i<valeur.length;i++){
-    console.log("---valeur--->",valeur[i])
- if(valeur[i].type=="r"){
-  settypeValidation(true)
-content=valeur[0].content
-     console.log("content", parseFloat(content))
-    // setContentValeur(content)
-     U_inputobjective=content
-}
- }
-}, [Sys_inputobjective])
+         useEffect(() => {
+          var contentVariable=""
+          if(Sys_inputobjective.length!=0){
+  
+            var valeur = Sys_inputobjective[0].valeur
+            var content=""
+            for (var i=0;i<valeur.length;i++){
+           if(valeur[i].type=="r"){
+            settypeValidation(true)
+          content=valeur[0].content
+              // setContentValeur(content)
+               U_inputobjective=[content]
+               setContentValeur(content)
+               contentVariable=[content]
+          }
+           }  }
+
+ 
+         }, [Sys_inputobjective])
 
           function  ModifierTab(dataEmploi){
             ModifierDataEmploi(dataEmploi)
@@ -110,38 +115,36 @@ content=valeur[0].content
             useEffect(() => {
             }, [Listmesureenergy])
             useEffect(() => {
-             // console.log("dataEnergyMeasure---pageModifier",dataEnergyMeasure)
             }, [dataEnergyMeasure])
         
             useEffect(() => {
-             // console.log("U_inputobjectiveU_inputobjectiveU_inputobjectiveU_inputobjective",U_inputobjective)
+
+       
+
+
+
+
     
-           //   console.log("U_inputobjective.slice(0,8) ",U_inputobjective.slice(0,8) )
-            //  console.log("U_inputobjective.slice(0,8) ",U_inputobjective.slice(0,9)=="Objective" )
         
               if(U_inputobjective.length!=0&& (U_inputobjective.slice(0,9) =="Objective") ){
-        //      console.log("U_inputobjectiveU_inputobjectiveU_inputobjectiveU_inputobjective",U_inputobjective)
               setinputValueType("text")
               setinputValueDisabled(true)
               setObjectifValeurInput(U_inputobjective)
               }else {
                 setinputValueType("number")
                 setinputValueDisabled(false)
-                setObjectifValeurInput(parseFloat(U_inputobjective))
+
+                setObjectifValeurInput(U_inputobjective)
                 
-               Sys_inputobjective=[U_inputobjective]
-             console.log("Sys_inputobjective------------->",Sys_inputobjective)
-             console.log("U_inputobjective------------->", typeof U_inputobjective ,U_inputobjective)
+               Sys_inputobjective=contentValeur
              }
             }, [U_inputobjective])
         
            function outSelectedMesure(json){
-           // console.log('json----------------->',json,{"m_code": json.EMNCode, "m_name": json.measure_Label,"measure_ID":json.measure_ID})
             selectMeasureGetObject({"m_code": json.EMNCode, "m_name": json.measure_Label,"measure_ID":json.measure_ID})
            }
 
            useEffect(() => {
-          // console.log('----------------energycompteurselected-------------',energycompteurselected)
            }, [energycompteurselected])
 
 
@@ -153,7 +156,6 @@ content=valeur[0].content
              }
           }, [objectifValeurInput,inputValueType,inputValueDisabled,typeValidation])
           function funModale(modalObject,nb){
-            console.log(modalObject,nb)
             funModaleObjective(modalObject,nb)
             
           }
@@ -193,8 +195,8 @@ return(
                               datafromcasincidenttocalculatrice={[
                                 U_Compteur,
                                 Compteur_Incident,
-                                U_Formule.substring(U_Formule.indexOf("=") + 1).replace(/#/g, '').split('~'),
-                                Formule.substring(Formule.indexOf("=") + 1).replace(/#/g, '').split('~'),
+                                U_Formule.substring(U_Formule.indexOf("=") + 1).replace(/#/g, '').split('~').filter(e=>e),
+                                Formule.substring(Formule.indexOf("=") + 1).replace(/#/g, '').split('~').filter(e=>e),
                                 TAG_Formule
                               ]}
                                 ></Calculatrice>}
@@ -207,7 +209,7 @@ return(
                           <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px' }}>
                             <legend style={{ width: "173px", color: "#51545791",fontSize: "21px" }} >Formule de cas <span className='text-danger' style={{ fontSize: '12px' }}>*</span></legend>
                             <div className='pb-2' style={{marginTop: "-23px"}}>
-                              {TAG_Formule}
+                            {TAG_Formule!=""&&     `TAG:${TAG_Formule}`}
                             </div>
                             <textarea type="text" className="form-control"
                               name="U_Formule"
@@ -256,9 +258,9 @@ return(
                                   >Get Objective</MDBBtn>
 
 
-                                  <MDBBtn className='  px-2 btn-floating bd-highlight col-example ml-0' style={{ backgroundColor: '#7dd2d9' }} onClick={() => deleteequation()}>
+                                  {/* <MDBBtn className='  px-2 btn-floating bd-highlight col-example ml-0' style={{ backgroundColor: '#7dd2d9' }} onClick={() => deleteequation()}>
                                     <MDBIcon size='lg' fas icon='times-circle'></MDBIcon>
-                                  </MDBBtn>
+                                  </MDBBtn> */}
 
                                   <MDBBtn className=' btn-floating px-2 bd-highlight col-example mx-0' style={{ backgroundColor: '#7dd2d9' }} onClick={() => clearequation()}>
                                     <MDBIcon size='lg' fas icon='trash-alt' ></MDBIcon>
@@ -285,7 +287,7 @@ styleScroll={{ width: "100%", maxHeight: "295px" }}
 btnEdit={true} />):null}               </div>
                                   </MDBModalBody>
                                   <MDBModalFooter>
-                                    <MDBBtn color="primary" size="sm" onClick={() => Annulersendsetobjective()}>Annuler</MDBBtn>
+                                    <MDBBtn color="primary" size="sm" onClick={toggleFilterMesure}>Annuler</MDBBtn>
                                     <MDBBtn color="primary" size="sm" onClick={toggleObjective}>Get Objective</MDBBtn>
                                   </MDBModalFooter>
                                 </MDBModal>

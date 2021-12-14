@@ -139,6 +139,7 @@ class CasIncident extends React.Component {
     this.setState({ U_measurelabel: childData[13] })
     this.setState({ Description: childData[0] + '=' + childData[14] })
     this.setState({ FormulewithTildee: childData[16] })
+    this.setState({ Sys_equationwithTilde: childData[15] })
   //  this.setState({dataMaseurCalculatrice:childData[17]})
       this.setState({codeCompterIncidentCalculatrice:childData[18]})
      //   console.log(childData)
@@ -423,24 +424,39 @@ this.setState({dataObjectiveAdvanced:childData[1]})
                     /////////////////////////////////////////////////////////////////
 
                     ///////////////////////////////////////////////
+
                     for (var i = 0; i < this.state.listeCompteurPourCloner.length; i++) {
                       //////////////////////////////
                       var codecompteur = 'O' + this.state.listeCompteurPourCloner[i].Code_Compteur.replace(outputprefix, inputprefix)
-                      var inputprefixcompteur = this.state.listeCompteurPourCloner[i].Code_Compteur.replace(outputprefix, inputprefix)
+                      var inputprefixcompteur = this.state.listeCompteurPourCloner[i].Code_Compteur
                       ///add row
                       //this.getmaxid();
                       var Alarme_Code = array[i]
 
                       ///CC1$28
                       var extractCompteur_Incident = this.state.Compteur_Incident.substring(0, this.state.Compteur_Incident.indexOf("$"))
+                      console.log("extractCompteur_Incident------>",extractCompteur_Incident)
+                  
                       const Compteur_Incident = this.state.Compteur_Incident.replace(extractCompteur_Incident, this.state.listeCompteurPourCloner[i].Code_Compteur)
+                      console.log("Compteur_Incident------>",Compteur_Incident)
+                   
                       ///CC1$0
                       //// console.log('formuleee'+this.state.Formule)
                       var extractFormule = this.state.Formule.substring(0, this.state.Formule.indexOf("$"))
+
                       const Formule = this.state.Formule.replace(extractFormule, this.state.listeCompteurPourCloner[i].Code_Compteur)
+                      
                       //E1$28=CC1$0~
-                      var extractParsed_Formule = this.state.Parsed_Formule.substring(0, this.state.Parsed_Formule.indexOf("$"))
-                      const Parsed_Formule = this.state.Parsed_Formule.replace(extractParsed_Formule, inputprefixcompteur);
+                      var extractParsed_Formule = this.state.Parsed_Formule.substring(3, this.state.Parsed_Formule.indexOf("$")) 
+                      console.log("extractParsed_Formule------>",extractParsed_Formule)
+                      console.log("inputprefixcompteur------>",inputprefixcompteur)
+                        var aa = new RegExp(extractParsed_Formule,"g")
+                        
+                   //   console.log("aa------>",aa)
+                      const Parsed_Formule = this.state.Parsed_Formule.replace(aa, inputprefixcompteur);
+                     
+                 
+                      console.log("Parsed_Formule------>",Parsed_Formule)
                       //c
                       const Operateur = this.state.Operateur;
                       //e
@@ -461,10 +477,17 @@ this.setState({dataObjectiveAdvanced:childData[1]})
                       }
                       //ElMazeraa Elec$Inc-LIVE
                       var extractnamecompteur = this.state.U_Compteur.substring(0, this.state.U_Compteur.indexOf("$"))
+                      console.log("extractnamecompteur------>",extractnamecompteur)
                       const U_Compteur = this.state.U_Compteur.replace(extractnamecompteur, this.state.listeCompteurPourCloner[i].Le_Compteur);//Abattage elec
                       //ElMazeraa Elec$Inc-LIVE=ElMazeraa Elec$KWh-J~
+                      console.log("U_Formule------>",U_Compteur)
                       var extractU_Formule = this.state.U_Formule.substring(0, this.state.U_Formule.indexOf("$"));
+                      console.log("extractU_Formule------>",extractU_Formule)
                       const U_Formule = this.state.U_Formule.replace(extractU_Formule, this.state.listeCompteurPourCloner[i].Le_Compteur)
+                      console.log("U_Formule------>",U_Formule)
+
+
+
                       //g
                       const Nbr_Error = this.state.Nbr_Error;
                       const TAG_Formule = this.state.TAG_Formule;
@@ -609,7 +632,7 @@ this.setState({dataObjectiveAdvanced:childData[1]})
       this.state.Nbr_Error = "0";
       this.state.TAG_Formule = "";
       this.state.valuedropdown = "Type";
-       this.state.datamodifier=[]
+    
       // this.state.U_inputobjective="";
       ///////////////////////////////
       this.state.errors = {
@@ -662,7 +685,7 @@ this.setState({dataObjectiveAdvanced:childData[1]})
           } else {
             this.state.displaymodifyadvanced = false;
             this.state.displaycalculatriceobjective = true;
-
+            console.log('datamodifier',this.state.datamodifier[0].Objectifjson[0].U_inputobjective)
             this.state.U_inputobjective = [this.state.datamodifier[0].Objectifjson[0].U_inputobjective]
             this.state.U_inputobjective =this.state.U_inputobjective.join('')
          
@@ -685,7 +708,7 @@ this.setState({dataObjectiveAdvanced:childData[1]})
           this.state.TempsUnite = this.state.datamodifier[0].Frequency[0].Frequence.UniteTemp;
           this.state.num = this.state.datamodifier[0].Frequency[0].Frequence.NbUnite;
           this.state.OperateurValueModifier=this.state.datamodifier[0].OperateurValue;
-
+          console.log("OperateurValueModifier",this.state.OperateurValueModifier)
           console.log("mooooddddiiiiffffiiiier",this.state.U_inputobjective)
 
         this.state.Sys_inputobjective=this.state.datamodifier[0].Objectifjson[0].Sys_inputobjective
@@ -1067,6 +1090,7 @@ this.setState({dataObjectiveAdvanced:childData[1]})
       modal8: false,// pour clone objective
       sendtoModifyObjectiveAdvanced: [],
       FormulewithTildee: '',
+      Sys_equationwithTilde:'',
       operator: ['<', '>', '<=', '>=', '=', '!='],
       operatoradvanced: false,
       operatorlogic: false,
@@ -1138,7 +1162,7 @@ this.setState({dataObjectiveAdvanced:childData[1]})
       listfieldfiltercontent: [],
       ///Objective
       U_measurelabel: '',
-      U_inputobjective: '',
+      U_inputobjective: [],
       objectifValeurInput:'',
       Sys_inputobjective: [],
       listobjectivefromDB: [],
@@ -1260,7 +1284,7 @@ this.setState({dataObjectiveAdvanced:childData[1]})
     this.Annulersendsetobjective = this.Annulersendsetobjective.bind(this);
   //  this.addUinputobjective = this.addUinputobjective.bind(this);
     this.clearequation = this.clearequation.bind(this);
-    this.deleteequation = this.deleteequation.bind(this);
+   // this.deleteequation = this.deleteequation.bind(this);
 
     //clone
     this.getindexcompteur = this.getindexcompteur.bind(this);
@@ -1799,8 +1823,8 @@ this.setState({dataObjectiveAdvanced:childData[1]})
               const Operateur = this.state.Operateur;
               //e
               const Objectif = JSON.stringify(this.state.Objectif);
-              const Objectifjson = this.state.Objectifjson[0];
-              const Frequency = this.state.Frequency[0];
+              const Objectifjson22 = this.state.Objectifjson[0];
+              const Frequency22 = this.state.Frequency[0];
               //correct
               const Next_Check = this.state.Next_Check;
               const U_Alarme_Name = this.state.U_Alarme_Name;
@@ -1813,11 +1837,11 @@ this.setState({dataObjectiveAdvanced:childData[1]})
               const TAG_Formule = this.state.TAG_Formule;
               const DBAction = "2";
               /////////////////////////////
-              const O1 = JSON.stringify(Objectifjson)
+              const O1 = JSON.stringify(Objectifjson22)
               const Objectifjsonn = O1.replace(/'/g,"''")
               // console.log("Objectif",Objectifjson)
               /////////////////////
-              const F1 = JSON.stringify(Frequency)
+              const F1 = JSON.stringify(Frequency22)
               const Frequencywithoutsimplecode = F1.replace(/'/g,"''")
               // console.log("Frequency",Frequencywithoutsimplecode)
               ////////////////////////////
@@ -1849,8 +1873,21 @@ this.setState({dataObjectiveAdvanced:childData[1]})
               // console.log("UserInterface", UserInterface)
               // console.log(this.state.ajout)
 
-              this.mytable.addRow({
-                Nbr_Error, U_Alarme_Name, U_Compteur, U_Formule, Operateur, Objectif,
+
+              // const dataCasIncident = {
+              //   "Alarme_Code": Alarme_Code, "Compteur_Incident": Compteur_Incident, "Formule": Formule,
+              //   "Parsed_Formule": Parsed_Formule, "Frequence": Frequence, "OperateurValue": OperateurValue, "UserInterface": UserInterface, "Frequency": Frequency,
+              //   "Operateur": Operateur, "Objectif": Objectif, "Objectifjson": Objectifjson,
+              //   "Next_Check": Next_Check, "U_Alarme_Name": U_Alarme_Name,
+              //   "Description": Description, "U_Compteur": U_Compteur,
+              //   "U_Formule": U_Formule, "U_FormulewithTilde": U_FormulewithTilde, "Nbr_Error": Nbr_Error, "TAG_Formule": TAG_Formule
+
+              // }
+              const OperateurValue =this.state.Frequency[0].OperateurValue
+              const Frequency = this.state.Frequency;
+             const Objectifjson=this.state.Objectifjson
+              this.mytable.addRow({Alarme_Code,Compteur_Incident,Formule,Parsed_Formule,Objectifjson,OperateurValue,
+                Nbr_Error, U_Alarme_Name, U_Compteur, U_Formule, Operateur, Objectif,Frequency,Description,TAG_Formule,
                 Frequence, UserInterface, Next_Check
               }, true);
 
@@ -2089,6 +2126,7 @@ this.setState({dataObjectiveAdvanced:childData[1]})
   };
   addUinputobjective = (value) => {
     console.log("kkkkkk",value)
+    
     if(value.length!=0){
     this.setState({
       Objectif: [{
@@ -2102,18 +2140,18 @@ this.setState({dataObjectiveAdvanced:childData[1]})
     });}
   }
   clearequation = () => {
-    this.setState({ U_inputobjective: "" });
+    this.setState({ U_inputobjective: [] });
     this.setState({ Sys_inputobjective: [] });
     this.setState({ Objectif: [] });
     // console.log('clearrrrrrrrrrrrr')
   }
-  deleteequation = () => {
-    // console.log(this.state.U_inputobjective)
-    this.setState({ U_inputobjective: this.state.U_inputobjective.slice(0, -1) });
-    this.setState({ Sys_inputobjective: this.state.Sys_inputobjective.slice(0, -1) });
-    this.setState({ Objectif: this.state.Objectif.slice(0, -1) });
-    // console.log('deleteee')
-  }
+  // deleteequation = () => {
+  //   console.log("-------------------------------------------",this.state.U_inputobjective)
+  //   this.setState({ U_inputobjective: this.state.U_inputobjective.slice(0, -1) });
+  //   this.setState({ Sys_inputobjective: this.state.Sys_inputobjective.slice(0, -1) });
+  //   this.setState({ Objectif: this.state.Objectif.slice(0, -1) });
+  //   // console.log('deleteee')
+  // }
   
   onClick() {
     this.toggle(3)
@@ -2132,12 +2170,9 @@ console.log("this.state.dataObjectiveAdvanced",this.state.dataObjectiveAdvanced)
       var Uinputobjective = []
     for (var i = 0; i < this.state.dataObjectiveAdvanced.length; i++) {
       const valeur = this.state.dataObjectiveAdvanced[i].valeur
-      const c = valeur.replace(/'/g, "")
-      const d = c.replace("and ", "-")
-      const e = d.replace("(", "")
-      const f = e.replace(")", "")
-     
-      var valueobj = f
+      const c = valeur.replace(/'/g, "").replace("and ", "-").replace("(", "").replace(")", "")
+ 
+      var valueobj = c
       // console.log("valeur", valueobj)
       //inclure exclure
       var operateurvalue = this.state.dataObjectiveAdvanced[i].operateur
@@ -2187,12 +2222,16 @@ console.log("this.state.Objectif",this.state.Objectif)
       ////////ajouterUserInterface///////////
 
       for (var i = 0; i < this.state.ajoutertap.length; i++) {
-        const valeur = this.state.ajoutertap[i].valeur.replace(/''/g, " ")
-        const c = valeur.replace(/''/g, "")
-        const d = c.replace("(", "")
-        const e = d.replace(")", "")
-        const f = e.replace("and ", ",")
-        this.state.valeur2 = f
+        var valeur = this.state.ajoutertap[i].valeur
+        .replace("(date_trunc(''week'', now())::date + interval ''6 day'')::date","Dimanche")
+        .replace("(date_trunc(''week'', now())::date + interval ''5 day'')::date","Samedi")
+        .replace("(date_trunc(''week'', now())::date + interval ''4 day'')::date","Vendredi")
+        .replace("(date_trunc(''week'', now())::date + interval ''3 day'')::date","Jeudi")
+        .replace("(date_trunc(''week'', now())::date + interval ''2 day'')::date","Mercredi")
+        .replace("(date_trunc(''week'', now())::date + interval ''1 day'')::date","Mardi")
+        .replace("(date_trunc(''week'', now())::date)::date","Lundi")
+        .replace("(", "").replace(")", "").replace("and ", ",").replace(/''/g, " ").replace(/''/g, "")
+        this.state.valeur2 = valeur
         this.state.operateur2 = this.state.ajoutertap[i].operateur
         this.state.ajouterUserInterface.push(this.state.operateur2 + " Periode " + this.state.valeur2 + " ")
       }
@@ -2236,8 +2275,8 @@ console.log("this.state.Objectif",this.state.Objectif)
       //c
       const Operateur = this.state.Operateur;
       //e
-      const Objectifjson = this.state.Objectif[0];
-      const Frequency = this.state.Frequency;
+      const Objectifjson22 = this.state.Objectif[0];
+      const Frequency22 = this.state.Frequency;
       //correct
       const Next_Check = this.state.Next_Check;
       const U_Alarme_Name = this.state.U_Alarme_Name;
@@ -2257,8 +2296,8 @@ console.log("this.state.Objectif",this.state.Objectif)
           "Formule": Formule,
           "Parsed_Formule": Parsed_Formule,
           "Operateur": Operateur,
-          "Objectif": Objectifjson,
-          "Frequence": Frequency,
+          "Objectif": Objectifjson22,
+          "Frequence": Frequency22,
           "Next_Check": Next_Check,
           "U_Alarme_Name": U_Alarme_Name,
           "Description": Description,
@@ -2279,16 +2318,19 @@ console.log("this.state.Objectif",this.state.Objectif)
     
   
      // const Objectif = JSON.stringify(this.state.Objectif[0].U_inputobjective);
-     const Objectif = Objectifjson.U_inputobjective
+     const Objectif = Objectifjson22.U_inputobjective
       
       
       console.log("Objectif",Objectif)
    
 
-      this.mytable.addRow({
-        Nbr_Error, U_Alarme_Name, U_Compteur, U_Formule, Operateur, Objectif,
-        Frequence, UserInterface, Next_Check
-      }, true);
+      const OperateurValue =this.state.FrequencyJson[0].OperateurValue
+      const Objectifjson=this.state.Objectif
+      const Frequency = [this.state.Frequency];
+              this.mytable.addRow({Alarme_Code,Compteur_Incident,Formule,Parsed_Formule,Objectifjson,OperateurValue,
+                Nbr_Error, U_Alarme_Name, U_Compteur, U_Formule, Operateur, Objectif,Frequency,Description,TAG_Formule,
+                Frequence, UserInterface, Next_Check
+              }, true);
      console.log("ajoutertemp",this.state.ajout);
      console.log("ajoutertemp",this.state.ajoutertemp);
       this.state.Alarme_Code = "";
@@ -2475,28 +2517,24 @@ console.log("this.state.Objectif",this.state.Objectif)
 
  ////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
     //////////////////////////////////////////////////////////////////////////////
     this.state.U_inputobjective =this.state.objectifValeurInput
 
     console.log("this.state.U_inputobjective",this.state.U_inputobjective)
  // console.log("this.state.modifiertab-------------->",this.state.modifiertab)
-
+ console.log("this.state.modifiertab",this.state.modifiertab)
   for (var i = 0; i <this.state.modifiertab.length ; i++) 
 {
-  const valeur =this.state.modifiertab[i].valeur
-  const c = valeur.replace(/'/g,"")
-    const d= c.replace("(","")
-    const e= d.replace(")","")
-    const f= e.replace("and ",",") 
-    this.state.valeur2=f
+  const valeur =this.state.modifiertab[i].valeur        
+  .replace("(date_trunc(''week'', now())::date + interval ''6 day'')::date","Dimanche")
+  .replace("(date_trunc(''week'', now())::date + interval ''5 day'')::date","Samedi")
+  .replace("(date_trunc(''week'', now())::date + interval ''4 day'')::date","Vendredi")
+  .replace("(date_trunc(''week'', now())::date + interval ''3 day'')::date","Jeudi")
+  .replace("(date_trunc(''week'', now())::date + interval ''2 day'')::date","Mercredi")
+  .replace("(date_trunc(''week'', now())::date + interval ''1 day'')::date","Mardi")
+  .replace("(date_trunc(''week'', now())::date)::date","Lundi")
+  .replace("(", "").replace(")", "").replace("and ", ",").replace(/'/g, "")
+    this.state.valeur2=valeur
 this.state.operateur2=this.state.modifiertab[i].operateur
 //console.log("operateur",this.state.operateur)
 this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.state.valeur2+ " ") 
@@ -2516,7 +2554,6 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
       title: 'Modifier'
 
   })
-
 
     const Alarme_Code = this.state.Alarme_Code;
 
@@ -2556,7 +2593,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
     ///////////////////////
   
     const F1 = JSON.stringify(Frequency)
-    const Frequencywithoutsimplecode = F1.replace(/'/g,"''")
+    const Frequencywithoutsimplecode = F1
    //console.log("Frequency",JSON.parse(Frequencywithoutsimplecode))
     // push with modificationtemp 
     this.state.modificationtemp.push(
@@ -2630,9 +2667,9 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
         })
       })
       .catch((err) => console.error(err));
-    setTimeout(function () {
-      window.location.reload(1);
-    }, 3000);
+    // setTimeout(function () {
+    //   window.location.reload(1);
+    // }, 3000);
     
   }
   else{
@@ -2661,6 +2698,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
     ////
     const supprimertemp = this.state.supprimertemp;
     const datamodifier = this.state.datamodifier;
+    console.log('datamodifier',datamodifier)
     /// api tabulator display Alarme
     axios.defaults.withCredentials = true;
 
@@ -2834,12 +2872,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                   datamodifier.splice(0, 2);
                   datamodifier.push(cell.getData(), position);
                   console.log("valider", datamodifier)
-                  //localStorage.setItem('OperateurValue', JSON.stringify(cell.getData().OperateurValue));
-
-               //   const a = JSON.stringify(cell.getData().OperateurValue)
-               //   const b = a.replace(/'/g,"''")
-                 
-              //    localStorage.setItem('OperateurValue', b );
+              
                 }
               },
               {
@@ -2852,11 +2885,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                   datamodifier.splice(0, 2);
                   datamodifier.push(cell.getData(), position);
                    console.log("valider", datamodifier)
-                  // localStorage.setItem('OperateurValue', JSON.stringify(cell.getData().OperateurValue));
-                 // const a = JSON.stringify(cell.getData().OperateurValue)
-                 // const b = a.replace(/'/g,"''")
-                 
-                 // localStorage.setItem('OperateurValue', b );
+                  
                 }
               },
               {
@@ -2868,13 +2897,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                   // console.log(position);
                   datamodifier.splice(0, 2);
                   datamodifier.push(cell.getData(), position);
-                  // console.log("valider", datamodifier)
-                  // localStorage.setItem('OperateurValue', JSON.stringify(cell.getData().OperateurValue));
-                  //const a = JSON.stringify(cell.getData().OperateurValue)
-                //  const b = a.replace(/'/g,"''")
-                 
-                 // localStorage.setItem('OperateurValue', b );
-                  ///////////
+                  
                 }
               },
               {
@@ -2886,12 +2909,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                   // console.log(position);
                   datamodifier.splice(0, 2);
                   datamodifier.push(cell.getData(), position);
-                  // console.log("valider", datamodifier)
-                  // localStorage.setItem('OperateurValue', JSON.stringify(cell.getData().OperateurValue));
-                //  const a = JSON.stringify(cell.getData().OperateurValue)
-                  //const b = a.replace(/'/g,"''")
-                 
-                 // localStorage.setItem('OperateurValue', b );
+             
                 }
 
               },
@@ -2906,12 +2924,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                   // console.log(position);
                   datamodifier.splice(0, 2);
                   datamodifier.push(cell.getData(), position);
-                  // console.log("valider", datamodifier)
-                  // localStorage.setItem('OperateurValue', JSON.stringify(cell.getData().OperateurValue));
-              //    const a = JSON.stringify(cell.getData().OperateurValue)
-               //   const b = a.replace(/'/g,"''")
-                 
-                //  localStorage.setItem('OperateurValue', b );
+                  
                 }
 
               },
@@ -2924,11 +2937,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                   // console.log(position);
                   datamodifier.splice(0, 2);
                   datamodifier.push(cell.getData(), position);
-                  // console.log("valider", datamodifier)
-                  // localStorage.setItem('OperateurValue', JSON.stringify(cell.getData().OperateurValue));
-                 // const a = JSON.stringify(cell.getData().OperateurValue)
-                //  const b = a.replace(/'/g,"''")
-                  //localStorage.setItem('OperateurValue', b );
+           
                 }
               }, {
                 title: "Emploi du Temps",
@@ -2939,12 +2948,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                   // console.log(position);
                   datamodifier.splice(0, 2);
                   datamodifier.push(cell.getData(), position);
-                  // console.log("valider", datamodifier)
-                  // localStorage.setItem('OperateurValue', JSON.stringify(cell.getData().OperateurValue));
-                //  const a = JSON.stringify(cell.getData().OperateurValue)
-                //  const b = a.replace(/'/g,"''")
                  
-                 // localStorage.setItem('OperateurValue', b );
                 }
               },
               {
@@ -2956,12 +2960,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                   // console.log(position);
                   datamodifier.splice(0, 2);
                   datamodifier.push(cell.getData(), position);
-                  // console.log("valider", datamodifier)
-                  // localStorage.setItem('OperateurValue', JSON.stringify(cell.getData().OperateurValue));
-                //  const a = JSON.stringify(cell.getData().OperateurValue)
-                 // const b = a.replace(/'/g,"''")
-                 
-                //  localStorage.setItem('OperateurValue', b );
+                  
                 }
               },
               {
@@ -3008,16 +3007,6 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                       "DBAction": "3"
                     })
 
-                  ///////////////////////////////////////////
-                  /*  cell.getData().Alarme_Code + ";" + cell.getData().Compteur_Incident + ";" +
-                   cell.getData().Formule + ";" + cell.getData().Parsed_Formule + ";" +
-                   cell.getData().Operateur + ";" + JSON.stringify(cell.getData().Objectifjson) + ";" +
-                   JSON.stringify(cell.getData().Frequency) + ";" + cell.getData().Next_Check + ";" + cell.getData().U_Alarme_Name + ";" +
-                   cell.getData().Description + ";" + cell.getData().U_Compteur + ";" +
-                   cell.getData().U_FormulewithTilde + ";" + cell.getData().Nbr_Error + ";" +
-                   cell.getData().TAG_Formule + ";" + 3); */
-                  // console.log('deleteeeeeeeeeeeeeeeeeeeeeeeeeee')
-                  // console.log(supprimertemp)
                   cell.getRow().delete();
                   Swal.fire({
                     toast: true,
@@ -3061,7 +3050,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
 
 
   }
-
+ 
  
   ModifierDataEmploi=(DataEmploi)=>{
 //console.log("-----------------DataEmploi--------------------",DataEmploi)
@@ -3502,6 +3491,7 @@ this.setState({modalFilterMesure3:false})
                 callbackmodel={this.callbackmodel}
                 Compteur_Incident={this.state.Compteur_Incident}
                 FormulewithTildee={this.state.FormulewithTildee}
+                Sys_equationwithTilde={this.state.Sys_equationwithTilde}
                 TAG_Formule={this.state.TAG_Formule}
                 U_Formule={this.state.U_Formule}
                 valuedropdown={this.state.valuedropdown}
@@ -3529,7 +3519,7 @@ this.setState({modalFilterMesure3:false})
                 TempsUnite={this.state.TempsUnite}
                 num={this.state.num}
                 ajouter={this.ajouter}
-                deleteequation={this.deleteequation}
+             //   deleteequation={this.deleteequation}
                 clearequation={this.clearequation}
                 AjoutDataEmploi={this.AjoutDataEmploi}
                 dataEnergyMeasure={this.state.dataMaseurCalculatrice}
@@ -3554,7 +3544,7 @@ this.setState({modalFilterMesure3:false})
   {/****Cloner******************************************************************************************************************************************************* */}             
 
                 <MDBModal isOpen={this.state.modal5} toggle={this.toggle(5)} size="fluid">
-          <ClonerCasIncidentsModal 
+                          <ClonerCasIncidentsModal 
                               toggleClone={this.toggle(5)} 
                                listcompteurglobal={this.state.listcompteurglobal}
                                 NameEnergy={this.state.NameEnergy}
@@ -3585,6 +3575,7 @@ this.setState({modalFilterMesure3:false})
                 callbackmodel={this.callbackmodel}
                 Compteur_Incident={this.state.Compteur_Incident}
                 FormulewithTildee={this.state.FormulewithTildee}
+                Sys_equationwithTilde={this.state.Sys_equationwithTilde}
                 TAG_Formule={this.state.TAG_Formule}
                 U_Formule={this.state.U_Formule}
                 valuedropdown={this.state.valuedropdown}
@@ -3610,7 +3601,7 @@ this.setState({modalFilterMesure3:false})
                 TempsUnite={this.state.TempsUnite}
                 num={this.state.num}
                 modifier={this.modifier}
-                deleteequation={this.deleteequation}
+               // deleteequation={this.deleteequation}
                 clearequation={this.clearequation}
                 ModifierDataEmploi={this.ModifierDataEmploi}
                 dataEnergyMeasure={this.state.dataMaseurCalculatrice}

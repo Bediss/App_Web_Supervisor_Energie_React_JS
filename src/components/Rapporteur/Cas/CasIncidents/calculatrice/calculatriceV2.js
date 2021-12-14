@@ -32,7 +32,7 @@ const [equation,setequation]=useState([])
 const [equationwithTilde,setequationwithTilde]=useState([])
 const [Sys_equation,setSys_equation]=useState([])
 const [Sys_equationwithTilde,setSys_equationwithTilde]=useState([])
-const [TAGFormule,setTAGFormule]=useState(datafromcasincidenttocalculatrice[4])
+const [TAGFormule,setTAGFormule]=useState("")
 const [listvalequation,setlistvalequation]=useState("")
 const [nbrparenthopen,setnbrparenthopen]=useState(0)
 const [nbrparenthclose,setnbrparenthclose]=useState(0)
@@ -72,7 +72,12 @@ const[listNameEnergy,setlistNameEnergy]=useState([])
 const[U_measurelabel,setU_measurelabel]=useState("")
 
     
-
+useEffect(() => {
+  if(datafromcasincidenttocalculatrice[4].length!=0){
+    setTAGFormule("")
+    setTAGFormule(datafromcasincidenttocalculatrice[4])
+  }
+}, [datafromcasincidenttocalculatrice[4]])
 
   useEffect(() => {
     setSys_equationwithTilde(Sys_equation)
@@ -83,12 +88,13 @@ const[U_measurelabel,setU_measurelabel]=useState("")
 
   useEffect(() => {
 
+console.log("Sys_equationwithTilde",Sys_equationwithTilde)
   }, [equationwithTilde,Sys_equationwithTilde])
 
     function sendData () {
   
       //equationwithTilde = equation
-
+      console.log("equationwithTilde  sendData",equationwithTilde)
       equation.map((item, j) => {
         while (typeof equationwithTilde[j] === 'number' && typeof equationwithTilde[j + 1] === 'number') {
      
@@ -105,9 +111,9 @@ const[U_measurelabel,setU_measurelabel]=useState("")
         }
       }
       )
- 
-  
-      /// Sys_equationwithTilde = Sys_equation
+      console.log("Sys_equationwithTilde  sendData" ,Sys_equationwithTilde)
+     
+      //Sys_equationwithTilde = Sys_equation
 
       Sys_equationwithTilde.map((item, j) => {
         while (typeof Sys_equationwithTilde[j] === 'number' && typeof Sys_equationwithTilde[j + 1] === 'number') {
@@ -143,7 +149,7 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
         10: Listmesureenergy,
         11: MesureList,
   
-        12: 'TAG : ' +  TAGFormule,
+        12: TAGFormule,
         13:  U_measurelabel, //KWHJ
   
         14:  equationwithTilde.join('~') + '~',
@@ -151,6 +157,7 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
         16: equationwithTilde.join('~'),
         17: dataEnergyMeasure,
         18:IdCompteurIncidente
+      
        
       });
     }
@@ -563,14 +570,21 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
         // textarea.focus();
         // autosize(textarea);
 
-        if (datafromcasincidenttocalculatrice[2][0].length != 0 && datamodifier.length!=0) {
-         
+        if (datafromcasincidenttocalculatrice[2][0].length != 0 /*&& datamodifier.length!=0*/) {
           console.log("datafromcasincidenttocalculatrice[2]",datafromcasincidenttocalculatrice[2])
-          var equationString=datafromcasincidenttocalculatrice[2].toString()
-          var equationArray=equationString.split(' ')
-          setequation(equationArray.slice(0, -1) )
-          setSys_equation(datafromcasincidenttocalculatrice[3].slice(0, -1) )
-        } else {
+        
+          // if(datamodifier.length!=0){
+          //   var equationString=datafromcasincidenttocalculatrice[2].toString()
+          //   var equationArray=equationString.split(' ').filter(e=>e)
+          //   setequation(equationArray)
+          //   setSys_equation(datafromcasincidenttocalculatrice[3])
+          // }else{
+            console.log("datafromcasincidenttocalculatrice" , datafromcasincidenttocalculatrice[3])
+          setequation(datafromcasincidenttocalculatrice[2])
+          setSys_equation(datafromcasincidenttocalculatrice[3])
+      // }
+        }else if(datafromcasincidenttocalculatrice[2][0].length == 0)
+        {
           setequation([])
           setSys_equation([])
         }
@@ -700,7 +714,7 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
                           <th style={{ width: '60%' }} className="gradient-custom-th p-0" ><textarea
                             style={style}
                            
-                            value={ equation.join('')}
+                            value={equation.join('')}
                             rows={4}
                             style={{
                               width: '100%', backgroundColor: "#11ffee00", border: "none", maxHeight: "75px",

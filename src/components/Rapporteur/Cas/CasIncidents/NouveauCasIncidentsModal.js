@@ -31,6 +31,7 @@ const NouveauCasIncidentsModale = ({
   callbackmodel,
   Compteur_Incident,
   FormulewithTildee,
+  Sys_equationwithTilde,
   TAG_Formule,
   U_Formule,
   valuedropdown,
@@ -57,7 +58,7 @@ const NouveauCasIncidentsModale = ({
   TempsUnite,
   num,
   ajouter,
-  deleteequation,
+  //deleteequation,
   clearequation,
   AjoutDataEmploi,
   dataEnergyMeasure,
@@ -166,7 +167,13 @@ const NouveauCasIncidentsModale = ({
                     datafromcasincidenttocalculatrice={[
                       U_Compteur,
                       Compteur_Incident,
-                      FormulewithTildee.replace(/#/g, '').split('~')]} />
+                      FormulewithTildee.replace(/#/g, '').split('~'),
+                      Sys_equationwithTilde.replace(/#/g, '').split('~').filter(e=>e),
+                      TAG_Formule
+                    ]} 
+                      
+                      
+                      />
 
 
                 }
@@ -180,7 +187,7 @@ const NouveauCasIncidentsModale = ({
               <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px' }}>
                 <legend style={{ width: "173px", color: "#51545791", fontSize: "21px" }} >Formule de cas <span className='text-danger' style={{ fontSize: '12px' }}>*</span></legend>
                 <div className='pb-2' style={{ marginTop: "-23px" }}>
-                  {TAG_Formule}
+           {TAG_Formule!=""&&     `TAG:${TAG_Formule}`}
                 </div>
                 <textarea type="text" className="form-control"
                   name="U_Formule"
@@ -241,9 +248,9 @@ const NouveauCasIncidentsModale = ({
 
 
 
-                      <MDBBtn className='  px-2 btn-floating bd-highlight col-example ml-0' style={{ backgroundColor: '#7dd2d9' }} onClick={() => deleteequation()}>
+                      {/* <MDBBtn className='  px-2 btn-floating bd-highlight col-example ml-0' style={{ backgroundColor: '#7dd2d9' }} onClick={() => deleteequation()}>
                         <MDBIcon size='lg' fas icon='times-circle'></MDBIcon>
-                      </MDBBtn>
+                      </MDBBtn> */}
 
                       <MDBBtn className=' btn-floating px-2 bd-highlight col-example mx-0' style={{ backgroundColor: '#7dd2d9' }} onClick={() => clearequation()}>
                         <MDBIcon size='lg' fas icon='trash-alt' ></MDBIcon>

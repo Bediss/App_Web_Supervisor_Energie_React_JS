@@ -10,7 +10,7 @@ import { ReactTabulator } from 'react-tabulator'
 import { contains } from "jquery";
 const ModifierEmploi_Temps = ({ ModifierTab ,OperateurValueModifier}) => {
 useEffect(() => {
-  //  console.log("------------->",OperateurValueModifier)
+    console.log("------------->",OperateurValueModifier)
   if(OperateurValueModifier.length!=0){
 
     for (var i=0;i<OperateurValueModifier.length;i++){
@@ -20,10 +20,14 @@ useEffect(() => {
         var att= OperateurValueModifier[i].att
         var operateur= OperateurValueModifier[i].operateur
         var valeur_format= OperateurValueModifier[i].valeur_format
-        const d = valeur.replace("(","")
-        const a =d.replace(/'/g,"")
-        const e= a.replace(")","")
-        var valeurDev= e.replace("and ",",")
+        const d = valeur .replace("(date_trunc(''week'', now())::date + interval ''6 day'')::date","Dimanche")
+        .replace("(date_trunc(''week'', now())::date + interval ''5 day'')::date","Samedi")
+        .replace("(date_trunc(''week'', now())::date + interval ''4 day'')::date","Vendredi")
+        .replace("(date_trunc(''week'', now())::date + interval ''3 day'')::date","Jeudi")
+        .replace("(date_trunc(''week'', now())::date + interval ''2 day'')::date","Mercredi")
+        .replace("(date_trunc(''week'', now())::date + interval ''1 day'')::date","Mardi")
+        .replace("(date_trunc(''week'', now())::date)::date","Lundi").replace("(","").replace(/'/g,"").replace(")","").replace("and ",",")
+        var valeurDev= d
        // console.log("dattttttttaaaaaaaaaaaaaa",keyword,valeur,att,operateur,valeurDev)
         dataTabulator.push({'keyword':keyword,'valeur':valeur,'att':att,'operateur':operateur,'valeurDev':valeurDev})
         JsonOperateurValue.push({ "keyword": keyword, "operateur": operateur, "att": att, "valeur": valeur, "valeur_format": valeur_format })
@@ -156,7 +160,7 @@ useEffect(() => {
     ];
 
     const [jourArrayHaut,setJourArrayHaut]=useState(["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"])
-    const [jourArrayDans,setJourArrayDans]=useState(["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"])
+    const [jourArrayDans,setJourArrayDans]=useState([])
     const [jourArrayBas,setJourArrayBas]=useState([])
     const [minimumDateHeure,setMinimumDateHeure]=useState([])
     const [minimumDate,setMinimumDate]=useState([])
@@ -175,6 +179,8 @@ useEffect(() => {
     const [operateur2, setoperateur2] = useState("")
     const [haut, sethaut] = useState("")
     const [bas, setbas] = useState("")
+    const [hautJour, sethautJour] = useState("")
+    const [basJour, setbasJour] = useState("")
     const [dans, setdans] = useState("")
     const [Att, setAtt] = useState("")
     const [Valeur, setValeur] = useState("")
@@ -217,12 +223,16 @@ useEffect(() => {
 
     }
 
+  
     function ajoutTab() {
-        var validierAjoutTab=false
+        var validierAjoutTab = false
+      
+        var validierAjoutTabEntre = false
+     
         var att = ""
         var valeur = ""
         var valeur_format=""
-            //console.log("timeVar",timeVar)
+            console.log("timeVar",timeVar)
             if(timeVar=="heure"){
                 valeur_format="time"
             }else if(timeVar=="date")
@@ -230,6 +240,8 @@ useEffect(() => {
                 valeur_format="date"
             }else if(timeVar=="dateHeure"){
                 valeur_format="timestamp"
+            }else if(timeVar=="jour"){
+                valeur_format="date"
             }
 
 
@@ -237,18 +249,31 @@ useEffect(() => {
 
 
         if (haut != "" && bas == "") {
-
+ 
             att = "Haut"
             setAtt(att)
+            
+
+
+
 
             valeur = ("''" + haut + "''")
             setValeur(valeur)
-            const valeurDev = haut
+            var valeurDev =""
+            if (timeVar == "jour"){
+             valeurDev = hautJour
+
+            }else{
+            valeurDev = haut
+            }
+
+
 
             dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
             sethaut("")
             setbas("")
             validierAjoutTab=true
+            validierAjoutTabEntre=true
         }
         if (haut == "" && bas != "") {
 
@@ -258,28 +283,90 @@ useEffect(() => {
 
             valeur = ("''" + bas + "''")
             setValeur(valeur)
-            const valeurDev = bas
+
+
+            var valeurDev =""
+            if (timeVar == "jour"){
+             valeurDev = basJour
+
+            }else{
+            valeurDev = bas
+            }
+
+
             dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
             sethaut("")
             setbas("")
-            validierAjoutTab=true
+            validierAjoutTab = true
+            validierAjoutTabEntre = true
         }
+if(timeVar=="jour"){
+var hautValeur= 0
+var basValeur=0
 
-        if (haut != "" && bas != "" &&  timeVar!="jour" ) {
-            if(bas>haut){
+ if (hautJour != "" && basJour != "") {
+
+console.log("hautJour",hautJour,"basJour",basJour)
+if(hautJour=="Lundi"){
+    hautValeur=1
+}else if(hautJour=="Mardi"){
+    hautValeur=2
+}
+else if(hautJour=="Mercredi"){
+    hautValeur=3
+}
+else if(hautJour=="Jeudi"){
+    hautValeur=4
+}
+else if(hautJour=="Vendredi"){
+    hautValeur=5
+}
+else if(hautJour=="Samedi"){
+    hautValeur=6
+}
+else if(hautJour=="Dimanche"){
+    hautValeur=7
+}
+
+
+
+if(basJour=="Lundi"){
+    basValeur=1
+    }else if(basJour=="Mardi"){
+        basValeur=2
+    }
+    else if(basJour=="Mercredi"){
+        basValeur=3
+    }
+    else if(basJour=="Jeudi"){
+        basValeur=4
+    }
+    else if(basJour=="Vendredi"){
+        basValeur=5
+    }
+    else if(basJour=="Samedi"){
+        basValeur=6
+    }
+    else if(basJour=="Dimanche"){
+        basValeur=7
+    }
+console.log("basValeur",basValeur)
+console.log("hautValeur",hautValeur)
+            if(basValeur>hautValeur){
             att = "Entre"
             setAtt(att)
             valeur = ("''" + haut + "'' and ''" + bas + "''")
             setValeur(valeur)
-            const valeurDev = haut + ',' + bas
+            var valeurDev =""
+             valeurDev = hautJour + ',' +basJour
             dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
             sethaut("")
             setbas("")
             validierAjoutTab=true
+            validierAjoutTabEntre=true
         }
-        }else if(haut!=""&&bas!=""&&timeVar!="jour"){
-            if(bas<=haut){
-       
+        }else if(hautJour!=""&&basJour!=""){
+            if(basValeur<=hautValeur){
                 Swal.fire({
                     toast: true,
                     position: 'top',
@@ -291,36 +378,81 @@ useEffect(() => {
                     title: 'Il faut ajouter la valeur Bas Supérieur à la valeur Haut'
                 })
               }
-        }else if(haut != "" && bas != "" && timeVar=="jour"){
-            att = "Entre"
-            setAtt(att)
-            valeur = ("''" + haut + "'' and ''" + bas + "''")
-            setValeur(valeur)
-            const valeurDev = haut + ',' + bas
-            dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
-            sethaut("")
-            setbas("")
-            validierAjoutTab=true
+              validierAjoutTab = false
+              validierAjoutTabEntre = false
         }
+}else{
+    if (haut != "" && bas != "") {
+        if(bas>haut){
+        att = "Entre"
+        setAtt(att)
+        valeur = ("''" + haut + "'' and ''" + bas + "''")
+        setValeur(valeur)
+    
+       var valeurDev = haut + ',' + bas
+      
+
+        dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
+        sethaut("")
+        setbas("")
+        validierAjoutTab=true
+        validierAjoutTabEntre=true
+    }
+    }else if(haut!=""&&bas!=""){
+        if(bas<=haut){
+   
+            Swal.fire({
+                toast: true,
+                position: 'top',
+
+                showConfirmButton: false,
+                timer: 6000,
+                icon: 'warning',
+                width: 600,
+                title: 'Il faut ajouter la valeur Bas Supérieur à la valeur Haut'
+            })
+          }
+          validierAjoutTab=false
+          validierAjoutTabEntre=false
+    }
+}
+       
 
         if (totale_Dans != "") {
 
             att = "Dans"
             setAtt(att)
-            valeur = ("(" + totale_Dans.slice(0, -1) + ")")
+            var b = totale_Dans.toString().replace("Dimanche","(date_trunc('week', now())::date + interval '6 day')::date")
+            .replace("Samedi","(date_trunc('week', now())::date + interval '5 day')::date")
+            .replace("Vendredi","(date_trunc('week', now())::date + interval '4 day')::date")
+            .replace("Jeudi","(date_trunc('week', now())::date + interval '3 day')::date")
+            .replace("Mercredi","(date_trunc('week', now())::date + interval '2 day')::date")
+            .replace("Mardi","(date_trunc('week', now())::date + interval '1 day')::date")
+            .replace("Lundi","(date_trunc('week', now())::date)::date")
+            .replace(/'/g,"''")
+            valeur = ("(" + b.slice(0, -1) + ")")
             setValeur(valeur)
 
+            var valeurDev =""
+           
+
             const a = totale_Dans.slice(0, -1)
-            const valeurDev = a.replace(/'/g, "")
+            valeurDev = a.replace(/'/g, "")
+
+       
+            console.log("valeurDev----totale_Dans",valeurDev)
             dataTabulator.push({ keyword, operateur, att, valeur, valeurDev });
             settotale_Dans("")
             validierAjoutTab=true
+            validierAjoutTabEntre = true
         }
-       // console.log("validierAjoutTab",validierAjoutTab)
-           if(validierAjoutTab==true){
+        console.log("validierAjoutTab",validierAjoutTab)
+        console.log("timeVar",timeVar)
+           if(validierAjoutTab==true&&keyword!=""&&operateur!=""&&validierAjoutTabEntre==true){
+               console.log("valeur",valeur)
         JsonOperateurValue.push({ "keyword": keyword, "operateur": operateur, "att": att, "valeur": valeur, "valeur_format": valeur_format })
-      // console.log("JsonOperateurValue", JsonOperateurValue)
-        ModifierTab(JsonOperateurValue)
+       console.log("JsonOperateurValue", JsonOperateurValue)
+       ModifierTab(JsonOperateurValue)
         var $ = require("jquery");
         $('#formulaire')[0].reset();
         $('#IntervalleTime').show();
@@ -341,18 +473,61 @@ useEffect(() => {
         $('#BtnModifier').show();
         $('#tab').show();
 
-           }
-           else{
-            Swal.fire({
-                toast: true,
-                position: 'top',
-                showConfirmButton: false,
-                timer: 6000,
-                icon: 'warning',
-                width: 600,
-                title: 'Vérifier les champs'
-            })
-           }
+    }else if (keyword==""){
+        Swal.fire({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 6000,
+            icon: 'warning',
+            width: 600,
+            title: 'Remplir le champ Mot clé'
+        })
+
+       }else if (operateur==""){
+        Swal.fire({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 6000,
+            icon: 'warning',
+            width: 600,
+            title: 'Remplir le champ Traitement'
+        })
+
+       }else if(timeVar==""){
+        Swal.fire({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 6000,
+            icon: 'warning',
+            width: 600,
+            title: 'Remplir le champ operateur'
+        })
+       }else if (validierAjoutTabEntre==false&&keyword=="Intervalle"){
+        Swal.fire({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 6000,
+            icon: 'warning',
+            width: 600,
+            title: 'Il faut ajouter la valeur Bas Supérieur à la valeur Haut'
+        })
+
+       }
+       else{
+        Swal.fire({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 6000,
+            icon: 'warning',
+            width: 600,
+            title: 'Remplir le champ operateur'
+        })
+       }
     }
 
 
@@ -420,28 +595,28 @@ useEffect(() => {
      
     }, [])
     useEffect(() => {
-    if(timeVar=="jour"&&keyword=="Intervalle"&&haut!=""){
-        
-   // console.log("haut",haut)
-     var arrayTemp=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"] 
-    var indexSelect=0
-    arrayTemp.forEach(function(item, index, array) {
+        if(timeVar=="jour"&&keyword=="Intervalle"&&hautJour!=""){
+            
+        console.log("haut",hautJour)
+         var arrayTemp=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"] 
+        var indexSelect=0
+        arrayTemp.forEach(function(item, index, array) {
+         
+    
      
-
- 
-        if (item==haut){
-      //      console.log(item, index,array);
-            indexSelect =index+1
-      
+            if (item==hautJour){
+                console.log(item, index,array);
+                indexSelect =index+1
+          
+            }
+            
+          });
+          arrayTemp.splice(0, indexSelect)
+            console.log("arrayTemp",arrayTemp)
+            setJourArrayBas(arrayTemp)
         }
-        
-      });
-      arrayTemp.splice(0, indexSelect)
-       // console.log("arrayTemp",arrayTemp)
-        setJourArrayBas(arrayTemp)
-    }
-   
-    }, [haut ])
+       
+        }, [hautJour])
 
     useEffect(() => {
      //   console.log("jourArrayBas",jourArrayBas)
@@ -467,7 +642,84 @@ useEffect(() => {
         }
     }, [haut,bas])
 
+    
+    useEffect(() => {
+        if(timeVar=="jour"){
+      if(hautJour=="Dimanche"){
+        sethaut("(date_trunc(''week'', now())::date + interval ''6 day'')::date")
+      }else if(hautJour=="Samedi"){
+        sethaut("(date_trunc(''week'', now())::date + interval ''5 day'')::date")
+      }
+      else if(hautJour=="Vendredi"){
+        sethaut("(date_trunc(''week'', now())::date + interval ''4 day'')::date")
+      }
+      else if(hautJour=="Jeudi"){
+        sethaut("(date_trunc(''week'', now())::date + interval ''3 day'')::date")
+      }
+      else if(hautJour=="Mercredi"){
+        sethaut("(date_trunc(''week'', now())::date + interval ''2 day'')::date")
+      }
+      else if(hautJour=="Mardi"){
+        sethaut("(date_trunc(''week'', now())::date + interval ''1 day'')::date")
+      }
+      else if(hautJour=="Lundi"){
+        sethaut("(date_trunc(''week'', now())::date)::date ")
+      }
+        }
+    }, [timeVar,hautJour])
 
+
+    useEffect(() => {
+        if(timeVar=="jour"){
+      if(basJour=="Dimanche"){
+        setbas("(date_trunc(''week'', now())::date + interval ''6 day'')::date")
+      }else if(basJour=="Samedi"){
+        setbas("(date_trunc(''week'', now())::date + interval ''5 day'')::date")
+      }
+      else if(basJour=="Vendredi"){
+        setbas("(date_trunc(''week'', now())::date + interval ''4 day'')::date")
+      }
+      else if(basJour=="Jeudi"){
+        setbas("(date_trunc(''week'', now())::date + interval ''3 day'')::date")
+      }
+      else if(basJour=="Mercredi"){
+        setbas("(date_trunc(''week'', now())::date + interval ''2 day'')::date")
+      }
+      else if(basJour=="Mardi"){
+        setbas("(date_trunc(''week'', now())::date + interval ''1 day'')::date")
+      }
+      else if(basJour=="Lundi"){
+        setbas("(date_trunc(''week'', now())::date)::date ")
+      }
+        }
+    }, [timeVar,basJour])
+
+    useEffect(() => {
+        if(timeVar=="jour"){
+     
+    if(jourArrayDans.length==0){
+        var array =["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"]
+       const index = array.indexOf(dans);
+       if (index > -1) {
+         array.splice(index, 1);
+       }
+       setJourArrayDans(array)
+       
+    }else{
+
+     
+        const index = jourArrayDans.indexOf(dans);
+        if (index > -1) {
+        jourArrayDans.splice(index, 1);
+    }
+      
+       setJourArrayDans(jourArrayDans)
+    }
+    }
+    }, [timeVar,dans])
+    useEffect(() => {
+       console.log("jourArrayDans",jourArrayDans)
+    }, [jourArrayDans])
     return (
         <>
 
@@ -601,7 +853,7 @@ useEffect(() => {
                                    {timeVar == "jour" && keyword == "Intervalle" &&
                                         
                                             <div>
-                                                <MDBRow>
+                                               <MDBRow>
                                                     <MDBCol size="2">
                                                        <label  className="grey-text" style={{ marginLeft: "44%"}}>
                                       Haut
@@ -609,7 +861,7 @@ useEffect(() => {
                                     </MDBCol>
                                     <MDBCol size="10">
                                     <select
-                                     style={{height:"90%"}}    className="browser-default custom-select" name="haut" value={haut} onChange={(e) => sethaut(e.target.value)}required>
+                                     style={{height:"90%"}}    className="browser-default custom-select" name="hautJour" value={hautJour} onChange={(e) => sethautJour(e.target.value)}required>
                                         <option></option>
                                         {jourArrayHaut.map((jour, i) =><option>{jour}</option>)}
                                         
@@ -623,7 +875,7 @@ useEffect(() => {
                                     </MDBCol>
                                     <MDBCol size="10">
                                     <select
-                                       style={{height:"90%"}}    className="browser-default custom-select" name="bas" value={bas} onChange={(e) => setbas(e.target.value)}required>
+                                       style={{height:"90%"}}    className="browser-default custom-select" name="basJour" value={basJour} onChange={(e) => setbasJour(e.target.value)}required>
                                         <option></option>
                                         {jourArrayBas.map((jour, i) =><option>{jour}</option>)}
                                     </select>
