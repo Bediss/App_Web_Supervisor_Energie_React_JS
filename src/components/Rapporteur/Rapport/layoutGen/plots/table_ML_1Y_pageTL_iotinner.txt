@@ -1,0 +1,167 @@
+//table_ML_1Y_pageTL_iotinner
+{
+          "MasterObj_Code": "O13",
+          "row": 1,
+          "col": 1,
+          "spanRow": 10,
+          "spanCol": 10,
+          QueryAPI: "iotinner",
+          "MasterObj_Data_selection": {
+            "page": {
+              "type": "dim",
+              "page": "TL"
+            },
+            "x": "CL",
+            "y": "ML",
+            "MasterObjPage": {
+              "membersList": [
+                {
+                  "SQL": "iot.date between '2021-08-01'::timestamp -INTERVAL '24 hours' and '2021-08-01'::timestamp",
+                  // "SQL": "iot.date between now()::timestamp -INTERVAL '90 days' and now()::timestamp",
+                  // "SQL": "iot.date between '2021-07-31'::timestamp -INTERVAL '10s' and '2021-07-31'::timestamp",
+                  // "SQL": "iot.date between '2021-07-28'::timestamp -INTERVAL '10s' and '2021-07-28'::timestamp",
+                  "SQLc": "where asc"
+                }
+              ],
+              "selectedMember": {}
+            },
+            "masterObjectX":[
+              {
+                "Le_Compteur": "Collecteur_COP_Vapeur",
+                "Code_Compteur": "MZV002"
+              },
+              {
+                "Le_Compteur": "ElMazraa_Cons_Vapeur",
+                "Code_Compteur": "MZV00A"
+              },
+              {
+                "Le_Compteur": "BâcheAEau_Vapeur",
+                "Code_Compteur": "MZVB12"
+              },
+              {
+                "Le_Compteur": "Abattoir_Vapeur",
+                "Code_Compteur": "MZVA10"
+              },
+              {
+                "Le_Compteur": "LaveCaisse_Vapeur",
+                "Code_Compteur": "MZVA12"
+              },
+              {
+                "Le_Compteur": "Abattage_vapeur",
+                "Code_Compteur": "MZVA11"
+              },
+              {
+                "Le_Compteur": "Conserve_Vapeur",
+                "Code_Compteur": "MZVA2B"
+              },
+              {
+                "Le_Compteur": "Surgule_Vapeur",
+                "Code_Compteur": "MZVA2A"
+              },
+              {
+                "Le_Compteur": "RestTransforme_Vapeur",
+                "Code_Compteur": "MZVA21"
+              },
+              {
+                "Le_Compteur": "Autoclave_Vapeur",
+                "Code_Compteur": "MZVA2C"
+              },
+              {
+                "Le_Compteur": "UCPC_Vapeur",
+                "Code_Compteur": "MZVA2D"
+              },
+              {
+                "Le_Compteur": "Charcuterie_Vapeur",
+                "Code_Compteur": "MZVA2E"
+              },
+              {
+                "Le_Compteur": "Transforme_Vapeur",
+                "Code_Compteur": "MZVA20"
+              },
+              {
+                "Le_Compteur": "Petfood_Vapeur",
+                "Code_Compteur": "MZVA22"
+              }
+            ]  ,
+            "masterObjectY":[
+              {
+                "m_code": "11_2",
+                "m_name": "Kg/h_J"
+              },
+              {
+                "m_code": "2011_2",
+                "m_name": "Kg/h_J/ PARENT"
+              },
+              {
+                "m_code": "12_2",
+                "m_name": "INC_J"
+              }
+            ]
+          },
+          "MasterObj_Data_Query": {
+            "ml": [],
+            "cl": [],
+            "tl": [],
+            "retour": "json",
+            "cross_tab": "cross_tab_ml"
+          },
+
+          // title: { text: "Scatter_ML_Y1_IOT_Inner" },
+          MasterObj_Data_Mapping: {
+            margin: {
+              t: 40, //top margin
+              l: 70, //left margin
+              r: 50, //right margin
+              b: 60, //bottom margin
+              autoexpand: true
+            },
+            legend: {
+              pos: 'right',
+              showlegend: true,
+              legend: {
+                yanchor: "top",
+                font: { size: 10 },
+                orientation: "v",
+                bgcolor: 'transparent',
+                itemwidth: 30,
+              }
+            },
+            xaxis: {
+              "color": "red",
+              "title": { text: "xaxis title1", font: { size: 18 } },
+              tickfont: { size: 10 },
+              autorange: true,
+            },
+            yaxis1: {
+              "color": "green",
+              "title": { text: "yaxis1 title1", font: { size: 18 } },
+              tickfont: { size: 10 },
+
+              autorange: true,
+
+            },
+            yaxis2: {
+              "color": "blue",
+              "title": { text: "yaxis2 title1", font: { size: 18 } },
+              tickfont: { size: 10 },
+
+              autorange: true,
+
+            },
+            extraLayoutConfig: {
+              dragmode: true,
+            },
+            "Plots": [
+              {
+                "function_type": "table",
+                "X": "*",
+                "Y": {
+                  "Y1": "*",
+
+                },
+                extraPlotConfig: {
+                },
+              },
+            ]
+          },
+        },

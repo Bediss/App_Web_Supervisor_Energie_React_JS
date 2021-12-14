@@ -1,0 +1,126 @@
+.bizeyes{
+    background-color:  #00c996;
+}
+.nav-h2{
+    color:#fff;
+    font-family: 'Gotham Medium';
+    font-size: 20px;
+    height: 100px;
+    width: 400px; /*Use 100% to fill the width of the page **/
+    position: absolute;
+    left: 0;
+    right: 0;
+    max-height: 2%;
+    margin:  0 auto;
+    margin-top: -1% ;
+    margin-left: 37%;
+}
+.navbarmenu{
+    background-color:  #ccffe8;
+    /* height: 52px; */
+}
+.heightNavBar{
+    height: 52px;
+}
+.na{
+    color: #000;
+}
+
+.BtnNavBar{
+    margin-top: -30px ;
+}
+
+.btn_Tableau_bord{
+    width: 164px;
+}
+
+@media screen and (max-width:960px){
+
+    .nav-h2{
+        display: none;
+    }
+    
+    .span_Tableau_bord{
+        display: none;
+    }
+    
+.btn_Tableau_bord{
+
+    width: 64px;
+}
+.fontNavBar{
+    font-size: 15px;
+}
+
+
+} 
+
+@media screen and (max-width:904px){
+
+    .nav-h2{
+        display: none;
+    }
+    .new5{
+        display: none;
+        
+    }
+    .span_Tableau_bord{
+        display: none;
+    }
+    
+.btn_Tableau_bord{
+
+    width: 64px;
+}
+.fontNavBar{
+    font-size: 11px;
+}
+} 
+@media screen and (max-width:766px){
+    
+    .heightNavBar{
+        height: auto;
+    }
+    .nav-h2{
+        display: none;
+    }
+    .span_Tableau_bord{
+        display: none;
+    }
+    .new5{
+        display: none;
+        
+    }
+    
+    
+.btn_Tableau_bord{
+
+    width: 64px;
+}
+.fontNavBar{
+    font-size: 15px;
+}
+.BtnNavBar{
+    margin-top: -4px ;
+}
+
+} 
+@media screen and (max-width:1259px){
+
+ 
+    .span_Tableau_bord{
+        display: none;
+    }
+    
+.btn_Tableau_bord{
+    width: 64px;
+}
+} 
+
+.new5 {
+    border: 3px solid #00c996;
+    margin-top: 9px;
+    border-radius: 5px;
+    /* width: 100%; */
+    /* margin-left: -10%; */
+  }

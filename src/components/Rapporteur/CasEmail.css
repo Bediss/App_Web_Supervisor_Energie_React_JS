@@ -1,0 +1,140 @@
+.button_round{
+    border-radius: 100%;
+    padding: 0%;
+    margin: 0%;
+ 
+    margin-left: 7%;
+    width: 26px;
+    height: 26px
+
+  }
+  .tab{
+  
+
+    border-radius: 2em;
+     width:100%;
+     box-sizing: border-box;
+     border: 2px solid #e0e0e049;
+    overflow:hidden;
+    
+
+  }
+  .tableMaster {
+
+    display: flex;
+    background-color: white;
+    box-shadow: 0px 0px 3px rgba(114, 114, 113, 0.5);
+    border-radius: 3px;
+  
+   
+  }
+
+
+  .tableFixHead    { overflow-y: auto; height: 450px; }
+ 
+
+    th {  
+
+    text-align: center;  
+    background:#fff; 
+   
+    
+  }
+  
+  .th{
+
+    position: sticky; top: 0;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  
+    
+  }
+  
+  th, td {
+    padding: 15px;
+  }
+.option{
+    display: none;
+}
+ .icon{
+    
+    color: crimson;
+ }
+ 
+/*
+.inputnumbre{
+    width: 127px;
+    height: 35px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: none;
+
+}
+.inputnumbre:focus{
+    outline: none;     
+    border: 1px solid #9ab7fb;
+    box-shadow: 0 0 0 3px #cbdbfd; 
+  }*/
+
+ .btnnouveau{
+     margin-top: 20px;
+     margin-left: 20px;
+     padding: 8px 16px;
+     border-radius: 2px;
+     font-family: 'Gotham Book';
+     font-size: 17px;
+     outline: none;
+     border: none;
+     cursor: pointer;
+     background: #e2e2e2;
+     position: relative;
+ 
+ }
+ .btnnouveau:hover{
+     padding: 8px 16px;
+     transition: all 0.8s ease-out;
+     background: #00c996;
+     color:#e2e2e2;
+     transition: 250ms;
+ 
+     
+     }
+ 
+     .btnenregistrer{
+         
+         margin-left: 82%;
+         padding: 8px 16px;
+         border-radius: 2px;
+         font-family: 'Gotham Book';
+         font-size: 17px;
+         outline: none;
+         border: none;
+         cursor: pointer;
+         background: #e2e2e2;
+         position: fixed;
+         right: 0px;
+     
+     }
+     .btnenregistrer:hover{
+         padding: 8px 16px;
+         transition: all 0.8s ease-out;
+         background: #00c996;
+         color:#e2e2e2;
+         transition: 250ms;
+         
+         }
+
+
+  
+         @media screen and (max-width:600px){
+ 
+             .btnenregistrer{
+                 margin-left: 100px;
+             }
+ 
+ 
+         }

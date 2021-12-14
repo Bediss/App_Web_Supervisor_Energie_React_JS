@@ -1,0 +1,265 @@
+{
+    "ml": [
+        {
+            "m_code": "26_1",
+            "m_name": "Index E.Active (KWh)"
+        }
+    ],
+    "cl": [
+        {
+            "Code_Compteur": "MZCB4B",
+            "Le_Compteur": "Process_Elec_COP"
+        }
+    ],
+    "tl": [
+        {
+            "SQL": "iot.date between '2021-06-14'::timestamp -INTERVAL '24 hours' and '2021-06-15'::timestamp",
+            "SQLc": "where asc"
+        }
+    ],
+    "retour": "json",
+    "cross_tab": "cross_tab_ml"
+}
+
+    [
+    {
+        "date": "2021-06-14T17:11:58",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.2
+    },
+    {
+        "date": "2021-06-14T19:11:30",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.8
+    },
+    {
+        "date": "2021-06-14T21:09:57",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T20:20:52",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T22:44:56",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2102.2
+    },
+    {
+        "date": "2021-06-14T20:41:09",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T19:58:27",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.2
+    },
+    {
+        "date": "2021-06-14T22:04:23",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.4
+    },
+    {
+        "date": "2021-06-14T21:08:53",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.2
+    },
+    {
+        "date": "2021-06-14T19:27:30",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2102.1
+    },
+    {
+        "date": "2021-06-15T00:00:00",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T22:01:11",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2097.2
+    },
+    {
+        "date": "2021-06-14T22:47:04",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T18:59:45",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2102.5
+    },
+    {
+        "date": "2021-06-14T21:45:10",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T22:05:27",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T22:46:00",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2102.5
+    },
+    {
+        "date": "2021-06-14T18:42:41",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.4
+    },
+    {
+        "date": "2021-06-14T20:09:08",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.4
+    },
+    {
+        "date": "2021-06-14T18:01:04",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.8
+    },
+    {
+        "date": "2021-06-14T18:27:44",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.8
+    },
+    {
+        "date": "2021-06-14T18:02:08",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T20:53:57",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2102.1
+    },
+    {
+        "date": "2021-06-14T18:28:48",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T17:23:42",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.4
+    },
+    {
+        "date": "2021-06-14T17:18:22",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T20:03:47",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T19:28:34",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T20:10:12",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T18:43:45",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T19:14:42",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T19:13:38",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2102.5
+    },
+    {
+        "date": "2021-06-14T20:19:48",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2097.2
+    },
+    {
+        "date": "2021-06-14T17:17:18",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2102.1
+    },
+    {
+        "date": "2021-06-14T23:02:01",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2097.2
+    },
+    {
+        "date": "2021-06-14T19:12:34",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T20:02:43",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.2
+    },
+    {
+        "date": "2021-06-14T22:02:15",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T19:00:50",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T19:59:31",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T20:55:01",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T21:44:06",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.8
+    },
+    {
+        "date": "2021-06-14T20:40:05",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106.2
+    },
+    {
+        "date": "2021-06-14T23:03:05",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T17:13:02",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T17:07:42",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    },
+    {
+        "date": "2021-06-14T19:26:26",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2109.6
+    },
+    {
+        "date": "2021-06-14T17:24:46",
+        "compteur_name": "Process_Elec_COP",
+        "Index E.Active (KWh)": 2106
+    }
+]

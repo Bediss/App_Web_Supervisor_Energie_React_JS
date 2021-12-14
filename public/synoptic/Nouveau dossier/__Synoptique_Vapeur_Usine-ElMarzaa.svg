@@ -1,0 +1,291 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 1350.95 649.66"  class="style_svg" >
+    <title>Synoptique_Vapeur_Usine-ElMarzaa</title>
+      <style type="text/css">
+    .incident_True{
+    fill: red;
+  }
+    .incident_False{
+    fill: green;
+  }
+    .incident_Null{
+    fill: white;
+
+  }
+      .data{
+    stroke: rgb(0, 88, 94) ;
+    stroke-width: 0.5;
+  }
+  </style>
+    <rect id="reportCode" dl="DDR01" prev="DDR013" zpm="DDR05,DDR04" />
+    <rect x="127.76" y="28.73" width="321.89" height="70.04" rx="12" ry="12" fill="#f2f2f2" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <g style="isolation:isolate"><text transform="translate(194.51 44)" font-size="16.21" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0" id="DDR01___MZV000___">Collecteur Site ElMazraa</tspan>
+        </text></g>
+    <circle id="___MZV000___TAINC" Class="incident_Null" data-name="   MZV000   12" cx="154.38" cy="72.18" r="17.26" fill="#fff" stroke="#891949" stroke-miterlimit="10" stroke-width="3"/>
+    <g style="isolation:isolate"><text transform="translate(191.46 62.69)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+            <tspan x="0" y="0">Distribution</tspan>
+            <tspan x="95" y="0" class="data" id="___MZV000___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(191.46 89.09)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                 <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZV00F___Tonne"/>
+        </text></g>
+    <circle cx="180.82" cy="58.03" r="4.77" fill="#808285"/>
+    <circle cx="181.93" cy="84.74" r="4.77" fill="#808285"/>
+    <path d="M52,265.86H688c6.65,0,12,5.06,12,11.29V607.47c0,6.24-5.39,11.29-12,11.29H52c-6.65,0-12-5.06-12-11.29V277.15C40,270.92,45.39,265.86,52,265.86Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <path d="M184.15,297.4" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10"/>
+    <rect x="147.19" y="254.2" width="91.14" height="21.31" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(160.28 267.66)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+            <tspan x="0" y="0" id="DDR01___MZVA20___">Transformé</tspan>
+        </text></g>
+    <circle id="___MZVA20___TAINC" Class="incident_Null" data-name="   MZVA20   12" cx="137.79" cy="263.71" r="17.14" fill="#fff" stroke="#929497" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="103.04" y="284" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/>
+    <g style="isolation:isolate"><text transform="translate(125.86 307.38)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+            <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA20___Tonne"/>
+        </text></g>
+    <circle cx="112.42" cy="303.66" r="4.73" fill="#808285"/>
+    <g style="isolation:isolate"><text transform="translate(125.86 330.74)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                  <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA20___Part_Tonne"/>
+        </text></g>
+    <circle cx="112.42" cy="326.86" r="4.73" fill="#808285"/>
+    <path d="M1106.47,322.33" transform="translate(0 0)" fill="none" stroke="#03a550" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="1037.03" y="319.16" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <g style="isolation:isolate"><text transform="translate(1053.94 350.12)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+           <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA22___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(1053.94 374.11)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA22___Part_Tonne"/>
+        </text></g>
+    <circle cx="1046.69" cy="345.83" r="4.73" fill="#808285"/>
+    <circle cx="1046.69" cy="369.13" r="4.73" fill="#808285"/>
+    <rect x="1090.71" y="309.06" width="75.29" height="20.2" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(1095.64 322.32)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+              <tspan x="0" y="0" id="DDR01___MZVA22___">PETFOOD</tspan>
+        </text></g>
+    <path d="M1110.19,427.13" transform="translate(0 0)" fill="none" stroke="#03a550" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="1039.8" y="423.97" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <g style="isolation:isolate"><text transform="translate(1057.71 454.92)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+            <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVB12___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(1057.71 478.92)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVB12___Part_Tonne"/>
+        </text></g>
+    <circle cx="1050.46" cy="450.63" r="4.73" fill="#808285"/>
+    <circle cx="1050.46" cy="473.93" r="4.73" fill="#808285"/>
+    <circle id="___MZVB12___TAINC" Class="incident_Null" data-name="   MZVB12   12" cx="1074.56" cy="424.58" r="17.14" fill="#fff" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="1094.48" y="413.87" width="98.24" height="20.2" fill="#fff"/><text transform="translate(1099.58 427.13)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate" id="DDR01___MZVB12___">Bache a
+        Eau</text>
+    <path d="M43.45,236.06H1319c8.53,0,15.45,5.05,15.45,11.29V620.43c0,6.23-6.92,11.29-15.45,11.29H43.45c-8.53,0-15.45-5-15.45-11.25V247.38C28,241.12,34.92,236.06,43.45,236.06Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="176.15" y="226.06" width="91.76" height="18.01" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(182.22 241.29)" font-size="18.01" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0">ElMazraa</tspan>
+        </text></g>
+    <line x1="397.5" y1="199.29" x2="88.03" y2="199.29" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M409.4,284.39" transform="translate(0 0)" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M1053.47,320.39" transform="translate(0 0)" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="1055.55" y1="315.38" x2="1009.53" y2="315.38" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="1056.42" y1="427" x2="1009.19" y2="427" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <rect y="278.91" width="11.95" height="102.31" fill="#fff"/>
+    <path d="M68.07,360H680.92A11.82,11.82,0,0,1,693,371.55h0V597.2a11.82,11.82,0,0,1-12.07,11.56H68.07A11.82,11.82,0,0,1,56,597.2V371.56A11.82,11.82,0,0,1,68.07,360Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="88.01" y="352" width="133.96" height="17.53" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(113.18 365.38)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" letter-spacing="-0.14em" style="isolation:isolate">
+                <tspan x="0" y="0" id="DDR01___MZVA21___">Transformé Rest</tspan>
+        </text></g>
+    <path d="M111.22,406.85" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10"/>
+    <path d="M182.82,466.45" transform="translate(0 0)" fill="none" stroke="#03a550" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M102.11,477.59" transform="translate(0 0)" fill="none" stroke="#03a550" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="459.56" y="560.35" width="123.82" height="21.31" fill="#fff"/>
+    <rect x="113.43" y="383.33" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="112.43" y="463.29" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="414.08" y="382.79" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="414.08" y="462.21" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="414.08" y="543.34" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <g style="isolation:isolate"><text transform="translate(131.59 405.54)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+           <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA21___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(131.59 429.54)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA21___Part_Tonne"/>
+        </text></g>
+    <circle cx="124.34" cy="401.25" r="4.73" fill="#808285"/>
+    <circle cx="124.34" cy="424.55" r="4.73" fill="#808285"/>
+    <g style="isolation:isolate"><text transform="translate(130.34 494.25)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+             <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA2C___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(130.34 518.24)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+               <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA2C___Part_Tonne"/>
+        </text></g>
+    <circle cx="123.08" cy="489.96" r="4.73" fill="#808285"/>
+    <circle cx="123.08" cy="513.25" r="4.73" fill="#808285"/>
+    <g style="isolation:isolate"><text transform="translate(429.48 413.28)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+             <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA2E___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(429.48 437.28)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+              <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA2E___Part_Tonne"/>
+        </text></g>
+    <circle cx="422.22" cy="408.99" r="4.73" fill="#808285"/>
+    <circle cx="422.22" cy="432.29" r="4.73" fill="#808285"/>
+    <g style="isolation:isolate"><text transform="translate(429.48 493.26)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+             <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA2B___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(429.48 517.25)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+               <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA2B___Part_Tonne"/>
+        </text></g>
+    <circle cx="422.22" cy="488.97" r="4.73" fill="#808285"/>
+    <circle cx="422.22" cy="512.27" r="4.73" fill="#808285"/>
+    <g style="isolation:isolate"><text transform="translate(430.74 573.66)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+             <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA2A___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(430.74 597.65)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                  <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA2A___Part_Tonne"/>
+        </text></g>
+    <circle cx="423.48" cy="569.36" r="4.73" fill="#808285"/>
+    <circle cx="423.48" cy="592.66" r="4.73" fill="#808285"/>
+    <circle id="___MZVA2E___TAINC" Class="incident_Null" data-name="   MZVA2E   12" cx="448.85" cy="381.46" r="17.14" fill="#fff" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="___MZVA2C___TAINC" Class="incident_Null" data-name="   MZVA2C   12" cx="147.19" cy="463.9" r="17.14" fill="#fff" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="___MZVA2A___TAINC" Class="incident_Null" data-name="   MZVA2A   12" cx="448.85" cy="541.87" r="17.14" fill="#fff" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="___MZVA2B___TAINC" Class="incident_Null" data-name="   MZVA2B   12" cx="448.85" cy="461.65" r="17.14" fill="#fff" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="167.11" y="453.19" width="98.24" height="20.2" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(172.03 466.45)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0" id="DDR01___MZVA2C___">AUTO-Clave</tspan>
+        </text></g>
+    <rect x="468.77" y="372.01" width="80.61" height="18.63" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(468.77 386.24)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0" id="DDR01___MZVA2E___">Charcuterie</tspan>
+        </text></g>
+    <rect x="468.77" y="452.89" width="80.61" height="18.63" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(468.77 465.06)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0" id="DDR01___MZVA2B___">CUISSON</tspan>
+        </text></g>
+    <rect x="469.7" y="531.21" width="80.69" height="21.31" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(484.79 543.34)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate" id="DDR01___MZVA2A___">SURGELE</text></g>
+    <line x1="88.4" y1="200.06" x2="88.4" y2="464.15" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="129.76" y1="462.86" x2="89.6" y2="462.86" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="431.11" y1="461.65" x2="410.25" y2="461.65" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="430.96" y1="541.87" x2="408.82" y2="541.87" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="___MZVA21___TAINC" Class="incident_Null" data-name="   MZVA21   12" cx="89.29" cy="360.46" r="17.14" fill="#fff" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="431.96" y1="382.18" x2="409.82" y2="382.18" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="408.36" y1="220.17" x2="408.36" y2="543.91" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="___MZVA22___TAINC" Class="incident_Null" data-name="   MZVA22   12" cx="1072.09" cy="318.07" r="17.14" fill="#fff" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="1022.36" y="51.3" width="312.11" height="80" rx="12" ry="12" fill="#f2f2f2" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <g style="isolation:isolate"><text transform="translate(1078.1 64.44)" font-size="13.96" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+               <tspan x="0" y="0" id="DDR01___MZV002___">Collecteur Co-Produit</tspan>
+        </text></g>
+    <circle id="___MZV002___TAINC" Class="incident_Null" data-name="   MZV002   12" cx="1043.56" cy="88.71" r="14.86" fill="#fff" stroke="#891949" stroke-miterlimit="10" stroke-width="3"/>
+    <g style="isolation:isolate"><text transform="translate(1075.48 80.53)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+            <tspan x="0" y="0">Distribution</tspan>
+            <tspan x="95" y="0" class="data" id="___MZV00E___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(1075.48 103.26)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+              <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZV002___Tonne"/>
+        </text></g>
+        <circle xmlns="http://www.w3.org/2000/svg" cx="1067.28" cy="120" r="4.11" fill="#808285"/>
+        <g style="isolation:isolate"><text transform="translate(1075.48 123)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+              <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZV002___Part_Tonne"/>
+        </text></g>
+    <circle cx="1066.32" cy="76.52" r="4.11" fill="#808285"/>
+    <circle cx="1067.28" cy="99.52" r="4.11" fill="#808285"/>
+    <line x1="1004.26" y1="79.91" x2="449.65" y2="80.2" fill="none" stroke="#891948" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M1022.36,79.89c-8.52-3.15-19.1-8.53-25.66-14.24l5.18,14.26-5.15,14.27C1003.28,88.46,1013.85,83.09,1022.36,79.89Z" transform="translate(0 0)" fill="#891948"/>
+    <rect x="469.97" width="186" height="17.42" fill="#fff"/>
+    <rect x="1339" y="285.91" width="11.95" height="102.31" fill="#fff"/>
+    <rect x="636" y="636.72" width="143" height="12.94" fill="#fff"/>
+    
+    <circle id="DDR04______" data-name="DR3 " cx="1327.5" cy="51.3" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" style="&#10;    cursor: pointer;&#10;"/><text transform="translate(1318.5 58.3)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" style="isolation:isolate;cursor: pointer;" id="DDR04______">+</text>
+    <path d="M185.26,193.55" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10"/>
+    <path d="M421.51,195.54" transform="translate(0 0)" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="1009.19" y1="199.95" x2="1009.19" y2="427.72" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="1009.92" y1="199.95" x2="718.69" y2="199.95" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M729,264.31H992.54a11.86,11.86,0,0,1,11.72,12h0V527.12a11.86,11.86,0,0,1-11.72,12H729a11.86,11.86,0,0,1-11.72-12h0V276.31a11.86,11.86,0,0,1,11.72-12Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="772.71" y="254.21" width="77.19" height="20.36" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(781.83 268.58)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0" id="DDR01___MZVA10___">Abattoire</tspan>
+        </text></g>
+    <circle id="___MZVA10___TAINC" Class="incident_Null" data-name="   MZVA10   12" cx="752.38" cy="263.77" r="17.14" fill="#fff" stroke="#929497" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="726.74" y="292.15" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/>
+    <g style="isolation:isolate"><text transform="translate(749.56 315.53)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+            <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA10___Tonne"/>
+        </text></g>
+    <circle cx="736.13" cy="311.81" r="4.73" fill="#808285"/>
+    <g style="isolation:isolate"><text transform="translate(749.56 338.89)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+              <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA10___Part_Tonne"/>
+        </text></g>
+    <circle cx="736.13" cy="335.01" r="4.73" fill="#808285"/>
+    <rect x="725.66" y="389.06" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <g style="isolation:isolate"><text transform="translate(743.57 420.01)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+             <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA12___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(743.57 444)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+               <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA12___Part_Tonne"/>
+        </text></g>
+    <circle cx="736.32" cy="415.72" r="4.73" fill="#808285"/>
+    <circle cx="736.32" cy="439.02" r="4.73" fill="#808285"/>
+    <circle id="___MZVA12___TAINC" Class="incident_Null" data-name="   MZVA12   12" cx="760.42" cy="389.67" r="17.14" fill="#fff" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="780.34" y="378.95" width="106.3" height="20.2" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(781.83 392.38)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0" id="DDR01___MZVA12___">Laveuse Caisse</tspan>
+        </text></g>
+    <rect x="725.66" y="468.14" width="270.59" height="59.15" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <g style="isolation:isolate"><text transform="translate(743.57 499.09)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+            <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA11___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(743.57 523.09)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+              <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZVA11___Part_Tonne"/>
+        </text></g>
+    <circle cx="736.32" cy="494.8" r="4.73" fill="#808285"/>
+    <circle cx="736.32" cy="518.1" r="4.73" fill="#808285"/>
+    <circle id="___MZVA11___TAINC" Class="incident_Null" data-name="   MZVA11   12" cx="760.42" cy="468.75" r="17.14" fill="#fff" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="780.34" y="458.04" width="80.61" height="16.65" fill="#fff"/>
+    <g style="isolation:isolate"><text transform="translate(785.44 468.75)" font-size="13.27" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+                <tspan x="0" y="0" id="DDR01___MZVA11___">Abattage</tspan>
+        </text></g>
+    <line x1="708.95" y1="200.22" x2="709.95" y2="471.86" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="743.03" y1="390.14" x2="709.8" y2="390.14" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="741.01" y1="470.43" x2="709.79" y2="470.43" fill="none" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="397.02" y="149.17" width="321.89" height="70.04" rx="12" ry="12" fill="#f2f2f2" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <g style="isolation:isolate"><text transform="translate(436.77 164.44)" font-size="16.21" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+               <tspan x="0" y="0" id="DDR01___MZV00A___">Consommation Usine ElMazraa</tspan>
+        </text></g>
+    <circle id="___MZV00A___TAINC" Class="incident_Null" data-name="   MZV000   12" cx="423.64" cy="192.62" r="17.26" fill="#fff" stroke="#891949" stroke-miterlimit="10" stroke-width="3"/>
+    <g style="isolation:isolate"><text xmlns="http://www.w3.org/2000/svg" transform="translate(460.72 183.13)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+    <tspan xmlns="http://www.w3.org/2000/svg" x="0" y="0">Consommation</tspan>
+<tspan xmlns="http://www.w3.org/2000/svg" x="95" y="0" class="data" id="___MZV00A___Tonne"/>
+        </text></g>
+    <g style="isolation:isolate"><text transform="translate(460.72 209.53)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham" style="isolation:isolate">
+             <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZV00A___Part_Tonne"/>
+        </text></g>
+    <circle cx="450.08" cy="178.47" r="4.77" fill="#808285"/>
+    <circle cx="451.19" cy="205.18" r="4.77" fill="#808285"/>
+    <line x1="272.63" y1="171.31" x2="272.68" y2="96.69" fill="none" stroke="#891948" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="376.22" y1="171.3" x2="271.61" y2="171.59" fill="none" stroke="#891948" stroke-miterlimit="10" stroke-width="3"/>
+    <circle xmlns="http://www.w3.org/2000/svg" id="DDR05______" data-name="DR3 " cx="445" cy="38" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" style="&#10;    cursor: pointer;&#10;"/>
+<text xmlns="http://www.w3.org/2000/svg" transform="translate(435 45)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" style="isolation:isolate;cursor: pointer;" id="DDR05______">+</text>
+
+  <circle xmlns="http://www.w3.org/2000/svg" id="DDR05______" data-name="DR9    " cx="22.23" cy="144.37" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3"/>
+      <text xmlns="http://www.w3.org/2000/svg"  id="DDR05______" transform="translate(15.23 154.37)" font-size="30" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" style="isolation:isolate">-</text>
+    <path d="M396.85,171.28c-8.52-3.15-19.1-8.53-25.66-14.24l5.18,14.26-5.15,14.27C377.77,179.85,388.34,174.48,396.85,171.28Z" transform="translate(0 0)" fill="#891948"/>
+</svg>

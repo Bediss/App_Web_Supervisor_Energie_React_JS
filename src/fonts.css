@@ -1,0 +1,56 @@
+
+@font-face {
+    font-family: "balto Light";
+    font-weight: 200;
+    font-display: swap;
+    src: url('./fonts/Balto-Light.woff') format('woff');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "balto Thin";
+    font-weight: 300;
+    font-display: swap;
+    src: url('./fonts/Balto-Thin.woff') format('woff');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "balto Book";
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/Balto-Book.woff') format('woff');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "balto Medium";
+    font-weight: 500;
+    font-display: swap;
+    src: url('./fonts/Balto-Medium.woff') format('woff');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'balto Ultra';
+    font-weight: 700;
+    font-display: swap;
+    src: url('./fonts/Balto-Ultra.woff') format('woff');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gotham Book';
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/Gotham-Book.otf') format('woff');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gotham Medium';
+    font-weight: 500;
+    font-display: swap;
+    src: url('./fonts/Gotham-Medium.otf') format('woff');
+    font-style: normal;
+}

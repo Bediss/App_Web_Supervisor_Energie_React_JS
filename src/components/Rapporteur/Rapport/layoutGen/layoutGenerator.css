@@ -1,0 +1,51 @@
+.layoutGenerator-bg-loading {
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.layoutGenerator-bg-loading>.loadingBG {
+    background: #222;
+    opacity: .2;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+#generatedPlots td {
+    border: 0px solid black;
+}
+
+#generatedPlots {
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%)
+}
+
+#generatedPlots {
+   /* text-align: center;*/
+}
+
+.js-plotly-plot {
+    display: block !important;
+}
+
+.plot-container.plotly {
+    margin: auto;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+}
+
+.bizStyles {
+    font-family: 'Gotham Medium';
+    font-size: 16px;
+}
+
+.bizStylesSelect:focus {
+    border-color: #00c996;
+    box-shadow: 0 0 0 1px rgb(0 201 150 /25%)
+}

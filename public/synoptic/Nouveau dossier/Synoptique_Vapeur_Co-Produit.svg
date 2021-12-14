@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 1350.5 649.2" class="style_svg">
+    <title>Synoptique_Vapeur_Co-Produit</title>
+      <style type="text/css">
+    .incident_True{
+    fill: red;
+  }
+    .incident_False{
+    fill: green;
+  }
+    .incident_Null{
+    fill: white;
+
+  }
+      .data{
+    stroke: rgb(0, 88, 94) ;
+    stroke-width: 0.5;
+  }
+       .Name_Compteur{
+	 font-family : balto;
+	 font-weight : 700;
+	 font-size : 14px;
+	 }
+
+  </style>
+
+  <rect id="reportCode" dl="DDR01" zpm="DDR05" prev="DDR05"/>
+
+    <rect y="270.6" width="41.2" height="91.2" fill="#fff"/>
+    <rect x="1332.9" width="17.6" height="74.2" fill="#fff"/>
+    <rect x="562.7" width="82.4" height="18.9" fill="#fff"/>
+    <path d="M579.2,46.2h336a12,12,0,0,1,12,12v52.3a12,12,0,0,1-12,12h-336a12,12,0,0,1-12-12V58.2A12,12,0,0,1,579.2,46.2Z" transform="translate(0 0)" fill="#f2f2f2" stroke="#008b69" stroke-miterlimit="10" stroke-width="3"/>
+    <text transform="translate(637.69 62.85)" font-size="20" fill="#231f20" font-family="balto" font-weight="700">
+     <tspan x="0" y="0" id="DDR01___MZV002___">Collecteur Usine Co-Produit</tspan>
+       
+    </text>
+    <circle id="___MZV002___TAINC" Class="incident_Null" data-name="   MZV002   12" cx="594" cy="93.5" r="18.8" fill="#fff" stroke="#891949" stroke-miterlimit="10" stroke-width="3"/>
+    <text transform="translate(634.38 80)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+       <tspan x="0" y="0">Distribution</tspan>
+            <tspan x="95" y="0" class="data" id="___MZV00E___Tonne"/>
+    </text><text transform="translate(634.38 111.97)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+          <tspan x="0" y="0">Partage</tspan>
+            <tspan x="95" y="0" class="data" id="___MZV002___Part_Tonne"/>
+    </text>
+    <text transform="translate(634.38 97)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+          <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="95" y="0" class="data" id="___MZV002___Tonne"/>
+    </text>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="622.8" cy="92" r="5.2" fill="#808285"/>
+    <circle cx="622.8" cy="75" r="5.2" fill="#808285"/>
+    <circle cx="624" cy="109" r="5.2" fill="#808285"/>
+    <line x1="549.1" y1="84.3" x2="0.8" y2="84.7" fill="none" stroke="#891948" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M567.2,84.3c-8.5-3.2-19.1-8.5-25.7-14.3l5.2,14.3-5.2,14.3C548.1,92.9,558.7,87.5,567.2,84.3Z" transform="translate(0 0)" fill="#891948"/>
+    <rect y="617.4" width="107" height="31.8" fill="#fff"/><text transform="translate(11.3 79.73)" font-size="22" fill="#231f20" font-family="balto" font-weight="700">
+         <tspan x="0" y="0">Collecteur Site ElMazraa</tspan>
+
+    </text>
+    <path d="M41.4,76.8" transform="translate(0 0)" fill="#fff" stroke="#891949" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M70.2,75" transform="translate(0 0)" fill="#38b34a"/>
+    <circle cx="33" cy="126.9" r="12.4" fill="#fff" stroke="#000" stroke-miterlimit="10" stroke-width="3" id="DDR05______"/>
+    <path d="M905.74,212.2h274.51c5.91,0,10.74,5.4,10.74,12V523.7c0,6.6-4.83,12-10.74,12H905.74c-5.91,0-10.74-5.4-10.74-12V224.2C895,217.6,899.75,212.2,905.74,212.2Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="889.9" y="201.2" width="91" height="20.8" fill="#fff"/><text transform="translate(924.54 214.99)" font-size="13.15" fill="#231f20" class="Name_Compteur" id="DDR01___MZV130___">VIANDE</text>
+    <path d="M983.9,317.9" transform="translate(0 0)" fill="none" stroke="#00a551" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M903.9,321.3" transform="translate(0 0)" fill="none" stroke="#00a551" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M927.1,227.8h244.2a12,12,0,0,1,12,12v34.6a12,12,0,0,1-12,12H927.1a12,12,0,0,1-12-12V239.8A12,12,0,0,1,927.1,227.8Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(936.63 249.91)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+        <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV130___Tonne"/>
+    </text>
+    <circle cx="923.3" cy="246.2" r="4.7" fill="#666"/><text transform="translate(936.63 273.06)" font-size="12.12" fill="#231f20" font-family="balto" letter-spacing="-0.01em" style="isolation:isolate">
+          <tspan x="0" y="0">Partage</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV130___Part_Tonne"/>
+        </text>
+    <circle cx="923.3" cy="269.2" r="4.7" fill="#666"/>
+    <path d="M987.2,311.6" transform="translate(0 0)" fill="none" stroke="#00a551" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M929.4,308.4h244.2a12,12,0,0,1,12,12V355a12,12,0,0,1-12,12H929.4a12,12,0,0,1-12-12V320.4A12,12,0,0,1,929.4,308.4Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <path d="M929.4,389h244.2a12,12,0,0,1,12,12v34.6a12,12,0,0,1-12,12H929.4a12,12,0,0,1-12-12V401A12,12,0,0,1,929.4,389Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <path d="M929.4,470h244.2a12,12,0,0,1,12,12v34.6a12,12,0,0,1-12,12H929.4a12,12,0,0,1-12-12V482A12,12,0,0,1,929.4,470Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/><text transform="translate(935.12 339.11)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+     <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV131___Tonne"/>
+    </text><text transform="translate(935.12 362.9)" font-size="12.12" fill="#231f20" font-family="balto" letter-spacing="-0.01em" style="isolation:isolate">
+          <tspan x="0" y="0">Partage</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV131___Part_Tonne"/>
+        </text>
+    <circle cx="927.9" cy="334.9" r="4.7" fill="#666"/>
+    <circle cx="927.9" cy="358" r="4.7" fill="#666"/><text transform="translate(933.88 421.42)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+        <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV132___Tonne"/>
+    </text><text transform="translate(933.88 445.2)" font-size="12.12" fill="#231f20" font-family="balto" letter-spacing="-0.01em" style="isolation:isolate">
+          <tspan x="0" y="0">Partage</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV132___Part_Tonne"/>
+        </text>
+    <circle cx="926.7" cy="417.2" r="4.7" fill="#666"/>
+    <circle cx="926.7" cy="440.3" r="4.7" fill="#666"/><text transform="translate(932.63 500.26)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+       <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV133___Tonne"/>
+    </text><text transform="translate(932.63 524.04)" font-size="12.12" fill="#231f20" font-family="balto" letter-spacing="-0.01em" style="isolation:isolate">
+          <tspan x="0" y="0">Partage</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV133___Part_Tonne"/>
+            </text>
+    <circle cx="925.4" cy="496" r="4.7" fill="#666"/>
+    <circle cx="925.4" cy="519.1" r="4.7" fill="#666"/>
+    <circle id="___MZV131___TAINC" Class="incident_Null" data-name="   MZV131   12" cx="951.8" cy="468.7" r="17" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="___MZV132___TAINC" Class="incident_Null" data-name="   MZV132   12" cx="951.8" cy="388.3" r="17" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="___MZV133___TAINC" Class="incident_Null" data-name="   MZV133   12" cx="951.8" cy="309" r="17" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="971.6" y="298.4" width="79.9" height="17.7" fill="#fff"/><text transform="translate(973.45 311.56)" font-size="13.15" fill="#231f20" class="Name_Compteur">   
+           <tspan x="0" y="0" id="DDR01___MZV131___">CUISEUR1</tspan>
+    </text><text transform="translate(981.62 393.68)" font-size="13.15" fill="#231f20" class="Name_Compteur">UCPC</text>
+    <rect x="971.6" y="377.5" width="79.9" height="16.8" fill="#fff"/><text transform="translate(972.98 391.37)" font-size="13.15" fill="#231f20" class="Name_Compteur">
+         <tspan x="0" y="0" id="DDR01___MZV132___">CUISEUR2</tspan>
+    </text>
+    <rect x="971.6" y="459.3" width="79.9" height="18.5" fill="#fff"/><text transform="translate(971.58 473.45)" font-size="13.15" fill="#231f20" class="Name_Compteur">
+         <tspan x="0" y="0" id="DDR01___MZV133___">CUISEUR3</tspan>
+    </text>
+    <path d="M816,531.3" transform="translate(0 0)" fill="none" stroke="#00a551" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M98,182.3H1286a12,12,0,0,1,12,12V546.1a12,12,0,0,1-12,12H98a12,12,0,0,1-12-12V194.3A12,12,0,0,1,98,182.3Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="183.5" y="170.2" width="106.9" height="19.7" fill="#fff"/><text transform="translate(183.17 185.43)" font-size="22" fill="#231f20" font-family="balto" font-weight="700">
+      <tspan x="0" y="0">Co-Produit</tspan>
+    </text>
+    <line x1="903.7" y1="122.9" x2="903.7" y2="470.5" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="934.8" y1="308.7" x2="903.9" y2="308.7" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="932.8" y1="388.3" x2="901.9" y2="388.3" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="934.1" y1="469.4" x2="903.1" y2="469.4" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M852.5,232.6" transform="translate(0 0)" fill="none" stroke="#00a551" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M764.8,226.2" transform="translate(0 0)" fill="none" stroke="#00a551" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M604.8,320.2H849a12,12,0,0,1,12,12v34.6a12,12,0,0,1-12,12H604.8a12,12,0,0,1-12-12V332.2A12,12,0,0,1,604.8,320.2Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/><text transform="translate(610.58 350.93)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+         <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV121___Tonne"/>
+    </text><text transform="translate(610.58 374.72)" font-size="12.12" fill="#231f20" font-family="balto" letter-spacing="-0.01em" style="isolation:isolate">
+          <tspan x="0" y="0">Partage</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV121___Part_Tonne"/>
+        </text>
+    <circle cx="603.4" cy="346.7" r="4.7" fill="#666"/>
+    <circle cx="603.4" cy="369.8" r="4.7" fill="#666"/>
+    <circle id="___MZV121___TAINC" Class="incident_Null" data-name="   MZV120   12" cx="620.2" cy="318.5" r="17" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="639.8" y="308.1" width="112.2" height="19.2" fill="#fff"/><text transform="translate(644.32 323.38)" font-size="13.15" fill="#231f20" class="Name_Compteur">
+        <tspan x="0" y="0" id="DDR01___MZV121___">SANG PROCESS</tspan>
+    </text>
+    <path d="M327.4,221.8" transform="translate(0 0)" fill="none" stroke="#00a551" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M330.7,215.4" transform="translate(0 0)" fill="none" stroke="#00a551" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M272.9,212.3H517.1a12,12,0,0,1,12,12v34.6a12,12,0,0,1-12,12H272.9a12,12,0,0,1-12-12V224.3A12,12,0,0,1,272.9,212.3Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/><text transform="translate(278.67 242.97)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+        <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV110___Tonne"/>
+    </text><text transform="translate(278.67 266.76)" font-size="12.12" fill="#231f20" font-family="balto" letter-spacing="-0.01em" style="isolation:isolate">
+          <tspan x="0" y="0">Partage</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV110___Part_Tonne"/>
+        </text>
+    <circle cx="271.5" cy="238.7" r="4.7" fill="#666"/>
+    <circle cx="271.5" cy="261.8" r="4.7" fill="#666"/>
+    <circle id="___MZV110___TAINC" Class="incident_Null" data-name="   MZV110   12" cx="299.8" cy="212.3" r="17" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="319.5" y="202.3" width="48.6" height="20.3" fill="#fff"/><text transform="translate(320 215.42)" font-size="13.15" fill="#231f20" class="Name_Compteur">
+         <tspan x="0" y="0" id="DDR01___MZV110___">PLUME</tspan>
+    </text>
+    <path d="M1148.6,205.7" transform="translate(0 0)" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="300" y1="111.8" x2="300" y2="194.7" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="567.7" y1="110.8" x2="300.1" y2="110.8" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="___MZV130___TAINC" Class="incident_Null" data-name="   MZV130   12" cx="906.9" cy="209.3" r="17" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="27" y1="127.1" x2="39.5" y2="127.1" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="5" id="DDR05______"/>
+    
+    
+    
+    <path d="M659.3,421.5" transform="translate(0 0)" fill="none" stroke="#00a551" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M604.8,412.1H849a12,12,0,0,1,12,12v34.6a12,12,0,0,1-12,12H604.8a12,12,0,0,1-12-12V424.1A12,12,0,0,1,604.8,412.1Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/><text transform="translate(610.59 442.74)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+        <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV140___Tonne"/>
+    </text><text transform="translate(610.59 466.53)" font-size="12.12" fill="#231f20" font-family="balto" letter-spacing="-0.01em" style="isolation:isolate">
+          <tspan x="0" y="0">Partage</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV140___Part_Tonne"/>
+        </text>
+    <circle cx="603.4" cy="438.5" r="4.7" fill="#666"/>
+    <circle cx="603.4" cy="461.6" r="4.7" fill="#666"/>
+    <circle id="___MZV140___TAINC" Class="incident_Null" data-name="   MZV140   12" cx="620.2" cy="408.3" r="17" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="638.5" y="404.2" width="114.5" height="12.5" fill="#fff"/><text transform="translate(640.63 413.92)" font-size="15.3" fill="#231f20" class="Name_Compteur">
+         <tspan x="0" y="0" id="DDR01___MZV140___">Basse Pression</tspan>
+    </text>
+    <path d="M599.26,213.95H857.84A10,10,0,0,1,868,223.77v245a10,10,0,0,1-10.16,9.82H599.26a10,10,0,0,1-10.16-9.82v-245A10,10,0,0,1,599.26,213.95Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="592.7" y="203.2" width="91" height="20.8" fill="#fff"/><text transform="translate(632.34 216.93)" font-size="13.15" fill="#231f20" class="Name_Compteur">
+     
+      <tspan x="0" y="0" id="DDR01___MZV120___">SANG</tspan>
+    </text>
+    <line x1="579.4" y1="120.65" x2="579.4" y2="411.15" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M831.4,197.6" transform="translate(0 0)" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <circle id="___MZV120___TAINC" Class="incident_Null" data-name="   MZV130   12" cx="609.7" cy="211.3" r="17" fill="#fff" stroke="#6d6d6d" stroke-miterlimit="10" stroke-width="3"/>
+    <path d="M607.1,235.8H851.3a12,12,0,0,1,12,12v34.6a12,12,0,0,1-12,12H607.1a12,12,0,0,1-12-12V247.8A12,12,0,0,1,607.1,235.8Z" transform="translate(0 0)" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(616.63 257.91)" font-size="12.12" fill="#231f20" font-family="balto" style="isolation:isolate">
+        <tspan x="0" y="0">Consommation</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV120___Tonne"/>
+    </text>
+    <circle cx="603.3" cy="254.2" r="4.7" fill="#666"/><text transform="translate(616.63 281.06)" font-size="12.12" fill="#231f20" font-family="balto" letter-spacing="-0.01em" style="isolation:isolate">
+          <tspan x="0" y="0">Partage</tspan>
+            <tspan x="90" y="0" class="data" id="___MZV120___Part_Tonne"/>
+        </text>
+    <circle cx="603.3" cy="277.2" r="4.7" fill="#666"/>
+    <line x1="603.15" y1="408.3" x2="579.25" y2="408.3" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="602.45" y1="316.1" x2="578.55" y2="316.1" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+</svg>

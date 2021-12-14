@@ -1,0 +1,43 @@
+
+.NavigateurBread{
+     height: 50px ;
+     font-size: 16px;
+     width: 100%;
+     position: static;
+}
+.rapportNavigateur{
+    margin-top: -1%;
+}
+@media screen and (max-width:960px){
+
+    .NavigateurBread{
+        height: 30px ;
+        font-size: 14px;
+        width: 100%;
+   }
+   .rapportNavigateur{
+    margin-top: 6%;
+}
+} 
+@media screen and (max-width:690px){
+
+    .NavigateurBread{
+        height: 30px ;
+        font-size: 9px;
+        width: 100%;
+   }
+   .rapportNavigateur{
+    margin-top: 6%;
+}
+} 
+@media screen and (max-width:430px){
+
+    .NavigateurBread{
+        height: 30px ;
+        font-size: 6px;
+        width: 100%;
+   }
+   .rapportNavigateur{
+    margin-top: 10%;
+}
+} 

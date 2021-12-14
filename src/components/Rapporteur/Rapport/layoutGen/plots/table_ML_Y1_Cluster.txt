@@ -1,0 +1,141 @@
+      {
+          "MasterObj_Code": "O13",
+          "row": 1,
+          "col": 1,
+          "spanRow": 10,
+          "spanCol": 10,
+          usePages: true,
+          QueryAPI: "cluster",
+          "MasterObj_Data_selection": {
+            "x": "CL",
+            "y": "ML",
+            "page": {
+              "page": "table_ML_Y1_Cluster",
+              "type": "A"
+            },
+            "MasterObjPage": {
+              "membersList": [],
+              "selectedMember": {}
+            },
+            "masterObjectX": [
+              {
+                "Le_Compteur": "Process_Elec_COP",
+                "Code_Compteur": "MZCB4B"
+              },
+              {
+                "Le_Compteur": "Usine_COP_Cons_Elect",
+                "Code_Compteur": "MZC011"
+              },
+              {
+                "Le_Compteur": "Ligne_Viande",
+                "Code_Compteur": "MZC130"
+              },
+              {
+                "Le_Compteur": "UV_Autres",
+                "Code_Compteur": "MZC132"
+              }
+            ],
+            "masterObjectY": [
+              {
+                "m_code": "26_1",
+                "m_name": "Index E.Active (KWh)"
+              },
+              {
+                "m_code": "37_1",
+                "m_name": "KWh_J"
+              },
+              {
+                "m_code": "2037_1",
+                "m_name": "KWh_J / PARENT"
+              },
+              {
+                "m_code": "39_1",
+                "m_name": "INC_J"
+              }
+            ]
+
+          },
+
+          "MasterObj_Data_Query": {
+            "cl": [],
+            "ml": [],
+            "retour": "json",
+            "cross_tab": "cross_tab_ml"
+          },
+
+          // title: { text: "Scatter_ML_Y1_IOT_Inner" },
+          MasterObj_Data_Mapping: {
+
+            "Plots": [
+              {
+                "X": "*",
+                "Y": {
+                  "Y1": [
+                    "Index E.Active (KWh)",
+                    "KWh_J",
+                    "KWh_J / PARENT",
+                    "INC_J"
+                  ]
+                },
+                "function_type": "table",
+                extraPlotConfig: {},
+              }
+            ],
+            "xaxis": {
+              // showgrid: false,
+              // zeroline: false,
+              // showline: false,
+              // showticklabels: false,
+              "color": "red",
+              "title": {
+                "font": {
+                  "size": 10
+                },
+                "text": "xaxis yjtitle1"
+              },
+              "tickfont": {
+                "size": 10
+              },
+              "autorange": true
+            },
+            "legend": {
+              "pos": "bottom",
+              showlegend: true,
+
+              "legend": {
+                "font": {
+                  "size": 10
+                },
+                "orientation": "h",
+                bgcolor: 'transparent',
+
+              }
+            },
+            "margin": {
+              "b": 60,
+              "l": 70,
+              "r": 50,
+              "t": 40,
+              // autoexpand == true if function_type==bar AND // OR orientation=="h"
+              "autoexpand": false
+            },
+            "yaxis1": {
+              // showgrid: false,
+              // zeroline: false,
+              // showline: false,
+              // showticklabels: false,
+              "color": "green",
+              "title": {
+                "font": {
+                  "size": 10
+                },
+                "text": "yaxis1 title1"
+              },
+              "tickfont": {
+                "size": 10
+              },
+              "autorange": true
+            },
+            extraLayoutConfig: {},
+          },
+        },

@@ -1,0 +1,468 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 1348.8 649.33"  class="style_svg">
+    <title>Synoptique_Electrique_Post-Transfo_Journalier</title>
+            <style type="text/css">
+    .incident_True{
+    fill: red;
+  }
+    .incident_False{
+    fill: green;
+  }
+    .incident_Null{
+    fill: white;
+
+  }
+      .data{
+    stroke: rgb(0, 88, 94) ;
+    stroke-width: 0.5;
+  }
+       .Name_Compteur{
+	 font-family : Gotham-Medium, Gotham;
+	 font-weight : 700;
+	 font-size : 14px;
+	 }
+  </style>
+    <rect id="reportCode" dl="DDR03" zpm="" prev="DDR08"/>
+    <rect x="605.8" y="645.75" width="106.95" height="3.58" fill="#fff"/>
+    <rect x="525.19" width="132.35" height="15.27" fill="#fff"/>
+    <rect x="646.58" y="633.89" width="132.35" height="15.27" fill="#fff"/>
+    <rect x="129.19" y="233.1" width="241.56" height="46.65" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/><text transform="translate(145.91 249.13)" font-size="12.12" fill="#666" font-family="Gotham-Medium, Gotham">
+         <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZCB10___KWh"/>
+    </text><text transform="translate(147.9 271.38)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+           <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZCB10___Part_KWh"/>
+    </text>
+    <ellipse cx="138.96" cy="245.2" rx="4.01" ry="4.02" fill="#666"/>
+    <ellipse cx="139.9" cy="267.71" rx="4.01" ry="4.02" fill="#666"/><text transform="translate(365.7 488.37) scale(2.34 1)" font-size="12.12" fill="#5e5e5e" stroke="#696229" font-family="Gotham-Book, Gotham" text-decoration="underline" stroke-miterlimit="10">TR2</text>
+    <g id="_Groupe_" data-name="&lt;Groupe&gt;">
+        <g id="_Groupe_2" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_" data-name="&lt;Tracé transparent&gt;" d="M408.14,468.67H371.68a1.08,1.08,0,0,1-1.15-1V439.84a1.08,1.08,0,0,1,1.15-1h36.46a1.08,1.08,0,0,1,1.15,1v27.84A1.08,1.08,0,0,1,408.14,468.67Zm-35.31-2H407V440.84H372.83Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_3" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_4" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_" data-name="&lt;Tracé&gt;" d="M383.34,438.22h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_5" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_2" data-name="&lt;Tracé&gt;" d="M383.34,435.73h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_6" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_3" data-name="&lt;Tracé&gt;" d="M383.11,433.23H377a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_7" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_4" data-name="&lt;Tracé&gt;" d="M382.88,430.74h-5.66a1,1,0,1,1,0-2h5.66a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_8" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_9" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_5" data-name="&lt;Tracé&gt;" d="M403.06,438.22h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_10" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_6" data-name="&lt;Tracé&gt;" d="M403.06,435.73h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_11" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_7" data-name="&lt;Tracé&gt;" d="M402.83,433.23h-6.11a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_12" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_8" data-name="&lt;Tracé&gt;" d="M402.6,430.74h-5.66a1,1,0,1,1,0-2h5.66a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_13" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_2" data-name="&lt;Tracé transparent&gt;" d="M413.22,472.48H366.6a1.08,1.08,0,0,1-1.15-1v-3.81a1.08,1.08,0,0,1,1.15-1h46.62a1.08,1.08,0,0,1,1.15,1v3.81A1.08,1.08,0,0,1,413.22,472.48Zm-45.48-2h44.33v-1.81H367.75Z" transform="translate(0.14)" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_14" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_15" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_9" data-name="&lt;Tracé&gt;" points="390.55 460.46 388.44 459.68 391.5 453.38 384.61 454.8 389.85 443.46 391.98 444.2 388.39 451.97 395.38 450.52 390.55 460.46" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_16" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_10" data-name="&lt;Tracé&gt;" points="388.35 462.44 386.35 458.51 388.45 457.7 389.51 459.78 392.21 458.7 393.17 460.51 388.35 462.44" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+    </g><text transform="translate(914.51 270.73) scale(2.34 1)" font-size="12.12" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" font-family="Gotham-Book, Gotham" text-decoration="underline">TR3</text>
+    <g id="_Groupe_17" data-name="&lt;Groupe&gt;">
+        <g id="_Groupe_18" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_3" data-name="&lt;Tracé transparent&gt;" d="M957,251H920.5a1.08,1.08,0,0,1-1.15-1V222.19a1.08,1.08,0,0,1,1.15-1H957a1.08,1.08,0,0,1,1.15,1V250A1.08,1.08,0,0,1,957,251Zm-35.31-2h34.16V223.19H921.65Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_19" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_20" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_11" data-name="&lt;Tracé&gt;" d="M932.15,220.58h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_21" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_12" data-name="&lt;Tracé&gt;" d="M932.15,218.08h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_22" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_13" data-name="&lt;Tracé&gt;" d="M931.92,215.59h-6.11a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_23" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_14" data-name="&lt;Tracé&gt;" d="M931.7,213.09H926a1,1,0,1,1,0-2h5.66a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_24" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_25" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_15" data-name="&lt;Tracé&gt;" d="M951.87,220.58H945.3a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_26" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_16" data-name="&lt;Tracé&gt;" d="M951.87,218.08H945.3a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_27" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_17" data-name="&lt;Tracé&gt;" d="M951.64,215.59h-6.11a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_28" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_18" data-name="&lt;Tracé&gt;" d="M951.41,213.09h-5.66a1,1,0,1,1,0-2h5.66a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_29" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_4" data-name="&lt;Tracé transparent&gt;" d="M962,254.83H915.42a1.08,1.08,0,0,1-1.15-1V250a1.08,1.08,0,0,1,1.15-1H962a1.08,1.08,0,0,1,1.15,1v3.81A1.08,1.08,0,0,1,962,254.83Zm-45.48-2h44.33V251H916.56Z" transform="translate(0.14)" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_30" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_31" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_19" data-name="&lt;Tracé&gt;" points="939.37 242.81 937.26 242.04 940.32 235.73 933.43 237.16 938.67 225.81 940.79 226.56 937.21 234.32 944.19 232.88 939.37 242.81" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_32" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_20" data-name="&lt;Tracé&gt;" points="937.17 244.8 935.17 240.86 937.26 240.06 938.32 242.14 941.03 241.06 941.98 242.87 937.17 244.8" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+    </g><text transform="translate(790.15 489.64) scale(2.34 1)" font-size="12.12" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" font-family="Gotham-Book, Gotham" text-decoration="underline">TR5</text>
+    <g id="_Groupe_33" data-name="&lt;Groupe&gt;">
+        <g id="_Groupe_34" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_5" data-name="&lt;Tracé transparent&gt;" d="M832.6,469.94H796.14a1.08,1.08,0,0,1-1.15-1V441.11a1.08,1.08,0,0,1,1.15-1H832.6a1.08,1.08,0,0,1,1.15,1v27.84A1.08,1.08,0,0,1,832.6,469.94Zm-35.31-2h34.16V442.11H797.29Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_35" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_36" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_21" data-name="&lt;Tracé&gt;" d="M807.79,439.49h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_37" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_22" data-name="&lt;Tracé&gt;" d="M807.79,437h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_38" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_23" data-name="&lt;Tracé&gt;" d="M807.57,434.5h-6.11a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_39" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_24" data-name="&lt;Tracé&gt;" d="M807.34,432h-5.66a1,1,0,1,1,0-2h5.66a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_40" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_41" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_25" data-name="&lt;Tracé&gt;" d="M827.51,439.49h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_42" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_26" data-name="&lt;Tracé&gt;" d="M827.51,437h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_43" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_27" data-name="&lt;Tracé&gt;" d="M827.28,434.5h-6.11a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_44" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_28" data-name="&lt;Tracé&gt;" d="M827.05,432H821.4a1,1,0,1,1,0-2h5.66a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_45" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_6" data-name="&lt;Tracé transparent&gt;" d="M837.68,473.75H791.06a1.08,1.08,0,0,1-1.15-1v-3.81a1.08,1.08,0,0,1,1.15-1h46.62a1.08,1.08,0,0,1,1.15,1v3.81A1.08,1.08,0,0,1,837.68,473.75Zm-45.48-2h44.33v-1.81H792.2Z" transform="translate(0.14)" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_46" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_47" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_29" data-name="&lt;Tracé&gt;" points="815.01 461.73 812.9 460.95 815.96 454.65 809.07 456.07 814.31 444.73 816.44 445.47 812.85 453.24 819.83 451.8 815.01 461.73" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_48" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_30" data-name="&lt;Tracé&gt;" points="812.81 463.71 810.81 459.78 812.9 458.97 813.96 461.06 816.67 459.97 817.63 461.79 812.81 463.71" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+    </g>
+    <rect x="989.83" y="208.84" width="254.42" height="78.68" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="1042.97" y="202.06" width="144.07" height="16.63" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(1054.72 216.27)" font-size="12.26" fill="#231f20" class="Name_Compteur">
+        <tspan x="0" y="0" id="DDR03___MZCB60___">Géneral TR6
+</tspan>
+    </text>
+    <rect x="123.37" y="209.65" width="505.27" height="171.85" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="176.34" y="203" width="105.79" height="18" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(201.29 217.22)" font-size="12.26" fill="#231f20" class="Name_Compteur">
+    <tspan x="0" y="0" id="DDR03___MZCB10___">Géneral TR1
+</tspan>
+      
+    </text>
+    <circle xmlns="http://www.w3.org/2000/svg" id="___MZCB10___TAINC" class="incident_Null" cx="68" cy="155" r="15.02" transform="translate(25 269.83) rotate(-86.5)" fill="#fff" stroke="#a6a8ab" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="94.37" y="424.49" width="254.42" height="78.68" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="160" y="420.78" width="110" height="16.63" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(161.43 432.05)" font-size="12.26" fill="#231f20" class="Name_Compteur">
+        <tspan x="0" y="0" id="DDR03___MZCB20___">Géneral TR2
+</tspan>
+    </text>
+    <circle xmlns="http://www.w3.org/2000/svg" id="___MZCB20___TAINC" class="incident_Null" cx="261.29" cy="428.07" r="16.35" transform="translate(-181.81 662.71) rotate(-86.5)" fill="#fff" stroke="#696229" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="274.58" y1="430.91" x2="377.91" y2="430.11" fill="#5e5e5e" stroke="#696229" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="642.16" y="207.85" width="254.42" height="78.68" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="695.29" y="204.13" width="120.84" height="12.92" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(709.23 215.41)" font-size="12.26" fill="#231f20" class="Name_Compteur">
+        <tspan x="0" y="0" id="DDR03___MZCB30___">Géneral TR3
+</tspan>
+    </text>
+    <circle xmlns="http://www.w3.org/2000/svg" id="___MZCB30___TAINC" class="incident_Null" cx="809.08" cy="211.43" r="16.35" transform="translate(548.74 1006.08) rotate(-86.5)" fill="#fff" stroke="#fded32" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="826.37" y1="214.26" x2="925.7" y2="213.47" fill="#fded32" stroke="#fded32" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="519.14" y="424.51" width="254.42" height="78.68" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="572.27" y="420.79" width="144.07" height="16.63" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(586.2 432.07)" font-size="12.26" fill="#231f20" class="Name_Compteur">
+        <tspan x="0" y="0" id="DDR03___MZCB50___">Géneral TR5
+</tspan>
+    </text>
+    <circle xmlns="http://www.w3.org/2000/svg" id="___MZCB50___TAINC" class="incident_Null" cx="686.06" cy="428.08" r="16.35" transform="translate(216.99 1086.7) rotate(-86.5)" fill="#fff" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="699.35" y1="430.92" x2="802.67" y2="430.13" fill="#ec0a71" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(1260.05 269.7) scale(2.34 1)" font-size="12.12" fill="#652d90" stroke="#662d91" stroke-miterlimit="10" font-family="Gotham-Book, Gotham" text-decoration="underline">TR6</text>
+    <g id="_Groupe_49" data-name="&lt;Groupe&gt;">
+        <g id="_Groupe_50" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_7" data-name="&lt;Tracé transparent&gt;" d="M1301.46,250H1265a1.08,1.08,0,0,1-1.15-1V221.17a1.08,1.08,0,0,1,1.15-1h36.46a1.08,1.08,0,0,1,1.15,1V249A1.08,1.08,0,0,1,1301.46,250Zm-35.31-2h34.16V222.17h-34.16Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_51" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_52" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_31" data-name="&lt;Tracé&gt;" d="M1276.66,219.55h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_53" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_32" data-name="&lt;Tracé&gt;" d="M1276.66,217.06h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_54" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_33" data-name="&lt;Tracé&gt;" d="M1276.43,214.56h-6.11a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_55" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_34" data-name="&lt;Tracé&gt;" d="M1276.2,212.07h-5.66a1,1,0,1,1,0-2h5.66a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_56" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_57" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_35" data-name="&lt;Tracé&gt;" d="M1296.38,219.55h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_58" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_36" data-name="&lt;Tracé&gt;" d="M1296.38,217.06h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_59" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_37" data-name="&lt;Tracé&gt;" d="M1296.15,214.56H1290a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_60" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_38" data-name="&lt;Tracé&gt;" d="M1295.92,212.07h-5.66a1,1,0,1,1,0-2h5.66a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_61" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_8" data-name="&lt;Tracé transparent&gt;" d="M1306.55,253.81h-46.62a1.08,1.08,0,0,1-1.15-1V249a1.08,1.08,0,0,1,1.15-1h46.62a1.08,1.08,0,0,1,1.15,1v3.81A1.08,1.08,0,0,1,1306.55,253.81Zm-45.48-2h44.33V250h-44.33Z" transform="translate(0.14)" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_62" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_63" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_39" data-name="&lt;Tracé&gt;" points="1283.88 241.79 1281.76 241.01 1284.83 234.71 1277.94 236.13 1283.18 224.79 1285.3 225.53 1281.72 233.3 1288.7 231.85 1283.88 241.79" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_64" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_40" data-name="&lt;Tracé&gt;" points="1281.67 243.77 1279.68 239.84 1281.77 239.03 1282.83 241.11 1285.54 240.03 1286.49 241.84 1281.67 243.77" fill="#652d90" stroke="#494949" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+    </g>
+    <circle xmlns="http://www.w3.org/2000/svg" id="___MZCB60___TAINC" class="incident_Null" cx="1152.67" cy="213.46" r="16.35" transform="translate(869.3 1350.93) rotate(-86.5)" fill="#fff" stroke="#662d91" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(1233.71 487.35) scale(2.34 1)" font-size="12.12" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" font-family="Gotham-Book, Gotham" text-decoration="underline">TR4</text>
+    <g id="_Groupe_65" data-name="&lt;Groupe&gt;">
+        <g id="_Groupe_66" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_9" data-name="&lt;Tracé transparent&gt;" d="M1276.26,469.69H1239.8a1.08,1.08,0,0,1-1.15-1V440.85a1.08,1.08,0,0,1,1.15-1h36.46a1.08,1.08,0,0,1,1.15,1v27.84A1.08,1.08,0,0,1,1276.26,469.69Zm-35.31-2h34.16V441.85H1241Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_67" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_68" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_41" data-name="&lt;Tracé&gt;" d="M1251.46,439.24h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_69" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_42" data-name="&lt;Tracé&gt;" d="M1251.46,436.74h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_70" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_43" data-name="&lt;Tracé&gt;" d="M1251.23,434.25h-6.11a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_71" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_44" data-name="&lt;Tracé&gt;" d="M1251,431.75h-5.66a1,1,0,1,1,0-2H1251a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_72" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_73" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_45" data-name="&lt;Tracé&gt;" d="M1271.18,439.24h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_74" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_46" data-name="&lt;Tracé&gt;" d="M1271.18,436.74h-6.57a1,1,0,1,1,0-2h6.57a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_75" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_47" data-name="&lt;Tracé&gt;" d="M1270.95,434.25h-6.11a1,1,0,1,1,0-2h6.11a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_76" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_48" data-name="&lt;Tracé&gt;" d="M1270.72,431.75h-5.66a1,1,0,1,1,0-2h5.66a1,1,0,1,1,0,2Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_77" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_10" data-name="&lt;Tracé transparent&gt;" d="M1281.34,473.49h-46.62a1.08,1.08,0,0,1-1.15-1v-3.81a1.08,1.08,0,0,1,1.15-1h46.62a1.08,1.08,0,0,1,1.15,1v3.81A1.08,1.08,0,0,1,1281.34,473.49Zm-45.48-2h44.33v-1.81h-44.33Z" transform="translate(0.14)" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_78" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_79" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_49" data-name="&lt;Tracé&gt;" points="1258.67 461.48 1256.56 460.7 1259.62 454.39 1252.73 455.82 1257.97 444.47 1260.1 445.22 1256.51 452.98 1263.49 451.54 1258.67 461.48" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_80" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_50" data-name="&lt;Tracé&gt;" points="1256.47 463.46 1254.47 459.52 1256.57 458.72 1257.63 460.8 1260.33 459.72 1261.29 461.53 1256.47 463.46" fill="#008a68" stroke="#008a68" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+    </g>
+    <rect x="963.83" y="422.44" width="254.42" height="78.68" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="1016.97" y="420.77" width="144.07" height="16.63" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(1030.9 434.09)" font-size="12.26" fill="#231f20" class="Name_Compteur">
+        <tspan x="0" y="0" id="DDR03___MZCB40___">Géneral TR4
+</tspan>
+    </text>
+    <circle xmlns="http://www.w3.org/2000/svg" id="___MZCB40___TAINC" class="incident_Null" cx="1127.69" cy="433.17" r="16.35" transform="translate(626.55 1532.28) rotate(-86.5)" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="1145.07" y1="431.92" x2="1248.39" y2="431.13" fill="#3bb991" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(113.82 454.05)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+     <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZCB20___KWh"/>
+    </text><text transform="translate(113.82 478.27)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+           <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZCB20___Part_KWh"/>
+    </text>
+    <circle cx="104.06" cy="449.77" r="4.37" fill="#666"/>
+    <circle cx="105.08" cy="474.28" r="4.37" fill="#666"/><text transform="translate(659.59 242.51)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan xmlns="http://www.w3.org/2000/svg" x="0" y="0">Consommation</tspan>
+<tspan x="80" y="0" class="data" id="___MZCB30___KWh"/>
+    </text><text transform="translate(659.59 266.72)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+           <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZCB30___Part_KWh"/>
+    </text>
+    <circle cx="649.83" cy="238.23" r="4.37" fill="#666"/>
+    <circle cx="650.85" cy="262.74" r="4.37" fill="#666"/><text transform="translate(536.59 458.69)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZCB50___KWh"/>
+    </text><text transform="translate(536.59 482.9)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+           <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZCB50___Part_KWh"/>
+    </text>
+    <circle cx="526.83" cy="454.41" r="4.37" fill="#666"/>
+    <circle cx="527.85" cy="478.92" r="4.37" fill="#666"/><text transform="translate(1008.71 241.94)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZCB60___KWh"/>
+    </text><text transform="translate(1008.71 266.16)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+           <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZCB60___Part_KWh"/>
+    </text>
+    <circle cx="998.95" cy="237.67" r="4.37" fill="#666"/>
+    <circle cx="999.97" cy="262.18" r="4.37" fill="#666"/><text transform="translate(982.58 458.67)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+         <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZCB40___KWh"/>
+    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(982.58 482.89)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+       <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZCB40___Part_KWh"/>
+    </text>
+    <circle cx="972.81" cy="454.39" r="4.37" fill="#666"/>
+    <circle cx="973.84" cy="478.9" r="4.37" fill="#666"/>
+    <rect y="289.99" width="13.14" height="71.01" fill="#fff"/>
+    <rect x="1216.45" y="308.55" width="132.35" height="15.27" fill="#fff"/>
+    <rect x="29.14" y="122" width="1283" height="423.5" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="81.21" y="143.1" width="242.27" height="46.65" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(97.97 159.13)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Consommation</tspan><tspan xmlns="http://www.w3.org/2000/svg" x="80" y="0" class="data" id="___MZCB01___KWh"/>
+    </text><text transform="translate(99.97 181.38)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+           <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZCB01___Part_KWh"/>
+    </text>
+    <circle cx="91.01" cy="155.2" r="4.02" fill="#666"/>
+    <circle cx="91.94" cy="177.71" r="4.02" fill="#666"/>
+    <rect x="168.14" y="117.72" width="95" height="8.28" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(173.13 126.18)" font-size="13" fill="#231f20" class="Name_Compteur">
+        <tspan id="DDR03___MZCB01___">Post_Transfo
+
+</tspan>
+    </text>
+    <circle xmlns="http://www.w3.org/2000/svg" id="___MZCB01___TAINC" class="incident_Null" cx="155.47" cy="122.11" r="15.02" transform="translate(24.22 269.83) rotate(-86.5)" fill="#fff" stroke="#a6a8ab" stroke-miterlimit="10" stroke-width="3"/>
+    <circle cx="30.14" cy="165" r="11.5" fill="#fff" stroke="#000" stroke-miterlimit="10" stroke-width="3" id="DDR08______"/><text transform="translate(23.14 175)" font-size="30" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR08______">-</text>
+    <rect x="129.19" y="233.1" width="241.56" height="46.65" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/><text transform="translate(145.91 249.13)" font-size="12.12" fill="#231f20">
+         <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZCB10___37"/>
+    </text>
+    <ellipse cx="138.96" cy="245.2" rx="4.01" ry="4.02" fill="#666"/>
+    <ellipse cx="139.9" cy="267.71" rx="4.01" ry="4.02" fill="#666"/>
+    <rect x="131.19" y="311.1" width="241.56" height="53.4" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/><text transform="translate(147.9 336.13)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+       <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZCB11___KWh"/>
+    </text><text transform="translate(149.9 358.38)" font-size="11" fill="#231f20" font-family="Gotham-Medium, Gotham">
+           <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZCB11___Part_KWh"/>
+    </text>
+    <ellipse cx="140.95" cy="332.2" rx="4.01" ry="4.02" fill="#666"/>
+    <ellipse cx="141.89" cy="354.71" rx="4.01" ry="4.02" fill="#666"/>
+    <ellipse xmlns="http://www.w3.org/2000/svg" id="___MZCB11___TAINC" class="incident_Null" cx="150.71" cy="308.02" rx="13.68" ry="13.64" transform="translate(-165.83 439.57) rotate(-86.49)" fill="#fff" stroke="blue" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="382.45" y="309.1" width="241.56" height="53.4" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/><text transform="translate(399.16 334.13)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+         <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZCB12___KWh"/>
+    </text><text transform="translate(401.16 356.38)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+          <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZCB12___Part_KWh"/>
+    </text>
+    <ellipse cx="392.22" cy="330.2" rx="4.01" ry="4.02" fill="#666"/>
+    <ellipse cx="393.15" cy="352.71" rx="4.01" ry="4.02" fill="#666"/>
+    <ellipse xmlns="http://www.w3.org/2000/svg" class="incident_Null" id="___MZCB12___TAINC" cx="401.98" cy="306.02" rx="13.68" ry="13.64" transform="translate(72.03 688.48) rotate(-86.49)" fill="#fff" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="3"/>
+    <rect x="166.14" y="303" width="100" height="17" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(169.38 314.22)" font-size="12.26" fill="#231f20" class="Name_Compteur">
+        <tspan x="0" y="0" id="DDR03___MZCB11___">Géneral TR1-1
+</tspan>
+    </text>
+    <rect x="418.63" y="300" width="100" height="14" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(424.63 311.22)" font-size="12.26" fill="#231f20" class="Name_Compteur">
+        <tspan x="0" y="0" id="DDR03___MZCB12___">Géneral TR1-2
+</tspan>
+    </text><text transform="translate(650.68 336.09) scale(2.34 1)" font-size="7.26" fill="#00adee" stroke="#60c7d7" stroke-miterlimit="10" font-family="Gotham-Book, Gotham" text-decoration="underline">TR1-2</text>
+    <g id="_Groupe_81" data-name="&lt;Groupe&gt;">
+        <g id="_Groupe_82" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_11" data-name="&lt;Tracé transparent&gt;" d="M686.89,323.24H661a.77.77,0,0,1-.81-.71V302.75A.77.77,0,0,1,661,302h25.91a.77.77,0,0,1,.81.71v19.79A.77.77,0,0,1,686.89,323.24Zm-25.1-1.42h24.28V303.46H661.8Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_83" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_84" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_51" data-name="&lt;Tracé&gt;" d="M669.27,301.6h-4.67a.72.72,0,1,1,0-1.42h4.67a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_85" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_52" data-name="&lt;Tracé&gt;" d="M669.27,299.83h-4.67a.72.72,0,1,1,0-1.42h4.67a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_86" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_53" data-name="&lt;Tracé&gt;" d="M669.1,298.05h-4.35a.72.72,0,1,1,0-1.42h4.35a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_87" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_54" data-name="&lt;Tracé&gt;" d="M668.94,296.28h-4a.72.72,0,1,1,0-1.42h4a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_88" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_89" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_55" data-name="&lt;Tracé&gt;" d="M683.28,301.6h-4.67a.72.72,0,1,1,0-1.42h4.67a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_90" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_56" data-name="&lt;Tracé&gt;" d="M683.28,299.83h-4.67a.72.72,0,1,1,0-1.42h4.67a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_91" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_57" data-name="&lt;Tracé&gt;" d="M683.12,298.05h-4.35a.72.72,0,1,1,0-1.42h4.35a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_92" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_58" data-name="&lt;Tracé&gt;" d="M683,296.28h-4a.72.72,0,1,1,0-1.42h4a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_93" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_12" data-name="&lt;Tracé transparent&gt;" d="M690.51,325.95H657.37a.77.77,0,0,1-.81-.71v-2.7a.77.77,0,0,1,.81-.71h33.14a.77.77,0,0,1,.81.71v2.7A.77.77,0,0,1,690.51,325.95Zm-32.32-1.42h31.51v-1.29H658.18Z" transform="translate(0.14)" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_94" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_95" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_59" data-name="&lt;Tracé&gt;" points="674.43 317.41 672.93 316.85 675.11 312.37 670.21 313.38 673.93 305.32 675.45 305.85 672.9 311.37 677.86 310.34 674.43 317.41" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_96" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_60" data-name="&lt;Tracé&gt;" points="672.87 318.82 671.45 316.02 672.94 315.44 673.69 316.93 675.61 316.16 676.29 317.44 672.87 318.82" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+    </g>
+    
+    <g id="_Groupe_97" data-name="&lt;Groupe&gt;">
+        <g id="_Groupe_98" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_13" data-name="&lt;Tracé transparent&gt;" d="M97.89,326.24H72a.77.77,0,0,1-.81-.71V305.75A.77.77,0,0,1,72,305H97.89a.77.77,0,0,1,.81.71v19.79A.77.77,0,0,1,97.89,326.24Zm-25.1-1.42H97.08V306.46H72.8Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_99" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_100" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_61" data-name="&lt;Tracé&gt;" d="M80.27,304.6H75.59a.72.72,0,1,1,0-1.42h4.67a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_101" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_62" data-name="&lt;Tracé&gt;" d="M80.27,302.83H75.59a.72.72,0,1,1,0-1.42h4.67a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_102" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_63" data-name="&lt;Tracé&gt;" d="M80.1,301.05H75.76a.72.72,0,1,1,0-1.42H80.1a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_103" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_64" data-name="&lt;Tracé&gt;" d="M79.94,299.28h-4a.72.72,0,1,1,0-1.42h4a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_104" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_105" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_65" data-name="&lt;Tracé&gt;" d="M94.28,304.6H89.61a.72.72,0,1,1,0-1.42h4.67a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_106" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_66" data-name="&lt;Tracé&gt;" d="M94.28,302.83H89.61a.72.72,0,1,1,0-1.42h4.67a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_107" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_67" data-name="&lt;Tracé&gt;" d="M94.12,301.05H89.77a.72.72,0,1,1,0-1.42h4.35a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_108" data-name="&lt;Groupe&gt;">
+                <path id="_Tracé_68" data-name="&lt;Tracé&gt;" d="M94,299.28h-4a.72.72,0,1,1,0-1.42h4a.72.72,0,1,1,0,1.42Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+        <g id="_Groupe_109" data-name="&lt;Groupe&gt;">
+            <path id="_Tracé_transparent_14" data-name="&lt;Tracé transparent&gt;" d="M101.51,328.95H68.37a.77.77,0,0,1-.81-.71v-2.7a.77.77,0,0,1,.81-.71h33.14a.77.77,0,0,1,.81.71v2.7A.77.77,0,0,1,101.51,328.95Zm-32.32-1.42h31.51v-1.29H69.18Z" transform="translate(0.14)" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+        </g>
+        <g id="_Groupe_110" data-name="&lt;Groupe&gt;">
+            <g id="_Groupe_111" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_69" data-name="&lt;Tracé&gt;" points="85.43 320.41 83.93 319.85 86.11 315.37 81.21 316.38 84.93 308.32 86.45 308.85 83.9 314.37 88.86 313.34 85.43 320.41" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+            <g id="_Groupe_112" data-name="&lt;Groupe&gt;">
+                <polygon id="_Tracé_70" data-name="&lt;Tracé&gt;" points="83.87 321.82 82.45 319.02 83.94 318.44 84.69 319.93 86.61 319.16 87.29 320.44 83.87 321.82" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="0"/>
+            </g>
+        </g>
+    </g>
+    <text transform="translate(60.68 339.09) scale(2.34 1)" font-size="7.26" fill="blue" stroke="blue" stroke-miterlimit="10" font-family="Gotham-Book, Gotham" text-decoration="underline">
+      <tspan x="0" y="0">TR1-1</tspan>
+    </text>
+    <line x1="413.37" y1="296.26" x2="683.7" y2="295.47" fill="#5fc8d9" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="94.64" y1="299.5" x2="139.64" y2="299.5" fill="none" stroke="blue" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="1168.64" y1="214.5" x2="1270.64" y2="214.5" fill="none" stroke="#662d91" stroke-miterlimit="10" stroke-width="3"/>
+</svg>

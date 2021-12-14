@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 1347.74 648.9"  class="style_svg" >
+    <title>Web Synoptique Eau Co-ProduuitV2</title>
+    <style type="text/css">
+    .incident_True{
+    fill: red;
+  }
+    .incident_False{
+    fill: green;
+  }
+    .incident_Null{
+    fill: white;
+
+  }
+      .data{
+    stroke: rgb(0, 88, 94) ;
+    stroke-width: 0.5;
+  }
+</style>
+    <rect id="reportCode" dl="DDR02" zpm="" next="" prev="DDR013"/>
+    <text x="-1.26" y="-0.23"/>
+    <path d="M130.68,628.49H83a3.67,3.67,0,0,1-3.67-3.67V577.16A3.67,3.67,0,0,1,83,573.49h47.67a3.67,3.67,0,0,1,3.67,3.67v47.67A3.67,3.67,0,0,1,130.68,628.49Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#dabb27" stroke-miterlimit="10"/>
+    <g opacity="0.2">
+        <path d="M130.68,574.87a2.29,2.29,0,0,1,2.29,2.29v47.67a2.29,2.29,0,0,1-2.29,2.29H83a2.29,2.29,0,0,1-2.29-2.29V577.16A2.29,2.29,0,0,1,83,574.87h47.67m0-1.37H83a3.67,3.67,0,0,0-3.67,3.67v47.67A3.67,3.67,0,0,0,83,628.49h47.67a3.67,3.67,0,0,0,3.67-3.67V577.16a3.67,3.67,0,0,0-3.67-3.67Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#dabb27" stroke-miterlimit="10"/>
+    </g>
+    <g opacity="0.2">
+        <path d="M113.72,579a1.37,1.37,0,0,1,1.38,1.38h0a.45.45,0,0,0,.45.45h4.13l.5-.26a.91.91,0,0,1,1.33.82v2.53a.92.92,0,0,1-.92.92.93.93,0,0,1-.4-.1l-.51-.24h-4.12a.46.46,0,0,0-.46.46v1.91a7.34,7.34,0,0,1,3.35,3.54.9.9,0,0,0,.83.52h5a.92.92,0,0,0,.92-.92v-.37a1.84,1.84,0,0,1,1-1.64l1.32-.66a.89.89,0,0,1,.41-.1.92.92,0,0,1,.92.92v11.7a.92.92,0,0,1-.92.92.93.93,0,0,1-.41-.1l-1.32-.66a1.83,1.83,0,0,1-1-1.64v-1a.92.92,0,0,0-.92-.92h-4.72a.91.91,0,0,0-.85.59A6.59,6.59,0,0,1,106,597a.92.92,0,0,0-.86-.59h-3.73a3.75,3.75,0,0,0-3.74,3.74v1.3a1.37,1.37,0,0,1-1.37,1.38H93.55a1.37,1.37,0,0,1-1.37-1.37v-1.3a9.24,9.24,0,0,1,9.24-9.24h4a.9.9,0,0,0,.82-.52,7.34,7.34,0,0,1,3.35-3.54v-1.91a.46.46,0,0,0-.46-.46H105l-.51.25a.93.93,0,0,1-.4.1.92.92,0,0,1-.92-.92V581.4a.92.92,0,0,1,.92-.92.9.9,0,0,1,.41.1l.5.26h4.13a.45.45,0,0,0,.45-.45h0A1.37,1.37,0,0,1,111,579h2.75m0-1.38H111a2.76,2.76,0,0,0-2.59,1.83h-3.07l-.18-.09a2.27,2.27,0,0,0-1-.25,2.29,2.29,0,0,0-1.59.65,2.26,2.26,0,0,0-.7,1.65v2.53a2.29,2.29,0,0,0,2.29,2.29,2.24,2.24,0,0,0,1-.24l.25-.12h2.86v.19a8.78,8.78,0,0,0-3.08,3.48h-3.71A10.64,10.64,0,0,0,90.8,600.15v1.3a2.75,2.75,0,0,0,2.75,2.75H96.3a2.75,2.75,0,0,0,2.75-2.75v-1.3a2.37,2.37,0,0,1,2.37-2.37h3.41a7.94,7.94,0,0,0,15,0h3.95v.58a3.19,3.19,0,0,0,1.77,2.87l1.32.66a2.29,2.29,0,0,0,3.32-2V588.14a2.29,2.29,0,0,0-3.32-2l-1.32.66a3.19,3.19,0,0,0-1.77,2.78h-4.25a8.78,8.78,0,0,0-3.08-3.48v-.19h2.86l.25.12a2.29,2.29,0,0,0,3.3-2.05V581.4a2.29,2.29,0,0,0-2.29-2.29,2.33,2.33,0,0,0-1,.25l-.18.09h-3.07a2.76,2.76,0,0,0-2.59-1.83Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#dabb27" stroke-miterlimit="10"/>
+        <path d="M104.31,604.2a1.15,1.15,0,0,1,1.13,1.39l-3.35,15.07A3,3,0,0,1,99.18,623H91.13a3,3,0,0,1-2.91-2.33l-3.35-15.07A1.15,1.15,0,0,1,86,604.2a1.59,1.59,0,0,1,.83.26.46.46,0,0,1,.2.28l.46,2.08a.46.46,0,0,0,.45.36h14.44a.47.47,0,0,0,.45-.36l.46-2.08a.45.45,0,0,1,.2-.28,1.5,1.5,0,0,1,.82-.26m-14.9,9.63h11.48a.47.47,0,0,0,.45-.36l.77-3.44a.46.46,0,0,0-.45-.56h-13a.46.46,0,0,0-.45.56l.77,3.44a.46.46,0,0,0,.44.36m14.9-11a3,3,0,0,0-1.54.46,1.82,1.82,0,0,0-.82,1.16l-.3,1.36h-13l-.3-1.36a1.82,1.82,0,0,0-.82-1.16,3,3,0,0,0-1.54-.46,2.52,2.52,0,0,0-2.47,3.07L86.88,621a4.33,4.33,0,0,0,4.25,3.41h8.06a4.32,4.32,0,0,0,4.25-3.41l3.35-15.07a2.53,2.53,0,0,0-2.47-3.07Zm-14.52,8h10.72l-.36,1.6h-10l-.36-1.6Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#dabb27" stroke-miterlimit="10"/>
+    </g>
+    <path d="M127.52,587.32l-1.32.66a1.83,1.83,0,0,0-1,1.64V590a.92.92,0,0,1-.92.92h-5a.9.9,0,0,1-.83-.52,7.34,7.34,0,0,0-3.35-3.54v-1.91a.46.46,0,0,1,.46-.46h4.13l.51.25a.92.92,0,0,0,1.32-.82V581.4a.92.92,0,0,0-1.33-.82l-.5.26h-4.13a.46.46,0,0,1-.45-.46h0a1.37,1.37,0,0,0-1.37-1.37H111a1.37,1.37,0,0,0-1.37,1.38h0a.45.45,0,0,1-.45.45H105l-.5-.26a.92.92,0,0,0-1.33.82v2.53a.91.91,0,0,0,1.32.82l.51-.25h4.13a.46.46,0,0,1,.46.46v1.91a7.34,7.34,0,0,0-3.35,3.54.9.9,0,0,1-.82.52h-4a9.24,9.24,0,0,0-9.24,9.24v1.3a1.37,1.37,0,0,0,1.38,1.38H96.3a1.37,1.37,0,0,0,1.38-1.37v-1.3a3.75,3.75,0,0,1,3.74-3.74h3.73a.91.91,0,0,1,.85.59,6.59,6.59,0,0,0,12.68,0,.92.92,0,0,1,.86-.59h4.72a.92.92,0,0,1,.92.92v1a1.84,1.84,0,0,0,1,1.64l1.32.66a.92.92,0,0,0,1.32-.82V588.14A.91.91,0,0,0,127.52,587.32Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#dabb27" stroke-miterlimit="10"/>
+    <path d="M103.48,604.45a.46.46,0,0,0-.2.28l-.46,2.08a.46.46,0,0,1-.45.36H87.93a.47.47,0,0,1-.45-.36L87,604.74a.45.45,0,0,0-.2-.28,1.2,1.2,0,0,0-2,1.14l3.35,15.07A3,3,0,0,0,91.12,623h8.06a3,3,0,0,0,2.91-2.33l3.35-15.07A1.2,1.2,0,0,0,103.48,604.45Zm-14.83,5h13a.46.46,0,0,1,.45.56l-.77,3.44a.46.46,0,0,1-.44.36H89.41a.47.47,0,0,1-.45-.36L88.2,610A.46.46,0,0,1,88.65,609.47Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#dabb27" stroke-miterlimit="10"/>
+    <path d="M127.34,63.71H79.67A3.67,3.67,0,0,1,76,60V12.37a3.67,3.67,0,0,1,3.67-3.67h47.67A3.67,3.67,0,0,1,131,12.37V60A3.67,3.67,0,0,1,127.34,63.71Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#00aa91" stroke-miterlimit="10"/>
+    <g opacity="0.2">
+        <path d="M127.34,10.08a2.29,2.29,0,0,1,2.29,2.29V60a2.29,2.29,0,0,1-2.29,2.29H79.67A2.29,2.29,0,0,1,77.38,60V12.37a2.29,2.29,0,0,1,2.29-2.29h47.67m0-1.37H79.67A3.67,3.67,0,0,0,76,12.37V60a3.67,3.67,0,0,0,3.67,3.67h47.67A3.67,3.67,0,0,0,131,60V12.37a3.67,3.67,0,0,0-3.67-3.67Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#00aa91" stroke-miterlimit="10"/>
+    </g>
+    <g opacity="0.2">
+        <path d="M110.38,14.21a1.37,1.37,0,0,1,1.38,1.38h0a.45.45,0,0,0,.45.45h4.13l.5-.26a.91.91,0,0,1,1.33.82v2.53a.92.92,0,0,1-.92.92.93.93,0,0,1-.4-.1l-.51-.24h-4.12a.46.46,0,0,0-.46.46v1.91a7.34,7.34,0,0,1,3.35,3.54.9.9,0,0,0,.83.52h5a.92.92,0,0,0,.92-.92v-.37a1.84,1.84,0,0,1,1-1.64l1.32-.66a.89.89,0,0,1,.41-.1.92.92,0,0,1,.92.92v11.7a.92.92,0,0,1-.92.92.93.93,0,0,1-.41-.1l-1.32-.66a1.83,1.83,0,0,1-1-1.64v-1a.92.92,0,0,0-.92-.92H116.2a.91.91,0,0,0-.85.59,6.59,6.59,0,0,1-12.68,0,.92.92,0,0,0-.86-.59H98.08a3.75,3.75,0,0,0-3.74,3.74v1.3A1.37,1.37,0,0,1,93,38H90.21a1.37,1.37,0,0,1-1.37-1.37v-1.3a9.24,9.24,0,0,1,9.24-9.24h4a.9.9,0,0,0,.82-.52,7.34,7.34,0,0,1,3.35-3.54V20.16a.46.46,0,0,0-.46-.46h-4.12l-.51.25a.93.93,0,0,1-.4.1.92.92,0,0,1-.92-.92V16.61a.92.92,0,0,1,.92-.92.9.9,0,0,1,.41.1l.5.26h4.13a.45.45,0,0,0,.45-.45h0a1.37,1.37,0,0,1,1.38-1.37h2.75m0-1.38h-2.75A2.76,2.76,0,0,0,105,14.66H102l-.18-.09a2.27,2.27,0,0,0-1-.25,2.29,2.29,0,0,0-1.59.65,2.26,2.26,0,0,0-.7,1.65v2.53a2.29,2.29,0,0,0,2.29,2.29,2.24,2.24,0,0,0,1-.24l.25-.12h2.86v.19a8.78,8.78,0,0,0-3.08,3.48H98.08A10.64,10.64,0,0,0,87.46,35.37v1.3a2.75,2.75,0,0,0,2.75,2.75H93a2.75,2.75,0,0,0,2.75-2.75v-1.3A2.37,2.37,0,0,1,98.08,33h3.41a7.94,7.94,0,0,0,15,0h3.95v.58a3.19,3.19,0,0,0,1.77,2.87l1.32.66a2.29,2.29,0,0,0,3.32-2V23.36a2.29,2.29,0,0,0-3.32-2l-1.32.66a3.19,3.19,0,0,0-1.77,2.78h-4.25a8.78,8.78,0,0,0-3.08-3.48v-.19H116l.25.12a2.29,2.29,0,0,0,3.3-2.05V16.61a2.29,2.29,0,0,0-2.29-2.29,2.33,2.33,0,0,0-1,.25l-.18.09H113a2.76,2.76,0,0,0-2.59-1.83Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#00aa91" stroke-miterlimit="10"/>
+        <path d="M101,39.42a1.15,1.15,0,0,1,1.13,1.39L98.76,55.87a3,3,0,0,1-2.91,2.33H87.79a3,3,0,0,1-2.91-2.33L81.53,40.81a1.15,1.15,0,0,1,1.13-1.39,1.59,1.59,0,0,1,.83.26.46.46,0,0,1,.2.28L84.15,42a.46.46,0,0,0,.45.36H99a.47.47,0,0,0,.45-.36L100,40a.45.45,0,0,1,.2-.28,1.5,1.5,0,0,1,.82-.26M86.07,49H97.56a.47.47,0,0,0,.45-.36l.77-3.44a.46.46,0,0,0-.45-.56h-13a.46.46,0,0,0-.45.56l.77,3.44a.46.46,0,0,0,.44.36M101,38a3,3,0,0,0-1.54.46,1.82,1.82,0,0,0-.82,1.16L98.3,41h-13L85,39.66a1.82,1.82,0,0,0-.82-1.16A3,3,0,0,0,82.67,38a2.52,2.52,0,0,0-2.47,3.07l3.35,15.07a4.33,4.33,0,0,0,4.25,3.41h8.06a4.32,4.32,0,0,0,4.25-3.41l3.35-15.07A2.53,2.53,0,0,0,101,38Zm-14.52,8H97.18l-.36,1.6h-10l-.36-1.6Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#00aa91" stroke-miterlimit="10"/>
+    </g>
+    <path d="M124.18,22.53l-1.32.66a1.83,1.83,0,0,0-1,1.64v.37a.92.92,0,0,1-.92.92h-5a.9.9,0,0,1-.83-.52,7.34,7.34,0,0,0-3.35-3.54V20.16a.46.46,0,0,1,.46-.46h4.13l.51.25a.92.92,0,0,0,1.32-.82V16.61a.92.92,0,0,0-1.33-.82l-.5.26h-4.13a.46.46,0,0,1-.45-.46h0a1.37,1.37,0,0,0-1.37-1.37h-2.75a1.37,1.37,0,0,0-1.37,1.38h0a.45.45,0,0,1-.45.45h-4.13l-.5-.26a.92.92,0,0,0-1.33.82v2.53a.91.91,0,0,0,1.32.82l.51-.25h4.13a.46.46,0,0,1,.46.46v1.91a7.34,7.34,0,0,0-3.35,3.54.9.9,0,0,1-.82.52h-4a9.24,9.24,0,0,0-9.24,9.24v1.3A1.37,1.37,0,0,0,90.21,38H93a1.37,1.37,0,0,0,1.38-1.37v-1.3a3.75,3.75,0,0,1,3.74-3.74h3.73a.91.91,0,0,1,.85.59,6.59,6.59,0,0,0,12.68,0,.92.92,0,0,1,.86-.59h4.72a.92.92,0,0,1,.92.92v1a1.84,1.84,0,0,0,1,1.64l1.32.66a.92.92,0,0,0,1.32-.82V23.36A.91.91,0,0,0,124.18,22.53Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#00aa91" stroke-miterlimit="10"/>
+    <path d="M100.14,39.67a.46.46,0,0,0-.2.28L99.48,42a.46.46,0,0,1-.45.36H84.59a.47.47,0,0,1-.45-.36L83.68,40a.45.45,0,0,0-.2-.28,1.2,1.2,0,0,0-2,1.14l3.35,15.07a3,3,0,0,0,2.91,2.33h8.06a3,3,0,0,0,2.91-2.33l3.35-15.07A1.2,1.2,0,0,0,100.14,39.67Zm-14.83,5h13a.46.46,0,0,1,.45.56L98,48.68a.46.46,0,0,1-.44.36H86.07a.47.47,0,0,1-.45-.36l-.77-3.44A.46.46,0,0,1,85.31,44.69Z" transform="translate(-1.26 -0.23)" fill="none" stroke="#00aa91" stroke-miterlimit="10"/>
+    <rect x="379.48" y="24.77" width="855.26" height="610" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="672.74" y="56.77" width="553" height="561" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="730" y="49" width="175" height="14.77" fill="#fff"/><text transform="translate(740 62.04)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0" id="DDR02___MZB110___">Général Process Eau Brute</tspan>
+
+    </text>
+    <rect x="403.5" y="141.27" width="249" height="77" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="450" y="211" width="95" height="14.77" fill="#fff"/><text transform="translate(460 220.04)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham" id="DDR02___MZB121___">HP Eau Brute</text>
+    <rect x="403.5" y="234.27" width="249" height="77" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="450" y="300" width="125" height="16.27" fill="#fff"/><text transform="translate(460 310.04)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0" id="DDR02___MZB122___">Vestiére Eau Brute</tspan>
+    </text>
+    <rect x="396" y="57.77" width="271" height="442" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="450" y="47.77" width="150" height="16" fill="#fff"/><text transform="translate(460 60.04)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0" id="DDR02___MZB120___">Facilité Cop Eau Brute</tspan>
+    
+    </text>
+    <circle cx="440" cy="54.27" r="15.5" fill="#fff" stroke="#939598" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZB120___TAINC"/>
+    <circle cx="440" cy="209.27" r="15.5" fill="none" stroke="#00aa91" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZB121___TAINC"/>
+    <circle cx="440" cy="300.27" r="15.5" fill="#fff" stroke="#00aa91" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZB122___TAINC"/>
+    <rect x="968.24" y="141.27" width="249" height="77" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="1010" y="204.99" width="115" height="16.77" fill="#fff"/><text transform="translate(1020 219.03)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+    
+        <tspan x="0" y="0" id="DDR02___MZB111___">SANG Eau Brute</tspan>
+    </text>
+    <rect x="681.24" y="141.27" width="249" height="77" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="730" y="206.99" width="130" height="16.27" fill="#fff"/><text transform="translate(740 219.03)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham" id="DDR02___MZB112___">VIANDE Eau Brute</text>
+    <circle cx="1000" cy="209.27" r="15.5" fill="none" stroke="#00aa91" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZB111___TAINC"/>
+    <circle cx="720" cy="54.27" r="15.5" fill="none" stroke="#939598" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZB110___TAINC"/>
+    <rect x="679.74" y="249.77" width="271" height="272" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="684.24" y="330.27" width="249" height="77" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="730" y="395.99" width="141" height="16.27" fill="#fff"/><text transform="translate(740 407.03)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham"><tspan x="8.02" y="0" letter-spacing="-0.02em"/>
+         <tspan x="0" y="0" id="DDR02___MZO11A___">PLUME1 Eau Osmosé</tspan>
+    </text>
+    <rect x="684.24" y="429.27" width="249" height="77" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="730" y="494.99" width="141" height="16.27" fill="#fff"/><text transform="translate(740 506.03)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham"> 
+        <tspan x="0" y="0" id="DDR02___MZO11B___">PLUME2 Eau Osmosé</tspan>
+    </text>
+    <rect x="730" y="245.99" width="185" height="16.27" fill="#fff"/><text transform="translate(740 255.03)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+         <tspan x="0" y="0" id="DDR02___MZO113___">Géneral Eau Osmosé PLUME </tspan>
+    </text>
+    <circle cx="720" cy="397.77" r="15.5" fill="none" stroke="#dabb27" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZO11A___TAINC"/>
+    <circle cx="720" cy="495.77" r="15.5" fill="none" stroke="#dabb27" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZO11B___TAINC"/>
+    <circle cx="720" cy="250.77" r="15.5" fill="none" stroke="#939598" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZO113___TAINC"/>
+    <rect x="968.24" y="429.27" width="249" height="77" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="1010" y="494.99" width="140" height="13.77" fill="#fff"/><text transform="translate(1020 506.03)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham" id="DDR02___MZO112___">VIANDE Eau Osmosé</text>
+    <circle cx="1000" cy="496.77" r="15.5" fill="none" stroke="#dabb27" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZO112___TAINC"/>
+    <rect x="968.24" y="330.27" width="249" height="77" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="1010" y="391.99" width="125" height="16.77" fill="#fff"/><text transform="translate(1020 407.03)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+   
+         <tspan x="0" y="0" id="DDR02___MZO111___">SANG Eau Osmosé</tspan>
+    </text>
+    <circle cx="1000" cy="396.77" r="15.5" fill="none" stroke="#dabb27" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZO111___TAINC"/>
+    <rect x="403.24" y="329.27" width="249" height="77" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="450" y="395.99" width="141" height="16.27" fill="#fff"/><text transform="translate(460 407.03)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0" id="DDR02___MZO121___">Vestiére Eau Osmosé</tspan>
+    </text>
+    <circle cx="440" cy="397.77" r="15.5" fill="none" stroke="#dabb27" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZO121___TAINC"/>
+    <line x1="91.24" y1="63.77" x2="91.24" y2="317.77" fill="none" stroke="#00aa91" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="91.24" y1="315.77" x2="440" y2="315.77" fill="none" stroke="#00aa91" stroke-miterlimit="10" stroke-width="3"/>
+    <circle cx="720" cy="209.27" r="15.5" fill="#fff" stroke="#00aa91" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZB112___TAINC"/>
+    <line x1="92.24" y1="225.77" x2="1000.74" y2="225.77" fill="none" stroke="#00aa91" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="93.24" y1="412.77" x2="93.24" y2="572.77" fill="none" stroke="#dabb27" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="1000" y1="512.77" x2="92.74" y2="512.77" fill="none" stroke="#dabb27" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="1000" y1="413.77" x2="92.74" y2="413.77" fill="none" stroke="#dabb27" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(12.74 565.77)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">Eau Osmosé</text><text transform="translate(426.89 163.85)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+   <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZB121___m3Eau"/>
+    </text><text transform="translate(426.89 185.55)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZB121___Part_m3Eau"/>
+    </text>
+    <circle cx="414.74" cy="159.97" r="4.28" fill="#6d6e71"/>
+    <circle cx="414.74" cy="181.05" r="4.28" fill="#6d6e71"/><text transform="translate(991.89 162.85)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+       <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZB111___m3Eau"/>
+    </text><text transform="translate(991.89 185.55)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZB111___Part_m3Eau"/>
+    </text>
+    <circle cx="979.74" cy="159.97" r="4.28" fill="#6d6e71"/>
+    <circle cx="979.74" cy="181.05" r="4.28" fill="#6d6e71"/><text transform="translate(704.89 162.85)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+
+        <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZB112___m3Eau"/>
+    </text><text transform="translate(703.89 185.55)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZB112___Part_m3Eau"/>
+    </text>
+    <circle cx="690.74" cy="159.97" r="4.28" fill="#6d6e71"/>
+    <circle cx="690.74" cy="182.05" r="4.28" fill="#6d6e71"/><text transform="translate(426.89 259.42)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+       <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZB122___m3Eau"/>
+    </text><text transform="translate(426.89 282.55)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZB122___Part_m3Eau"/>
+    </text>
+    <circle cx="414.74" cy="256.06" r="4.28" fill="#6d6e71"/>
+    <circle cx="414.74" cy="279.05" r="4.28" fill="#6d6e71"/>
+    <rect x="404.24" y="73.27" width="257.5" height="53.5" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(426.63 95.42)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+    
+        <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZB120___m3Eau"/>
+    </text>
+    <circle cx="414.48" cy="116.06" r="4.28" fill="#6d6e71"/><text transform="translate(426.63 116.54)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZB120___Part_m3Eau"/>
+    </text>
+    <circle cx="414.74" cy="92.77" r="4.28" fill="#6d6e71"/>
+    <rect x="143.24" y="45.27" width="221.5" height="65.5" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(166.63 73.42)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+
+        <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZB100___m3Eau"/>
+    </text>
+    <circle cx="154.48" cy="70.06" r="4.28" fill="#6d6e71"/>
+    <rect x="185" y="40.2" width="130" height="13.57" fill="#fff"/><text transform="translate(188 51.33)" font-size="13.56" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0" id="DDR02___MZB100___">Géneral Eau Brute</tspan>
+    </text>
+    <circle cx="170" cy="45.27" r="15.5" fill="none" stroke="#939598" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZB100___TAINC"/><text transform="translate(168.63 97.54)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZB100___Part_m3Eau"/>
+    </text>
+    <circle cx="155.48" cy="94.04" r="4.28" fill="#6d6e71"/>
+    <rect x="682.24" y="75.27" width="257.5" height="53.5" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(705.63 96.42)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+       <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZB110___m3Eau"/>
+    </text>
+    <circle cx="693.48" cy="92.06" r="4.28" fill="#6d6e71"/><text transform="translate(706.63 116.54)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZB110___Part_m3Eau"/>
+    </text>
+    <circle cx="693.48" cy="113.04" r="4.28" fill="#6d6e71"/>
+    <rect x="684.99" y="273.02" width="257.5" height="53.5" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(707.38 295.17)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+       <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZO113___m3Eau"/>
+    </text>
+    <circle cx="695.23" cy="291.81" r="4.28" fill="#6d6e71"/><text transform="translate(707.38 316.29)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZO113___Part_m3Eau"/>
+    </text>
+    <circle cx="695.23" cy="312.79" r="4.28" fill="#6d6e71"/><text transform="translate(23.74 77.77)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Eau Brute</tspan>
+    </text>
+    <rect x="140.99" y="573.02" width="221.5" height="65.5" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(164.38 601.17)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+       <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZO100___m3Eau"/>
+    </text>
+    <circle cx="152.23" cy="597.81" r="4.28" fill="#6d6e71"/>
+    <rect x="185" y="567.95" width="155" height="11.82" fill="#fff"/><text transform="translate(188 577.08)" font-size="13.56" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0" letter-spacing="0em" id="DDR02___MZO100___">Génerale Eau Osmosé</tspan>
+    </text>
+    <circle cx="170" cy="570.02" r="15.5" fill="none" stroke="#939598" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZO100___TAINC"/>
+    <text transform="translate(166.38 625.29)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+    <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZO100___Part_m3Eau"/>
+    </text>
+    <circle cx="153.23" cy="621.79" r="4.28" fill="#6d6e71"/><text transform="translate(426.39 350.42)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+     <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZO121___m3Eau"/>
+    </text><text transform="translate(426.39 373.05)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZO121___Part_m3Eau"/>
+    </text>
+    <circle cx="414.24" cy="347.89" r="4.28" fill="#6d6e71"/>
+    <circle cx="414.24" cy="371.52" r="4.28" fill="#6d6e71"/><text transform="translate(707.63 350.42)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+       <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZO11A___m3Eau"/>
+    </text>
+    <circle cx="695.48" cy="347.89" r="4.28" fill="#6d6e71"/><text transform="translate(707.63 373.05)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZO11A___Part_m3Eau"/>
+    </text>
+    <circle cx="695.48" cy="371.52" r="4.28" fill="#6d6e71"/><text transform="translate(707.88 451.17)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+      <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZO11B___m3Eau"/>
+    </text>
+    <circle cx="695.73" cy="447.63" r="4.28" fill="#6d6e71"/><text transform="translate(707.88 472.29)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZO11B___Part_m3Eau"/>
+    </text>
+    <circle cx="695.73" cy="467.76" r="4.28" fill="#6d6e71"/><text transform="translate(992.63 350.42)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZO111___m3Eau"/>
+    </text>
+    <circle cx="980.48" cy="347.89" r="4.28" fill="#6d6e71"/><text transform="translate(992.63 373.05)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">partage</tspan><tspan x="80" y="0" class="data" id="___MZO111___Part_m3Eau"/>
+    </text>
+    <circle cx="980.48" cy="371.52" r="4.28" fill="#6d6e71"/><text transform="translate(992.38 451.17)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+
+        <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZO112___m3Eau"/>
+    </text>
+    <circle cx="980.23" cy="447.63" r="4.28" fill="#6d6e71"/><text transform="translate(992.38 472.29)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZO112___Part_m3Eau"/>
+    </text>
+    <circle cx="980.23" cy="467.76" r="4.28" fill="#6d6e71"/>
+    <rect x="560" width="123.74" height="16.77" fill="#fff"/>
+    <rect x="1323.74" y="274" width="24" height="107.77" fill="#fff"/>
+    <rect y="266" width="22.74" height="104.77" fill="#fff"/>
+    <rect x="730" y="607.49" width="190" height="18.27" fill="#fff"/><text transform="translate(740 620.53)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+         
+        <tspan x="0" y="0" id="DDR02___MZO110___">Général Process Eau Osmosé</tspan>
+       
+    </text>
+    <circle cx="720" cy="612.77" r="15.5" fill="none" stroke="#939598" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZO110___TAINC"/>
+    <rect x="684.99" y="537.02" width="257.5" height="53.5" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(708.38 558.17)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+      <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZO110___m3Eau"/>
+    </text>
+    <circle cx="696.23" cy="553.81" r="4.28" fill="#6d6e71"/><text transform="translate(709.38 578.29)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZO110___Part_m3Eau"/>
+    </text>
+    <circle cx="696.23" cy="574.79" r="4.28" fill="#6d6e71"/>
+    <rect x="450" y="487.77" width="165" height="16" fill="#fff"/><text transform="translate(460 500.04)" font-size="12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+    
+        <tspan x="0" y="0" id="DDR02___MZO120___">Facilité Cop Eau Osmosé</tspan>
+        
+
+    </text>
+    <circle cx="440" cy="494.27" r="15.5" fill="#fff" stroke="#939598" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZO120___TAINC"/>
+    <rect x="403.99" y="420.02" width="257.5" height="53.5" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(426.38 442.17)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+ <tspan x="0" y="0">Consommation</tspan><tspan x="80" y="0" class="data" id="___MZO120___m3Eau"/>
+    </text>
+    <circle cx="414.23" cy="462.81" r="4.28" fill="#6d6e71"/><text transform="translate(426.38 463.29)" font-size="12.12" fill="#231f20" font-family="Gotham-Medium, Gotham">
+        <tspan x="0" y="0">Partage</tspan><tspan x="80" y="0" class="data" id="___MZO120___Part_m3Eau"/>
+    </text>
+    <circle cx="414.49" cy="439.52" r="4.28" fill="#6d6e71"/>
+    <rect x="298.74" width="137.76" height="8.38" fill="#fff"/>
+    <rect x="514.64" y="640.52" width="137.76" height="8.38" fill="#fff"/>
+       <circle cx="27" cy="250" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR013______"/><text transform="translate(20 260)" font-size="30" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR013______">-</text>
+</svg>
