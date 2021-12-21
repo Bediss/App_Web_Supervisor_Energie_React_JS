@@ -11,7 +11,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 
 // axios.defaults.baseURL = window.location.protocol + "//" + window.location.hostname + ":8000";
-  window.apiUrl = "http://localhost:8000/api/"
+  window.apiUrl = "http://192.168.3.91:8000/api/"
 // window.apiUrl = "http://192.168.3.80:8000/api/"
 //window.apiUrl = `/api/`
 

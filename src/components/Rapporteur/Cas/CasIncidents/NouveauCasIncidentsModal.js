@@ -93,6 +93,9 @@ const NouveauCasIncidentsModale = ({
   }, [modalFilterMesure3])
 
   useEffect(() => {
+    console.log("------energycompteurselected---->>>>>>>>>>>>>>",energycompteurselected)
+  }, [energycompteurselected])
+  useEffect(() => {
     console.log("------dataEnergyMeasure---->>>>",dataEnergyMeasure)
   }, [dataEnergyMeasure])
 
@@ -171,7 +174,7 @@ const NouveauCasIncidentsModale = ({
                       Sys_equationwithTilde.replace(/#/g, '').split('~').filter(e=>e),
                       TAG_Formule
                     ]} 
-                      
+                    energycompteurselected={energycompteurselected}
                       
                       />
 

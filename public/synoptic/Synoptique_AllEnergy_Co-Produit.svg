@@ -29,7 +29,7 @@
         
     </text>
     <circle cx="52.03" cy="282" r="4.07" fill="#a7a9ac"/><text transform="translate(60.17 285)" font-size="9.49" fill="#231f20" font-family="balto">
-        <tspan x="0" y="0">PPF-1</tspan><tspan x="75" y="0" class="data" id="___MZP010___Tonnes-1"/>
+        <tspan x="0" y="0">PPF</tspan><tspan x="75" y="0" class="data" id="___MZP010___Tonnes"/>
     </text>
     <rect x="44.86" y="299.56" width="192.52" height="16.28" fill="#e6e7e8"/><text transform="translate(50.64 311.09)" font-size="11.53" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Electrique</text>
     <circle cx="52.03" cy="326.68" r="4.07" fill="#a7a9ac"/><text transform="translate(60.85 330.08)" font-size="9.49" fill="#231f20" font-family="balto">
@@ -67,12 +67,13 @@
            <tspan x="0" y="0">Consommation</tspan><tspan x="75" y="0" class="data" id="___MZCB4B2___KWh"/>
     </text>
     <rect x="247.21" y="237.02" width="195.31" height="230" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
-    <rect x="248.4" y="248.49" width="192.52" height="17.02" fill="#e6e7e8"/><text transform="translate(255.35 260.76)" font-size="11.53" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700" >
+    <rect x="248.4" y="248.49" width="192.52" height="17.02" fill="#e6e7e8"/><text transform="translate(255.35 260.76)" font-size="11.53" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
          <tspan x="0" y="0">Production</tspan>
     </text>
+        <rect xmlns="http://www.w3.org/2000/svg" x="900" y="27.53" width="200" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
     
     <circle cx="258.73" cy="291.28" r="4.07" fill="#a7a9ac"/><text transform="translate(266.2 294.67)" font-size="9.49" fill="#231f20" font-family="balto">
-      <tspan x="0" y="0">PPF-1</tspan><tspan x="75" y="0" class="data" id="___MZP020___Tonnes-1"/>
+      <tspan x="0" y="0">PPF</tspan><tspan x="75" y="0" class="data" id="___MZP020___Tonnes"/>
     </text>
     <rect x="248.89" y="314.22" width="192.52" height="16.28" fill="#e6e7e8"/><text transform="translate(254.67 325.75)" font-size="11.53" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Electrique</text>
     <circle cx="258.73" cy="340.35" r="4.07" fill="#a7a9ac"/><text transform="translate(266.2 343.74)" font-size="9.49" fill="#231f20" font-family="balto">
@@ -100,14 +101,16 @@
     <rect x="291.24" y="228.59" width="101.05" height="16.28" fill="#fff"/><text transform="translate(318.52 239.88)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
          <tspan x="0" y="0">SANG</tspan>
     </text>
-    <rect x="253.07" y="505.85" width="195.52" height="47.03" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
+    <rect x="253.07" y="505.85" width="195.52" height="45" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
     <rect x="297.9" y="499.61" width="101.05" height="16.28" fill="#fff"/><text transform="translate(324.37 511.14)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
           <tspan x="0" y="0">Oxydeur</tspan>
     </text>
     <rect x="255.21" y="514.49" width="192.72" height="15.42" fill="#e6e7e8"/><text transform="translate(261.99 526.02)" font-size="11.53" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Electrique</text>
-    <circle cx="261.85" cy="538.75" r="4.07" fill="#a7a9ac"/><text transform="translate(270.2 543.01)" font-size="9.49" fill="#231f20" font-family="balto">
+    <circle cx="261.85" cy="538.75" r="4.07" fill="#a7a9ac"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(270.2 543.01)" font-size="9.49" fill="#231f20" font-family="balto">
             <tspan x="0" y="0">Consommation</tspan><tspan x="75" y="0" class="data" id="___MZCB4B1___KWh"/>
     </text>
+    
+
     <rect x="476.95" y="399.97" width="195.31" height="182.05" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
     <rect x="517.6" y="391.91" width="101.05" height="16.28" fill="#fff"/><text transform="translate(540.84 403.44)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
        <tspan x="0" y="0">Cuiseur 1</tspan>
@@ -117,7 +120,7 @@
     </text>
     
     <circle cx="487.8" cy="454.31" r="4.07" fill="#a7a9ac"/><text transform="translate(495.94 457.7)" font-size="9.49" fill="#231f20" font-family="balto">
-        <tspan x="0" y="0">PPF-1</tspan><tspan x="75" y="0" class="data" id="___MZP03A___Tonnes-1"/></text>
+        <tspan x="0" y="0">PPF</tspan><tspan x="75" y="0" class="data" id="___MZP03A___Tonnes"/></text>
     <rect x="478.63" y="473.25" width="192.52" height="16.28" fill="#e6e7e8"/><text transform="translate(484.41 484.78)" font-size="11.53" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Electrique</text>
     <circle cx="487.8" cy="500.38" r="4.07" fill="#a7a9ac"/><text transform="translate(495.94 503.77)" font-size="9.49" fill="#231f20" font-family="balto">
             <tspan x="0" y="0">Consommation</tspan><tspan x="75" y="0" class="data" id="___MZCB4B6___KWh"/>
@@ -139,6 +142,7 @@
     <rect x="719.83" y="391.91" width="101.05" height="16.28" fill="#fff"/><text transform="translate(743.07 403.44)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
        <tspan x="0" y="0">Cuiseur 2</tspan>
     </text>
+        
     <rect x="680.37" y="411.52" width="192.52" height="17.02" fill="#e6e7e8"/><text transform="translate(687.32 423.79)" font-size="11.53" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
          <tspan x="0" y="0">Production</tspan>
     </text>
@@ -146,7 +150,7 @@
         <tspan x="75" y="0" class="data" id="___MZP03B___5"/>
     </text>
     <circle cx="690.03" cy="454.31" r="4.07" fill="#a7a9ac"/><text transform="translate(698.17 457.7)" font-size="9.49" fill="#231f20" font-family="balto">
-        <tspan x="0" y="0">PPF-1</tspan><tspan x="75" y="0" class="data" id="___MZP03B___Tonnes-1"/>
+        <tspan x="0" y="0">PPF</tspan><tspan x="75" y="0" class="data" id="___MZP03B___Tonnes"/>
     </text>
     <rect x="680.86" y="473.25" width="192.52" height="16.28" fill="#e6e7e8"/><text transform="translate(686.64 484.78)" font-size="11.53" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Electrique</text>
     <circle cx="690.03" cy="500.38" r="4.07" fill="#a7a9ac"/><text transform="translate(698.17 503.77)" font-size="9.49" fill="#231f20" font-family="balto">
@@ -175,7 +179,7 @@
     </text>
     
     <circle cx="891.46" cy="454.07" r="4.07" fill="#a7a9ac"/><text transform="translate(898.59 457.46)" font-size="9.49" fill="#231f20" font-family="balto">
-      <tspan x="0" y="0">PPF-1</tspan><tspan x="75" y="0" class="data" id="___MZP03C___Tonnes-1"/>
+      <tspan x="0" y="0">PPF</tspan><tspan x="75" y="0" class="data" id="___MZP03C___Tonnes"/>
     </text>
     <rect x="882.28" y="473.01" width="192.52" height="16.28" fill="#e6e7e8"/><text transform="translate(888.07 484.54)" font-size="11.53" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Electrique</text>
     <circle cx="891.46" cy="500.14" r="4.07" fill="#a7a9ac"/><text transform="translate(898.59 503.53)" font-size="9.49" fill="#231f20" font-family="balto">
@@ -219,7 +223,7 @@
     
     
     
-    <text transform="translate(482.81 286.65)" font-size="9.49" fill="#231f20" font-family="balto"><tspan x="0" y="0">PPF-1</tspan><tspan x="75" y="0" class="data" id="___MZP030___Tonnes-1"/></text>
+    <text transform="translate(482.81 286.65)" font-size="9.49" fill="#231f20" font-family="balto"><tspan x="0" y="0">PPF</tspan><tspan x="75" y="0" class="data" id="___MZP030___Tonnes"/></text>
     
     <circle cx="475.28" cy="282.94" r="4.07" fill="#a7a9ac"/>
     <text transform="translate(686.93 275.26)" font-size="9.49" fill="#231f20" font-family="balto">
@@ -348,68 +352,76 @@
     
     
  <line x1="50.2" y1="116.27" x2="1298.23" y2="117.22" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
-    <path d="M983.74,76.56" transform="translate(-1.99 -0.68)" fill="none"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(86.43 65.64)" font-size="9.49" fill="#231f20" font-family="balto">
+    <path d="M983.74,76.56" transform="translate(-1.99 -0.68)" fill="none"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(75 65.64)" font-size="9.49" fill="#231f20" font-family="balto">
         
-        <tspan x="0" y="0">PPF-1</tspan><tspan id="___MZP002___Tonnes-1" class="data" y="0" x="75"/>
+        <tspan x="0" y="0">PPF</tspan><tspan id="___MZP002___Tonnes" class="data" y="0" x="75"/>
     </text>
-    <rect x="66.85" y="28.23" width="222.42" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
-    <rect x="116.49" y="18.7" width="101.05" height="16.28" fill="#e6e7e8"/><text transform="translate(131.05 30.85)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
+    <rect x="60" y="28.23" width="200" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
+    <rect x="100" y="18.7" width="101.05" height="16.28" fill="#e6e7e8"/><text transform="translate(120 30.85)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
     
         <tspan x="0" y="0">Production</tspan>
     </text>
     
-    <circle cx="78.89" cy="61.93" r="4.07" fill="#808285"/>
+    <circle cx="67" cy="61.93" r="4.07" fill="#808285"/>
     
-    <rect x="314.62" y="28.54" width="222.42" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
-    <rect x="361.4" y="19.97" width="101.05" height="16.28" fill="#e6e7e8"/><text transform="translate(384.89 31.96)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Electrique</text>
-    <rect x="565.56" y="28.54" width="222.42" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
-    <rect x="617.09" y="19.97" width="101.05" height="16.28" fill="#e6e7e8"/>
-    <rect x="816.18" y="28.23" width="222.42" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
-    <rect x="867.71" y="21.56" width="101.05" height="16.28" fill="#e6e7e8"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(334.51 54.25)" font-size="9.49" fill="#231f20" font-family="balto">
+    <rect x="270" y="28.54" width="200" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
+    <rect x="320" y="19.97" width="101.05" height="16.28" fill="#e6e7e8"/><text transform="translate(340 31.96)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Electrique</text>
+    <rect x="480" y="28.54" width="200" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
+    <rect x="530" y="19.97" width="101.05" height="16.28" fill="#e6e7e8"/>
+    <rect x="690" y="28.23" width="200" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
+    <rect x="740" y="21.56" width="101.05" height="16.28" fill="#e6e7e8"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(285 54.25)" font-size="9.49" fill="#231f20" font-family="balto">
        <tspan x="0" y="0">Consommation</tspan><tspan x="75" y="0" class="data" id="___MZC011___KWh"/>
-    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(334.51 75.14)" font-size="9.49" fill="#231f20" font-family="balto">
+    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(285 75.14)" font-size="9.49" fill="#231f20" font-family="balto">
     <tspan x="0" y="0">Ratio</tspan><tspan x="75" y="0" class="data" id="___MZC011___Ratio"/>
     </text>
-    <circle cx="326.98" cy="50.4" r="4.07" fill="#808285"/>
-    <circle cx="326.98" cy="71.43" r="4.07" fill="#808285"/><text transform="translate(641.53 31.01)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
+    <circle cx="277" cy="50.4" r="4.07" fill="#808285"/>
+    <circle cx="277" cy="71.43" r="4.07" fill="#808285"/><text transform="translate(560 31.01)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">
        <tspan x="0" y="0">Vapeur</tspan>
-    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(586.4 54.25)" font-size="9.49" fill="#231f20" font-family="balto">
+    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(495 54.25)" font-size="9.49" fill="#231f20" font-family="balto">
         <tspan x="0" y="0">Consommation</tspan><tspan x="75" y="0" class="data" id="___MZV002___Tonnes"/>
-    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(586.4 75.14)" font-size="9.49" fill="#231f20" font-family="balto">
+    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(495 75.14)" font-size="9.49" fill="#231f20" font-family="balto">
     <tspan x="0" y="0">Ratio</tspan><tspan x="75" y="0" class="data" id="___MZV002___Ratio"/>
     </text>
-    <circle cx="578.86" cy="50.4" r="4.07" fill="#808285"/>
-    <circle cx="578.86" cy="71.43" r="4.07" fill="#808285"/><text transform="translate(891.67 31.82)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Eau Brute</text><text xmlns="http://www.w3.org/2000/svg" transform="translate(839.24 54.25)" font-size="9.49" fill="#231f20" font-family="balto">
+    <circle cx="487" cy="50.4" r="4.07" fill="#808285"/>
+    <circle cx="487" cy="71.43" r="4.07" fill="#808285"/><text transform="translate(760 31.82)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Eau Brute</text><text xmlns="http://www.w3.org/2000/svg" transform="translate(705 54.25)" font-size="9.49" fill="#231f20" font-family="balto">
      
     <tspan x="0" y="0">Consommation</tspan><tspan x="75" y="0" class="data" id="___MZB100___m3"/>
-    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(839.24 75.14)" font-size="9.49" fill="#231f20" font-family="balto"><tspan x="0" y="0">Ratio</tspan><tspan x="75" y="0" class="data" id="___MZB100___Ratio"/>
+    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(705 75.14)" font-size="9.49" fill="#231f20" font-family="balto"><tspan x="0" y="0">Ratio</tspan><tspan x="75" y="0" class="data" id="___MZB100___Ratio"/>
     
     </text>
-    <circle cx="831.7" cy="50.4" r="4.07" fill="#808285"/>
-    <circle cx="831.7" cy="71.43" r="4.07" fill="#808285"/>
+    <circle cx="697" cy="50.4" r="4.07" fill="#808285"/>
+    <circle cx="697" cy="71.43" r="4.07" fill="#808285"/>
     <path d="M1228.79,75.86" transform="translate(-1.99 -0.68)" fill="none"/>
-    <rect x="1061.23" y="27.53" width="222.42" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
-    <rect x="1112.77" y="20.86" width="101.05" height="16.28" fill="#e6e7e8"/><text transform="translate(1128.33 32.64)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Eau Osmosé</text><text xmlns="http://www.w3.org/2000/svg" transform="translate(1084.29 53.55)" font-size="9.49" fill="#231f20" font-family="balto">
-       <tspan x="0" y="0">Consommation</tspan><tspan x="75" y="0" class="data" id="___MZO100___m3"/>
-    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(1084.29 74.44)" font-size="9.49" fill="#231f20" font-family="balto">
-     <tspan x="0" y="0">ratio</tspan><tspan x="75" y="0" class="data" id="___MZO100___Ratio"/>
+    <rect xmlns="http://www.w3.org/2000/svg" x="1110" y="27.53" width="200" height="64.64" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="2"/>
+    <rect xmlns="http://www.w3.org/2000/svg" x="1180" y="20.86" width="50" height="16.28" fill="#e6e7e8"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="1117" cy="49.7" r="4.07" fill="#808285"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(1125 53.55)" font-size="9.49" fill="#231f20" font-family="balto">
+       <tspan x="0" y="0">Consommation</tspan><tspan x="75" y="0" class="data" id="___MZG001___Thermie"/>
     </text>
-    <circle cx="1076.76" cy="49.7" r="4.07" fill="#808285"/>
-    <circle cx="1076.76" cy="70.73" r="4.07" fill="#808285"/>
-    <rect x="509.89" width="101.05" height="3.54" fill="#fff"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="1117" cy="70.73" r="4.07" fill="#808285"/>
+    <text xmlns="http://www.w3.org/2000/svg" transform="translate(1125 74.44)" font-size="9.49" fill="#231f20" font-family="balto">
+     <tspan x="0" y="0">Ratio</tspan><tspan x="75" y="0" class="data" id="___MZG001___Ratio"/>
+    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(1190 32.64)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">GAZ</text>
+    <rect x="940" y="20.86" width="101.05" height="16.28" fill="#e6e7e8"/><text transform="translate(960 32.64)" font-size="12.89" fill="#231f20" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700">Eau Osmosé</text><text xmlns="http://www.w3.org/2000/svg" transform="translate(915 53.55)" font-size="9.49" fill="#231f20" font-family="balto">
+       <tspan x="0" y="0">Consommation</tspan><tspan x="75" y="0" class="data" id="___MZO100___m3"/>
+    </text><text xmlns="http://www.w3.org/2000/svg" transform="translate(915 74.44)" font-size="9.49" fill="#231f20" font-family="balto">
+     <tspan x="0" y="0">Ratio</tspan><tspan x="75" y="0" class="data" id="___MZO100___Ratio"/>
+    </text>
+    <circle cx="907" cy="49.7" r="4.07" fill="#808285"/>
+    <circle cx="907" cy="70.73" r="4.07" fill="#808285"/>
+    
     <rect x="1331.72" y="224.43" width="16.62" height="114.23" fill="#fff"/>
     <rect x="544.37" y="649.32" width="101.05" height="0.86" fill="#fff"/>
     <rect y="279.12" width="16.17" height="90.57" fill="#fff"/>
     <rect x="1331.65" y="288.59" width="16.62" height="114.23" fill="#fff"/>
     <rect x="35" y="8.2" width="1285" height="633.84" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
-    <rect x="438.55" y="1.04" width="114.43" height="17.04" fill="#fff"/><text transform="translate(460.09 14.14)" font-size="18" fill="#231f20" font-family="balto" font-weight="700">
+    <rect x="438.55" y="2" width="114.43" height="17.04" fill="#fff"/><text transform="translate(460.09 14.14)" font-size="18" fill="#231f20" font-family="balto" font-weight="700">
           <tspan>Co-Produit</tspan>
     </text>
-    <circle cx="462.46" cy="28.53" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR010______"/><text transform="translate(453.46 35.53)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR010______">+</text>
-    <circle cx="710.35" cy="26.84" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR06______"/><text transform="translate(701.35 33.84)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR06______">+</text>
-    <circle cx="968.77" cy="28.23" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR011______"/><text transform="translate(959.77 35.23)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR011______">+</text>
-    <circle cx="1220.01" cy="27.53" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR011______"/>
-    <text transform="translate(1211.01 34.53)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR011______">+</text>
+    <circle cx="425" cy="28.53" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR010______"/><text transform="translate(417 35.53)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR010______">+</text>
+    <circle cx="631" cy="26.84" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR06______"/><text transform="translate(622 33.84)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR06______">+</text>
+    <circle cx="839" cy="28.23" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR011______"/><text transform="translate(830 35.23)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR011______">+</text>
+    <circle cx="1049" cy="27.53" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR011______"/>
+    <text transform="translate(1040 34.53)" font-size="22" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR011______">+</text>
     <circle cx="21.72" cy="74.44" r="11.5" fill="#fff" stroke="#010101" stroke-miterlimit="10" stroke-width="3" id="DDR012______"/><text transform="translate(15.72 84.44)" font-size="29" fill="#010101" font-family="MSReferenceSansSerif, MS Reference Sans Serif" id="DDR012______">-</text>    
     
     

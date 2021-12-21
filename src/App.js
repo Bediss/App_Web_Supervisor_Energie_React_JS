@@ -28,6 +28,7 @@ import Superviseur from "./components/Superviseur/Superviseur";
 import Navigateur from "./components/NavigateurTableau/Navigateur";
 import NavigateurFactBook from "./components/NavigateurFactBook/NavigateurFactBook";
 import { createBrowserHistory } from "history";
+import Aa from "./a"
 const history = createBrowserHistory();
 
 
@@ -63,6 +64,7 @@ class App extends Component {
             <Route path='/Rapporteur/TimeIntelligence' component={TimeIntelligence} />
             <Route path='/Rapporteur/CreateurRapport' component={CreateurRapport} />
             <Route path='/Rapporteur/Rapport' component={Rapport} />
+            <Route path='/a' component={Aa} />
             {/**login */}
             <Route path='/' component={Login} />
             {/**Admin */}

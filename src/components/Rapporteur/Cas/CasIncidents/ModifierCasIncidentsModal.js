@@ -144,10 +144,11 @@ const ModiifierCasIncidentsModale = ({
             selectMeasureGetObject({"m_code": json.EMNCode, "m_name": json.measure_Label,"measure_ID":json.measure_ID})
            }
 
+  
+
            useEffect(() => {
-           }, [energycompteurselected])
-
-
+            console.log("------energycompteurselected---->>>>>>>>>>>>>>",energycompteurselected)
+          }, [energycompteurselected])
            useEffect(() => {
              if(objectifValeurInput!=""&& inputValueType=="number" && inputValueDisabled==false && typeValidation==true){
            
@@ -192,6 +193,7 @@ return(
                             valueincidentcallback={callbackValueIncident} 
                             closemodel={callbackmodel}
                             datamodifier={datamodifier}
+                            energycompteurselected={energycompteurselected}
                               datafromcasincidenttocalculatrice={[
                                 U_Compteur,
                                 Compteur_Incident,

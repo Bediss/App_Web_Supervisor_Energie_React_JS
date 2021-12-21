@@ -22,7 +22,7 @@ import Swal from 'sweetalert2';
 import { set } from "react-hook-form";
 
 
-const  Calculatrice =({valueincidentcallback,closemodel,datafromcasincidenttocalculatrice,componentcalculator,datamodifier})=>{
+const  Calculatrice =({valueincidentcallback,closemodel,datafromcasincidenttocalculatrice,componentcalculator,datamodifier,energycompteurselected})=>{
  
 const[dataEnergyMeasureFilter,setdataEnergyMeasureFilter]=useState(false)
 const[dataEnergyCompteurFilter,setdataEnergyCompteurFilter]=useState(false)
@@ -47,7 +47,7 @@ const [countleft,setcountleft]=useState(0)
 const [itemlengthleft,setitemlengthleft]=useState(0)
 
 const [EnergyMeasure,setEnergyMeasure]=useState("")
-const [NameEnergy,setNameEnergy]=useState("")
+const [NameEnergy,setNameEnergy]=useState(energycompteurselected)
 
 const [Sys_mesureid,setSys_mesureid]=useState("")
 const [U_compteurselected,setU_compteurselected]=useState("")
@@ -135,11 +135,25 @@ console.log("Sys_equationwithTilde",Sys_equationwithTilde)
       }
       )
 console.log("++++++MesureList++++Calculatrice++++",MesureList)
+var equationFinal=equation
+console.log("equationFinal",equationFinal)
+var index=equationFinal.indexOf("|")
+console.log(index)
+if ( equationFinal[index] === "|") { 
+  equationFinal.splice(index, 1); 
+}
+var SysequationFinal=Sys_equation
+console.log("equationFinal",SysequationFinal)
+var index=SysequationFinal.indexOf("|")
+console.log(index)
+if ( SysequationFinal[index] === "|") { 
+  SysequationFinal.splice(index, 1); 
+}
       valueincidentcallback({
         0: U_incidentselected,//ELMAZERAA ELEC$LIVE INC
-        1: equation.join(''),
+        1: equationFinal.join(''),
         2: Sys_incidentselected,//CC1$28
-        3: Sys_equation.join(''),
+        3: SysequationFinal.join(''),
         4: Parsed_incidentselected,//E11$28
         5: codecompteurobjective,//OE11
         6: mesureidobjective,//1
@@ -169,55 +183,154 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
     }
 
     function callbackFunction (childData) {
-  
-      setlistvalequation(listvalequation + childData)
-      if ( selectionStart == true) {
+  console.log("callbackFunction childData ",childData)
 
-         setequation([childData, ...equation])
-         setSys_equation( [childData, ...Sys_equation])
-      } else {
+  var index=equation.indexOf("|")
+
+  if ( equation[index] === "|") { 
+    equation.splice(index, 1); 
+  }
+  if ( Sys_equation[index] === "|") { 
+    Sys_equation.splice(index, 1); 
+  }
+  var insert = (arr, index, newItem) => [
+    ...arr.slice(0, index),
+    newItem,
+    ...arr.slice(index)
+  ]
+  //const result = insert(equation,index+1, "|")
+  //setequation(result)
+
+      setlistvalequation(listvalequation + childData)
+      // if ( selectionStart == true) {
+
+      //    setequation([childData, ...equation])
+      //    setSys_equation( [childData, ...Sys_equation])
+      // } else {
         //add number
-        setequation([...equation, childData])
-        setSys_equation( [...Sys_equation, childData])
-      }
+/////////////////////////////////////////////////////////////////////////
+       // setequation([...equation, childData])
+       if ( selectionStart == false) {
+          const res = insert(equation,index+1,(childData))
+          const result = insert(res,index+2, "|")
+          setequation(result)
+          const resSys = insert(Sys_equation,index+1,(childData))
+          const resultSys = insert(resSys,index+2, "|")
+          setSys_equation(resultSys)
+       }else{
+        const res = insert(equation,index,(childData))
+        const result = insert(res,index+1, "|")
+        setequation(result)
+        const resSys = insert(Sys_equation,index,(childData))
+        const resultSys = insert(resSys,index+1, "|")
+        setSys_equation(resultSys)
+       }
+     // }
       
     }
     function callbackOperatorFunction (childData){
-        setlistvalequation(listvalequation + childData[0] + childData[1])
 
-      if ( selectionStart == true) {
-        setequation([childData[0], childData[1], equation])
-        setSys_equation( [childData[0], childData[1], ...Sys_equation])
-      } else {
-        //add number
-        setequation([...equation,childData[0], childData[1]])
-        setSys_equation( [...Sys_equation,childData[0], childData[1]])
+
+
+      var index=equation.indexOf("|")
+      console.log(index)
+      if ( equation[index] === "|") { 
+        equation.splice(index, 1); 
       }
+      if ( Sys_equation[index] === "|") { 
+        Sys_equation.splice(index, 1); 
+      }
+      var insert = (arr, index, newItem) => [
+        ...arr.slice(0, index),
+        newItem,
+        ...arr.slice(index)
+      ]
+
+
+
+        setlistvalequation(listvalequation + childData[0] + childData[1])
+console.log("childData[0] + childData[1]",childData.join(""))
+
+        if ( selectionStart == false) {
+          const res = insert(equation,index+1,childData.join(""))
+          const result = insert(res,index+2, "|")
+          setequation(result)
+          const resSys = insert(Sys_equation,index+1,childData.join(""))
+          const resultSys = insert(resSys,index+2, "|")
+         setSys_equation(resultSys)
+       }else{
+        //add number
+        const res = insert(equation,index,childData.join(""))
+        const result = insert(res,index+1, "|")
+        setequation(result)
+        const resSys = insert(Sys_equation,index,childData.join(""))
+        const resultSys = insert(resSys,index+2, "|")
+        setSys_equation(resultSys)
+
+       }
+    
     }
     function callbackoperator  (childData)  {
   
   
-      var lastval = equation[equation.length - 1]
-      if (equation[equation.length - 1] !== childData && equation.length != 0) {
+      var index=equation.indexOf("|")
+      console.log("kkkkkkkk",index)
+      if ( equation[index] === "|") { 
+        equation.splice(index, 1); 
+      }
+      if ( Sys_equation[index] === "|") { 
+        Sys_equation.splice(index, 1); 
+      }
+
+      const insert = (arr, index, newItem) => [
+        ...arr.slice(0, index),
+        newItem,
+        ...arr.slice(index)
+      ]
+
+      ///////
+      var lastval = equation[index- 1]
+      if (equation[lastval] !== childData && equation.length != 0) {
   
         if (lastval == '+' || lastval == '-' || lastval == '*' || lastval == '/') {
             
             console.log("equation",equation)
-            console.log("equation.length - 1",equation.length - 1)
+            console.log("index- 1",index- 1)
              console.log("childData",childData)
 
-             console.log("childData",childData)
+         
 
              var equationVar = equation.map((item, j) => {
-                                if (j === equation.length - 1) {
+                                if (j === index-1) {
                                   return item = childData;
                                 } else {
                                   return item;
                                 }
                               });
-                              console.log("-------",equationVar)
-                              setequation(equationVar)
+                            console.log("-------",equationVar)
 
+                            var Sys_equationVar = resultSys_equationVariable.map((item, j) => {
+                              if (j === index-1) {
+                                return item = childData;
+                              } else {
+                                return item;
+                              }
+                            });
+                          console.log("-------",Sys_equationVar)
+                            //console.log("-------",childData)
+                             // if(index - 1== childData)
+             //                 setequation(equationVar)
+             
+                              //const res = insert(equation,index,(childData))
+                              const result = insert(equationVar,index, "|")
+                              setequation(result)
+                             const result2 = insert(Sys_equationVar,index, "|")
+                             setSys_equation(result2)
+                           
+                           
+
+
+/*
                               var Sys_equationVar = Sys_equation.map((item, j) => {
                                         console.log(Sys_equation.length - 1)
                                         if (j === Sys_equation.length - 1) {
@@ -228,19 +341,37 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
                                       });
                                       console.log("-Sys_equationVar------",Sys_equationVar)
 
-                                      setSys_equation(Sys_equationVar)
+                                      setSys_equation(Sys_equationVar)*/
         } else {
-          if ( selectionStart == true) {
-              setequation([childData, ...equation])
-              setSys_equation([childData, ...Sys_equation])
-          } else {
+          // if ( selectionStart == true) {
+          //     setequation([childData, ...equation])
+          //     setSys_equation([childData, ...Sys_equation])
+          // } else {
 
-            setequation([ ...equation,childData])
-            setSys_equation([...Sys_equation,childData])
+          //   setequation([ ...equation,childData])
+          //   setSys_equation([...Sys_equation,childData])
        
         
   
-          }
+          // }
+
+          if ( selectionStart == false) {
+            const res = insert(equation,index+1,(childData))
+            const result = insert(res,index+2, "|")
+            setequation(result)
+            const resSys = insert(Sys_equation,index+1,(childData))
+            const resultSys = insert(resSys,index+2, "|")
+           setSys_equation(resultSys)
+         }else{
+          //add number
+          const res = insert(equation,index,(childData))
+          const result = insert(res,index+1, "|")
+          setequation(result)
+          const resSys = insert(Sys_equation,index,(childData))
+          const resultSys = insert(resSys,index+1, "|")
+         setSys_equation(resultSys)
+  
+         }
         }
   
       }
@@ -252,8 +383,13 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
         setSys_equation([])
     }
     function deleteequation  ()  {
-        setequation(equation.slice(0, -1) )
-        setSys_equation(Sys_equation.slice(0, -1))
+      var index=equation.indexOf("|")
+      console.log(index)
+      if (index-1 > -1) {
+        equation.splice(index-1, 1);
+        Sys_equation.splice(index-1, 1)
+      }
+    
     }
     function close  ()  {
       closemodel(false)
@@ -268,24 +404,99 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
     // }
   
     function  addfilscompteur () {
+      var index=equation.indexOf("|")
+      console.log(index)
+      if ( equation[index] === "|") { 
+        equation.splice(index, 1); 
+      }
+      if ( Sys_equation[index] === "|") { 
+        Sys_equation.splice(index, 1); 
+      }
+      const insert = (arr, index, newItem) => [
+        ...arr.slice(0, index),
+        newItem,
+        ...arr.slice(index)
+      ]
       if ( U_compteurselected == "") {
         setmessageconseil("Il faut d'abord selectionner un compteur ")
+        const result = insert(equation,index+1, "|")
+        setequation(result)
       } else if ( NameEnergy == "" &&  EnergyMeasure == "") {
         setmessageconseil("S'il vous plaît sélectionner un capteur énergie et mesure")
+        const result = insert(equation,index+1, "|")
+        setequation(result)
       } else if (EnergyMeasure == "") {
         setmessageconseil("S'il vous plait sélectionner une mesure")
+        const result = insert(equation,index+1, "|")
+        setequation(result)
       } else {
         setmessageconseil("")
-        setequation([... equation, "Fils", "(",  U_compteurselected + '$' +  EnergyMeasure, ")"])
-        setSys_equation([... Sys_equation, "F", "(", '@' +  Sys_compteurselectedwithoutid + '$' + Sys_mesureid, ")"])
+        // setequation([... equation, "Fils", "(",  U_compteurselected + '$' +  EnergyMeasure, ")"])
+        // setSys_equation([... Sys_equation, "F", "(", '@' +  Sys_compteurselectedwithoutid + '$' + Sys_mesureid, ")"])
+        var filsEquation=("Fils"+ "("+  U_compteurselected + '$' +  EnergyMeasure+ ")")
+        var filsSysEquation=("F"+ "("+ '@' +  Sys_compteurselectedwithoutid + '$' + Sys_mesureid+ ")")
+        if ( selectionStart == false) {
+
+          const res = insert(equation,index+1,filsEquation)
+          const result = insert(res,index+2, "|")
+          setequation(result)
+          const resSys = insert(Sys_equation,index+1,filsSysEquation)
+          const resultSys = insert(resSys,index+2, "|")
+          setSys_equation(resultSys)
+       }else{
+        //add number
+        const res = insert(equation,index,filsEquation)
+        const result = insert(res,index+1, "|")
+        setequation(result)
+        const resSys = insert(Sys_equation,index,filsSysEquation)
+        const resultSys = insert(resSys,index+1, "|")
+        setSys_equation(resultSys)
+
+       }
       }
     }
     function addincidentcompteur (){
+      var index=equation.indexOf("|")
+      console.log(index)
+      if ( equation[index] === "|") { 
+        equation.splice(index, 1); 
+      }
+      if ( Sys_equation[index] === "|") { 
+        Sys_equation.splice(index, 1); 
+      }
+      const insert = (arr, index, newItem) => [
+        ...arr.slice(0, index),
+        newItem,
+        ...arr.slice(index)
+      ]
       if ( U_incidentselected == "") {
         setmessageconseil("Il faut d'abord selectionner un incident ")
+        const result = insert(equation,index+1, "|")
+        setequation(result)
       } else {
-        setequation([...equation, "Sigma", "(", U_incidentselected, ")"])
-        setSys_equation([...Sys_equation, "I", "(", '€' + Sys_incidentselected, ")"])
+        // setequation([...equation, "Sigma", "(", U_incidentselected, ")"])
+        // setSys_equation([...Sys_equation, "I", "(", '€' + Sys_incidentselected, ")"])
+
+        var SigmaEquation=("Sigma"+"("+U_incidentselected+")")
+        var SigmaSysEquation=("I"+"("+'€' + Sys_incidentselected+")")
+        if ( selectionStart == false) {
+
+          const res = insert(equation,index+1,SigmaEquation)
+          const result = insert(res,index+2, "|")
+          setequation(result)
+          const resSys = insert(Sys_equation,index+1,SigmaSysEquation)
+          const resultSys = insert(resSys,index+2, "|")
+          setSys_equation(resultSys)
+       }else{
+        //add number
+        const res = insert(equation,index,SigmaEquation)
+        const result = insert(res,index+1, "|")
+        setequation(result)
+        const resSys = insert(Sys_equation,index,SigmaSysEquation)
+        const resultSys = insert(resSys,index+1, "|")
+        setSys_equation(resultSys)
+
+       }
       }
     }
     function addincident () {
@@ -362,7 +573,17 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
     }
     function addcompteurselected  ()  {
       //In ES6 you can use the Spread Operator:
-      let lastvalue =  equation[ equation.length - 1]
+      var index=equation.indexOf("|")
+      console.log(index)
+      if ( equation[index] === "|") { 
+        equation.splice(index, 1); 
+      }
+      const insert = (arr, index, newItem) => [
+        ...arr.slice(0, index),
+        newItem,
+        ...arr.slice(index)
+      ]
+      let lastvalue =  equation[ index - 1]
       console.log(lastvalue)
       if ( NameEnergy == "" &&  EnergyMeasure == "") {
         setmessageconseil("S'il vous plaît sélectionner un capteur énergie et mesure")
@@ -376,109 +597,242 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
         || lastvalue == 'ArcSin(' || lastvalue == 'Sin(' || lastvalue == 'Cos(' || lastvalue == 'Tan(') {
             setmessageconseil("")
     
-        if ( selectionStart == true) {
-            setSys_equation([Sys_compteurselectedwithoutid + '$' + Sys_mesureid, ... Sys_equation])
-            setequation([ U_compteurselected + '$' +  EnergyMeasure, ... equation])
-        } else {
+        // if ( selectionStart == true) {
+        //     setSys_equation([Sys_compteurselectedwithoutid + '$' + Sys_mesureid, ... Sys_equation])
+        //     setequation([ U_compteurselected + '$' +  EnergyMeasure, ... equation])
+        // } else {
   
-            setSys_equation([... Sys_equation,  Sys_compteurselectedwithoutid + '$' + Sys_mesureid])
-            setequation([...equation,  U_compteurselected + '$' +  EnergyMeasure])
-        }
+        //     setSys_equation([... Sys_equation,  Sys_compteurselectedwithoutid + '$' + Sys_mesureid])
+        //     setequation([...equation,  U_compteurselected + '$' +  EnergyMeasure])
+        // }
   
+        if ( selectionStart == false) {
+          const res = insert(equation,index+1,(U_compteurselected + '$' +  EnergyMeasure))
+          const result = insert(res,index+2, "|")
+          setequation(result)
+          const resSys = insert(Sys_equation,index+2,(Sys_compteurselectedwithoutid + '$' + Sys_mesureid))
+         setSys_equation(resSys)
+       }else{
+        //add number
+        const res = insert(equation,index,(U_compteurselected + '$' +  EnergyMeasure))
+        const result = insert(res,index+1, "|")
+        setequation(result)
+        const resSys = insert(Sys_equation,index+1,(Sys_compteurselectedwithoutid + '$' + Sys_mesureid))
+       setSys_equation(resSys)
+
+       }
+
+
+
       } else {
         setmessageconseil("Vous devez sélectionner un opérande")
       
       }
     }
     function moveCursorToEnd(el) {
-      var len = el.value.length;
-  
-      console.log(len)
-  
-      if (el.setSelectionRange) {
-        el.focus();
-        el.setSelectionRange(len, len);
-        setselectionEnd(true)
-        setselectionStart(false)
-      } else if (el.createTextRange) {
-        var t = el.createTextRange();
-        t.collapse(true);
-        t.moveEnd('character', len);
-        t.moveStart('character', len);
-        t.select();
+      var index=equation.indexOf("|")
+
+      console.log(index)
+      if ( equation[index] === "|") { 
+          
+        equation.splice(index, 1); 
       }
+      if ( Sys_equation[index] === "|") { 
+        Sys_equation.splice(index, 1); 
+      }
+      const insert = (arr, index, newItem) => [
+        // part of the array before the specified index
+        ...arr.slice(0, index),
+        // inserted item
+        newItem,
+        // part of the array after the specified index
+        ...arr.slice(index)
+      ]
+      const result = insert(equation,equation.length, "|")
+      setequation(result)
+      const result2 = insert(Sys_equation,Sys_equation.length, "|")
+      setSys_equation(result2)
+      // var len = el.value.length;
+  
+      // console.log(len)
+  
+      // if (el.setSelectionRange) {
+      //   el.focus();
+      //   el.setSelectionRange(len, len);
+      //   setselectionEnd(true)
+      setselectionStart(false)
+      // } else if (el.createTextRange) {
+      //   var t = el.createTextRange();
+      //   t.collapse(true);
+      //   t.moveEnd('character', len);
+      //   t.moveStart('character', len);
+      //   t.select();
+      // }
     }
     function moveCursorToStart(el) {
-      var len = el.value.length;
-      console.log(len)
-      if (el.setSelectionRange) {
-        el.focus();
-        el.setSelectionRange(0, 0);
-        setselectionStart(true)
      
-      } else if (el.createTextRange) {
-        var t = el.createTextRange();
-        t.collapse(true);
-        t.moveEnd('character', len);
-        t.moveStart('character', len);
-        t.select();
+      //equation.insert(index+1, "|")
+      var index=equation.indexOf("|")
+
+      console.log(index)
+      if ( equation[index] === "|") { 
+          
+        equation.splice(index, 1); 
       }
+      if ( Sys_equation[index] === "|") { 
+        Sys_equation.splice(index, 1); 
+      }
+      const insert = (arr, index, newItem) => [
+        // part of the array before the specified index
+        ...arr.slice(0, index),
+        // inserted item
+        newItem,
+        // part of the array after the specified index
+        ...arr.slice(index)
+      ]
+      const result = insert(equation,0, "|")
+      setequation(result)
+      const result2 = insert(Sys_equation,0, "|")
+      setSys_equation(result2)
+      // var len = el.value.length;
+      // console.log(len)
+      // if (el) {
+      //   el.focus();
+      //   el.setSelectionRange(0, 0);
+      setselectionStart(true)
+     
+      // } else if (el) {
+      //   var t = el.createTextRange();
+      //   t.collapse(true);
+      //   t.moveEnd('character', len);
+      //   t.moveStart('character', len);
+      //   t.select();
+      // }
     }
+
+    useEffect(() => {
+      if (equation.length==0 && Sys_equation.length==0 ){
+         setequation(["|"])
+
+         setSys_equation(["|"])
+      }
+    }, [equation,Sys_equation])
     function moveCursorRight(el) {
-      var len = el.value.length;
-      console.log(len)
-      var itemlength
-       equation.map(/*(item, j)*/(item, j) => {
-        //console.log(item.length)
-        if (j ==  countright) {
+var index=equation.indexOf("|")
+
+console.log(index)
+if ( equation[index] === "|") { 
+  equation.splice(index, 1); 
+}
+if ( Sys_equation[index] === "|") { 
+  Sys_equation.splice(index, 1); 
+}
+const insert = (arr, index, newItem) => [
+  ...arr.slice(0, index),
+  newItem,
+  ...arr.slice(index)
+]
+const result = insert(equation,index+1, "|")
+setequation(result)
+const result2 = insert(Sys_equation,index+1, "|")
+setSys_equation(result2)
+setselectionStart(true)
+
+    //   var len = el.value.length;
+    //   console.log(len)
+    //   var itemlength
+    //    equation.map(/*(item, j)*/(item, j) => {
+    //     //console.log(item.length)
+    //     if (j ==  countright) {
       
-          itemlength =  itemlengthright + item.length
+    //       itemlength =  itemlengthright + item.length
       
-        }
-      });
-      if (el.setSelectionRange) {
-        el.focus();
-        el.setSelectionRange(itemlength, itemlength);
-        /* this.setState({
-          selectionStart: true
-        }) */
+    //     }
+    //   });
+    //   if (el.setSelectionRange) {
+    //     el.focus();
+    //     el.setSelectionRange(itemlength, itemlength);
+    //     /* this.setState({
+    //       selectionStart: true
+    //     }) */
   
-      } else if (el.createTextRange) {
-        var t = el.createTextRange();
-        t.collapse(true);
-        t.moveEnd('character', len);
-        t.moveStart('character', len);
-        t.select();
-      }
-     setcountright(countright + 1)
-     setitemlengthright(itemlength)
+    //   } else if (el.createTextRange) {
+    //     var t = el.createTextRange();
+    //     t.collapse(true);
+    //     t.moveEnd('character', len);
+    //     t.moveStart('character', len);
+    //     t.select();
+    //   }
+    //  setcountright(countright + 1)
+    //  setitemlengthright(itemlength)
     }
-    function moveCursorLeft(el) {
-      var len = el.value.length;
-      console.log(len)
-      var itemlength
-       equation.map(/*(item, j)*/(item, j) => {
-        //console.log(item.length)
-        if (j ==  countleft) {
-    
-          itemlength =  itemlengthleft + item.length
-       
-        }
-      });
-      if (el.setSelectionRange) {
-        el.focus();
-        el.setSelectionRange(itemlength, itemlength);
-   
-      } else if (el.createTextRange) {
-        var t = el.createTextRange();
-        t.collapse(true);
-        t.moveEnd('character', len);
-        t.moveStart('character', len);
-        t.select();
+
+
+    function moveCursorLeft(e) {
+     
+      var index=equation.indexOf("|")
+      
+      console.log(index)
+      if ( equation[index] === "|") { 
+          
+        equation.splice(index, 1); 
       }
+      if ( Sys_equation[index] === "|") { 
+        Sys_equation.splice(index, 1); 
+      }
+      //equation.insert(index+1, "|")
+      const insert = (arr, index, newItem) => [
+        // part of the array before the specified index
+        ...arr.slice(0, index),
+        // inserted item
+        newItem,
+        // part of the array after the specified index
+        ...arr.slice(index)
+      ]
+      const result = insert(equation,index-1, "|")
+      setequation(result)
+
+      const result2 = insert(Sys_equation,index-1, "|")
+      setSys_equation(result2)
+      setselectionStart(true)
+
+
+//var index = 
+
+
+
+
+
+      //console.log("equation",equation.concat(["|"]))
+
+
+
+
+      //    console.log("--",len)  
+      // var len = el.value.length;
+ 
+      // var itemlength =""
+      //  equation.map((item, j) => {
+      //   console.log(item.length)
+      //  if (j ==  countleft) {
+      //       itemlength =  itemlengthleft + item.length
+      //     console.log("itemlength",itemlength)
+      //   }
+      // });
+      // if (el.setSelectionRange) {
+      //   el.focus();
+      //   el.setSelectionRange(itemlength, itemlength);
+   
+      // } else if (el.createTextRange) {
+      //   var t = el.createTextRange();
+      //   t.collapse(true);
+      //   t.moveEnd('character', len);
+      //   t.moveStart('character', len);
+      //   t.select();
+      // }
         
-      setcountleft(countleft + 1)
-      setitemlengthleft(itemlength)
+      // setcountleft(countleft + 1)
+      // setitemlengthleft(itemlength)
     }
     useEffect(() => {
      
@@ -713,17 +1067,16 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
                           <th style={{ width: '5%' }} className="gradient-custom-th p-0"><span className=" text-center" style={{ color: "#131413", fontSize: "14px" }}>=</span></th>
                           <th style={{ width: '60%' }} className="gradient-custom-th p-0" ><textarea
                             style={style}
-                           
+                            id="mytextarea"
+                            autofocus
                             value={equation.join('')}
                             rows={4}
                             style={{
                               width: '100%', backgroundColor: "#11ffee00", border: "none", maxHeight: "75px",
                               minHeight: "38px"
                             }}
-  
-                          />
-  
-  
+                            disabled
+                          />  
                           </th>
   
                         </tr>
@@ -736,10 +1089,10 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
                 </MDBRow>
   
                 <MDBRow className='d-flex justify-content-center' style={{ marginTop: 0.5 + 'em' }} >
-                  <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px' }} onClick={() => {  moveCursorToStart(textformule); }} disabled>
+                  <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px' }} onClick={(e) => moveCursorToStart(e)}  >
                     <MDBIcon size='lg' fas icon='angle-double-left'></MDBIcon>
                   </MDBBtn>
-                  <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px', backgroundColor: '#7dd2d9' }} onClick={() => {  moveCursorLeft(textformule); }} disabled >
+                  <MDBBtn className=' button_round btn-floating'  style={{ width: '28px', height: '28px', backgroundColor: '#7dd2d9' }} onClick={(e) => moveCursorLeft(e)}  >
                     <MDBIcon size='lg' fas icon='caret-left'></MDBIcon>
                   </MDBBtn>
                   <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px', backgroundColor: '#7dd2d9' }} onClick={() =>  deleteequation()}>
@@ -751,10 +1104,10 @@ console.log("++++++MesureList++++Calculatrice++++",MesureList)
                   <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px', backgroundColor: '#7dd2d9' }} onClick={() =>  clearequation()}>
                     <MDBIcon size='lg' fas icon='trash-alt' ></MDBIcon>
                   </MDBBtn>
-                  <MDBBtn className=' button_round btn-floating ' style={{ width: '28px', height: '28px' }} onClick={() => {  moveCursorRight(textformule); }} disabled >
+                  <MDBBtn className=' button_round btn-floating ' style={{ width: '28px', height: '28px' }} onClick={(e) => {  moveCursorRight(e); }}  >
                     <MDBIcon size='lg' fas icon='caret-right'></MDBIcon>
                   </MDBBtn>
-                  <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px' }} onClick={() => {  moveCursorToEnd(textformule); }} disabled>
+                  <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px' }} onClick={(e) => {  moveCursorToEnd(e); }} >
                     <MDBIcon size='lg' fas icon='angle-double-right'></MDBIcon>
                   </MDBBtn>
   
