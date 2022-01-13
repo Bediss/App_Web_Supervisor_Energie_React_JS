@@ -23,6 +23,8 @@ class NavigateurRapport extends React.Component {
     const query = parseParams(this.state.history.location.search)
     console.log("localStorage.getItem('User_Report')", localStorage.getItem('User_Report'))
     if (!("reportId" in query || "reportName" in query)) {
+
+
       this.state.history.push({ search: `?reportId=${localStorage.getItem('User_Report')}` })
     }
     this.setState({ screen: window.screen.availHeight / (0.850 * 2.02) })
@@ -83,6 +85,7 @@ const Visualiser_Rapport = ({ AjouterRapport, history, layoutFormat, jsonNewRapp
       setReportI_href(reportId)
     }
     console.log('reportId', reportId)
+
   }, [history.location.search])
   /************************************************************************************************************* */
   /*****************************************callback donée d'un rapport***************************************** */
@@ -118,7 +121,7 @@ const Visualiser_Rapport = ({ AjouterRapport, history, layoutFormat, jsonNewRapp
 
       </MDBBreadcrumb>
       <div className="rapportNavigateur">
-        {AjouterRapport == false ? (<RapportRoute history={history} layoutFormat={layoutFormat} callback={callback} />) :
+        {AjouterRapport == false&&reportI_href!=undefined ? (<RapportRoute history={history} layoutFormat={layoutFormat} callback={callback} />) :
           AjouterRapport == true ? (
             layoutFormat && GenerateTableActive &&
             <GenerateTable  dummy={false} editor={false} supervisor={true} config={config} maxCols={5} maxRows={5} style={{ width: layoutFormat.width, height: layoutFormat.height }} />

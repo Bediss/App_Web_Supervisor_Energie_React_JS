@@ -1,10 +1,11 @@
 //import 'react-tabulator/lib/styles.css';
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import Tabulator from "tabulator-tables";
 //import "tabulator-tables/dist/css/semantic-ui/tabulator_semantic-ui.min.css";
 //import "tabulator-tables/dist/css/bootstrap/tabulator_bootstrap.min.css";
 
 import axios from 'axios';
+import axios1 from '../../axios'
 import "../../Rapporteur/CasEmail.css"
 import { MDBBreadcrumb,MDBCol, MDBRow , MDBBreadcrumbItem,MDBJumbotron, MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBInput, MDBBtn } from "mdbreact";
 import uuid from 'react-uuid';
@@ -14,7 +15,8 @@ import "react-datetime/css/react-datetime.css";
 import { isThisSecond } from 'date-fns';
 import Swal from 'sweetalert2';
 import Emploi_Temps from "./Emploi_TempsV2"
-import ModifierEmploi_Temps from "./ModifierEmploi_Temps"
+import ModifierEmploi_Temps from "./ModifierEmploi_TempsV2"
+import { ReactTabulator, reactFormatter } from 'react-tabulator'
 
 //import ConfirmNavigationModal from "./your-own-code";
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
@@ -27,12 +29,145 @@ const validateForm = (errors) => {
     );
     return valid;
 }
+import Navbar from "../../navbar";
 class CasReguliers extends React.Component {
 
-  el = React.createRef();
 
-  mytable = "Tabulator"; //variable to hold your table
-  tableData = [] //data for table to display
+  constructor(props) {
+    super(props)
+    this.state = {
+      columnsReactTabulator:[   
+        
+      {
+        title: "Nom de Cas Reguliers",
+        field: "Event_Name",
+        width: "20%",
+        headerFilter: "input",
+        cellClick: this.datamodifierFun
+        // cellClick: function (e, cell, row) {
+        //   var position = cell.getRow().getPosition()
+        //   console.log(position);
+        //   datamodifier.splice(0, 2); 
+        //   datamodifier.push(cell.getData(), position);
+        //   console.log("valider",datamodifier)
+        //   const a = JSON.stringify(cell.getData().OperateurValue)
+        //   const b = a.replace(/'/g,"''")
+         
+        //   localStorage.setItem('OperateurValue', b );
+        // }
+      },
+
+      {
+        title: "Frequence",
+        field: "FrequenceUser",
+        width: "10%",
+        cellClick: this.datamodifierFun
+      },
+      {
+        title: "Emploi du Temps",
+        field: "UserInterface",
+        width: "20%",
+        cellClick: this.datamodifierFun
+      },
+      {
+        title: "Prochain réveil",
+        field: "Next_Check",
+        width: "17%",
+        cellClick: this.datamodifierFun
+      },
+      {
+        title: "Description de Cas Regulier",
+        field: "Event_Description",
+        width: "17%",
+        cellClick: this.datamodifierFun
+      },
+     
+
+      {
+        title: "Supprimer",
+        field: "supprimer",
+        width: "13%",
+        hozAlign: "center",
+        formatter: this.supprimerFunIcon,
+        cellClick: this.supprimerFunclick
+  
+      }],
+      tableData: [],
+      cellName: "",
+      cellTable:"",
+      modal: false,
+      modal1: false,
+      modal2: false,
+      Event_Code: "",
+      Event_Name: "",
+      Frequency: [],
+      Frequency1: [],
+      evaluation:1,
+      FrequencyJson: [],
+      Next_Check: null,
+      Event_Description: "",
+      ajout: "",
+      ajoutertemp: [],
+      ajoutertap: [],
+      modifiertap: [],
+      modifierUserInterface:[],
+      ajouterUserInterface:[],
+      modifier: "",
+      temp: "",
+      supprimer: "",
+      data: "",
+      Temps_Reel_unite:'Min',
+      Journalier_unite:'Heure',
+      Habdomadaire_unite:'Jour',
+      Mensuel_unite:'Jour',
+      Annuelle_unite:'Mois',
+      num:1,
+      numTemps_Reel:1,
+      numJournalier:1,
+      numHabdomadaire:1,
+      numMensuel:1,
+      numAnnuelle:1,
+      periode:"Journalier",
+      valeur2:"",
+      operateur2:"",
+      TempsUnite:"Heure",
+      supprimertemp: [],
+      modificationtemp: [],
+      datamodifier: [],
+      email: [],
+      keyword:"",
+      operateur:"",
+      haut:"",
+      bas:"",
+      FrequenceUser:"",
+      dans:"",
+      dateDMY: Moment(this.getDate.date).format('DD-MM-YYYY-hh-mm-ss-SSSSSS-'),
+      position: null,
+      Frequence_tab:[],
+      OperateurValue_tab:"",
+      UserInterface_tab:"",
+      UserInterface:"",
+      Frequence:"",
+      dataCasRegulier:[],
+      errors: {
+        Event_Name: '* Obligatoire', 
+        Next_Check: '* Obligatoire',
+        periode: '* Obligatoire',
+    },
+    history:props.history,
+    validationEmploiTemp: false,
+    OperateurValueModifier:[],
+    modifiertab:[],
+    }
+    this.table = React.createRef();
+    this.handleChange = this.handleChange.bind(this);
+    this.ajouter = this.ajouter.bind(this);
+    this.Enregistrer = this.Enregistrer.bind(this);
+    this.modifier = this.modifier.bind(this);
+    this.updateDate = this.updateDate.bind(this);
+    this.copier = this.copier.bind(this);
+    
+  }
 
   componentDidMount() {
 
@@ -42,25 +177,15 @@ class CasReguliers extends React.Component {
     const supprimertemp = this.state.supprimertemp;
     const datamodifier = this.state.datamodifier;
 
-    /// api tabulator display EventEMail
-    axios.defaults.withCredentials = true;
-    axios.post(window.apiUrl+"display/",
-
-      {
-        tablename: "Reporting_F_Regulier_V3",
-        identifier: this.state.dateDMY + uuid(),
-        fields: "*",
-        content: "*"
-      }
-
-
-    )
+ 
+   
+    axios1.get(window.apiUrl+"getRegular/?name&freq&next&desc&eval")
 
       .then(
         (result) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-if (result.data !== null){ 
+        if (result.data !== null){ 
           const dataglobale = result.data
           
               for (var i = 0; i <dataglobale.length ; i++) 
@@ -72,24 +197,24 @@ if (result.data !== null){
                
         
           
-            const Frequency  = [dataglobale[i].Frequency]
-            
+            const Frequency  = dataglobale[i].Frequency
+            const FrequencyArray =[dataglobale[i].Frequency]
        if(dataglobale[i].Frequency==null){
 
        console.log("vide")
 
        }else{
-          Frequency.forEach(element => 
+        FrequencyArray.forEach(element => 
            this.state.Frequence_tab=element.Frequence)
          const Frequence=[this.state.Frequence_tab];
 
          const FrequenceUser=this.state.FrequenceUser=Frequence[0].FrequenceUser;
-         Frequency.forEach(element => 
+         FrequencyArray.forEach(element => 
           this.state.OperateurValue_tab=element.OperateurValue)
         const OperateurValue=this.state.OperateurValue_tab;
       
                  
-        Frequency.forEach(element => 
+        FrequencyArray.forEach(element => 
           this.state.UserInterface_tab=element.UserInterface)
         const UserInterface=this.state.UserInterface_tab;
     
@@ -115,167 +240,9 @@ if (result.data !== null){
             else{
               console.log("data Email est vide")
             }
-          this.tableData = this.state.dataCasRegulier;
-
-          //tabulator
-          this.mytable = new Tabulator(this.el, {
-            data: this.tableData,
-
-            //link data to table
-            reactiveData: true, //enable data reactivity
-            addRowPos: "top",
-            pagination: "local",
-            paginationSize: 6,
-            movableColumns: true,      
-            resizableRows: true,
-            reactiveData: true,
-            printRowRange: "selected",
-            selectable: 1,
-            selectablePersistence: this.state.position,
-            
-            paginationSizeSelector: [3, 6, 8, 10],
-            columns: [
-              {
-                hozAlign: "center",
-                headerSort: false,
-                cellClick: function (e, cell, row) {
-                  var position = cell.getRow().getPosition()
-                  console.log(position);
-                  datamodifier.splice(0, 2); 
-                  datamodifier.push(cell.getData(), position);
-                  console.log("valider",datamodifier)
-                  const a = JSON.stringify(cell.getData().OperateurValue)
-                  const b = a.replace(/'/g,"''")
-                 
-                  localStorage.setItem('OperateurValue', b );
-                }
-              },
-              {
-                title: "Nom de Cas Reguliers",
-                field: "Event_Name",
-                width: "20%",
-                headerFilter: "input",
-                cellClick: function (e, cell, row) {
-                  var position = cell.getRow().getPosition()
-                  console.log(position);
-                  datamodifier.splice(0, 2); 
-                  datamodifier.push(cell.getData(), position);
-                  console.log("valider",datamodifier)
-                  const a = JSON.stringify(cell.getData().OperateurValue)
-                  const b = a.replace(/'/g,"''")
-                 
-                  localStorage.setItem('OperateurValue', b );
-                }
-              },
-
-              {
-                title: "Frequence",
-                field: "FrequenceUser",
-                width: "10%",
-                cellClick: function (e, cell, row) {
-                  var position = cell.getRow().getPosition()
-                  console.log(position);
-                  datamodifier.splice(0, 2); 
-                  datamodifier.push(cell.getData(), position);
-                  console.log("valider",datamodifier)
-                  const a = JSON.stringify(cell.getData().OperateurValue)
-                  const b = a.replace(/'/g,"''")
-                 
-                  localStorage.setItem('OperateurValue', b );
-                }
-              },
-              {
-                title: "Emploi du Temps",
-                field: "UserInterface",
-                width: "20%",
-                cellClick: function (e, cell, row) {
-                  var position = cell.getRow().getPosition()
-                  console.log(position);
-                  datamodifier.splice(0, 2); 
-                  datamodifier.push(cell.getData(), position);
-                  console.log("valider",datamodifier)
-                  const a = JSON.stringify(cell.getData().OperateurValue)
-                  const b = a.replace(/'/g,"''")
-                 
-                  localStorage.setItem('OperateurValue', b );
-                }
-              },
-              {
-                title: "Prochain réveil",
-                field: "Next_Check",
-                width: "17%",
-                cellClick: function (e, cell, row) {
-                  var position = cell.getRow().getPosition()
-                  console.log(position);
-                  datamodifier.splice(0, 2); 
-                  datamodifier.push(cell.getData(), position);
-                  console.log("valider",datamodifier)
-                  const a = JSON.stringify(cell.getData().OperateurValue)
-                  const b = a.replace(/'/g,"''")
-                 
-                  localStorage.setItem('OperateurValue', b );
-                }
-              },
-              {
-                title: "Description de Cas Regulier",
-                field: "Event_Description",
-                width: "17%",
-                cellClick: function (e, cell, row) {
-                  var position = cell.getRow().getPosition()
-                  console.log(position);
-                  datamodifier.splice(0, 2); 
-                  datamodifier.push(cell.getData(), position);
-                  console.log("valider",datamodifier)
-                  const a = JSON.stringify(cell.getData().OperateurValue)
-                  const b = a.replace(/'/g,"''")
-                 
-                  localStorage.setItem('OperateurValue', b );
-                }
-              },
-             
-
-              {
-                title: "Supprimer",
-                field: "supprimer",
-                width: "13%",
-                hozAlign: "center",
-                formatter: function () { //plain text value
-
-                  return "<i class='fa fa-trash-alt icon'></i>";
-
-                },
-                cellClick: function (e, cell) {
-                 const F1 = JSON.stringify(cell.getData().Frequency)
-                 const Frequency = F1.replace(/'/g,"''")
-                 console.log("Frequency",Frequency)
-                  
-                  //supprimertemp.push(cell.getData().Event_Code+ ";" + cell.getData().Event_Name + ";" + cell.getData().Next_Check + ";" + cell.getData().Event_Description+ ";"+ Frequency + ";"  + 3);
-                  
-                    supprimertemp.push({
-                    "Event_Code":cell.getData().Event_Code,
-                    "Event_Name":cell.getData().Event_Name,
-                    "Next_Check":cell.getData().Next_Check,
-                    "Event_Description":cell.getData().Event_Description,
-                    "Frequency":Frequency,
-                    "DBAction":"3"
-                  })
-                  console.log(supprimertemp)
-                  cell.getRow().delete();
-                  Swal.fire({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 4000,
-                    width: 300,
-                    icon: '',
-                    title: 'Supprimer temporairement  '+cell.getData().Event_Name 
-          
-                })
-                },
-                hideInHtml: true,
-              },
-            ], //define table columns
-          });
+ 
+           this.setState({tableData:this.state.dataCasRegulier})
+      
           
           console.log("Reporting_F_Regulier", result.data);
         }
@@ -301,9 +268,9 @@ if (result.data !== null){
   }
     this.state.Event_Name="";
     this.state.Next_Check="";
-    this.state.periode="";
+    this.state.periode="Journalier";
     this.state.Event_Description="";
-    this.state.TempsUnite="";
+    this.state.TempsUnite="Heure";
     this.state.num=1;
     //////////////////
     axios.post(window.apiUrl+"sendid/",
@@ -344,12 +311,13 @@ if (result.data !== null){
     this.state.Event_Name = this.state.datamodifier[0].Event_Name; 
     this.state.Frequency = this.state.datamodifier[0].Frequency;
     this.state.Next_Check = this.state.datamodifier[0].Next_Check;
-    const a = this.state.datamodifier[0].Frequency[0].Frequence
-    const Frequence = [a]
+    console.log('Frequence------------------------>',this.state.datamodifier[0].Frequency)
+    this.state.OperateurValueModifier = this.state.datamodifier[0].Frequency.OperateurValue
+    const Frequence = this.state.datamodifier[0].Frequency.Frequence
     console.log('Frequence',Frequence)
-    this.state.periode=Frequence[0].Periode
-    this.state.TempsUnite=Frequence[0].UniteTemp
-    this.state.num=Frequence[0].NbUnite
+    this.state.periode=Frequence.Periode
+    this.state.TempsUnite=Frequence.UniteTemp
+    this.state.num=Frequence.NbUnite
    // this.state.periode=this.state.datamodifier[0].Frequency[0].Frequence[0].Periode;
    // this.state.TempsUnite=this.state.datamodifier[0].Frequency[0].Frequence[0].UniteTemp;
    // this.state.num=this.state.datamodifier[0].Frequency[0].Frequence[0].NbUnite;
@@ -364,13 +332,13 @@ if (result.data !== null){
       timer: 4000,
       icon: 'warning',
       width:400,
-      title: 'Sélectionner pour le modifier'})
+      title: 'Veuillez sélectionner une entrée à modifier'})
   }
   };
 
   ajouter() {
     self = this
-    if (validateForm(this.state.errors) == true) {
+    if (this.state.validationEmploiTemp == false&&this.state.Event_Name!=""&&this.state.periode!=""&&this.state.TempsUnite!=""&&this.state.Next_Check!="") {
     this.setState({
       modal: !this.state.modal
     });
@@ -380,7 +348,7 @@ if (result.data !== null){
 for (var i = 0; i <this.state.ajoutertap.length ; i++) 
 {
   const valeur =this.state.ajoutertap[i].valeur
-  const c = valeur.replace(/'/g,"")
+  const c = valeur.replace(/\|/g,"")
     const d= c.replace("(","")
     const e= d.replace(")","")
     const f= e.replace("and ",",") 
@@ -410,7 +378,7 @@ console.log(this.state.ajouterUserInterface)
                console.log(Frequency)
           const Next_Check = this.state.Next_Check;
           const periode = this.state.periode;
-           const evaluation = this.state.evaluation;
+           const evaluation = 1;
           const DBAction = "2";
           
         
@@ -422,7 +390,7 @@ console.log(this.state.ajouterUserInterface)
             "Next_Check":Next_Check,
             "Event_Description":Event_Description,
             "Frequency":Frequency,
-            "evaluation": null,
+            "evaluation": 1,
             "DBAction":DBAction}
           this.state.ajoutertemp.push(this.state.ajout);
           const  Frequence= this.state.FrequencyJson[0].Frequence; 
@@ -435,7 +403,7 @@ console.log(this.state.ajouterUserInterface)
 
 
 
-          this.mytable.addRow({ Event_Code, Event_Name, FrequenceUser,UserInterface,Next_Check, Event_Description,periode }, true);
+          this.table.current.table.addRow({ Event_Code, Event_Name, FrequenceUser,UserInterface,Next_Check, Event_Description,periode,Frequency }, true);
           console.log(this.state.ajout);
           console.log(this.state.ajoutertemp);
 
@@ -456,7 +424,55 @@ console.log(this.state.ajouterUserInterface)
             title: 'Ajouter'
       
         })
-      }else {
+      }
+      else if(this.state.Event_Name==""){
+        Swal.fire({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 4000,
+          width: 300,
+          icon: 'warning',
+          title: "Veuillez entrer un nom valide pour votre Cas Régulier. Celui-ci ne peut pas être vide. "
+        })
+      }  else if (this.state.Next_Check==""){
+        Swal.fire({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 4000,
+          width: 300,
+          icon: 'warning',
+          title: 'Veuillez Remplir le champ Prochain réveil'
+  
+        })
+      }else if (this.state.periode == ""&&this.state.TempsUnite=="") {
+        Swal.fire({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 4000,
+          width: 300,
+          icon: 'warning',
+          title: 'Veuillez entrer une fréquence  valide pour votre Cas Régulier. Celui-ci ne peut pas être vide'
+  
+        })
+  
+      }
+      else if (this.state.validationEmploiTemp == true) {
+        Swal.fire({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 4000,
+          width: 300,
+          icon: 'warning',
+          title: "Veuillez enregistrer l'emploi du temps de votre cas régulier."
+        })
+      }
+    
+      
+      else {
         Swal.fire({
             toast: true,
             position: 'top',
@@ -465,12 +481,13 @@ console.log(this.state.ajouterUserInterface)
             timer: 4000,
             icon: 'warning',
             width: 400,
-            title: 'S\il vous plait remplir tous les champs obligatoire'
+            title: 'Veuillez saisir tous les champs obligatoires'
         })
       }
         
   }
   modifier() {
+    if(this.state.validationEmploiTemp == false&&this.state.Event_Name!=""&&this.state.periode!=""&&this.state.TempsUnite!=""&&this.state.Next_Check!=""){
     this.setState({
       modal1: !this.state.modal1
     });
@@ -485,18 +502,24 @@ console.log(this.state.ajouterUserInterface)
 
   })
   ////////modifierUserInterface///////////
-const a =  localStorage.getItem('modifiertap'); 
+
     
-console.log(" localStorage modifiertap",a)
-this.state.modifiertab=JSON.parse(a) 
-console.log("this.state.modifiertap",this.state.modifiertap)
+if(this.state.modifiertab.length!=0){
 for (var i = 0; i <this.state.modifiertab.length ; i++) 
 {
   const valeur =this.state.modifiertab[i].valeur
-  const c = valeur.replace(/'/g,"")
-    const d= c.replace("(","")
-    const e= d.replace(")","")
-    const f= e.replace("and ",",") 
+  const f = this.state.modifiertab[i].valeur
+  .replace("dimanche", "Dimanche")
+  .replace("samedi", "Samedi")
+  .replace("vendredi", "Vendredi")
+  .replace("jeudi", "Jeudi")
+  .replace("mercredi", "Mercredi")
+  .replace("mardi", "Mardi")
+  .replace("lundi", "Lundi")
+  .replace("last_a", "Dernier jour de l'année")
+  .replace("last_m", "Dernier jour du mois")
+  .replace("last_s", "Dernier jour de la semaine")
+  .replace("(", "").replace(")", "").replace("and ", ",").replace(/\|/g, " ")
     this.state.valeur2=f
 this.state.operateur2=this.state.modifiertab[i].operateur
 console.log("operateur",this.state.operateur)
@@ -505,6 +528,8 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
 
 
 console.log(this.state.modifierUserInterface)
+
+}
 /////////////
 const FrequenceJson = {"Periode":this.state.periode,"UniteTemp":this.state.TempsUnite,"NbUnite":this.state.num,"FrequenceUser": this.state.num+'_'+this.state.TempsUnite}
 console.log(FrequenceJson)
@@ -530,7 +555,7 @@ console.log(FrequenceJson)
         const FrequenceUser =this.state.FrequencyJson[0].Frequence[0].FrequenceUser
 
         console.log("FrequenceUser",FrequenceUser)
-          const UserInterface=this.state.UserInterface;
+          const UserInterface=this.state.modifierUserInterface;
           const b =  {"Frequence" : FrequenceJson,"OperateurValue":this.state.modifiertab,"UserInterface": this.state.modifierUserInterface}; 
        
         
@@ -548,26 +573,83 @@ console.log(FrequenceJson)
       "Next_Check":Next_Check,
       "Event_Description":Event_Description,
       "Frequency":Frequency,
-      "evaluation":null,
+      "evaluation":1,
       "DBAction":DBAction});
     console.log(this.state.modificationtemp);
     console.log("this.state.modificationtemp")
-    this.mytable.redraw(true);
+    
 
   
-    this.tableData[this.state.position].Event_Name= Event_Name;
-    this.tableData[this.state.position].FrequenceUser= FrequenceUser;
-    this.tableData[this.state.position].UserInterface= UserInterface;
-    this.tableData[this.state.position].Next_Check= Next_Check;
-    this.tableData[this.state.position].Event_Description= Event_Description;
-   
-    console.log("testttttt  " + [Event_Name,  Next_Check, Event_Description])
+    const periode = this.state.periode;
+    const aaa = {
+  
+
+      Event_Code, Event_Name, FrequenceUser,UserInterface,Next_Check, Event_Description,periode,Frequency
+    }
+    this.table.current.table.updateData([aaa])
+    console.log("testttttt  " + [Event_Code, Event_Name, FrequenceUser,UserInterface,Next_Check, Event_Description,periode])
  
     this.state.Event_Description = "";
           this.state.Event_Name = "";
           this.state.Frequency = "";
           this.state.Next_Check = "";
-    this.lod();
+  } else if(this.state.Event_Name==""){
+    Swal.fire({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 4000,
+      width: 300,
+      icon: 'warning',
+      title: "Remplir le champ Nom de Cas Reguliers "
+    })
+  }  else if (this.state.Next_Check==""){
+    Swal.fire({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 4000,
+      width: 300,
+      icon: 'warning',
+      title: 'Veuillez Remplir le champ Prochain réveil'
+
+    })
+  }else if (this.state.periode == ""&&this.state.TempsUnite=="") {
+    Swal.fire({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 4000,
+      width: 300,
+      icon: 'warning',
+      title: 'Veuillez entrer une fréquence  valide pour votre Cas Régulier. Celui-ci ne peut pas être vide'
+
+    })
+
+  }
+  else if (this.state.validationEmploiTemp == true) {
+    Swal.fire({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 4000,
+      width: 300,
+      icon: 'warning',
+      title: "Veuillez enregistrer l'emploi du temps de votre cas régulier."
+    })
+  }
+  else {
+    Swal.fire({
+        toast: true,
+        position: 'top',
+
+        showConfirmButton: false,
+        timer: 4000,
+        icon: 'warning',
+        width: 400,
+        title: 'S\il vous plait remplir tous les champs obligatoire'
+    })
+  }
   }
 
   Enregistrer() {
@@ -606,9 +688,9 @@ console.log(FrequenceJson)
       })
       })
      .catch((err) => console.error(err));
-      setTimeout(function(){
-        window.location.reload(1);
-     }, 1000);
+    //   setTimeout(function(){
+    //     window.location.reload(1);
+    //  }, 500);
     }
     else{
       Swal.fire({
@@ -728,7 +810,7 @@ const { name, value } = e.target;
        case 'periode':
            errors.periode =
                  value.length < 5
-               ? 'Frequence est vide!'
+               ? 'Veuillez saisir une valeur de fréquence valide. Ce champ ne peut pas être vide.'
                : '';
            break;
            
@@ -740,78 +822,6 @@ const { name, value } = e.target;
    this.setState({ errors, [name]: value });
 
 ////////////////////////////////////////////////////
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      modal: false,
-      modal1: false,
-      modal2: false,
-      Event_Code: "",
-      Event_Name: "",
-      Frequency: [],
-      Frequency1: [],
-      evaluation:"",
-      FrequencyJson: [],
-      Next_Check: null,
-      Event_Description: "",
-      ajout: "",
-      ajoutertemp: [],
-      ajoutertap: [],
-      modifiertap: [],
-      modifierUserInterface:[],
-      ajouterUserInterface:[],
-      modifier: "",
-      temp: "",
-      supprimer: "",
-      data: "",
-      Temps_Reel_unite:'Min',
-      Journalier_unite:'Heure',
-      Habdomadaire_unite:'Jour',
-      Mensuel_unite:'Jour',
-      Annuelle_unite:'Mois',
-      num:1,
-      numTemps_Reel:1,
-      numJournalier:1,
-      numHabdomadaire:1,
-      numMensuel:1,
-      numAnnuelle:1,
-      periode:"",
-      valeur2:"",
-      operateur2:"",
-      TempsUnite:"",
-      supprimertemp: [],
-      modificationtemp: [],
-      datamodifier: [],
-      email: [],
-      keyword:"",
-      operateur:"",
-      haut:"",
-      bas:"",
-      FrequenceUser:"",
-      dans:"",
-      dateDMY: Moment(this.getDate.date).format('DD-MM-YYYY-hh-mm-ss-SSSSSS-'),
-      position: null,
-      Frequence_tab:[],
-      OperateurValue_tab:"",
-      UserInterface_tab:"",
-      UserInterface:"",
-      Frequence:"",
-      dataCasRegulier:[],
-      errors: {
-        Event_Name: '* Obligatoire', 
-        Next_Check: '* Obligatoire',
-        periode: '* Obligatoire',
-    }
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.ajouter = this.ajouter.bind(this);
-    this.Enregistrer = this.Enregistrer.bind(this);
-    this.modifier = this.modifier.bind(this);
-    this.updateDate = this.updateDate.bind(this);
-    this.copier = this.copier.bind(this);
-    
   }
 
   copier = () => {
@@ -827,7 +837,7 @@ const { name, value } = e.target;
 
 
       //console.log(Alarme_Code)
-      this.setState({ isDisabledbutton: true })
+     // this.setState({ isDisabledbutton: true })
 
       axios.post(window.apiUrl + "sendid/",
         {
@@ -871,26 +881,25 @@ const { name, value } = e.target;
            //   this.state.Event_Code = this.state.datamodifier[0].Event_Code;
               this.state.Event_Description = this.state.datamodifier[0].Event_Description;
               this.state.Event_Name =  'copie ' +this.state.datamodifier[0].Event_Name; 
+              
               this.state.Frequency1 = this.state.datamodifier[0].Frequency;
-              console.log("this.state.Frequency",this.state.Frequency1[0].UserInterface)
-              console.log("this.state.Frequency",this.state.Frequency1[0].OperateurValue)
-              const c =JSON.stringify(this.state.Frequency1[0].OperateurValue)
-              const d = c.replace(/'/g,"''")
-              const OperateurValue = JSON.parse(d)
+              console.log("this.state.Frequency",this.state.Frequency1.UserInterface)
+              console.log("this.state.Frequency",this.state.Frequency1.OperateurValue)
+         
+              const OperateurValue = this.state.Frequency1.OperateurValue
               console.log("OperateurValue",OperateurValue)
               this.state.Next_Check = this.state.datamodifier[0].Next_Check;
-              const a = this.state.datamodifier[0].Frequency[0].Frequence
-              console.log('a',a)
-              const Frequence1 = [a]
+            
+              const Frequence1 = this.state.datamodifier[0].Frequency.Frequence
               console.log('Frequence1',Frequence1)
-              this.state.periode=Frequence1[0].Periode
-              this.state.TempsUnite=Frequence1[0].UniteTemp
-              this.state.num=Frequence1[0].NbUnite
+              this.state.periode=Frequence1.Periode
+              this.state.TempsUnite=Frequence1.UniteTemp
+              this.state.num=Frequence1.NbUnite
 
               this.state.position = this.state.datamodifier[1];
               const FrequenceJson = {"Periode":this.state.periode,"UniteTemp":this.state.TempsUnite,"NbUnite":this.state.num,"FrequenceUser": this.state.num+'_'+this.state.TempsUnite}
               console.log(FrequenceJson)
-              this.state.FrequencyJson=[{"Frequence" : [FrequenceJson] ,"OperateurValue":OperateurValue,"UserInterface": this.state.Frequency1[0].UserInterface}]
+              this.state.FrequencyJson=[{"Frequence" : FrequenceJson ,"OperateurValue":OperateurValue,"UserInterface": this.state.Frequency1.UserInterface}]
             
                 this.state.Frequency=JSON.stringify(this.state.FrequencyJson)
              
@@ -898,7 +907,7 @@ const { name, value } = e.target;
                  const Event_Description = this.state.Event_Description;
                  const Event_Name = this.state.Event_Name;
                 
-                const b =  {"Frequence" : FrequenceJson,"OperateurValue":OperateurValue,"UserInterface": this.state.Frequency1[0].UserInterface}; 
+                const b =  {"Frequence" : FrequenceJson,"OperateurValue":OperateurValue,"UserInterface": this.state.Frequency1.UserInterface}; 
                 console.log("b",b)  
                 const Frequency =b
                       console.log(Frequency)
@@ -916,11 +925,11 @@ const { name, value } = e.target;
                    "Next_Check":Next_Check,
                    "Event_Description":Event_Description,
                    "Frequency":Frequency,
-                   "evaluation": null,
+                   "evaluation": 1,
                    "DBAction":DBAction}
                  this.state.ajoutertemp.push(this.state.ajout);
                  const  Frequence= this.state.FrequencyJson[0].Frequence; 
-                 const FrequenceUser =this.state.FrequencyJson[0].Frequence[0].FrequenceUser
+                 const FrequenceUser =this.state.FrequencyJson[0].Frequence.FrequenceUser
        
                  console.log("FrequenceUser",FrequenceUser)
                  const  UserInterface= this.state.FrequencyJson[0].UserInterface; 
@@ -929,7 +938,7 @@ const { name, value } = e.target;
        
        
        
-                 this.mytable.addRow({ Event_Code, Event_Name, FrequenceUser,UserInterface,Next_Check, Event_Description,periode }, true);
+                 this.table.current.table.addRow({ Event_Code, Event_Name, FrequenceUser,UserInterface,Next_Check, Event_Description,periode,Frequency }, true);
                  console.log(this.state.ajout);
                  console.log(this.state.ajoutertemp);
        
@@ -985,11 +994,75 @@ AjoutDataEmploi=(DataEmploi)=>{
   console.log("-----------------DataEmploi--------------------",DataEmploi)
   this.setState({ajoutertap:DataEmploi})
     }
+
+    supprimerFunIcon() {
+      return "<i class='fa fa-trash-alt icon'></i>";
+    }
+    supprimerFunclick = (e, cell) => {
+      console.log(cell)
+      this.toggleDelete()
+      this.CellTableFun(cell)
+      //cell.getData();
+      //  alert("confirmation de Suppression" + " " + cell.getData().U_Alarme_Name);
+  
+    }
+    datamodifierFun = (e, cell, row) => {
+
+      var datamodifier = [cell.getData()];
+      // var position = cell.getRow().getPosition()
+      //datamodifier.splice(0, 2)
+      const position = cell.getRow().getPosition()
+      this.setState({ position })
+      console.log("datamodifier", datamodifier)
+      this.selectDataTabulator(datamodifier)
+      // this.setState({datamodifier:datamodifier})
+  
+    }
+    selectDataTabulator = (ArrayData) => {
+      this.setState({ datamodifier: ArrayData })
+    }
+  
+    CellTableFun = (cell) => {
+      this.setState({ cellTable: cell })
+      this.setState({ cellName: cell.getData().Event_Name })
+    }
+    toggleDelete = () => {
+      this.setState({
+        modalDelete: !this.state.modalDelete
+      });
+    }
+    deletetab = () => {
+  
+      this.toggleDelete()
+      this.state.cellTable.getRow().delete();
+      this.state.supprimertemp.push(
+        {
+          "Event_Code":this.state.cellTable.getData().Event_Code,
+              "Event_Name":this.state.cellTable.getData().Event_Name,
+              "Next_Check":this.state.cellTable.getData().Next_Check,
+              "Event_Description":this.state.cellTable.getData().Event_Description,
+              "Frequency":this.state.cellTable.getData().Frequency,
+              "DBAction":"3"
+        })
+  
+    }
+
+    validationEmploi = (Validation) => {
+      console.log("cas incidents pas validation emploi", Validation)
+      this.setState({ validationEmploiTemp: Validation })
+    }
+
+    ModifierDataEmploi = (DataEmploi) => {
+      //console.log("-----------------DataEmploi--------------------",DataEmploi)
+      this.setState({ modifiertab: DataEmploi })
+    }
+    //////
   render() {
     const { errors } = this.state;
     
     return (
-      <div>
+      <>
+         <Navbar history={this.state.history}/>
         <MDBBreadcrumb style={{ backgroundColor: '#b1b5b438',color: "#000",fontFamily: 'GOTHAM MEDIUM'}}>
           <MDBBreadcrumbItem>  Rapporteur</MDBBreadcrumbItem>
           <MDBBreadcrumbItem > Cas-Reguliers</MDBBreadcrumbItem>
@@ -997,8 +1070,9 @@ AjoutDataEmploi=(DataEmploi)=>{
         <div style={{ margin: 30 }}>
 
 
-          <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle}>Nouveau</MDBBtn>
+          {/* <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle}>Nouveau</MDBBtn> */}
 
+          <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle} style={{ width: "196px" }} className="float-left">Nouveau <MDBIcon icon="plus-square" className="ml-1" /></MDBBtn>
           
         <MDBModal isOpen={this.state.modal} toggle={this.toggle} size="lg" centered>
           <MDBModalHeader toggle={this.toggle} >Nouveau Cas Reguliers</MDBModalHeader>
@@ -1074,7 +1148,7 @@ AjoutDataEmploi=(DataEmploi)=>{
               </fieldset>
               <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0",borderStyle: "solid",  borderRadius: '4px'}}>
               <legend style={{ width:"190px", color: "#51545791"}}>Emploi du Temps</legend>
-              <Emploi_Temps  AjoutTab={this.AjoutDataEmploi}/>
+              <Emploi_Temps  AjoutTab={this.AjoutDataEmploi} /*AjoutTab={AjoutTab}*/ ValidationEmploi={this.validationEmploi}/>
               </fieldset>   
         
             
@@ -1091,8 +1165,9 @@ AjoutDataEmploi=(DataEmploi)=>{
           </MDBModalFooter>
         </MDBModal>
 
-          <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle1}  id="btnmod"  >Modifier</MDBBtn>
+          {/* <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle1}  id="btnmod"  >Modifier</MDBBtn> */}
 
+          <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle1} id="btnmod" style={{ width: "196px" }} className="float-left">Modifier <MDBIcon icon="pen-square" className="ml-1" /></MDBBtn>
 
           <MDBModal isOpen={this.state.modal1} toggle={this.toggle1} size="lg" centered>
           <MDBModalHeader toggle={this.toggle1} >Modifier Cas Reguliers</MDBModalHeader>
@@ -1168,7 +1243,7 @@ AjoutDataEmploi=(DataEmploi)=>{
               </fieldset>
               <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0",borderStyle: "solid",  borderRadius: '4px'}}>
               <legend style={{ width:"190px", color: "#51545791"}}>Emploi du Temps</legend>
-              <ModifierEmploi_Temps/>
+              <ModifierEmploi_Temps OperateurValueModifier={this.state.OperateurValueModifier} ModifierTab={this.ModifierDataEmploi} ValidationEmploi={this.validationEmploi}/>
               </fieldset>   
         
             
@@ -1186,19 +1261,43 @@ AjoutDataEmploi=(DataEmploi)=>{
         </MDBModal>
 
 
-        <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.copier} >Copier</MDBBtn>
+        {/* <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.copier} >Copier</MDBBtn> */}
+        <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.copier} style={{ width: "196px" }} className="float-left" disabled={this.state.isDisabledbutton}>Copier <MDBIcon icon="copy" className="ml-1" /></MDBBtn>
         
 
-          <MDBBtn color="#bdbdbd grey lighten-1" className="float-right" onClick={this.Enregistrer} > Enregistrer <MDBIcon icon="save" className="ml-1" /></MDBBtn>
+          {/* <MDBBtn color="#bdbdbd grey lighten-1" className="float-right" onClick={this.Enregistrer} > Enregistrer <MDBIcon icon="save" className="ml-1" /></MDBBtn> */}
+          <MDBBtn color="#bdbdbd grey lighten-1" className="float-right" onClick={this.Enregistrer} style={{ width: "196px" }}> Enregistrer <MDBIcon icon="save" className="ml-1" /></MDBBtn>
 
-          <div>
-            <div className="tabulator"  ref={el => (this.el = el)} /></div>
+          {/* <div> <div className="tabulator"  ref={el => (this.el = el)} /></div> */}
+          {/* {this.state.tableData.length ?  */}
+          <ReactTabulator style={{ marginTop: 30 + 'px' }}
+            ref={this.table}
+            // cellClick={this.click}
+            // rowClick={this.click2}
+            data={this.state.tableData}
+            columns={this.state.columnsReactTabulator}
+            layout={"fitData"}
+            index={"Event_Code"}
+            options={{
+              pagination: true,
+              paginationSize: 8,
+
+              paginationSizeSelector: [8, 10],
+              pagination: "local",
+              selectable: 1,
+              movableColumns: true,
+              resizableRows: true,
+              reactiveData: true,
+            }}
+          /> 
+          {/* : <></>} */}
+          <DeleteRow toggle={this.toggleDelete} modal={this.state.modalDelete} deletetab={this.deletetab} cellTable={this.state.cellTable} cellName={this.state.cellName} />
 
         </div>
   
 
 
-      </div>
+      </>
     );
   }
 
@@ -1208,6 +1307,28 @@ export default CasReguliers;
 
 
 
+const DeleteRow = ({ toggle, modal, deletetab, cellName }) => {
+  useEffect(() => {
+
+  }, [cellName])
+
+  return (<MDBContainer>
+
+    <MDBModal isOpen={modal} toggle={toggle} centered>
+      <MDBModalHeader toggle={toggle}>Confirmation de Suppression  </MDBModalHeader>
+      <MDBModalBody style={{ textAlign: "center", fontSize: '120%' }}>
+        Supprimer temporairement l'alarme
+        <p style={{ fontWeight: "bold", color: "#b71c1c" }}> {cellName}</p>
+      </MDBModalBody>
+      <MDBModalFooter>
+
+        <MDBBtn color="#b71c1c red darken-4" style={{ color: "#fff" }} onClick={deletetab}>Supprimer</MDBBtn>
+        <MDBBtn color="#e0e0e0 grey lighten-2" style={{ marginRight: "18%" }} onClick={toggle} >Annuller</MDBBtn>
+      </MDBModalFooter>
+    </MDBModal>
+  </MDBContainer>
+  );
+}
 
 
 //Les modifications que vous avez apportées ne seront peut-être pas enregistrées.

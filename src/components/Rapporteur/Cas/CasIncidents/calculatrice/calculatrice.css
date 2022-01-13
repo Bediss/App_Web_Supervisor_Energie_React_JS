@@ -159,3 +159,14 @@ background-color: #2BBBAD; }
   margin-top: "38%";
   font-size: "16px"
 }
+
+.klinklin1{
+  color:#229bb1;
+  font-size:21px;
+  animation: klinklin 1s infinite
+}
+
+@keyframes klinklin {
+  0% {color:transparent}
+  100% {color:#27a2b8}
+}

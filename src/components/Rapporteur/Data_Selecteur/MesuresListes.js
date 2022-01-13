@@ -8,6 +8,7 @@ import Tabulator from "tabulator-tables"; //import Tabulator library
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Swal from 'sweetalert2';
 import "../Data_Selecteur/Listes.css"
+import Navbar from "../../navbar";
 import { ThemeProvider } from "styled-components";
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 const validPhoneRegex = RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/i);
@@ -23,6 +24,7 @@ class MesuresListes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            history:props.history,
             ML_Name: "",
             ML_Name1: "",
             ML_Code: "",
@@ -2852,8 +2854,8 @@ if(response.data=="op"){
         const { errors } = this.state;
         const scrollContainerStyle = { width: "350px", maxHeight: "410px" };
         return (
-            <div>
-
+            <>
+                <Navbar history={this.state.history}/>
                 <MDBBreadcrumb style={{ backgroundColor: '#b1b5b438',color: "#000",fontFamily: 'GOTHAM MEDIUM'}}>
                     <MDBBreadcrumbItem>  Rapporteur</MDBBreadcrumbItem>
                     <MDBBreadcrumbItem > Mesures Listes</MDBBreadcrumbItem>
@@ -3082,9 +3084,7 @@ if(response.data=="op"){
                     </MDBRow>
                 </fieldset>
                 
-
-      
-            </div>);
+            </>);
     }
 
 

@@ -7,8 +7,6 @@ import useState2 from "react-usestateref"
 import { getNested, parseParams } from '../Rapporteur/Rapport/layoutGen/extra';
 // import {ReactComponent as Svg} from "../../synoptic/Synoptique Energitique Vapeur_ElMarzaa.svg";
 
-// import {ReactComponent as Svg} from "../../synoptic/Synoptique Energitique Vapeur_ElMarzaa.svg";
-
 const SynopticRender = ({ history, prefix = "", synopticObject, autoUpdate = false, name = "" }) => {
 
     const [svgName, setSvgName] = useState(null)
@@ -132,8 +130,8 @@ const SynopticRender = ({ history, prefix = "", synopticObject, autoUpdate = fal
     }
 
     const eventManager = (ccS, reportCode, next, prev, zpm, remove = false) => {
-        const _event = remove == true ? "removeEventListener" : "addEventListener"
-        ccS=Array.isArray(ccS) ?ccS:[]
+        const event = remove === true ? "removeEventListener" : "addEventListener"
+
         ccS.map((cc, i) => {
             const _reportsCodes=reportCode.split(",")
             _reportsCodes.map((code)=>{
@@ -142,7 +140,7 @@ const SynopticRender = ({ history, prefix = "", synopticObject, autoUpdate = fal
                 document.querySelectorAll(`#${code}___${cc}___`).forEach((value, i, parent) => {
     
                     value.classList.add("noSelect", "pointer")
-                    value[_event]("click", () => {
+                    value[event]("click", () => {
                         const clElement = synopticObject.object.MasterObj_Data_Query.cl.find((el) => el.Code_Compteur == cc)
                         const tlElement = synopticObject.object.MasterObj_Data_Query.tl
     
@@ -167,7 +165,7 @@ const SynopticRender = ({ history, prefix = "", synopticObject, autoUpdate = fal
             zpm.map((reportCode, i) => {
                 document.querySelectorAll(`#${reportCode}______`).forEach((value, i, parent) => {
                     value.classList.add("noSelect", "pointer")
-                    value[_event]("click", () => {
+                    value[event]("click", () => {
                         history.push({
                             search: `?${params.reportId ? `parent=${params.reportId}&` : ""}reportId=${reportCode}${tlElement?`&tlCluster=${tlElement}`:""}`,
                             // search: `?${backupDataRef.current.reportCode ? `parent=${backupDataRef.current.reportCode}&` : ""}reportId=${reportCode}`,
@@ -181,7 +179,7 @@ const SynopticRender = ({ history, prefix = "", synopticObject, autoUpdate = fal
             if (reportCode) {
                 document.querySelectorAll(`#${reportCode}______`).forEach((value, i, parent) => {
                     value.classList.add("noSelect", "pointer")
-                    value[_event]("click", () => {
+                    value[event]("click", () => {
                         history.push({
                             search: `?${params.reportId ? `parent=${params.reportId}&` : ""}reportId=${reportCode}`,
                             // search: `?${backupDataRef.current.reportCode ? `parent=${backupDataRef.current.reportCode}&` : ""}reportId=${reportCode}`,
@@ -210,10 +208,7 @@ const SynopticRender = ({ history, prefix = "", synopticObject, autoUpdate = fal
 
     const unmount = () => {
 
-        const {reportCode, next, prev, zpm } = { ...backupDataRef.current }
-        const {ccS1}={ ...backupDataRef.current }
-        const {ccS2}={ ...backupData }
-        const ccS=ccS1 || ccS2
+        const { ccS, reportCode, next, prev, zpm } = { ...backupDataRef.current }
         eventManager(ccS, reportCode, next, prev, zpm, true)
     }
 
@@ -229,7 +224,6 @@ const SynopticRender = ({ history, prefix = "", synopticObject, autoUpdate = fal
         if (masterObjectQuery) {
             axios.post(url, masterObjectQuery)
                 .then(({ data }) => {
-                    data=typeof data=="string"?null:data
                     setData(data)
                     if (firstTime) {
                         handleLinks(data, inervalId)

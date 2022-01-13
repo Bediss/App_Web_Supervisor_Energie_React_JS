@@ -1,0 +1,14 @@
+.userAlert {
+    height: 15px;
+    display: block;
+    font-size: 12px;
+}
+
+.overflowVisible{
+    overflow: visible!important;
+}
+
+
+#tab .tabulator-unselectable{
+    cursor: pointer;
+}

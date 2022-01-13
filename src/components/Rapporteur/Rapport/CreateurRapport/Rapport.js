@@ -21,6 +21,7 @@ import FilterV1 from '../../../filterV1'
 import ModalML from '../CreateurRapport/MLModle'
 import ModalCL from "./CLModle";
 import ModalTL from "./TLModle";
+import Navbar from "../../../navbar";
 const validateForm = (errors) => {
   let valid = true;
   //console.log(errors)
@@ -894,6 +895,7 @@ if (this.state.CodeRapportSelected != "") {
   constructor(props) {
     super(props)
     this.state = {
+      history:props.history,
       modal: false,
       modal1: false,
       modal2: false,
@@ -2320,8 +2322,8 @@ tl(){
     const { errorsSelectedTableau } = this.state;
     return (
 
-      <div>
-
+      <>
+ <Navbar history={this.state.history}/>
         <MDBBreadcrumb style={{ backgroundColor: '#b1b5b438',color: "#000",fontFamily: 'GOTHAM MEDIUM' }}>
           <MDBBreadcrumbItem>  Rapporteur</MDBBreadcrumbItem>
           <MDBBreadcrumbItem >Rapports</MDBBreadcrumbItem>
@@ -2850,7 +2852,7 @@ tl(){
             </MDBModalFooter>
           </MDBModal>
         </div>
-      </div>
+      </>
     );
   }
 }

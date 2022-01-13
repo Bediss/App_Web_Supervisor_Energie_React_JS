@@ -8,7 +8,7 @@ import Modal_CL_V2 from '../Modal/Modal_CL_V2.js';
 import Modal_ML_V2 from '../Modal/Modal_ML_V2.js';
 import { array } from 'prop-types';
 
-const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, EnregisterNewRapportFunction, historyProps, Rapportnewclone }) => {
+const EditerRapportTableau = ({ toggleEditerRapport, toggle,modal, Report_Code, EnregisterNewRapportFunction, historyProps, Rapportnewclone,modalTLAdHoc,toggleTLAdhoc }) => {
   /*********************************************Variable********************************************* */
   const [Report_Name_Enregistrer, setReport_Name_Enregistrer] = useState("")
   const [TAGS_New, setTAGS_New] = useState("")
@@ -210,7 +210,7 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
           timer: 4000,
           icon: 'warning',
           width: 350,
-          title: 'En peut sélectionner une liste'
+          title: 'Veuillez sélectionner une liste'
         })
       }
 
@@ -251,7 +251,7 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
         timer: 4000,
         icon: 'warning',
         width: 350,
-        title: 'En peut sélectionner une liste'
+        title: 'Veuillez sélectionner une liste'
       })
     }
   }
@@ -270,7 +270,7 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
           timer: 4000,
           icon: 'warning',
           width: 350,
-          title: 'En peut sélectionner une liste 1'
+          title: 'Veuillez sélectionner une liste 1'
         })
       }
 
@@ -311,7 +311,7 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
         timer: 4000,
         icon: 'warning',
         width: 350,
-        title: 'En peut sélectionner une liste 2'
+        title: 'Veuillez sélectionner une liste 2'
       })
     }
 
@@ -744,7 +744,14 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
                       document.querySelector("body").classList.remove("isLoading")
 
                     toggleEditerRapport()
-                    toggle()
+                    if(modal==true){
+                      toggle()
+                     }
+                    if( modalTLAdHoc==true) {
+                  
+                      toggleTLAdhoc()
+                    }
+  
 
                     historyProps.push({
                       search: `?reportId=${result.data.IDs[0]}`,
@@ -1026,8 +1033,18 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
                     )
                     EnregisterNewRapportFunction(EnregisterTemp)
                     toggleEditerRapport()
+                 
+                    if(modal==true){
                     toggle()
+                   }
 
+
+                   
+
+                  if( modalTLAdHoc==true) {
+                
+                    toggleTLAdhoc()
+                  }
 
 
                   } else {
@@ -1141,8 +1158,8 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
 
                 <MDBCol size="4" >
                   <MDBBtn size="sm" color="#eeeeee grey lighten-3"
-                  //  disabled={BtnTlDesibled}
-                  disabled={true}
+                    disabled={BtnTlDesibled}
+                //  disabled={true}
                     style={{ fontSize: "13px", textAlign: "center", width: "90%" }}
                     onClick={toggleTL}>
                     Time Intelligence
@@ -1181,7 +1198,7 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
         <MDBNav tabs className="nav-justified" color='indigo' style={{ backgroundColor: "#e0e0e0" }} >
 
           <MDBNavItem>
-            <MDBNavLink link onClick={() => window.open("/Rapporteur/MesuresListes")} style={{ color: "#000" }} >
+            <MDBNavLink link /*onClick={() => window.open("/Rapporteur/MesuresListes")}*/ style={{ color: "#000" }} >
               liste d'éditeurs
             </MDBNavLink>
           </MDBNavItem>
@@ -1203,7 +1220,7 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
         <MDBNav tabs className="nav-justified" color='indigo' style={{ backgroundColor: "#e0e0e0" }} >
 
           <MDBNavItem>
-            <MDBNavLink link onClick={() => window.open("/Rapporteur/Compteur_Listes")} style={{ color: "#000" }} >
+            <MDBNavLink link /*onClick={() => window.open("/Rapporteur/Compteur_Listes")}*/ style={{ color: "#000" }} >
               liste d'éditeurs
             </MDBNavLink>
           </MDBNavItem>
@@ -1223,7 +1240,7 @@ const EditerRapportTableau = ({ toggleEditerRapport, toggle, Report_Code, Enregi
         <MDBNav tabs className="nav-justified" color='indigo' style={{ backgroundColor: "#e0e0e0" }} >
 
           <MDBNavItem>
-            <MDBNavLink link onClick={() => window.open("/Rapporteur/TimeIntelligence")} style={{ color: "#000" }} >
+            <MDBNavLink link /*onClick={() => window.open("/Rapporteur/TimeIntelligence")}*/ style={{ color: "#000" }} >
               liste d'éditeurs
             </MDBNavLink>
           </MDBNavItem>

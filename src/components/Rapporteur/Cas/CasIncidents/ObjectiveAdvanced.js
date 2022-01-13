@@ -279,7 +279,7 @@ class ObjectiveAdvanced extends React.Component {
                     timer: 4000,
                     icon: 'warning',
                     width: 400,
-                    title: 'S\'il vous plaît sélectionner une mesure possède une valeur'
+                    title: 'Veuillez sélectionner une mesure avec une valeur non nulle'
                 })
                 //console.log("alert aucun objectif declaré")
                 //console.log("alert")
@@ -538,7 +538,7 @@ class ObjectiveAdvanced extends React.Component {
                 timer: 4000,
                 width: 300,
                 icon: 'warning',
-                title: 'S\'il vous ajouter une valeur.'
+                title: 'Veuillez saisir une valeur valide pour cette mesure'
 
             })
         } else {

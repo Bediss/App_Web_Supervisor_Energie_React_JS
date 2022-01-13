@@ -113,3 +113,6 @@ export const removeUndefined = (obj) => {
     });
     return newObj;
   };
+
+//temp --> for specific case use 
+export const isJson=(obj)=>(Array.isArray(obj)==false && typeof obj == "object")

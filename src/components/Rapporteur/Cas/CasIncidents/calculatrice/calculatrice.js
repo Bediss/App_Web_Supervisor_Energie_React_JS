@@ -896,8 +896,6 @@ console.log("evalequation")
 
         console.log(this.state.equation)
         console.log(this.state.Sys_equation)
-
-
       }
 
     } else {

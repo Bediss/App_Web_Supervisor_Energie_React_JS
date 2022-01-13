@@ -3,16 +3,20 @@ import React, { useState, useEffect } from "react";
 // import Plotly from 'plotly.js-dist'
 import Plotly from "plotly.js-dist-min";
 import createPlotlyComponent from "react-plotly.js/factory";
-import axios from "axios";
+
+import axios from "../../../axios"
 import "./layoutGenerator.css";
 import uuid from "react-uuid";
 // import "./bWLwgP.css"
+import useStateRef from "react-usestateref"
 import PlotHandler from "./MasterObjet";
 import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
+import { setIntervalAsync } from "set-interval-async/dynamic";
+import { clearIntervalAsync } from "set-interval-async/dynamic";
 
 //import ReactToPdf from "react-to-pdf"
 const Plot = createPlotlyComponent(Plotly);
-const { getNested,mergeDeep } = require("./extra");
+const { getNested, mergeDeep } = require("./extra");
 // const Plot = createPlotlyComponent(Plotly);
 import {
   queryPatcher,
@@ -27,7 +31,7 @@ import {
 const safe = true
 const tempFixer = true
 const GenerateTable = ({
-  dummy=false,
+  dummy = false,
   handleObjectjson,
   editor,
   config,
@@ -299,12 +303,12 @@ const GenerateTable = ({
 
   }, []);
   //const ref = React.createRef();
-  
+
   return (
     ready &&
     (
       <>
-   {/* {!editor && <div>
+        {/* {!editor && <div>
           <ReactToPdf targetRef={ref} filename="div-blue.pdf">
             {({ toPdf }) => (
               <button onClick={toPdf}>Generate pdf</button>
@@ -312,7 +316,7 @@ const GenerateTable = ({
           </ReactToPdf>
 
         </div>} */}
-        <table /* ref={ref} */id={"generatedPlots"} style={{ tableLayout: "fixed", margin: "auto", ...styles, textAlign: "center" }} className={className}>
+        <table /* ref={ref} */ id={"generatedPlots"} style={{ tableLayout: "fixed", margin: "auto", ...styles, textAlign: "center" }} className={className}>
           <tbody>
             {Array(rc.maxRows)
               .fill("")
@@ -379,6 +383,7 @@ const GenerateTable = ({
                               <DrawPlot
                                 dummy={dummy}
                                 id={`r_${i + 1}--c_${j + 1}`}
+                                updateData={spanList[`r_${i + 1}--c_${j + 1}`].obj.live && true}
                                 height={`${spanList[`r_${i + 1}--c_${j + 1}`] &&
                                   spanList[`r_${i + 1}--c_${j + 1}`].plot ?
                                   `${spanList[`r_${i + 1}--c_${j + 1}`].rowSpan * (parseFloat(styles.height) / rc.maxRows)}${styles.height.indexOf("%") != -1 ? "%" : "px"}` :
@@ -405,44 +410,44 @@ const GenerateTable = ({
               })}
           </tbody>
         </table>
-        <br /> 
+        <br />
         {editor && (
           <>
-          <MDBRow style={{marginLeft:"-3%"}}>
-            <MDBCol size="4">
-            <MDBBtn
-              disabled={resetDisabled}
-              id="reset"
-              color="#bdbdbd grey lighten-1"
-             style={{ width: "100%"}}
-              onClick={handleResetClick}
-            >
-              Réinitialiser
-            </MDBBtn>
-            
-            </MDBCol>
-            <MDBCol size="4">
-            <MDBBtn
-              id={"validate"}
-              disabled={validateDisabled}
-              color="#e0e0e0 grey lighten-2"
-             style={{ width: "100%" }}
-              onClick={handleValidateClick}
-            >
-              Valider
-            </MDBBtn>
-            
-            </MDBCol>
-            <MDBCol size="4">
-            <MDBBtn
-              disabled={saveDisabled}
-              id={"save"}
-             style={{ width: "100%" }}
-              onClick={handleSaveClick}
-            >
-              sauvegarder
-            </MDBBtn>
-            </MDBCol>
+            <MDBRow style={{ marginLeft: "-3%" }}>
+              <MDBCol size="4">
+                <MDBBtn
+                  disabled={resetDisabled}
+                  id="reset"
+                  color="#bdbdbd grey lighten-1"
+                  style={{ width: "100%" }}
+                  onClick={handleResetClick}
+                >
+                  Réinitialiser
+                </MDBBtn>
+
+              </MDBCol>
+              <MDBCol size="4">
+                <MDBBtn
+                  id={"validate"}
+                  disabled={validateDisabled}
+                  color="#e0e0e0 grey lighten-2"
+                  style={{ width: "100%" }}
+                  onClick={handleValidateClick}
+                >
+                  Valider
+                </MDBBtn>
+
+              </MDBCol>
+              <MDBCol size="4">
+                <MDBBtn
+                  disabled={saveDisabled}
+                  id={"save"}
+                  style={{ width: "100%" }}
+                  onClick={handleSaveClick}
+                >
+                  sauvegarder
+                </MDBBtn>
+              </MDBCol>
             </MDBRow>
           </>
         )}
@@ -451,7 +456,6 @@ const GenerateTable = ({
   );
 };
 /////////////////////////////////////////////
-
 export const DrawPlot = ({
   id,
   updateData = false,
@@ -459,9 +463,8 @@ export const DrawPlot = ({
   rc,
   height,
   width,
-  dummy=false
+  dummy = false
 }) => {
-
   if (pageExist) {
     height = `${parseFloat(height) - 38}px`
   }
@@ -470,9 +473,12 @@ export const DrawPlot = ({
 
   //todo
   const [fatalError, setFatalError] = useState(false);
-  const [data, setData] = useState(undefined);
+  const [data, setData, dataRef] = useStateRef(undefined);
   const [ready, setReady] = useState(false);
-  const [rawData, setRawData] = useState([]);
+
+  const [rawData, setRawData, rawDataRef] = useStateRef([]);
+
+  // const [rawData, setRawData] = useState([]);
   const [layout, setLayout] = useState(null);
 
   const [pages, setPages] = useState(null);
@@ -484,84 +490,122 @@ export const DrawPlot = ({
 
   const [legendPos, setLegendPos] = useState(null);
 
-
   // todo
-  const [refreshInterval, setRefreshInterval] = useState(5000);
-  const [refreshIntervalId, setRefreshIntervalId] = useState(null);
+  const [refreshInterval, setRefreshInterval] = useState(() => {
+    const n = parseInt(componentData.obj.frequency)
+    if (n > 10) return n
+    else
+      false
+  });
 
+  const [refreshIntervalId, setRefreshIntervalId] = useState(null);
 
   const [divId, setDivId] = useState(() =>
     `A${uuid()}--${Date.now()}`.replaceAll("-", "_")
   );
   const [isPageTL, setIsPageTL] = useState(false);
 
-  const generateRandomData = (api, query) => {
+  const generateRandomData = (api, query, _new = false, empty = false) => {
 
-    const getRandomNumberBetween=(min, max)=>Math.floor(Math.random() * (max - min + 1) + min);
-   
+    const getRandomNumberBetween = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
     const cl = query.cross_tab == "cross_tab_cl"
     const ml = query.cross_tab == "cross_tab_ml"
 
-    let output=[]
+    let output = []
     if (api == "cluster") {
-      if (ml){
+      if (ml) {
         query.cl.map((cl, i) => {
           const _ml = {}
-          _ml.Le_Compteur=cl.Le_Compteur
+          _ml.Le_Compteur = cl.Le_Compteur
           query.ml.map((ml, j) => {
-            _ml[ml.m_name] = getRandomNumberBetween(0, 10000)
+            if (empty)
+              _ml[ml.m_name] = 0
+            else
+              _ml[ml.m_name] = getRandomNumberBetween(0, 10000)
           })
           output.push(_ml)
         })
-      }else{
+      } else {
         query.ml.map((cl, i) => {
           const _cl = {}
-          _cl.m_name=cl.m_name
+          _cl.m_name = cl.m_name
           query.cl.map((cl, j) => {
-            _cl[cl.Le_Compteur] = getRandomNumberBetween(0, 10000)
+            if (empty)
+              _cl[cl.Le_Compteur] = 0
+            else
+              _cl[cl.Le_Compteur] = getRandomNumberBetween(0, 10000)
           })
           output.push(_cl)
         })
       }
-     
+
     } else {
-    //   {
-    //     "date": "2019-12-19T00:00:00",
-    //     "Collecteur_COP_Vapeur": {
-    //         "Ratio": null,
-    //         "Tonne": null
-    //     }
-    // }
+
+      //   {
+      //     "date": "2019-12-19T00:00:00",
+      //     "Collecteur_COP_Vapeur": {
+      //         "Ratio": null,
+      //         "Tonne": null
+      //     }
+      // }
       if (ml) {
+        const localwork = (_cl, __new = false) => {
+          const _ml = { date: new Date(), [_cl.Le_Compteur]: {} }
+          if (__new === false) {
+            if (empty)
+              _ml.date = new Date()
+            else
+              _ml.date = new Date(new Date() - Math.floor(Math.random() * 10000000000))
+          }
+          query.ml.map((ml, j) => {
+            if (empty)
+              _ml[_cl.Le_Compteur][ml.m_name] = 0
+            else
+              _ml[_cl.Le_Compteur][ml.m_name] = getRandomNumberBetween(0, 10000)
+          })
+          output.push(_ml)
+        }
         query.cl.map((cl, i) => {
-          for (let ii = 0; ii < 64; ii++) {
-            const _ml = {}
-            _ml.date=new Date(+(new Date()) - Math.floor(Math.random()*10000000000))
-            _ml[cl.Le_Compteur]={}
-            query.ml.map((ml, j) => {
-              _ml[cl.Le_Compteur][ml.m_name] = getRandomNumberBetween(0, 10000)
-            })
-            output.push(_ml)
-          }
+          if (_new === true) {
+            localwork(cl, true)
+          } else
+            for (let ii = 0; ii < 64; ii++) {
+              localwork(cl)
+            }
         })
       }
-      else{
+      else {
+        const localwork = (_ml, __new = false) => {
+          const _cl = { date: new Date(), [_ml.m_name]: {} }
+          if (__new === false) {
+            if (empty)
+              _cl.date = new Date()
+            else
+              _cl.date = new Date(new Date() - Math.floor(Math.random() * 10000000000))
+          }
+          query.cl.map((cl, j) => {
+            if (empty)
+              _cl[_ml.m_name][cl.Le_Compteur] = 0
+            else
+              _cl[_ml.m_name][cl.Le_Compteur] = getRandomNumberBetween(0, 10000)
+          })
+          output.push(_cl)
+        }
         query.ml.map((ml, i) => {
-          for (let ii = 0; ii < 64; ii++) {
-            const _cl = {}
-           
-            _cl.date=new Date(+(new Date()) - Math.floor(Math.random()*10000000000))
-            _cl[ml.m_name]={}
-            query.cl.map((cl, j) => {
-              _cl[ml.m_name][cl.Le_Compteur] = getRandomNumberBetween(0, 10000)
-            })
-            output.push(_cl)
-            
+          if (_new === true) {
+            localwork(ml, true)
           }
+          else
+            for (let ii = 0; ii < 64; ii++) {
+              localwork(ml)
+
+            }
         })
       }
-      output=output.sort((a,b)=>a.date-b.date)
+      output = output.sort((a, b) => a.date - b.date)
     }
+
     return output
   }
 
@@ -647,6 +691,7 @@ export const DrawPlot = ({
 
     return object;
   };
+
   const layoutGenerator = (object, height, width) => {
 
 
@@ -655,118 +700,103 @@ export const DrawPlot = ({
     const plotHeight = parseFloat(height);
     const plotWidth = parseFloat(width);
     const margin = object.MasterObj_Data_Mapping.margin;
+    // const colorsList2 = {
+    //   1: [
+    //     "#00575e",
+    //     "#ad0050",
+    //     "#ae9f06",
+    //     "#008b88",
+    //     "#6f7372",
+    //     "#6a6104",
+    //     "#003024",
+    //     "#302d00"
+    //   ],
 
-    // const colorsList={
-    //     1:["#003024","#005e46","#008a68","#00ad82","#00c995","#00dba5","#00f2b6","#26ffca","#7ffee0"], // green
-    //     2:["#002d30","#00575e","#008b88","#00adac","#01b8ca","#00d4da","#00eaf1","#25ffff","#7fffff"], // blue
-    //     3:["#31001d","#5d002c","#890044","#ad0050","#c80059","#d90175","#f20071","#fe268b","#ff7eb4"], //red
-    //     4:["#302d00","#6a6104","#8e8303","#ae9f06","#d0be04","#e3d804","#f2e500","#ffee34","#fff794"], // yellow
-    //     5:["#121413","#373b3a","#585e5e","#6f7372","#8c908f","#afb5b5","#c9cfcf","#dfe3e2","#ebefee"], // white
-    //     6: [
-    //       "#00575e",
-    //       "#ad0050",
-    //       // "#008a68",
-    //       // "#890044",
-    //       // "#d0be04",
-    //       "#ae9f06",
-    //       // "#c9cfcf",
-    //       // "#8c908f",
-    //       // "#005e46",
-    //       "#008b88",
-    //       "#afb5b5",
-    //       "#6a6104"
-    //       // "#00adac",
-    //     ], // mix1
+
+    //   2: ["#6a6104",
+    //     "#afb5b5",
+    //     "#121413",
+    //     "#5d002c",
+    //     "#008b88",
+    //     "#6f7372",
+    //     "#7ffee0",
+    //     "#ff7eb4"],
+
+
+    //   3: ["#f20071",
+    //     "#121413",
+    //     "#7ffee0",
+    //     "#ad0050",
+    //     "#008a68",
+    //     "#00adac",
+    //     "#ff7eb4",
+    //     "#8e8303"],
+
+
+    //   4: ["#00c995",
+    //     "#00adac",
+    //     "#890044",
+    //     "#002d30",
+    //     "#ff7eb4",
+    //     "#ae9f06",
+    //     "#00adac",
+    //     "#121413"],
+
+
+    //   5: ["#00c995",
+    //     "#31001d",
+    //     "#890044",
+    //     "#002d30",
+    //     "#00dba5",
+    //     "#ae9f06",
+    //     "#373b3a",
+    //     "#01b8ca"],
+
+
+    //   6: ["#00adac",
+    //     "#ad0050",
+    //     "#ae9f06",
+    //     "#00dba5",
+    //     "#6f7372",
+    //     "#121413",
+    //     "#003024",
+    //     "#302d00"],
+
+
+
+    //   7: ["#003024",
+    //     "#6a6104",
+    //     "#f20071",
+    //     "#121413",
+    //     "#890044",
+    //     "#00c995",
+    //     "#ff7eb4",
+    //     "#6f7372"],
+
+
+    //   8: ["#6a6104",
+    //     "#302d00",
+    //     "#003024",
+    //     "#121413",
+    //     "#890044",
+    //     "#01b8ca",
+    //     "#6f7372",
+    //     "#d90175"],
+
+
+    //   9: ["#01b8ca",
+    //     "#ae9f06",
+    //     "#ff7eb4",
+    //     "#7ffee0",
+    //     "#5d002c",
+    //     "#00dba5",
+    //     "#afb5b5",
+    //     "#6a6104"]
+
+
+
+
     // }
-
-
-    const colorsList = {
-      1: ["#302d00",
-        "#003024",
-        "#afb5b5",
-        "#008b88",
-        "#ae9f06",
-        "#ad0050",
-        "#6a6104",
-        "#00575e"]
-      ,
-      2: ["#002d30",
-        "#890044",
-        "#00adac",
-        "#00c995",
-        "#dfe3e2",
-        "#00dba5",
-        "#373b3a",
-        "#ae9f06"]
-      ,
-      3: ["#ad0050",
-        "#7ffee0",
-        "#fff794",
-        "#f20071",
-        "#8e8303",
-        "#ff7eb4",
-        "#00adac",
-        "#008a68"]
-      ,
-      4: ["#002d30",
-        "#890044",
-        "#00adac",
-        "#00c995",
-        "#ebefee",
-        "#ff7eb4",
-        "#00adac",
-        "#ae9f06"]
-      ,
-      5: ["#ad0050",
-        "#7ffee0",
-        "#fff794",
-        "#f20071",
-        "#8e8303",
-        "#ff7eb4",
-        "#00adac",
-        "#008a68"]
-      ,
-      6: ["#121413",
-        "#fff794",
-        "#ae9f06",
-        "#00adac",
-        "#00dba5",
-        "#302d00",
-        "#003024",
-        "#ad0050"],
-      7: ["#ff7eb4",
-        "#7ffee0",
-        "#fff794",
-        "#5d002c",
-        "#00dba5",
-        "#7fffff",
-        "#afb5b5",
-        "#6a6104"],
-      8: ["#302d00",
-        "#003024",
-        "#121413",
-        "#890044",
-        "#01b8ca",
-        "#ebefee",
-        "#6f7372",
-        "#d90175"],
-      9: ["#f20071",
-        "#121413",
-        "#890044",
-        "#00c995",
-        "#ebefee",
-        "#ff7eb4",
-        "#6f7372",
-        "#e3d804"],
-      10: ["#002d30",
-        "#ff7eb4",
-        "#7fffff",
-        "#7ffee0",
-        "#585e5e",
-        "#fff794",
-        "#890044",
-        "#ebefee"]
-    }
 
     const colorsList2 = {
       1: [
@@ -777,17 +807,22 @@ export const DrawPlot = ({
         "#6f7372",
         "#6a6104",
         "#003024",
-        "#302d00"],
+        "#302d00"
+      ],
 
 
-      2: ["#6a6104",
-        "#afb5b5",
-        "#121413",
+      2: [
+        "#00575e",
         "#5d002c",
+        "#ae9f06",
         "#008b88",
         "#6f7372",
+        "#f20071",
+        "#003024",
+        "#302d00",
         "#7ffee0",
-        "#ff7eb4"],
+        "#01b8ca",
+      ],
 
 
       3: ["#f20071",
@@ -864,8 +899,6 @@ export const DrawPlot = ({
 
 
     }
-
-
     const colorIndex = parseInt(getNested(object, "MasterObj_Data_Mapping", "extraLayoutConfig", "colorway"))
     delete object.MasterObj_Data_Mapping.extraLayoutConfig.colorway
     object.MasterObj_Data_Mapping.Plots.map((plot, i) => {
@@ -906,7 +939,7 @@ export const DrawPlot = ({
         title: {
           font: { family: "balto Book" }
         },
-        layer:"below traces",
+        layer: "below traces",
       };
 
       const defaultY1 = {
@@ -1456,8 +1489,6 @@ export const DrawPlot = ({
       return yOutput;
     };
 
-
-
     const generateXYPageTl = (plot, data, plotType) => {
 
       let xOutput = [];
@@ -1758,13 +1789,15 @@ export const DrawPlot = ({
             else {
               values = generateY(plot, data, plotType, xElementToGet);
               outTemp.values = values.map((elem, i) => getNested(elem, "y1", "value"));
-              outTemp.values = outTemp.values.filter((value, i) => typeof value != "undefined");
+              outTemp.values = outTemp.values.filter((value) => value);
 
               outTemp.values = outTemp.values.length ? outTemp.values.flat() : []
               outTemp.labels = values.map((elem, i) => getNested(elem, "y1", "text"));
-              outTemp.labels = outTemp.labels.filter((value, i) => typeof value != "undefined");
+              outTemp.labels = outTemp.labels.filter((value) => value);
               outTemp.labels = outTemp.labels.length ? outTemp.labels.flat() : []
+
             }
+            outTemp.sort = getNested(plot, "extraPlotConfig", "sort") === true
             outTemp.type = "pie";
             outFinal.push(outTemp);
           }
@@ -1793,11 +1826,11 @@ export const DrawPlot = ({
             let y1Index = 0;
             let y2Index = 0;
             yData.map((yDataSingleArray, i) => {
-              let outTemp = {connectgaps:true};
+              let outTemp = { connectgaps: true };
 
               outTemp = Object.assign({}, outTemp, plot.extraPlotConfig);
               let y = Object.keys(yDataSingleArray)[0].toUpperCase();
-              
+
               outTemp.x = xData;
               switch (y) {
                 case "Y1":
@@ -1892,21 +1925,57 @@ export const DrawPlot = ({
 
     const maxCols = rc.maxCols; // config.configLayout.Masterlayout_col
     const maxRows = rc.maxRows; //config.configLayout.Masterlayout_row
-    const _data = dataGenerator(obj, data, maxCols, maxRows, isPageTL, _height, _width);
-    const _layout = layoutGenerator(obj, _height, _width);
-    setLayout(_layout);
-    setData(_data);
+    const _dataGenerated = dataGenerator(obj, data, maxCols, maxRows, isPageTL, _height, _width);
+    const _layoutGenerated = layoutGenerator(obj, _height, _width);
+    if (!_dataGenerated.length) {
+
+      Object.assign(_layoutGenerated, generateCover(_layoutGenerated))
+
+      const fakeData = generateRandomData(obj.QueryAPI, obj.MasterObj_Data_Query, true, true)
+      const fakeDataGenerated = dataGenerator(obj, fakeData, maxCols, maxRows, isPageTL, _height, _width);
+      setData(fakeDataGenerated)
+    }
+    else
+      setData(_dataGenerated);
+    setLayout(_layoutGenerated);
+
     setReady(false);
     setTimeout(() => {
       setReady(true);
     }, 1000);
-
-    if (redraw === true) {
-      // Plotly.update(divId,_data,_layout,Array(_data.length).fill("").map((v,i)=>i))
-      // Plotly.newPlot(divId,_data,_layout)
-      // Plotly.purge(divId)
-    }
   };
+
+  const generateCover = (layout, remove = false) => {
+    const _layout = { ...layout }
+    if (remove == false) {
+      _layout.xaxis.visible = false
+      _layout.xaxis.rangeselector = {}
+      _layout.xaxis.rangeselector.visible = false
+      _layout.yaxis.visible = false
+      _layout.yaxis.rangeselector = {}
+      _layout.yaxis.rangeselector.visible = false
+
+      _layout.annotations = [{
+        name: "noData",
+        "text": "No data found",
+        "xref": "paper",
+        "yref": "paper",
+        "showarrow": false,
+        "font": {
+          "size": 28
+        }
+      }
+      ]
+
+    }
+    else{
+      if (_layout.annotations){
+        _layout.annotations=_layout.annotations.filter((e)=>e&&e.name&&e.name!='noData')
+      }
+    }
+
+    return _layout
+  }
 
   const percentToPX = (value, total) => {
     return Math.floor(
@@ -1956,16 +2025,7 @@ export const DrawPlot = ({
     const layoutHeight = generatedPlots.clientHeight;
     const _width = percentToPX(width, layoutWidth)
     const _height = percentToPX(height, layoutHeight)
-    // const _width = Math.floor(
-    //   width.indexOf("%") != -1
-    //     ? layoutWidth * (parseFloat(width) / 100)
-    //     : parseFloat(width)
-    // );
-    // const _height = Math.floor(
-    //   height.indexOf("%") != -1
-    //     ? layoutHeight * (parseFloat(height) / 100) - dropDownHeight
-    //     : parseFloat(height) - dropDownHeight
-    // );
+
     setPlotHeight(parseFloat(_height));
     let obj = componentData.obj;
     obj.MasterObj_Data_Query = queryPatcher(obj, selectedMember);
@@ -1977,10 +2037,10 @@ export const DrawPlot = ({
 
       if (Array.isArray(data) && data.length == 1 && Array.isArray(data[0]))
         data = data[0]
-        
+
       data = Array.isArray(data) ? fillInTheBlanks(data, obj.MasterObj_Data_Query) : []
 
-      setRawData(data.length || "noData");
+      setRawData(data && data.length ? data : "noData");
       plotDataTreatement(data, obj, isPageTL, _height, _width);
 
     }
@@ -1996,11 +2056,20 @@ export const DrawPlot = ({
 
           data = Array.isArray(data) ? fillInTheBlanks(data, obj.MasterObj_Data_Query) : []
 
-          setRawData(data.length || "noData");
+          setRawData(data && data.length ? data : "noData");
           plotDataTreatement(data, obj, isPageTL, _height, _width);
 
-        });
-    // .catch((err) => console.log(err.message))
+        })
+    // .catch(({ response }) => {
+
+    //   if (response != null) {
+    //     if (response.status == "401") {
+    //       window.location.assign("/")
+    //       localStorage.clear();
+    //     }
+    //   }
+    // });
+
     else {
       const redraw = true;
       return plotDataTreatement(
@@ -2014,95 +2083,182 @@ export const DrawPlot = ({
     }
   };
 
-  const generatePlotDataDynamic = async (id, obj) => {
-    return setTimeout(async () => {
+  const addPieTransition = () => {
+    const el = document.querySelectorAll(`.pielayer path`)
+    el.forEach((el) => {
+      el.style.transition = "300ms all"
+    })
+    const el2 = document.querySelectorAll(`.pielayer text`)
+    el2.forEach((el) => {
+      el.style.transition = "300ms all"
+    })
+  }
+
+  const updateDynamicData = (Olddata = [], newData = [], maxDots = 3600) => {
+    const todo = newData.map(e => e.date)
+    return (Olddata || []).filter(e => !todo.includes(e.date)).concat(newData).slice(-maxDots)
+  }
+
+
+  const generatePlotDataDynamic = async (id, obj, selectedMember, isPageTL) => {
+    if (!refreshInterval) return false
+
+    return setIntervalAsync(() => {
+      addPieTransition()
       //--------------------
-      obj.MasterObj_Data_Query = refreshQueryPatcher(obj);
-      await axios
-        .post(
-          window.apiUrl + `${obj.QueryAPI}/`,
-          obj.MasterObj_Data_Query,
-          {}
+      // obj.MasterObj_Data_Query = refreshQueryPatcher(obj);
+      const updateWork = async (data = []) => {
+
+        if (
+          Array.isArray(data) &&
+          data.length == 1 &&
+          Array.isArray(data[0])
         )
-        .then(({ data }) => {
-          if (
-            Array.isArray(data) &&
-            data.length == 1 &&
-            Array.isArray(data[0])
-          ) {
-            data = data[0];
+          data = data[0]
+
+        let obj = componentData.obj;
+        data = data ? data : [];
+        const maxCols = rc.maxCols; // config.configLayout.Masterlayout_col
+        const maxRows = rc.maxRows; //config.configLayout.Masterlayout_row
+        const generatedPlots = document.querySelector("#generatedPlots");
+        const layoutWidth = generatedPlots.clientWidth;
+        const layoutHeight = generatedPlots.clientHeight;
+        const _width = percentToPX(width, layoutWidth)
+        const _height = percentToPX(height, layoutHeight)
+
+        const _dataGenerated = dataGenerator(obj, data, maxCols, maxRows, isPageTL, _height, _width);
+        const _layoutGenerated = layoutGenerator(obj, _height, _width);
+        const _plot = document.querySelector(`#${divId}`)
+
+        console.log("_plot_layout",_plot.layout);
+        const isNoDataMode=_plot&&_plot.layout&&_plot.layout.annotations.find(l=>l.name=="noData")
+        // console.log("_plot_data",_plot.data)
+        if (isNoDataMode){
+          Object.assign(_layoutGenerated,generateCover(_layoutGenerated,true))
+        }
+        
+        let renderedPlot = [];
+        if (!_plot) return
+        renderedPlot = _plot.data
+
+        if (!renderedPlot.length) {
+          console.log("new start", _dataGenerated)
+          return Plotly.newPlot(_plot, _dataGenerated, _layoutGenerated)
+        }
+        else {
+          const _dataGeneratedL = _dataGenerated.length
+          for (let i = 0; i < _dataGeneratedL; i++) {
+            const singlePlot = _dataGenerated[i];
+            // try {
+            const plotType = singlePlot.type
+            switch (plotType) {
+              case 'pie':
+                singlePlot.sort = false
+                const actualPieIndex = 0
+                await Plotly.restyle(divId, { values: [singlePlot.values] }, [actualPieIndex])
+                // Plotly.extendTraces(divId, {values:[singlePlot.values]}, [actualPieIndex])
+
+
+
+                // Plotly.update(divId, {values:[singlePlot.values]}, {}, actualPieIndex)
+
+                break;
+              case 'table':
+                const actualTablePlotIndex = 0
+                await Plotly.update(divId, singlePlot, {}, actualTablePlotIndex)
+                break;
+              case 'indicator':
+                const actualIndicatorPlotIndex = renderedPlot.findIndex(f => getNested(f, 'title', 'text') == getNested(singlePlot, 'title', 'text'))
+                if (actualIndicatorPlotIndex != -1) {
+                  await Plotly.update(divId, singlePlot, {}, actualIndicatorPlotIndex)
+                }
+                break;
+              case 'bar':
+                const actualBarPlotIndex = renderedPlot.findIndex(f => getNested(f, 'name') == getNested(singlePlot, 'name'))
+                const barToWrite = {}
+                // if (singlePlot.orientation == 'h') {
+                //   // let tmp=singlePlot.x
+                //   // barToWrite.x = [singlePlot.y]
+                //   // barToWrite.y = [tmp]
+                //   Object.assign(barToWrite,{y:[singlePlot.y],x:[singlePlot.x]})
+                // }
+                // else {
+                //   barToWrite.x = [singlePlot.x]
+                //   barToWrite.y = [singlePlot.y]
+                // }
+                barToWrite.x = [singlePlot.x]
+                barToWrite.y = [singlePlot.y]
+
+
+                if (actualBarPlotIndex != -1)
+                  // await Plotly.update(divId, barToWrite, {}, [actualBarPlotIndex])
+                  await Plotly.restyle(divId, barToWrite, actualBarPlotIndex)
+                // Plotly.extendTraces(divId, barToWrite, [actualBarPlotIndex])
+
+                // Plotly.update(divId, { x: [singlePlot.y] }, {}, [actualBarPlotIndex])
+                break;
+              default:
+                // scatter
+                const actualScatterPlotIndex = renderedPlot.findIndex(f => getNested(f, 'name') == getNested(singlePlot, 'name'))
+                if (actualScatterPlotIndex != -1) {
+                  if (isNoDataMode){
+                    await Plotly.relayout(divId,_layoutGenerated)
+                  }
+                  await Plotly.restyle(divId, { x: [singlePlot.x], y: [singlePlot.y] }, actualScatterPlotIndex)
+                }
+
+                break;
+            }
+            // } catch (err) {
+            //   console.log('---->', err)
+            // }
           }
-          data = data ? data : [];
+        }
 
-          const maxCols = rc.maxCols; // config.configLayout.Masterlayout_col
-          const maxRows = rc.maxRows; //config.configLayout.Masterlayout_row
+      }
 
-          const _data = dataGenerator(obj, data, maxCols, maxRows);
-          function rand() {
-            return Math.random();
-          }
+      if (dummy) {
+        let dataGenerated = generateRandomData(obj.QueryAPI, obj.MasterObj_Data_Query, true)
 
-          var update = {
-            x: [],
-            y: [],
-          };
+        if (Array.isArray(dataGenerated) && dataGenerated.length == 1 && Array.isArray(dataGenerated[0]))
+          dataGenerated = dataGenerated[0]
 
-          var date = new Date();
-          // var olderTime = date.setHours(date.getHours() - 12);
-          // var futureTime = date.setHours(date.getHours() + 12);
+        dataGenerated = Array.isArray(dataGenerated) ? fillInTheBlanks(dataGenerated, obj.MasterObj_Data_Query) : []
+        const todo = obj.QueryAPI == "cluster" ? { data } : { data, maxPlotPoint: 96 }
+        if (todo.maxPlotPoint) { }
+        return updateWork(todo)
+      }
+      else
+        return axios
+          .post(
+            window.apiUrl + `plotUpdate/`,
+            obj.MasterObj_Data_Query
+          )
+          .then(({ data: respData }) => {
 
-          const dateMin = new Date(data[0].date);
-          const dateMax = new Date(data[data.length - 1].date);
-          var olderTime = dateMin.setHours(dateMin.getHours() - 12);
-          var futureTime = dateMax.setHours(dateMax.getHours() + 12);
+            if (!respData || !respData.data) return;
 
-          _data.map((elem, i) => {
-            update.x.push([date]);
-            update.y.push([rand() * 10000]);
-            // update.y.push([rand() * 10000])
-          });
+            if (respData.maxPlotPoint) {
+              const tData = rawDataRef.current
+              // const tData=rawData
+              respData.data = updateDynamicData(tData == "noData" ? [] : tData, respData.data, respData.maxPlotPoint)
+            }
+            respData = respData.data
 
-          var view24hours = {
-            xaxis: {
-              range: [olderTime, futureTime],
-            },
-          };
-
-          view24hours.xaxis = Object.assign(
-            {},
-            obj.MasterObj_Data_Mapping.xaxis,
-            view24hours.xaxis
-          );
-          if (view24hours.xaxis.autorange) delete view24hours.xaxis.autorange;
-          view24hours = Object.assign(
-            {},
-            { yaxis1: obj.MasterObj_Data_Mapping.yaxis1 },
-            view24hours
-          );
-          view24hours = Object.assign(
-            {},
-            { yaxis2: obj.MasterObj_Data_Mapping.yaxis2 },
-            view24hours
-          );
-          if (layout) {
-            view24hours = Object.assign(
-              {},
-              { legend: layout.legend },
-              view24hours
-            );
-          }
-
-          Plotly.relayout(id, view24hours);
-
-          const trances = [...Array(update.x.length).keys()];
-
-          if (document.querySelector(`#${id}`))
-            Plotly.extendTraces(id, update, trances).then(() =>
-              generatePlotDataDynamic(id, obj)
-            );
-        });
-      //--------------------
+            setRawData(respData)
+            return updateWork(respData).then(() => { console.log("update done") })
+          })
+      // .catch(({ response }) => {
+      //   if (response != null) {
+      //     if (response.status == "401") {
+      //       window.location.assign("/")
+      //       localStorage.clear();
+      //     }
+      //     console.log(response)
+      //   }
+      // });
     }, refreshInterval);
+    // }, 3000);
   };
 
   useEffect(() => {
@@ -2128,15 +2284,14 @@ export const DrawPlot = ({
 
     generatePlotData(selectedMember, isPageTL).then(() => {
       //todo
-      if (updateData && false) {
-        intervalID = generatePlotDataDynamic(divId, componentData.obj);
+      if (updateData) {
+        intervalID = generatePlotDataDynamic(divId, componentData.obj, selectedMember, isPageTL);
       }
     });
 
-    // Plotly.newPlot(divId, data, layout)
-    return function cleanup() {
-      clearTimeout(intervalID);
-      clearInterval(intervalID);
+    return async function cleanup() {
+      if (intervalID instanceof Promise)
+        await clearIntervalAsync(await intervalID)
     };
   }, []);
 
@@ -2174,7 +2329,7 @@ export const DrawPlot = ({
       }
     }
   };
-  // console.log("pagespagespagespagespagesv", pages)
+
 
   return (
     <>
@@ -2199,6 +2354,7 @@ export const DrawPlot = ({
     </>
   );
 };
+
 
 
 const PlotError = ({ className, message, height, style = {} }) => {
@@ -2292,20 +2448,6 @@ const SingleCellMenu = ({ rowColObjet, handleObjectjson, id, componentData, rc, 
 
 
   }
-  //   useEffect(() => {
-  //     if (!plotData)return
-  //     ////console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",plotData)
-
-  // setArrayobj((arrayobj) => {
-  //   //plotData //<==== previous object
-  //   arrayobj.push(plotData)
-  //   ////console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",arrayobj)
-  //   return arrayobj;
-  // });
-
-  //    // arrayobj.push(plotData)
-
-  //   }, [plotData,arrayobj])
   return (doneEditing && startRender
     ? plotData ? <><DrawPlot
       id={id}

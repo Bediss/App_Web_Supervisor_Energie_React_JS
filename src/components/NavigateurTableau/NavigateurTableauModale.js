@@ -8,7 +8,7 @@ import EditerRapportTableau from './EditerRapport';
 import Swal from 'sweetalert2';
 import { getNested, parseParams, prepareParams, checkSize } from "../Rapporteur/Rapport/layoutGen/extra"
 
-const NavigateurTableauModale = ({toggle,historyProps,EnregisterNewRapport,Visualiser_Rapport_Id}) => {
+const NavigateurTableauModale = ({toggle,modal,historyProps,EnregisterNewRapport,Visualiser_Rapport_Id}) => {
   /*****************************************Variable****************************************************/
   const [array_data_rapport, setArray_data_rapport] = useState([])
   const [modelEditerRapport, setModelEditerRapport] = useState(false)
@@ -24,10 +24,12 @@ const NavigateurTableauModale = ({toggle,historyProps,EnregisterNewRapport,Visua
     for (var i = 0; i < array_data_rapport.length; i++) {
 
       if (Repport_selected.Report_Code == array_data_rapport[i].Report_Code) {
-        if (array_data_rapport[i].Body.objects != undefined) {
-          setBtn_Editer_Rapport(false)
-        } else {
+       // if (array_data_rapport[i].Body.objects != undefined) {
+         console.log("synoptic",array_data_rapport[i].type)
+         if(array_data_rapport[i].type=="synoptic"){
           setBtn_Editer_Rapport(true)
+        } else {
+          setBtn_Editer_Rapport(false)
         }
       }
     }
@@ -38,7 +40,7 @@ const NavigateurTableauModale = ({toggle,historyProps,EnregisterNewRapport,Visua
  /*****************************************Api get All Report****************************************************/
   useEffect(() => {
     document.querySelector("body").classList.add("isLoading")
-    axios.get(window.apiUrl + "getReports/?g&b")
+    axios.get(window.apiUrl + "getReports/?g")
       .then(
         (result) => {
           //   this.tableData = result.data;
@@ -92,7 +94,7 @@ const NavigateurTableauModale = ({toggle,historyProps,EnregisterNewRapport,Visua
         timer: 4000,
         icon: 'warning',
         width: 400,
-        title: 'En peut sélectionner un rapport'
+        title: 'Veuillez sélectionner un rapport pour visualiser'
       })
     }
 
@@ -139,13 +141,13 @@ const NavigateurTableauModale = ({toggle,historyProps,EnregisterNewRapport,Visua
           <MDBBtn color="#e0e0e0 grey lighten-2" style={{ width: "270px" }} onClick={Visualiser_Rapport}> Visualiser Rapport <MDBIcon icon="file-invoice" className="ml-1" /></MDBBtn>
         </MDBCol>
         <MDBCol size="6">
-          <MDBBtn style={{ width: "270px" }} onClick={toggleEditerRapport}/* disabled={true}*/disabled={btn_Editer_Rapport} > Éditer Rapport <MDBIcon icon="edit" className="ml-1" /></MDBBtn>
+          <MDBBtn style={{ width: "270px" }} onClick={toggleEditerRapport} /*disabled={true} */disabled={btn_Editer_Rapport} > Éditer Rapport <MDBIcon icon="edit" className="ml-1" /></MDBBtn>
         </MDBCol>
       </MDBRow>
     </MDBModalFooter>
 
     <MDBModal isOpen={modelEditerRapport} toggle={toggleEditerRapport} size="lg" centered>
-      <EditerRapportTableau historyProps={historyProps} toggleEditerRapport={toggleEditerRapport} toggle={toggle} Report_Code={Report_Code} EnregisterNewRapportFunction={EnregisterNewRapportFunction} Rapportnewclone={Rapportnewclone} />
+      <EditerRapportTableau historyProps={historyProps} modal={modal} toggleEditerRapport={toggleEditerRapport} toggle={toggle} Report_Code={Report_Code} EnregisterNewRapportFunction={EnregisterNewRapportFunction} Rapportnewclone={Rapportnewclone} />
     </MDBModal>
 
   </>);

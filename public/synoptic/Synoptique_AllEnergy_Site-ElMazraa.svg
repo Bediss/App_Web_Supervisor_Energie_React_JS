@@ -59,7 +59,7 @@
       <tspan x="0" y="0">Vapeur</tspan>
     </text>
 <text xmlns="http://www.w3.org/2000/svg" transform="translate(89.81 300.6)" font-size="12" fill="#231f20" font-family="balto">
-    <tspan x="30" y="0">Tonnes PPF-1</tspan> <tspan xmlns="http://www.w3.org/2000/svg" x="100" y="0" class="data" id="___MZP002___Tonnes-1"/>
+    <tspan x="30" y="0">Tonnes PPF</tspan> <tspan xmlns="http://www.w3.org/2000/svg" x="100" y="0" class="data" id="___MZP002___Tonnes"/>
 </text>
     <circle cx="110" cy="296.75" r="4.07" fill="#676767"/>
     

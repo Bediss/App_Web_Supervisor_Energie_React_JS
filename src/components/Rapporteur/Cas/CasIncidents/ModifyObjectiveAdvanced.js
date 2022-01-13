@@ -300,7 +300,7 @@ class ModifyObjectiveAdvanced extends React.Component {
                     timer: 4000,
                     icon: 'warning',
                     width: 400,
-                    title: 'S\'il vous plaît sélectionner une mesure possède une valeur'
+                    title: "Veuillez saisir une valeur d'objectif valide"
                 })
                 //console.log("alert aucun objectif declaré")
                 //console.log("alert")
@@ -334,7 +334,7 @@ class ModifyObjectiveAdvanced extends React.Component {
                 timer: 4000,
                 icon: 'warning',
                 width: 400,
-                title: 'Aucun objectif ne déclaré dans la base de donnée'
+                title: 'Aucun objectif déclaré dans la base de donnée'
             })
             //console.log("alert aucun objectif declaré")
             //console.log("alert")

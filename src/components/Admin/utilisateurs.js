@@ -13,6 +13,7 @@ import { Multiselect } from 'multiselect-react-dropdown';
 import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
 import MultiSelectAll from "./MultiSelectAll";
 import Swal from 'sweetalert2';
+import Navbar from "../navbar";
 // import { useForm } from "react-hook-form";
 
 // const { register, handleSubmit } = useForm();
@@ -36,7 +37,7 @@ class Utilisateurs extends React.Component {
 
     ///////////////
 
-    /////////////////////////
+    //////////////////////////
     getDate() {
 
         var date = { currentTime: new Date().toLocaleString() };
@@ -424,6 +425,7 @@ class Utilisateurs extends React.Component {
         this.validator = new SimpleReactValidator();
 
         this.state = {
+            history:props.history,
             modal: false,
             modal1: false,
             dateDMY: Moment(this.getDate.date).format('DD-MM-YYYY-hh-mm-ss'),
@@ -704,7 +706,8 @@ class Utilisateurs extends React.Component {
         const { errors } = this.state;
         return (
 
-            <div>
+            <>
+                <Navbar history={this.state.history}/>
                 <MDBBreadcrumb style={{ backgroundColor: '#b1b5b438',color: "#000",fontFamily: 'GOTHAM MEDIUM' }}>
                     <MDBBreadcrumbItem>  Admin</MDBBreadcrumbItem>
                     <MDBBreadcrumbItem > Utilisateurs</MDBBreadcrumbItem>
@@ -982,7 +985,7 @@ class Utilisateurs extends React.Component {
 
                     <div className="tabulator"  ref={el => (this.el = el)} />
                 </div>
-            </div>
+            </>
 
 
 

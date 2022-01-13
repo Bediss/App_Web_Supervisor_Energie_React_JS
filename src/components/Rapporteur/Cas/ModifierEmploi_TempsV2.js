@@ -8,7 +8,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ReactTabulator } from 'react-tabulator'
 import { contains } from "jquery";
-const ModifierEmploi_Temps = ({ ModifierTab ,OperateurValueModifier}) => {
+const ModifierEmploi_Temps = ({ ModifierTab ,OperateurValueModifier,ValidationEmploi}) => {
 useEffect(() => {
     console.log("------------->",OperateurValueModifier)
   if(OperateurValueModifier.length!=0){
@@ -20,17 +20,23 @@ useEffect(() => {
         var att= OperateurValueModifier[i].att
         var operateur= OperateurValueModifier[i].operateur
         var valeur_format= OperateurValueModifier[i].valeur_format
-        const d = valeur .replace("(date_trunc(''week'', now())::date + interval ''6 day'')::date","Dimanche")
-        .replace("(date_trunc(''week'', now())::date + interval ''5 day'')::date","Samedi")
-        .replace("(date_trunc(''week'', now())::date + interval ''4 day'')::date","Vendredi")
-        .replace("(date_trunc(''week'', now())::date + interval ''3 day'')::date","Jeudi")
-        .replace("(date_trunc(''week'', now())::date + interval ''2 day'')::date","Mercredi")
-        .replace("(date_trunc(''week'', now())::date + interval ''1 day'')::date","Mardi")
-        .replace("(date_trunc(''week'', now())::date)::date","Lundi").replace("(","").replace(/'/g,"").replace(")","").replace("and ",",")
+        const d = valeur.replace("Dimanche","dimanche")
+        .replace("dimanche","Dimanche")
+        .replace("samedi","Samedi")
+        .replace("vendredi","Vendredi")
+        .replace("jeudi","Jeudi")
+        .replace("mercredi","Mercredi")
+        .replace("mardi","Mardi")
+        .replace("lundi","Lundi")
+        .replace("last_a","Dernier jour de l'année")
+        .replace("last_m","Dernier jour du mois")
+        .replace("last_s","Dernier jour de la semaine")
+        .replace("(","").replace(/'/g,"").replace(")","").replace("and ",",").replace(/\|/g,"")
         var valeurDev= d
        // console.log("dattttttttaaaaaaaaaaaaaa",keyword,valeur,att,operateur,valeurDev)
         dataTabulator.push({'keyword':keyword,'valeur':valeur,'att':att,'operateur':operateur,'valeurDev':valeurDev})
         JsonOperateurValue.push({ "keyword": keyword, "operateur": operateur, "att": att, "valeur": valeur, "valeur_format": valeur_format })
+
         ModifierTab(JsonOperateurValue)
        }
   }
@@ -120,7 +126,10 @@ useEffect(() => {
                     var val = supprimertemp[i]
             //       console.log(val)
                     var filteredObj = JsonOperateurValue.find(function (item, i) {
-                        if (item.valeur === val) {
+                        var val1 =val
+                     
+                        if (item.valeur === val1) {
+                        
                             index = i;
                             return i;
                         }
@@ -190,13 +199,13 @@ useEffect(() => {
     const [fleche, setfleche] = useState("")
     const [DansDev, setDansDev] = useState([])
     const [timeVar, settimeVar] = useState("")
-
+    const [validationEmploi,setValidationEmploi]=useState(false)
     function BtnNouveau() {
         var $ = require("jquery");
+        $('#tab').hide();
         $('#BtnModifier').hide();
         $('#FromModifier').hide();
         $('#BtnNouveau').hide();
-        $('#tab').hide();
         $('#FromNouveau').show();
         $('#BtnTab').show();
         $('#IntervalleTimeNouveau').hide();
@@ -210,6 +219,7 @@ useEffect(() => {
         setheure("");
         setdateHeure("")
         setdate("")
+        setValidationEmploi(true)
     }
     function BtnTab() {
 
@@ -220,7 +230,7 @@ useEffect(() => {
         $('#BtnNouveau').show();
         $('#BtnModifier').show();
         $('#tab').show();
-
+        setValidationEmploi(false)
     }
 
   
@@ -240,7 +250,7 @@ useEffect(() => {
                 valeur_format="date"
             }else if(timeVar=="dateHeure"){
                 valeur_format="timestamp"
-            }else if(timeVar=="jour"){
+            }else if(timeVar=="jour"||timeVar=="dernier"){
                 valeur_format="date"
             }
 
@@ -256,9 +266,16 @@ useEffect(() => {
 
 
 
+            if(timeVar=="jour"){
+                valeur = (haut)
+                setValeur(valeur)
+              }else{
+                valeur = ("|" + haut + "|")
+                setValeur(valeur)
+              }
+        
 
-            valeur = ("''" + haut + "''")
-            setValeur(valeur)
+
             var valeurDev =""
             if (timeVar == "jour"){
              valeurDev = hautJour
@@ -279,10 +296,15 @@ useEffect(() => {
 
             att = "Bas"
             setAtt(att)
+            
 
-
-            valeur = ("''" + bas + "''")
-            setValeur(valeur)
+            if(timeVar=="jour"){
+                valeur = (bas)
+                setValeur(valeur)
+              }else{
+                valeur = ("|" + bas + "|")
+                setValeur(valeur)
+              }
 
 
             var valeurDev =""
@@ -355,7 +377,7 @@ console.log("hautValeur",hautValeur)
             if(basValeur>hautValeur){
             att = "Entre"
             setAtt(att)
-            valeur = ("''" + haut + "'' and ''" + bas + "''")
+            valeur = (haut + " and " + bas)
             setValeur(valeur)
             var valeurDev =""
              valeurDev = hautJour + ',' +basJour
@@ -386,7 +408,7 @@ console.log("hautValeur",hautValeur)
         if(bas>haut){
         att = "Entre"
         setAtt(att)
-        valeur = ("''" + haut + "'' and ''" + bas + "''")
+        valeur = ("|" + haut + "| and |" + bas + "|")
         setValeur(valeur)
     
        var valeurDev = haut + ',' + bas
@@ -422,15 +444,17 @@ console.log("hautValeur",hautValeur)
 
             att = "Dans"
             setAtt(att)
-            var b = totale_Dans.toString().replace("Dimanche","(date_trunc('week', now())::date + interval '6 day')::date")
-            .replace("Samedi","(date_trunc('week', now())::date + interval '5 day')::date")
-            .replace("Vendredi","(date_trunc('week', now())::date + interval '4 day')::date")
-            .replace("Jeudi","(date_trunc('week', now())::date + interval '3 day')::date")
-            .replace("Mercredi","(date_trunc('week', now())::date + interval '2 day')::date")
-            .replace("Mardi","(date_trunc('week', now())::date + interval '1 day')::date")
-            .replace("Lundi","(date_trunc('week', now())::date)::date")
-            .replace(/'/g,"''")
-            valeur = ("(" + b.slice(0, -1) + ")")
+            var b = totale_Dans.toString().replace("Dimanche","dimanche")
+            .replace("Samedi","samedi")
+            .replace("Vendredi","vendredi")
+            .replace("Jeudi","jeudi")
+            .replace("Mercredi","mercredi")
+            .replace("Mardi","mardi")
+            .replace("Lundi","lundi")
+            .replace("Dernier jour de l'année","last_a")
+            .replace("Dernier jour du mois","last_m")
+            .replace("Dernier jour de la semaine","last_s")
+            valeur = ("(" + b.slice(0, -1) + ")").replace(/ /g, "|")
             setValeur(valeur)
 
             var valeurDev =""
@@ -453,6 +477,10 @@ console.log("hautValeur",hautValeur)
         JsonOperateurValue.push({ "keyword": keyword, "operateur": operateur, "att": att, "valeur": valeur, "valeur_format": valeur_format })
        console.log("JsonOperateurValue", JsonOperateurValue)
        ModifierTab(JsonOperateurValue)
+
+
+
+       setValidationEmploi(false)
         var $ = require("jquery");
         $('#formulaire')[0].reset();
         $('#IntervalleTime').show();
@@ -529,7 +557,11 @@ console.log("hautValeur",hautValeur)
         })
        }
     }
+    useEffect(()=>{
+        console.log(validationEmploi)
+       ValidationEmploi(validationEmploi)
 
+   },[validationEmploi])
 
     function btnAjouterDans() {
         if (dans == "") {
@@ -548,10 +580,33 @@ console.log("hautValeur",hautValeur)
 
         //    console.log(totale_Dans);
 
-            settotale_Dans(totale_Dans + "''" + dans + "'',")
+        if(timeVar=="jour"){
+            settotale_Dans(totale_Dans + dans + ",")
+         } else if(timeVar=="dernier"){
+                settotale_Dans(dans + ",")
+            
+        }else {
+            settotale_Dans(totale_Dans + " " + dans + " ,")
+        }
             setdans("")
         }
     }
+
+    useEffect(() => {
+        if(timeVar=="heure"){
+            settotale_Dans([])
+        }else if(timeVar=="date")
+        {
+            settotale_Dans([])
+        }else if(timeVar=="dateHeure"){
+            settotale_Dans([])
+        }else if(timeVar=="jour"){
+            settotale_Dans([])
+        }else if(timeVar=="dernier"){
+            settotale_Dans([])
+        }
+       
+    }, [timeVar])
 
     function btndeleteDans() {
 
@@ -645,52 +700,53 @@ console.log("hautValeur",hautValeur)
     
     useEffect(() => {
         if(timeVar=="jour"){
-      if(hautJour=="Dimanche"){
-        sethaut("(date_trunc(''week'', now())::date + interval ''6 day'')::date")
-      }else if(hautJour=="Samedi"){
-        sethaut("(date_trunc(''week'', now())::date + interval ''5 day'')::date")
-      }
-      else if(hautJour=="Vendredi"){
-        sethaut("(date_trunc(''week'', now())::date + interval ''4 day'')::date")
-      }
-      else if(hautJour=="Jeudi"){
-        sethaut("(date_trunc(''week'', now())::date + interval ''3 day'')::date")
-      }
-      else if(hautJour=="Mercredi"){
-        sethaut("(date_trunc(''week'', now())::date + interval ''2 day'')::date")
-      }
-      else if(hautJour=="Mardi"){
-        sethaut("(date_trunc(''week'', now())::date + interval ''1 day'')::date")
-      }
-      else if(hautJour=="Lundi"){
-        sethaut("(date_trunc(''week'', now())::date)::date ")
-      }
+            if(hautJour=="Dimanche"){
+                sethaut("dimanche")
+              }else if(hautJour=="Samedi"){
+                sethaut("samedi")
+              }
+              else if(hautJour=="Vendredi"){
+                sethaut("vendredi")
+              }
+              else if(hautJour=="Jeudi"){
+                sethaut("jeudi")
+              }
+              else if(hautJour=="Mercredi"){
+                sethaut("mercredi")
+              }
+              else if(hautJour=="Mardi"){
+                sethaut("mardi")
+              }
+              else if(hautJour=="Lundi"){
+                sethaut("lundi")
+              }
+                
         }
     }, [timeVar,hautJour])
 
 
     useEffect(() => {
         if(timeVar=="jour"){
-      if(basJour=="Dimanche"){
-        setbas("(date_trunc(''week'', now())::date + interval ''6 day'')::date")
-      }else if(basJour=="Samedi"){
-        setbas("(date_trunc(''week'', now())::date + interval ''5 day'')::date")
-      }
-      else if(basJour=="Vendredi"){
-        setbas("(date_trunc(''week'', now())::date + interval ''4 day'')::date")
-      }
-      else if(basJour=="Jeudi"){
-        setbas("(date_trunc(''week'', now())::date + interval ''3 day'')::date")
-      }
-      else if(basJour=="Mercredi"){
-        setbas("(date_trunc(''week'', now())::date + interval ''2 day'')::date")
-      }
-      else if(basJour=="Mardi"){
-        setbas("(date_trunc(''week'', now())::date + interval ''1 day'')::date")
-      }
-      else if(basJour=="Lundi"){
-        setbas("(date_trunc(''week'', now())::date)::date ")
-      }
+            if(basJour=="Dimanche"){
+                setbas("dimanche")
+              }else if(basJour=="Samedi"){
+                setbas("samedi")
+              }
+              else if(basJour=="Vendredi"){
+                setbas("vendredi")
+              }
+              else if(basJour=="Jeudi"){
+                setbas("jeudi")
+              }
+              else if(basJour=="Mercredi"){
+                setbas("mercredi")
+              }
+              else if(basJour=="Mardi"){
+                setbas("mardi")
+              }
+              else if(basJour=="Lundi"){
+                setbas("lundi")
+              }
         }
     }, [timeVar,basJour])
 
@@ -761,7 +817,7 @@ console.log("hautValeur",hautValeur)
                                     </select>
                                 </MDBCol>
 
-                                <MDBCol size="6" >
+                                <MDBCol size="8" >
                                     <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
                                         Opérateur
                                     </label>
@@ -778,6 +834,9 @@ console.log("hautValeur",hautValeur)
                                         <label htmlFor="dateHeure">Date et Heure  </label>
                                         <input style={{ marginLeft: "5px" }} type="radio" id="jour" name="time" value="jour" onChange={(e) => settimeVar("jour")} />
                                         <label htmlFor="jour">Jour</label>
+
+                                        {  keyword=="Ensemble"&&   <>   <input style={{ marginLeft: "5px" }} type="radio" id="dernier" name="time" value="dernier" onChange={(e) => settimeVar("dernier")} />
+                                        <label htmlFor="jour">Dernier</label></>}
                                     </div>
 
 
@@ -917,10 +976,44 @@ console.log("hautValeur",hautValeur)
                                         </div>
 
                                     }
+                                          {timeVar == "dernier" && keyword == "Ensemble" &&
+                                        <div id="EnsembleDateHeureNouveau">
+                                            <MDBRow>
+                                                <MDBCol size="8">   
+                                                <div>
+                                                <MDBRow>
+                                          
+                                    <MDBCol size="12">
+                                    <select
+                                     style={{height:"90%"}}    className="browser-default custom-select" name="dans" value={dans} onChange={(e) => setdans(e.target.value)}required>
+                                        <option></option>
+                                        <option valeur="last_a">Dernier jour de l'année</option>
+                                        <option valeur="last_m">Dernier jour du mois</option>
+                                        <option valeur="last_s">Dernier jour de la semaine</option>
+                                    </select>
+                                    </MDBCol>
+
+                                    </MDBRow>
+                                            </div>
+                                                 {/* <MDBInput style={{ height: '37px', width: '100%' }} min={minimumDateHeure} max='2100-12-30T23:59' label="Dans" outline size="sm" type="datetime-local" className="form-control" name="dans" value={dans} placeholder="" onChange={(e) => setdans(e.target.value)} /> */}
+                                                </MDBCol>
+                                                 <MDBCol size="4">  
+                                                   <MDBBtn style={{ height: '30px', marginTop: "-0%" }} color="#e0e0e0 grey lighten-2" size="sm" onClick={btnAjouterDans}><MDBIcon style={{ marginLeft: '-4px' }} title="Ajouter" icon="plus" size="lg" /></MDBBtn>
+                                                </MDBCol>   
+                                                  <MDBCol size="8">       
+                                                  <MDBInput style={{ height: '21px', width: '100%',marginTop: "11px" }} type="textarea" name="totale_DansJour" className="form-control  " value={totale_Dans} placeholder="" onChange={(e) => settotale_Dans(e.target.value)} diabled />
+                                                </MDBCol> 
+                                                <MDBCol size="4">    
+                                                 <MDBBtn style={{ height: '30px' }} color="#e0e0e0 grey lighten-2" size="sm" onClick={btndeleteDans}> <MDBIcon style={{ marginLeft: '-4px' }} title="Supprimer" icon="trash-alt" size="lg" /></MDBBtn>
+                                                </MDBCol>    </MDBRow>
+                                        </div>
+
+                                    }
+
 
                                 </MDBCol>
-                                <MDBCol size="2">
-                                <MDBBtn style={{ marginTop: '108%' }} id="BtnAjouterTab" className='float-right' onClick={ajoutTab} size="sm"><MDBIcon title="Nouveau" icon="plus" size="lg" /></MDBBtn>
+                                <MDBCol size="12">
+                                <MDBBtn  id="BtnAjouterTab" className='float-right' onClick={ajoutTab} size="sm"><MDBIcon title="Nouveau" icon="plus" size="lg" /></MDBBtn>
                             </MDBCol>
                             </MDBRow>
                           </form>
@@ -931,13 +1024,14 @@ console.log("hautValeur",hautValeur)
 
 
             </div>
+            <div  id="tab">
             <ReactTabulator
                 data={dataTabulator}
                 columns={columns}
                 layout={"fitData"}
-                id="tab"
+              
             />
-
+</div>
         </>
 
     )

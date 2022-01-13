@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import { MDBContainer, MDBTabPane,MDBTabContent, MDBBtn, MDBNav, MDBNavItem, MDBNavLink, MDBIcon, MDBModal, MDBListGroup, MDBListGroupItem, MDBModalBody, MDBInput, MDBModalHeader, MDBRow, MDBCol, MDBModalFooter, MDBBreadcrumb, MDBBreadcrumbItem, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem } from 'mdbreact';
 import GenerateTable from '../Rapport/layoutGen/layoutGenerator';
 import axios from 'axios';
+import axios1 from '../../axios';
 import uuid from 'react-uuid';
 import Moment from 'moment';
 import Tabulator from "tabulator-tables"; //import Tabulator library
 //import "tabulator-tables/dist/css/bulma/tabulator_bulma.min.css";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Swal from 'sweetalert2';
+import Navbar from "../../navbar";
+import FilterV1 from '../../filterV1';
+import Modal_TL_V2 from "../../Modal/Modal_TL_V2";
+import Modal_CL_V2 from "../../Modal/Modal_CL_V2";
+import Modal_ML_V2 from "../../Modal/Modal_ML_V2";
+import { ReactTabulator, reactFormatter } from 'react-tabulator'
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 const validPhoneRegex = RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/i);
 const validateForm = (errors) => {
@@ -22,6 +29,31 @@ class FactBook extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      tabulatorAfficher:false,
+      tableData:[],
+      columns:[  {
+        title: "Nom du rapports",
+        field: "Report_Name",
+        width: '70%',
+
+      },
+
+      {
+        title: "Supprimer",
+        field: "supprimer",
+        width: "28%",
+        hozAlign: "center",
+        formatter: this.supprimerFunIcon,
+        cellClick: this.supprimerFunclick,
+
+        // cellClick: function (e, cell) {
+        //   cell.getData();
+        //   supprimertemp.push(cell.getData().Report_Name);
+        //   cell.getRow().delete();
+        //   console.log("supprimertemp", supprimertemp)
+        // }
+      }],
+      history:props.history,
       Nom_FactBook: "",
       Nom_FactBook1: "",
       Code_FactBook: "",
@@ -125,19 +157,31 @@ class FactBook extends React.Component {
       configLayout_Orientation:"",
       layoutFormat:null,
       Selected_Global_Enregistrer:[],
+      modalConfirmationAjout:false,
       Body:null,
       AjouterRapport:false,
       ajoutertemp_Rapport:[],
       Report_Code_new:"",
       Rapport_Liste:[],
       Nom_Rappot_new:"",
+      TAGS_New:"",
+      Report_Description:"",
+      ////////////////
+      tl_name_IOT:"",
+      tl_id_IOT:"",
+      tl_name_cluster:"",
+      tl_id_cluster:"",
+      BtnAjouterRapportCloner:false,
+      modalDelete:false,
+      tabulatorAfficher:false,
     }
+    this.mytable = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.ajouter = this.ajouter.bind(this);
     this.FactbookList1 = this.FactbookList1.bind(this);
     this.ajouterListe = this.ajouterListe.bind(this);
     this.supprimerAll = this.supprimerAll.bind(this);
-    this.addAll = this.addAll.bind(this);
+   // this.addAll = this.addAll.bind(this);
     this.Enregistrer = this.Enregistrer.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.Newliste = this.Newliste.bind(this);
@@ -145,7 +189,7 @@ class FactBook extends React.Component {
     this.modifierNom = this.modifierNom.bind(this);
     this.hClick = this.hClick.bind(this);
     this.handleRapportselectedchange = this.handleRapportselectedchange.bind(this);
-    this.resetvalueoffilter = this.resetvalueoffilter.bind(this);
+  
     this.modelCl = this.modelCl.bind(this)
     this.modelMl = this.modelMl.bind(this)
     this.CL_Tags_Function = this.CL_Tags_Function.bind(this)
@@ -167,149 +211,349 @@ class FactBook extends React.Component {
     if (tab === "2") {
 
 
-      if (items[type] !== "2") {
+
+if (items[type] !== "2") {
+  this.state.Report_Name_Enregistrer=this.state.Nom_Rappot_new
+  if (this.state.Report_Name_Enregistrer != "" && this.state.Report_Name_Enregistrer.length > 5) {
+
+    axios1.get(window.apiUrl + `getReportByName/?reportName=${this.state.Report_Name_Enregistrer}`)
+      .then(
+        (result) => {
+          if (result.data.length !== null) {
+
+            if (result.status == 200) {
+           
+
+            Swal.fire({
+              toast: true,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 4000,
+              icon: 'warning',
+              width: 450,
+              title: 'Nom de Rapport déjà utilisé'
+            })
+          }
+          }
+        })
+
+      .catch((err) => {
+     
 
 
-        console.log('ggggg')
 
-        items[type] = "2";
-        this.setState({
-          items
-        });
-        console.log("this.state.Body1",this.state.Body)
-if(this.state.cl_Membre_Select_fin.length!=0 || this.state.ml_Membre_Select_fin.length!=0 || this.state.tl_members.length !=0){
-      console.log("Selected_Global_Rapport_Array",this.state.Selected_Global_Rapport_Array)
-  
-
-      var data = []
-        if(this.state.cl_Membre_Select_fin.length!=0 && this.state.ml_Membre_Select_fin.length==0 && this.state.tl_members.length==0){
-/////CL
-data =[{
-  "cl":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.cl_Membre_Select_fin
-  }}]
-
-        }else if(this.state.ml_Membre_Select_fin.length!=0 && this.state.tl_members.length==0 && this.state.cl_Membre_Select_fin.length==0){
-/////ML
-data =[{
-  "ml":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.ml_Membre_Select_fin
-  }}]
-        }else if (this.state.tl_members.length!=0&& this.state.cl_Membre_Select_fin.length==0 && this.state.ml_Membre_Select_fin.length==0){
-/////TL
-data =[{
-  "tl":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.tl_members
-  }}]
-
-        }else if (this.state.cl_Membre_Select_fin.length!=0 && this.state.ml_Membre_Select_fin.length!=0 && this.state.tl_members.length==0){
-////// cl & ml
-data =[{
-  "cl":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.cl_Membre_Select_fin
-  },
-  "ml":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.ml_Membre_Select_fin
-  }}]
-        }else if (this.state.cl_Membre_Select_fin.length!=0 && this.state.tl_members.length!=0 && this.state.ml_Membre_Select_fin.length==0){
-/////cl & tl          
-data =[{
-  "cl":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.cl_Membre_Select_fin
-  },
-  "tl":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.tl_members
-  }}]
-        }else if (this.state.ml_Membre_Select_fin.length!=0 && this.state.tl_members.length!=0 && this.state.cl_Membre_Select_fin.length==0){
-//// ml & tl    
+ // console.log("this.state.Body1", this.state.Body)
+  if (this.state.cl_Membre_Select_fin.length != 0 || this.state.ml_Membre_Select_fin.length != 0 || this.state.tl_id_cluster != "" || this.state.tl_id_IOT != "") {
+    console.log("Selected_Global_Rapport_Array", this.state.Selected_Global_Rapport_Array)
 
 
-data =[{
-  "ml":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.ml_Membre_Select_fin
-  },
-  "tl":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.tl_members
-  }}]
+    var data = []
 
-        }else if (this.state.cl_Membre_Select_fin.length!=0 && this.state.tl_members.length!=0 && this.state.ml_Membre_Select_fin.length!=0){
-    //      cl & tl & ml     
-    
-    
-data =[{
-  "cl":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.cl_Membre_Select_fin
-  },
-  "ml":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.ml_Membre_Select_fin
-  },
-  "tl":{
-    "tag": this.state.CompteurListI_Name,
-      "members": this.state.tl_members
-  }}]
-        }
-        console.log("datadatadatadatadata",data)
-        axios.post(window.apiUrl + "cloneV2/",
 
-        {
-          "R_IDs": [this.state.Report_Code],
-          "data": data
-          
+    if (this.state.cl_Membre_Select_fin.length != 0 || this.state.ml_Membre_Select_fin.length != 0 || this.state.tl_id_cluster != "" || this.state.tl_id_IOT != "") {
+      if (this.state.cl_Membre_Select_fin.length != 0 && this.state.ml_Membre_Select_fin.length == 0 && this.state.tl_id_IOT.length == 0 && this.state.tl_id_cluster.length == 0) {
+        /////CL
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "cl": {
+            "tag": this.state.CompteurListI_Name,
+            "members": this.state.cl_Membre_Select_fin
+          }
+        }]
+      } else if (this.state.ml_Membre_Select_fin.length != 0 && this.state.tl_id_IOT.length == 0 && this.state.tl_id_cluster.length == 0 && this.state.cl_Membre_Select_fin.length == 0) {
+        /////ML
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "ml": {
+            "tag": this.state.ML_Name,
+            "members": this.state.ml_Membre_Select_fin
+          }
+        }]
+      } else if (this.state.tl_id_IOT.length != 0 && this.state.tl_id_cluster.length == 0 && this.state.cl_Membre_Select_fin.length == 0 && this.state.ml_Membre_Select_fin.length == 0) {
+        /////TL
+
+
+
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "tlIot": {
+            "tag": this.state.tl_name_IOT,
+            "id": this.state.tl_id_IOT
+          }
+        }]
+
+      } else if (this.state.cl_Membre_Select_fin.length != 0 && this.state.ml_Membre_Select_fin.length != 0 && this.state.tl_id_IOT.length == 0 && this.state.tl_id_cluster.length == 0) {
+        ////// cl & ml
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "cl": {
+            "tag": this.state.CompteurListI_Name,
+            "members": this.state.cl_Membre_Select_fin
+          },
+          "ml": {
+            "tag": this.state.ML_Name,
+            "members": this.state.ml_Membre_Select_fin
+          }
+        }]
+      } else if (this.state.cl_Membre_Select_fin.length != 0 && this.state.tl_id_IOT.length != 0 && this.state.tl_id_cluster.length == 0 && this.state.ml_Membre_Select_fin.length == 0) {
+        /////cl & tl      
+
+
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "cl": {
+            "tag": this.state.CompteurListI_Name,
+            "members": this.state.cl_Membre_Select_fin
+          },
+          "tlIot": {
+            "tag": this.state.tl_name_IOT,
+            "id": this.state.tl_id_IOT
+          }
+        }]
+      } else if (this.state.ml_Membre_Select_fin.length != 0 && this.state.tl_id_IOT.length != 0 && this.state.tl_id_cluster.length == 0 && this.state.cl_Membre_Select_fin.length == 0) {
+        //// ml & tl    
+
+
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "ml": {
+            "tag": this.state.ML_Name,
+            "members": this.state.ml_Membre_Select_fin
+          },
+          "tlIot": {
+            "tag": this.state.tl_name_IOT,
+            "id": this.state.tl_id_IOT
+          }
+        }]
+
+      } else if (this.state.cl_Membre_Select_fin.length != 0 && this.state.tl_id_IOT.length != 0 && this.state.ml_Membre_Select_fin.length != 0 && this.state.tl_id_cluster.length == 0) {
+        //      cl & tl & ml     
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "cl": {
+            "tag": this.state.CompteurListI_Name,
+            "members": this.state.cl_Membre_Select_fin
+          },
+          "ml": {
+            "tag": this.state.ML_Name,
+            "members": this.state.ml_Membre_Select_fin
+          },
+          "tlIot": {
+            "tag": this.state.tl_name_IOT,
+            "id": this.state.tl_id_IOT
+          }
+        }]
+      } else if (this.state.cl_Membre_Select_fin.length != 0 && this.state.tl_id_IOT.length != 0 && this.state.ml_Membre_Select_fin.length != 0 && this.state.tl_id_cluster.length != 0) {
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "cl": {
+            "tag": this.state.CompteurListI_Name,
+            "members": this.state.cl_Membre_Select_fin
+          },
+          "ml": {
+            "tag": this.state.ML_Name,
+            "members": this.state.ml_Membre_Select_fin
+          },
+          "tlCluster": {
+            "id": this.state.tl_id_cluster,
+            "tag": this.state.tl_name_cluster,
+          },
+          "tlIot": {
+            "tag": this.state.tl_name_IOT,
+            "id": this.state.tl_id_IOT
+          }
+        }]
+      } else if (this.state.cl_Membre_Select_fin.length != 0 && this.state.tl_id_IOT.length == 0 && this.state.ml_Membre_Select_fin.length != 0 && this.state.tl_id_cluster.length != 0) {
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "cl": {
+            "tag": this.state.CompteurListI_Name,
+            "members": this.state.cl_Membre_Select_fin
+          },
+          "ml": {
+            "tag": this.state.ML_Name,
+            "members": this.state.ml_Membre_Select_fin
+          },
+          "tlCluster": {
+            "id": this.state.tl_id_cluster,
+            "tag": this.state.tl_name_cluster,
+          }
+        }]
+      } else if (this.state.cl_Membre_Select_fin.length == 0 && this.state.tl_id_IOT.length != 0 && this.state.ml_Membre_Select_fin.length != 0 && this.state.tl_id_cluster.length != 0) {
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "ml": {
+            "tag": this.state.ML_Name,
+            "members": this.state.ml_Membre_Select_fin
+          },
+          "tlCluster": {
+            "id": this.state.tl_id_cluster,
+            "tag": this.state.tl_name_cluster,
+          },
+          "tlIot": {
+            "tag": this.state.tl_name_IOT,
+            "id": this.state.tl_id_IOT
+          }
+        }]
+      } else if (this.state.cl_Membre_Select_fin.length != 0 && this.state.tl_id_IOT.length != 0 && this.state.ml_Membre_Select_fin.length == 0 && this.state.tl_id_cluster.length != 0) {
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "cl": {
+            "tag": this.state.CompteurListI_Name,
+            "members": this.state.cl_Membre_Select_fin
+          },
+          "tlCluster": {
+            "id": this.state.tl_id_cluster,
+            "tag": this.state.tl_name_cluster,
+          },
+          "tlIot": {
+            "tag": this.state.tl_name_IOT,
+            "id": this.state.tl_id_IOT
+          }
+        }]
+
+      } else if (this.state.cl_Membre_Select_fin.length == 0 && this.state.tl_id_IOT.length == 0 && this.state.ml_Membre_Select_fin.length != 0 && this.state.tl_id_cluster.length != 0) {
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "ml": {
+            "tag": this.state.ML_Name,
+            "members": this.state.ml_Membre_Select_fin
+          },
+          "tlCluster": {
+            "id": this.state.tl_id_cluster,
+            "tag": this.state.tl_name_cluster,
+          }
+        }]
+      } else if (this.state.cl_Membre_Select_fin.length == 0 && this.state.tl_id_IOT.length == 0 && this.state.ml_Membre_Select_fin.length == 0 && this.state.tl_id_cluster.length != 0) {
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "tlCluster": {
+            "id": this.state.tl_id_cluster,
+            "tag": this.state.tl_name_cluster,
+          }
+        }]
+      } else if (this.state.cl_Membre_Select_fin.length == 0 && this.state.tl_id_IOT.length != 0 && this.state.ml_Membre_Select_fin.length == 0 && this.state.tl_id_cluster.length != 0) {
+        data=[{
+          "title": this.state.Report_Name_Enregistrer,
+          "tags": this.state.TAGS_New,
+          "description": this.state.Report_Description,
+          "tlCluster": {
+            "id": this.state.tl_id_cluster,
+            "tag": this.state.tl_name_cluster,
+          },
+          "tlIot": {
+            "tag": this.state.tl_name_IOT,
+            "id": this.state.tl_id_IOT
+          }
+        }]
+
+      } else {
+        console.log("data vide")
+        data=[]
       }
+    }
+    console.log("data",data)
   
-  
+    console.log("datadatadatadatadata", data)
+    axios1.post(window.apiUrl + "clone/",
+
+      {
+        "IDs": [this.state.Report_Code],
+        "data": data
+
+      }
+
+
+    )
+
+      .then(
+        (result) => {
+          //   this.tableData = result.data;
+          if (result.data !== null) {
+            items[type] = "2";
+            this.setState({
+              items
+            });
+            console.log("sssssssssssssssssssssssssssssssssssss", result.data)
+            this.setState({BtnAjouterRapportCloner :true })
+      
+            this.setState({ config: result.data[0] })
+            this.setState({ GenerateTableActive: false })
+
+            setTimeout(() => this.setState({ GenerateTableActive: true }), 500)
+            // this.setState({AjouterRapport: true})
+            this.state.AjouterRapport = true
+            console.log("AjouterRapportAjouterRapportAjouterRapport", this.state.AjouterRapport)
+          } else {
+            console.log('no data change')
+          }
+
+
+
+        }
       )
   
-        .then(
-          (result) => {
-         //   this.tableData = result.data;
-            if (result.data!== null) {
-        
-              console.log("sssssssssssssssssssssssssssssssssssss",result.data)
-                     this.setState({ config :result.data[0]})
-                     this.setState({ GenerateTableActive: false })
-    
-                     setTimeout(() => this.setState({ GenerateTableActive: true }), 500)
-                     // this.setState({AjouterRapport: true})
-                      this.state.AjouterRapport=true
-                      console.log("AjouterRapportAjouterRapportAjouterRapport", this.state.AjouterRapport)
-            } else {
-              console.log('no data change')
-            }
-  
-  
-  
-          }
-        )
+  }
+  else {
 
-      }
-    else {
+
+    Swal.fire({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 4000,
+      icon: 'warning',
+      width: 450,
+      title: 'Aucun changement des données'
+    })
+
+   
 
 
 
 
-    console.log("this.state.Body",this.state.Body)
-      this.setState({ config :this.state.Body})
-      this.setState({ GenerateTableActive: false })
-      setTimeout(() => this.setState({ GenerateTableActive: true }), 500)
-      this.state.AjouterRapport=false
-      console.log("AjouterRapportAjouterRapportAjouterRapport2222222222", this.state.AjouterRapport)
-
-    }
   }
 
+})
+}else{
+  Swal.fire({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 4000,
+    icon: 'warning',
+    width: 350,
+    title: 'Vérifier le champ nom de rapport'
+  })
 
+}
+}
     }
     else {
       console.log('ggsssssggg')
@@ -365,16 +609,39 @@ data =[{
       this.setState({ ML_Name: this.state.Name_Ml })
     }
   }
-  AjouterTl() {
-    if (this.state.Name_Tl != "" && this.state.Code_Tl != "") {
-      this.setState({
-        modal8: !this.state.modal8
-      });
-      //this.setState({ tl_name: this.state.Name_Tl })
-      this.state.tl_name = this.state.Name_Tl
-      this.setState({ tl_id: this.state.Code_Tl })
-      console.log("tl_name", this.state.tl_name)
-      console.log("tl_id", this.state.tl_id)
+  // AjouterTl() {
+  //   if (this.state.Name_Tl != "" && this.state.Code_Tl != "") {
+  //     this.setState({
+  //       modal8: !this.state.modal8
+  //     });
+  //     //this.setState({ tl_name: this.state.Name_Tl })
+  //     this.state.tl_name = this.state.Name_Tl
+  //     this.setState({ tl_id: this.state.Code_Tl })
+  //     console.log("tl_name", this.state.tl_name)
+  //     console.log("tl_id", this.state.tl_id)
+  //   }
+  // }
+
+  AjouterTl=()=>{
+    if (this.state.tl_id_IOT != "" && this.state.tl_id_cluster != "" && this.state.tl_name_IOT != "" && this.state.tl_name_cluster != "") {
+
+      this.setState({modal8:!this.state.modal8})
+
+      var name_Tl = (this.state.tl_name_IOT + " et " + this.state.tl_name_cluster)
+      var name_Tl2 = name_Tl.replace("now", "Derniéres lectures")
+     
+      this.setState({tl_name:name_Tl2})
+
+    } else if (this.state.tl_id_IOT != "" && this.state.tl_id_cluster == "" && this.state.tl_name_IOT != "" && this.state.tl_name_cluster == "") {
+      this.setState({modal8:!this.state.modal8})
+
+      this.setState({tl_name:this.state.tl_name_IOT})
+    } else if (this.state.tl_id_IOT == "" && this.state.tl_id_cluster != "" && this.state.tl_name_IOT == "" && this.state.tl_name_cluster != "") {
+      this.setState({modal8:!this.state.modal8})
+      var name_Tl = (this.state.tl_name_cluster)
+      var name_Tl2 = name_Tl.replace("now", "Derniéres lectures")
+      this.setState({tl_name:name_Tl2})
+
     }
   }
 
@@ -384,17 +651,46 @@ data =[{
     this.setState({ Name_Ml: name })
     this.setState({ ML_Membre: membre })
   }
-  handleListeTLClick(id, name, membre) {
-    console.log(id, name, membre[0].Tl_Sql)
-    this.setState({ Code_Tl: id })
-    //this.setState({ Name_Tl: name })
-    this.state.Name_Tl = name
-    this.setState({ tl_members: membre[0].Tl_Sql })
-    console.log("Code_Tl", this.state.Code_Tl)
-    console.log("Name_Tl", this.state.Name_Tl)
+  // handleListeTLClick(id, name, membre) {
+  //   console.log(id, name, membre[0].Tl_Sql)
+  //   this.setState({ Code_Tl: id })
+  //   //this.setState({ Name_Tl: name })
+  //   this.state.Name_Tl = name
+  //   this.setState({ tl_members: membre[0].Tl_Sql })
+  //   console.log("Code_Tl", this.state.Code_Tl)
+  //   console.log("Name_Tl", this.state.Name_Tl)
 
-    console.log("tl_members", this.state.membre)
+  //   console.log("tl_members", this.state.membre)
 
+  // }
+
+
+  handleListeTLClick=(json)=>{
+    if (json != null) {
+      if (json.cluster.id != "" && json.iotinner.id == "") {
+        this.setState({tl_name_IOT:""})
+        this.setState({tl_id_IOT:""})
+        this.setState({tl_name_cluster:json.cluster.name})
+        this.setState({tl_id_cluster:json.cluster.id})
+      } else if (json.cluster.id == "" && json.iotinner.id != "") {
+        this.setState({tl_name_IOT:json.iotinner.name})
+        this.setState({tl_id_IOT:json.iotinner.id})
+        this.setState({tl_name_cluster:""})
+        this.setState({tl_id_cluster:""})
+
+      } else if (json.cluster.id != "" && json.iotinner.id != "") {
+
+        this.setState({tl_name_IOT:json.iotinner.name})
+        this.setState({tl_id_IOT:json.iotinner.id})
+        this.setState({tl_name_cluster:json.cluster.name})
+        this.setState({tl_id_cluster:json.cluster.id})
+      } else {
+        this.setState({tl_name_IOT:""})
+        this.setState({tl_id_IOT:""})
+        this.setState({tl_name_cluster:""})
+        this.setState({tl_id_cluster:""})
+      }
+    }
   }
   handleListeCompteurClick(id, name, membre) {
     console.log(id, name, membre)
@@ -424,7 +720,7 @@ data =[{
 
     ////////////filter Reporting
 
-    axios.post(window.apiUrl + "filter/",
+    axios1.get(window.apiUrl + "getReports/",
 
       {
         tablename: "Reporting_V3",
@@ -441,9 +737,9 @@ data =[{
 
       .then(
         (result) => {
-          this.tableData = result.data;
-          if (this.tableData !== null) {
-            this.setState({ listRapportglobal: result.data })
+         
+          if (result.data.reports.length !== 0) {
+            this.setState({ listRapportglobal: result.data.reports })
             console.log("data filter Reporting");
             console.log(this.state.listRapportglobal)
           } else {
@@ -480,22 +776,15 @@ data =[{
 
   toggle5 = () => {
     this.setState({
-      modal5: !this.state.modal5
+      modal5: !this.state.modal5,
+      Nom_Rappot_new:this.state.U_Rapportselected,
     });
   }
   toggle6 = () => {
     this.setState({
       modal6: !this.state.modal6
     });
-    axios.post(window.apiUrl + "display/",
-      {
-        tablename: "ML_V3",
-        identifier: this.state.dateDMY + uuid(),
-        fields: "*",
-        content: "*"
-      }
-    )
-
+    axios1.get(window.apiUrl + "getMeasureList/")
       .then(
         (result) => {
           if (result.data !== null) {
@@ -515,18 +804,11 @@ data =[{
       modal7: !this.state.modal7
     });
     /////////CL
-    axios.post(window.apiUrl + "display/",
-      {
-        tablename: "CL_V3",
-        identifier: this.state.dateDMY + uuid(),
-        fields: "*",
-        content: "*"
-      }
-    )
+    axios1.get(window.apiUrl + "getCountersList/")
 
       .then(
         (result) => {
-          if (result.data !== null) {
+          if (result.data.length !== 0) {
 
             this.setState({ Listes_Cl: result.data })
 
@@ -545,25 +827,7 @@ data =[{
     this.setState({
       modal8: !this.state.modal8
     });
-    /////////tL
-    axios.post(window.apiUrl + "display/",
-      {
-        tablename: "tl",
-        identifier: this.state.dateDMY + uuid(),
-        fields: "*",
-        content: "*"
-      }
-    )
 
-      .then(
-        (result) => {
-          if (result.data !== null) {
-            this.setState({ Listes_TL: result.data })
-          } else {
-            console.log('Listes_TL vide')
-          }
-
-        })
   }
 
   toggle3 = () => {
@@ -583,8 +847,8 @@ data =[{
         showConfirmButton: false,
         timer: 4000,
         icon: 'warning',
-        width: 300,
-        title: 'Liste est vide '
+        width: 600,
+        title: 'Sélectionnez une liste pour le supprimer'
       })
 
     } else {
@@ -598,15 +862,7 @@ data =[{
 
     ////////////
     /// API Factbook
-    axios.post(window.apiUrl + "display/",
-      {
-        tablename: "FactBook_V3",
-        identifier: this.state.dateDMY + uuid(),
-        fields: "*",
-        content: "*",
-
-      }
-    )
+    axios1.get(window.apiUrl + "getFactBooks/")
       .then(
         (result) => {
           if (result.data !== null) {
@@ -658,7 +914,8 @@ data =[{
 
 
       this.setState({
-        modal: !this.state.modal
+        modal: !this.state.modal,
+        tabulatorAfficher: true
       });
       var $ = require("jquery");
       $('#btnModifier').show();
@@ -689,40 +946,7 @@ data =[{
         )
 
       ///tabulator 
-      this.mytable = new Tabulator(this.el, {
-        data: this.tableData, //link data to table
-        reactiveData: true, //enable data reactivity
-        height: "450px",
-        columns: [
-
-          {
-            title: "Nom du rapports",
-            field: "Report_Name",
-            width: '70%',
-
-          },
-
-          {
-            title: "Supprimer",
-            field: "supprimer",
-            width: "28%",
-            hozAlign: "center",
-            formatter: function () { //plain text value
-
-              return "<i class='fa fa-trash-alt icon'></i>";
-
-            },
-
-            cellClick: function (e, cell) {
-              cell.getData();
-              supprimertemp.push(cell.getData().Report_Name);
-              cell.getRow().delete();
-              console.log("supprimertemp", supprimertemp)
-            }
-          },],
-      });
-
-      this.mytable.clearData()
+      this.setState({tableData:[]})
     }
 
     else {
@@ -751,7 +975,7 @@ data =[{
         timer: 4000,
         icon: 'warning',
         width: 300,
-        title: 'Créez ou Modifier une liste'
+        title: "Veuillez sélectionner une liste existante ou créer une nouvelle liste à enregistrer"
       })
 
     } else {
@@ -760,17 +984,7 @@ data =[{
       const Report_Name = this.state.U_Rapportselected;
       /////////////////////////////////////////////
 
-      axios.post(window.apiUrl + "filter/",
-        {
-          tablename: "Reporting_V3",
-          identifier: this.state.dateDMY + uuid(),
-          fields: "Report_Code",
-          content: Report_Code,
-          dataselect: "Report_Code;Report_Name;Report_TableauName;Report_TableauCode;Report_Master;Selected_Global;Body;TAGS;Auteur;disposition",
-          dist: "*",
-          orderby: "*",
-        }
-
+      axios1.get(window.apiUrl + `getReportById/?reportId=${Report_Code}&g`
       )
 
         .then(
@@ -781,37 +995,37 @@ data =[{
             if (result.data.length != 0) {
            
             //  console.log("result.data", result.data[0].Selected_Global)
-              this.state.Selected_Global_Rapport_Array = result.data[0].Selected_Global
-              this.setState({Body:result.data[0].Body})
-              this.setState({Rapport_Liste:result.data[0]})
+              this.state.Selected_Global_Rapport_Array = result.data.Selected_Global
+              this.setState({Body:result.data.Body})
+              this.setState({Rapport_Liste:result.data})
 
 
 
-              this.state.Body_Code_Rapport=result.data[0].Report_Code
+              this.state.Body_Code_Rapport=result.data.Report_Code
 
 
 
 
-              if(result.data[0].Body.objects!=undefined){
+              if(result.data.type=="report"){
               
-              console.log("configLayout_Orientation", result.data[0].Body.configLayout)
+          //    console.log("configLayout_Orientation", result.data.Body.configLayout)
 
-              this.state.configLayout_Orientation=result.data[0].Body.configLayout.Orientation
+            //  this.state.configLayout_Orientation=result.data[0].Body.configLayout.Orientation
   
 
 
 
-              if (this.state.configLayout_Orientation == "Portrait") {
+              // if (this.state.configLayout_Orientation == "Portrait") {
         
-                this.setState({ layoutFormat: { height: "650px", width: "70%" } })
-              }
-              if (this.state.configLayout_Orientation == "Paysage") {
+              // this.setState({ layoutFormat: { height: "650px", width: "70%" } })
+              // }
+              // if (this.state.configLayout_Orientation == "Paysage") {
 
-                this.setState({ layoutFormat: { height: "500px", width: "100%" } })
+                 this.setState({ layoutFormat: { height: "500px", width: "100%" } })
         
-              }
-              console.log("configLayout_Orientation", this.state.configLayout_Orientation)
-                 }else if(result.data[0].Body.object!=undefined){
+              // }
+              // console.log("configLayout_Orientation", this.state.configLayout_Orientation)
+                 }else if(result.data.type=="synoptic"){
 
                console.log("synobtique")
                  }
@@ -821,7 +1035,7 @@ data =[{
               var Var = ""
               for (var i = 0; i < this.state.Selected_Global_Rapport_Array.length; i++) {
 
-                //  console.log('Dim_type',this.state.Selected_Global_Rapport_Array[i].Dim_type)
+                 console.log('Dim_type',this.state.Selected_Global_Rapport_Array[i].Dim_type)
                 if (this.state.Selected_Global_Rapport_Array[i].Dim_type == "VAR") {
                   Var = this.state.Selected_Global_Rapport_Array[i].Dim_type
 
@@ -847,19 +1061,21 @@ data =[{
 
                 }
                 if (this.state.Selected_Global_Rapport_Array[i].Dim == "TL") {
-                  this.setState({ tl_name: this.state.Selected_Global_Rapport_Array[i].Dim_label })
+                  this.setState({tl_name:this.state.Selected_Global_Rapport_Array[i].Dim_label.iot_name + "," + this.state.Selected_Global_Rapport_Array[i].Dim_label.cluster_name})
 
                 }
-
-
               }
+                
+
+
+              
               if (Var == "VAR") {
                 console.log('Dim_type', Var)
                 console.log("varrrr")
 
 
 
-                this.toggle5()
+                this.toggleConfirmationAjout()
 
               } else {
                 console.log('Dim_type', Var)
@@ -868,16 +1084,62 @@ data =[{
                
                var   Report_Code=this.state.Report_Code 
                   if (this.state.Report_Code != "" || this.state.U_Rapportselected != "") {
-                    this.mytable.addRow({ Report_Name }, true);
+
+
+                    if(this.state.Membres.length==0){
+
+                    this.mytable.current.table.addRow({ Report_Name,Report_Code }, true);
                     console.log(Report_Name);
 
-                    this.state.Membres.push({ "Report_Name": Report_Name, "Report_Code": Report_Code })
+                    this.setState({Membres:[{ "Report_Name": Report_Name, "Report_Code": Report_Code }]})
 
                     console.log('Factbook_Membre push', this.state.Membres)
                   
                     this.setState({Report_Code:""})
                  this.setState({U_Rapportselected:""})
+
+
+                    }else{
+                      var  validation=false
+
+                      this.state.Membres.map((item,i)=>{
+                        console.log( "----------------------------------", item.Report_Name,this.state.Report_Name)
+            
+                        console.log( "----------------------------------", item.Report_Name==this.state.Report_Name)
+                           if(item.Report_Name == this.state.Report_Name){
+                                 console.log("------------------------------------------item.MailingList_Membres==this.state.MailingList_Membres")
+                                 validation=true
+                           }
+                           
+            
+                      })
+
+              
+
+                  if(validation==false){
+                    this.mytable.current.table.addRow({ Report_Name,Report_Code }, true);
+                    console.log(Report_Name);
+                    // this.state.Membres.push({ "Report_Name": Report_Name, "Report_Code": Report_Code })
+                    this.setState({Membres:this.state.Membres.concat([{ "Report_Name": Report_Name, "Report_Code": Report_Code }])})
+                    console.log('Factbook_Membre push', this.state.Membres)
+                  
+                    this.setState({Report_Code:""})
+                 this.setState({U_Rapportselected:""})
+                  }else {
+                    Swal.fire({
+                      toast: true,
+                      position: 'top',
+                      showConfirmButton: false,
+                      timer: 4000,
+                      icon: 'warning',
+                      width: 600,
+                      title: 'Veuillez sélectionner un rapport qui ne figure pas déjà dans la liste des rapports du factbook actuel.'
+                    })
+              }
                   }
+
+
+                }
                 
 
 
@@ -894,7 +1156,7 @@ data =[{
                     timer: 4000,
                     icon: 'warning',
                     width: 300,
-                    title: 'Sélectionnez un rapport'
+                    title: 'Veuillez  Sélectionner un rapport'
                   })
             }
 
@@ -920,21 +1182,8 @@ data =[{
 
     const supprimertemp = this.state.supprimertemp;
 
-    /// API CompteurList
-    axios.post(window.apiUrl + "display/",
-      {
-        tablename: "FactBook_V3",
-        identifier: this.state.dateDMY + uuid(),
-        fields: "*",
-        content: "*",
-
-      }
-    )
-      .then(
-        (result) => {
-          console.log('result FactBook')
-          console.log(result.data)
-          if (result.data != null) {
+  
+        
             if (this.state.Nom == "") {
               console.log("tl_name vide")
               Swal.fire({
@@ -944,118 +1193,32 @@ data =[{
                 timer: 4000,
                 width: 400,
                 icon: 'warning',
-                title: "Sélectionner une liste pour ajouter"
+                title: "Veuillez sélectionner un factbook pour ajouter le rapport à sa liste de rapports."
               })
             } else {
-              for (var i = 0; i < result.data.length; i++) {
-                this.state.Code_FactBook = result.data[i].Code_FactBook
+              for (var i = 0; i < this.state.listes.length; i++) {
+                this.state.Code_FactBook = this.state.listes[i].Code_FactBook
                 console.log(this.state.Code_FactBook)
                 if (this.state.code == this.state.Code_FactBook) {
                   this.setState({
-                    modal4: !this.state.modal4
+                    modal4: !this.state.modal4,
+                    tabulatorAfficher: true
                   });
 
                   this.setState({ Nom_FactBook: this.state.Nom })
 
-                  // this.state.liste_Factbook_Membre=result.data[i].Factbook_Membre;
-                  this.setState({ liste_Factbook_Membre: result.data[i].Factbook_Membre })
-                  this.state.listePath = result.data[i].Path;
-                  this.state.listeType = result.data[i].Type;
-                  console.log("listePath", this.state.listePath)
-                  console.log("listeType", this.state.Type)
-                  console.log("Factbook_Membre", this.state.liste_Factbook_Membre)
+                  // this.state.liste_Factbook_Membre=this.state.listes[i].Factbook_Membre;
+                  console.log("this.state.listes[i].Factbook_Membrethis.state.listes[i].Factbook_Membre",this.state.listes[i].Factbook_Membre)
+                  
+                  
+                  this.setState({ liste_Factbook_Membre: this.state.listes[i].Factbook_Membre })
+                  this.setState({tableData : this.state.listes[i].Factbook_Membre,
+                   Membres:this.state.listes[i].Factbook_Membre
+                  })
+             
 
 
-                  if (this.state.liste_Factbook_Membre.length == 0) {
-
-                    Swal.fire({
-                      toast: true,
-                      position: 'top',
-                      showConfirmButton: false,
-                      timer: 4000,
-                      width: 500,
-                      title: ('Ajouter des Rapports dans ' + this.state.Nom)
-
-                    })
-                    ///tabulator 
-                    this.mytable = new Tabulator(this.el, {
-                      data: this.tableData, //link data to table
-                      reactiveData: true, //enable data reactivity
-                      height: "450px",
-                      columns: [
-
-                        {
-                          title: "Nom du rapports",
-                          field: "Report_Name",
-                          width: '70%',
-
-                        },
-
-                        {
-                          title: "Supprimer",
-                          field: "supprimer",
-                          width: "29%",
-                          hozAlign: "center",
-                          formatter: function () { //plain text value
-
-                            return "<i class='fa fa-trash-alt icon'></i>";
-
-                          },
-
-                          cellClick: function (e, cell) {
-                            cell.getData();
-                            cell.getRow().delete();
-
-                            supprimertemp.push(cell.getData().Report_Name);
-
-                            console.log("supprimertemp", supprimertemp)
-                          }
-                        },], //define table columns
-                    });
-                    this.mytable.clearData()
-                  }
-                  else {
-                    this.tableData = result.data[i].Factbook_Membre;
-                    console.log(" this.tableData", this.tableData)
-                    ///tabulator 
-                    this.mytable = new Tabulator(this.el, {
-                      data: this.tableData, //link data to table
-                      reactiveData: true, //enable data reactivity
-                      height: "450px",
-                      columns: [
-
-                        {
-                          title: "Nom du rapports",
-                          field: "Report_Name",
-                          width: '70%',
-
-                        },
-
-                        {
-                          title: "Supprimer",
-                          field: "supprimer",
-                          width: "29%",
-                          hozAlign: "center",
-                          formatter: function () { //plain text value
-
-                            return "<i class='fa fa-trash-alt icon'></i>";
-
-                          },
-
-                          cellClick: function (e, cell) {
-                            cell.getData();
-                            cell.getRow().delete();
-
-                            supprimertemp.push(cell.getData().Report_Name);
-
-                            console.log("supprimertemp", supprimertemp)
-                          }
-                        },], //define table columns
-                    });
-
-
-
-                  }
+                
 
                 }
               }
@@ -1064,26 +1227,6 @@ data =[{
             var $ = require("jquery");
             $('#btnModifier').show();
             $('#btnNouveau').hide();
-
-
-          }
-          else {
-            console.log("liste vide")
-            Swal.fire({
-              toast: true,
-              position: 'top',
-              showConfirmButton: false,
-              timer: 4000,
-              width: 300,
-              icon: 'warning',
-              title: ' la liste est vide'
-            })
-          }
-        }
-      )
-
-
-
 
 
 
@@ -1122,7 +1265,7 @@ data =[{
     };
     this.state.supprimertemp.push(this.state.supprimer);
     console.log(this.state.supprimertemp);
-    this.mytable.clearData()
+
     this.state.Nom_FactBook = ""
     this.setState({
       modal1: !this.state.modal1
@@ -1151,7 +1294,7 @@ data =[{
           timer: 4000,
           width: 300,
           icon: 'success',
-          title: 'Supprimer avec succès'
+          title: 'Votre factbook a été supprimé avec succès'
 
         })
       })
@@ -1162,24 +1305,24 @@ data =[{
     setTimeout(function () {
       window.location.reload(1);
 
-    }, 1000);
+    }, 500);
 
     var $ = require("jquery");
     $('#btnNouveau').show();
     $('#btnModifier').hide();
   }
 
-  addAll() {
-    this.setState({
+  // addAll() {
+  //   this.setState({
 
-    });
-    this.state.Nom_FactBook = this.state.Nom
-    console.log(this.state.Nom_FactBook)
+  //   });
+  //   this.state.Nom_FactBook = this.state.Nom
+  //   console.log(this.state.Nom_FactBook)
 
-    const Report_Name = this.state.Factbook_Membre;
+  //   const Report_Name = this.state.Factbook_Membre;
 
-    this.mytable.addData({ Report_Name }, true);
-  }
+  //   this.mytable.current.table.addData({ Report_Name }, true);
+  // }
 
 
   handleClick(id, event) {
@@ -1402,15 +1545,9 @@ data =[{
     });
   }
 
-  handleRapportselectedchange(event, id, Auteur) {
-    console.log("tesssst", id)
-    this.state.Report_Code = id;
-    this.setState({ Report_Name: event })
-    this.setState({
-      U_Rapportselected: event,
-    });
-
-    console.log(this.state.U_Rapportselected)
+  handleRapportselectedchange(json) {
+    console.log("json",json)
+    this.setState({ Report_Name: json.Report_Name,Report_Code:json.Report_Code,U_Rapportselected: json.Report_Name })
   }
 
   close = () => {
@@ -1418,569 +1555,6 @@ data =[{
       modal: !this.state.modal
     });
   }
-  ////////////////////Filter Rapport fonction////////////////////
-
-
-  resetvalueoffilter() {
-
-    axios.post(window.apiUrl + "filter/",
-
-      {
-        tablename: "Reporting_V3",
-        identifier: this.state.dateDMY + uuid(),
-        fields: "*",
-        content: "*",
-        dataselect: "Report_Code;Report_Name",
-        dist: "*",
-        orderby: "*",
-      }
-    )
-
-      .then(
-        (result) => {
-          this.tableData = result.data;
-
-          //tabulator
-          //this.setState({ dataCompteur: result.data })
-          //console.log('result data global list compteur. ')
-          //console.log('data' + this.tableData + 'data')
-          if (result.data.length !== 0) {
-            this.setState({ listRapportglobal: result.data })
-            console.log("data filter");
-            console.log(this.state.listRapportglobal)
-          } else {
-            console.log('no data change')
-          }
-
-
-
-        }
-      )
-    this.state.Master = ""
-    this.state.TAGS = ""
-    this.state.Tableaux = ""
-  }
-
-  filterRapportglobal = (filterNameRapport) => {
-    //console.log('appel data')
-    console.log(this.state.listfieldfiltername)
-    console.log(this.state.listfieldfiltercontent)
-    this.state.filterNameRapport = filterNameRapport;
-    //console.log("filterrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", filterNameRapport)
-
-    if (this.state.listfieldfiltername.length == 0 && this.state.listfieldfiltercontent.length == 0) {
-      if (this.state.filterNameRapport == undefined || this.state.filterNameRapport.length == 0) {
-        axios.post(window.apiUrl + "filter/",
-
-          {
-            tablename: "Reporting_V3",
-            identifier: this.state.dateDMY + uuid(),
-            fields: "*",
-            content: "*",
-            dataselect: "Report_Code;Report_Name",
-            dist: "*",
-            orderby: "*",
-          }
-        )
-
-          .then(
-            (result) => {
-              this.tableData = result.data;
-
-              //tabulator
-              //this.setState({ dataCompteur: result.data })
-              //console.log('result data global list compteur. ')
-              //console.log('data' + this.tableData + 'data')
-              if (result.data.length !== 0) {
-                this.setState({ listRapportglobal: result.data })
-                console.log("data filter");
-                console.log(this.state.listRapportglobal)
-              } else {
-                console.log('no data change')
-              }
-
-
-
-            }
-          )
-
-      }
-      else {
-        this.setState({ listRapportglobal: this.state.filterNameRapport })
-      }
-    }
-    else {
-
-
-      axios.post(window.apiUrl + "filter/",
-
-        {
-          tablename: "Reporting_V3",
-          identifier: this.state.dateDMY + uuid(),
-          fields: this.state.listfieldfiltername.join(';'),
-          content: this.state.listfieldfiltercontent.join(';'),
-          dataselect: "Report_Code;Report_Name",
-          dist: "*",
-          orderby: "*",
-        }
-      )
-
-        .then(
-          (result) => {
-            //  this.tableData = result.data;
-
-            //tabulator
-            //this.setState({ dataCompteur: result.data })
-            console.log('result data global list Rapport. ')
-            console.log('data' + result.data + 'data')
-            if (result.data.length !== 0) {
-              this.setState({ listRapportglobal: result.data })
-              console.log("data filter");
-              console.log(this.state.listRapportglobal)
-            } else {
-              console.log('no data change')
-            }
-
-
-
-          }
-        )
-    }
-
-  }
-
-  filterTableaux = () => {
-    console.log('listeeeeeeeeeeeeeeeeeeee tableaux')
-    console.log(this.state.listfieldfiltername)
-    console.log(this.state.listfieldfiltercontent)
-    console.log('filter with new data')
-    if (this.state.Tableaux == '' & this.state.TAGS == '' & this.state.Master == '') {
-      console.log('videeeeeeeeee')
-      axios.post(window.apiUrl + "filter/",
-
-        {
-          tablename: "Reporting_V3",
-          identifier: this.state.dateDMY + uuid(),
-          fields: '*',
-          content: '*',
-          dataselect: "Report_TableauCode;Report_TableauName",
-          dist: "*;dist",
-          orderby: "*;desc",
-        }
-      )
-        .then(
-          (result) => {
-            // this.tableData = result.data;
-            console.log(result.data)
-            if (result.data.length !== 0) {
-              var listTableaux = []
-              result.data.forEach(function (arrayItem) {
-                var x = arrayItem.Report_TableauName;
-                listTableaux.push(x)
-              });
-              this.setState({ listTableau: listTableaux })
-              console.log("data Tableaux");
-              console.log(this.state.listTableau)
-            } else {
-              console.log('no data change')
-            }
-          }
-        )
-    } else {
-      console.log(this.state.listfieldfiltername.join(';'))
-      console.log(this.state.listfieldfiltercontent.join(';'))
-      axios.post(window.apiUrl + "filter/",
-        {
-          tablename: "Reporting_V3",
-          identifier: this.state.dateDMY + uuid(),
-          fields: this.state.listfieldfiltername.join(';'),
-          content: this.state.listfieldfiltercontent.join(';'),
-          dataselect: "Report_TableauCode;Report_TableauName",
-          dist: "*;dist",
-          orderby: "*;asc",
-        }
-      )
-        .then(
-          (result) => {
-            // this.tableData = result.data;
-            console.log(result.data)
-            var listTableaux = []
-            console.log("lllll", result.data)
-            if (result.data.length !== 0) {
-
-              result.data.forEach(function (arrayItem) {
-                var x = arrayItem.Report_TableauName;
-                listTableaux.push(x)
-              });
-              this.setState({ listTableau: listTableaux })
-              console.log("data compteur parent");
-              console.log(this.state.listTableau)
-
-            } else {
-              console.log('no data recieve by compteur parent')
-            }
-
-          }
-        )
-
-
-    }
-  }
-  filterTAGS = () => {
-    console.log('listeeeeeeeeeeeeeeeeeeee TAGS')
-    console.log(this.state.listfieldfiltername)
-    console.log(this.state.listfieldfiltercontent)
-
-    console.log('filter with new data')
-    if (this.state.Tableaux == '' & this.state.TAGS == '' & this.state.Master == '') {
-      console.log('videeeeeeeeee')
-      axios.post(window.apiUrl + "filter/",
-
-        {
-          tablename: "Reporting_V3",
-          identifier: this.state.dateDMY + uuid(),
-          fields: '*',
-          content: '*',
-          dataselect: "Report_Code;TAGS",
-          dist: "*;dist",
-          orderby: "*;desc",
-        }
-      )
-        .then(
-          (result) => {
-            // this.tableData = result.data;
-            console.log(result.data)
-            if (result.data.length !== 0) {
-              var listTAGSs = []
-              result.data.forEach(function (arrayItem) {
-                var x = arrayItem.TAGS;
-                listTAGSs.push(x)
-              });
-              this.setState({ listTAGS: listTAGSs })
-              console.log("data TAGS");
-              console.log(this.state.listTAGS)
-            } else {
-              console.log('no data change')
-            }
-          }
-        )
-    } else {
-      axios.post(window.apiUrl + "filter/",
-        {
-          tablename: "Reporting_V3",
-          identifier: this.state.dateDMY + uuid(),
-          fields: this.state.listfieldfiltername.join(';'),
-          content: this.state.listfieldfiltercontent.join(';'),
-          dataselect: "Report_Code;TAGS",
-          dist: "*;dist",
-          orderby: "*;desc",
-        }
-      )
-        .then(
-          (result) => {
-            // this.tableData = result.data;
-            console.log(result.data)
-            if (result.data !== null) {
-              var listTAGSs = []
-              result.data.forEach(function (arrayItem) {
-                var x = arrayItem.TAGS;
-                listTAGSs.push(x)
-              });
-              this.setState({ listTAGS: listTAGSs })
-              console.log("data TAGS");
-              console.log(this.state.listTAGS)
-            } else {
-              console.log('no data change')
-            }
-
-          }
-        )
-    }
-
-
-  }
-  filterMaster = () => {
-    console.log('listeeeeeeeeeeeeeeeeeeee Master')
-    console.log(this.state.listfieldfiltername)
-    console.log(this.state.listfieldfiltercontent)
-
-    console.log('filter with new data')
-    if (this.state.Tableaux == '' & this.state.TAGS == '' & this.state.Master == '') {
-      console.log('videeeeeeeeee')
-      axios.post(window.apiUrl + "filter/",
-
-        {
-          tablename: "Reporting_V3",
-          identifier: this.state.dateDMY + uuid(),
-          fields: '*',
-          content: '*',
-          dataselect: "Report_Code;Report_Master",
-          dist: "*;dist",
-          orderby: "*;desc",
-        }
-      )
-        .then(
-          (result) => {
-            // this.tableData = result.data;
-            console.log(result.data)
-            if (result.data.length !== 0) {
-              var listMasters = []
-              result.data.forEach(function (arrayItem) {
-                var x = arrayItem.Report_Master;
-                listMasters.push(x)
-              });
-              this.setState({ listMaster: listMasters })
-              console.log("data Master");
-              console.log(this.state.listMaster)
-            } else {
-              console.log('no data change')
-            }
-          }
-        )
-
-    } else {
-      axios.post(window.apiUrl + "filter/",
-        {
-          tablename: "Reporting_V3",
-          identifier: this.state.dateDMY + uuid(),
-          fields: this.state.listfieldfiltername.join(';'),
-          content: this.state.listfieldfiltercontent.join(';'),
-          dataselect: "Report_Code;Report_Master",
-          dist: "*;dist",
-          orderby: "*;desc",
-        }
-      )
-        .then(
-          (result) => {
-            //  this.tableData = result.data;
-            console.log(result.data)
-            if (result.data.length !== 0) {
-              var listMasters = []
-              result.data.forEach(function (arrayItem) {
-                var x = arrayItem.Report_Master;
-                listMasters.push(x)
-              });
-              this.setState({ listMaster: listMasters })
-              console.log("data Master");
-              console.log(this.state.listMaster)
-            } else {
-              console.log('no data change')
-            }
-
-          }
-        )
-
-    }
-
-  }
-
-  getlistcompteurparent = () => {
-    var listeTableau = []
-    var listglobalcompteur = []
-
-
-    var listparentcompteurduplicate = [...new Set(listeTableau)]
-
-    this.setState({ listTableaux: listparentcompteurduplicate })
-    this.setState({ listRapportglobal: listglobalcompteur })
-  }
-
-  //////////////////////////////
-  componentDidUpdate(prevProps, prevState) {
-
-    if (prevState.Tableaux !== this.state.Tableaux) {
-
-      console.log('different')
-      console.log(this.state.listfieldfiltername)
-      if (this.state.listfieldfiltername.includes('Report_TableauName') == true) {
-        this.setState(state => {
-          state.listfieldfiltername.map((item, j) => {
-
-            if (item == 'Report_TableauName') {
-              console.log('existeeeeeeeeeeeeeeee Report_TableauName')
-              console.log(j)
-              if (this.state.Tableaux != '') {
-                this.state.listfieldfiltercontent[j] = this.state.Tableaux
-              } else {
-                this.state.listfieldfiltercontent.splice(j, 1);
-                this.state.listfieldfiltername.splice(j, 1);
-                'cant change'
-              }
-              this.filterRapportglobal();
-            }
-          }
-          );
-        });
-      } else if (this.state.Tableaux != '') {
-        this.setState({ listfieldfiltername: [...this.state.listfieldfiltername, 'Report_TableauName'] })
-        this.setState({ listfieldfiltercontent: [...this.state.listfieldfiltercontent, this.state.Tableaux] })
-        console.log('filter dataaaaaaaaaaaaaaaaaaaaaaaaaa')
-        console.log([...this.state.listfieldfiltername, 'Report_TableauName'].join(';'))
-        console.log([...this.state.listfieldfiltercontent, this.state.Tableaux].join(';'))
-        axios.post(window.apiUrl + "filter/",
-          {
-            tablename: "Reporting_V3",
-            identifier: this.state.dateDMY + uuid(),
-            fields: [...this.state.listfieldfiltername, 'Report_TableauName'].join(';'),
-            content: [...this.state.listfieldfiltercontent, this.state.Tableaux].join(';'),
-            dataselect: "Report_Code;Report_Name",
-            dist: "*",
-            orderby: "*",
-          }
-        )
-          .then(
-            (result) => {
-              //  this.tableData = result.data;
-
-              if (result.data.length !== 0) {
-
-                this.setState({ listRapportglobal: result.data })
-                console.log("data filter");
-                console.log(this.state.listRapportglobal)
-              } else {
-                console.log('no data change')
-              }
-            }
-          )
-      }
-
-
-    }
-    /****************************** */
-
-
-    ///console.log("uniti fini", this.state.unite)
-    /*************************** */
-    if (prevState.TAGS !== this.state.TAGS) {
-
-      console.log('different')
-      console.log(this.state.listfieldfiltername)
-      if (this.state.listfieldfiltername.includes('TAGS') == true) {
-        this.setState(state => {
-          state.listfieldfiltername.map((item, j) => {
-            //console.log(this.state.equation.length - 1)
-            if (item == 'TAGS') {
-              console.log('existeeeeeeeeeeeeeeee TAGS')
-              console.log(j)
-              if (this.state.TAGS != '') {
-                this.state.listfieldfiltercontent[j] = this.state.TAGS
-              } else {
-                this.state.listfieldfiltercontent.splice(j, 1);
-                this.state.listfieldfiltername.splice(j, 1);
-                'cant change'
-              }
-              this.filterRapportglobal();
-            }
-          }
-          );
-        });
-      } else if (this.state.TAGS != '') {
-        this.setState({ listfieldfiltername: [...this.state.listfieldfiltername, 'TAGS'] })
-        this.setState({ listfieldfiltercontent: [...this.state.listfieldfiltercontent, this.state.TAGS] })
-        console.log('filter dataaaaaaaaaaaaaaaaaaaaaaaaaa')
-        console.log([...this.state.listfieldfiltername, 'TAGS'].join(';'))
-        console.log([...this.state.listfieldfiltercontent, this.state.TAGS].join(';'))
-        axios.post(window.apiUrl + "filter/",
-          {
-            tablename: "Reporting_V3",
-            identifier: this.state.dateDMY + uuid(),
-            fields: [...this.state.listfieldfiltername, 'TAGS'].join(';'),
-            content: [...this.state.listfieldfiltercontent, this.state.TAGS].join(';'),
-            dataselect: "Report_Code;Report_Name",
-            dist: "*",
-            orderby: "*",
-          }
-        )
-          .then(
-            (result) => {
-              //     result.data = result.data;
-              if (result.data !== null) {
-
-
-                this.setState({ listRapportglobal: result.data })
-                console.log("data filter");
-                console.log(this.state.listRapportglobal)
-              } else { console.log('no data change') }
-            }
-          )
-      }
-
-
-    }
-
-    /********************** */
-    if (prevState.Master !== this.state.Master) {
-
-      console.log('different')
-      console.log(this.state.listfieldfiltername)
-      if (this.state.listfieldfiltername.includes('Report_Master') == true) {
-        this.setState(state => {
-          state.listfieldfiltername.map((item, j) => {
-            //console.log(this.state.equation.length - 1)
-            if (item == 'Report_Master') {
-              console.log('existeeeeeeeeeeeeeeee Report_Master')
-              console.log(j)
-              if (this.state.Master != '') {
-                this.state.listfieldfiltercontent[j] = this.state.Master
-              } else {
-                this.state.listfieldfiltercontent.splice(j, 1);
-                this.state.listfieldfiltername.splice(j, 1);
-                'cant change'
-              }
-              this.filterRapportglobal();
-            } /*else {
-         console.log('not existttttttttttttttt')
-         state.listfieldfiltername.concat('Report_TableauName')
-         state.listfieldfiltercontent.concat(this.state.Tableaux)
-
-       }*/
-          }
-          );
-        });
-      } else if (this.state.Master != '') {
-        this.setState({ listfieldfiltername: [...this.state.listfieldfiltername, 'Report_Master'] })
-        this.setState({ listfieldfiltercontent: [...this.state.listfieldfiltercontent, this.state.Master] })
-        console.log('filter dataaaaaaaaaaaaaaaaaaaaaaaaaa')
-        console.log([...this.state.listfieldfiltername, 'Report_Master'].join(';'))
-        console.log([...this.state.listfieldfiltercontent, this.state.Master].join(';'))
-        axios.post(window.apiUrl + "filter/",
-          {
-            tablename: "Reporting_V3",
-            identifier: this.state.dateDMY + uuid(),
-            fields: [...this.state.listfieldfiltername, 'Report_Master'].join(';'),
-            content: [...this.state.listfieldfiltercontent, this.state.Master].join(';'),
-            dataselect: "Report_Code;Report_Name",
-            dist: "*",
-            orderby: "*",
-          }
-        )
-          .then(
-            (result) => {
-              // = result.data;
-              if (result.data !== null) {
-
-                this.setState({ listRapportglobal: result.data })
-                console.log("data filter");
-                console.log(this.state.listRapportglobal)
-
-              } else {
-                console.log('no data change')
-              }
-            }
-          )
-
-      }
-
-
-    }
-    /********************* */
-
-
-
-
-
-  }
-
 
   ///////////////////////////////////////////////
   hClick(name, event) {
@@ -2028,8 +1602,7 @@ console.log("AjouterRapport",this.state.AjouterRapport)
                                 "Dim_Member": this.state.Selected_Global_Rapport_Array[i].Dim_Member,
                                 "Dim_Clone":this.state.Selected_Global_Rapport_Array[i].Dim_Clone,
                             }
-                            console.log("CL_Selected2", CL_Selected)
-                     this.setState({CompteurListI_Name:this.state.Selected_Global_Rapport_Array[i].Dim_label})
+
                         }
                     } else if (this.state.Selected_Global_Rapport_Array[i].Dim == "ML") {
                         console.log("2 VAR", this.state.Selected_Global_Rapport_Array[i].Dim)
@@ -2054,36 +1627,56 @@ console.log("AjouterRapport",this.state.AjouterRapport)
                                 "Dim_Member": this.state.Selected_Global_Rapport_Array[i].Dim_Member,
                                 "Dim_Clone":this.state.Selected_Global_Rapport_Array[i].Dim_Clone,
                             }
-                            console.log("ML_Selected2", ML_Selected)
-                            this.setState({ML_Name:this.state.Selected_Global_Rapport_Array[i].Dim_label})
+                          
                         }
 
                     } else if (this.state.Selected_Global_Rapport_Array[i].Dim == "TL") {
 
                         console.log("3 VAR", this.state.Selected_Global_Rapport_Array[i].Dim)
                         this.setState({BooleanVar_TL:true})
-                        if (this.state.Code_Tl != "" && this.state.Name_Tl != "") {
-                            TL_Selected = {
-                                "Dim": "TL",
-                                "Dim_type": "VAR",
-                                "Dim_code": this.state.Code_Tl,
-                                "Dim_label": this.state.Name_Tl,
-                                "Dim_Member": this.state.tl_members,
-                                "Dim_Clone":this.state.Selected_Global_Rapport_Array[i].Dim_Clone,
-                            }
-                            console.log("TL_Selected1", TL_Selected)
-                        } else {
+                        if (this.state.tl_id_IOT != "" && this.state.tl_name_IOT != "" && this.state.tl_id_cluster == "" && this.state.tl_name_cluster == "") {
+                          TL_Selected = {
+                            "Dim": "TL",
+                            "Dim_type": "VAR",
+                            "Dim_code": { "cluster_code": this.state.Selected_Global_Rapport_Array[i].Dim_code.cluster_code, "iot_code": this.state.tl_id_IOT },
+                            "Dim_label": { "cluster_name": this.state.Selected_Global_Rapport_Array[i].Dim_label.cluster_name, "iot_name": this.state.tl_name_IOT },
+                            "Dim_Member": { "clusterMembers": this.state.Selected_Global_Rapport_Array[i].Dim_Member.clusterMembers, "iotinnerMembers": [this.state.tl_id_IOT] },
+                            "Dim_Clone": this.state.Selected_Global_Rapport_Array[i].Dim_Clone,
+                          }
 
-                            TL_Selected = {
-                                "Dim": "TL",
-                                "Dim_type": "VAR",
-                                "Dim_code": this.state.Selected_Global_Rapport_Array[i].Dim_code,
-                                "Dim_label": this.state.Selected_Global_Rapport_Array[i].Dim_label,
-                                "Dim_Member": this.state.Selected_Global_Rapport_Array[i].Dim_Member,
-                                "Dim_Clone":this.state.Selected_Global_Rapport_Array[i].Dim_Clone,
-                            }
-                            console.log("TL_Selected2", TL_Selected)
-                            this.setState({tl_name:this.state.Selected_Global_Rapport_Array[i].Dim_label})
+
+                        } else if (this.state.tl_id_IOT == "" && this.state.tl_name_IOT == "" && this.state.tl_id_cluster != "" && this.state.tl_name_cluster != "") {
+                          TL_Selected = {
+                            "Dim": "TL",
+                            "Dim_type": "VAR",
+                            "Dim_code": { "cluster_code": this.state.tl_id_cluster, "iot_code": this.state.Selected_Global_Rapport_Array[i].Dim_code.iot_code },
+                            "Dim_label": { "cluster_name": this.state.tl_name_cluster, "iot_name": this.state.Selected_Global_Rapport_Array[i].Dim_label.iot_name },
+                            "Dim_Member": { "clusterMembers": [this.state.tl_id_cluster], "iotinnerMembers": this.state.Selected_Global_Rapport_Array[i].Dim_Member.iotinnerMembers },
+                            "Dim_Clone": this.state.Selected_Global_Rapport_Array[i].Dim_Clone,
+                          }
+
+                        } else if (this.state.tl_id_IOT != "" && this.state.tl_name_IOT != "" && this.state.tl_id_cluster != "" && this.state.tl_name_cluster != "") {
+
+                          TL_Selected = {
+                            "Dim": "TL",
+                            "Dim_type": "VAR",
+                            "Dim_code": { "cluster_code": this.state.tl_id_cluster, "iot_code": this.state.tl_id_IOT },
+                            "Dim_label": { "cluster_name": this.state.tl_name_cluster, "iot_name": this.state.tl_name_IOT },
+                            "Dim_Member": { "clusterMembers": [this.state.tl_id_cluster], "iotinnerMembers": [this.state.tl_id_IOT] },
+                            "Dim_Clone": this.state.Selected_Global_Rapport_Array[i].Dim_Clone,
+                          }
+                        }
+                        else {
+
+                          TL_Selected = {
+                            "Dim": "TL",
+                            "Dim_type": "VAR",
+                            "Dim_code": this.state.Selected_Global_Rapport_Array[i].Dim_code,
+                            "Dim_label": this.state.Selected_Global_Rapport_Array[i].Dim_label,
+                            "Dim_Member": this.state.Selected_Global_Rapport_Array[i].Dim_Member,
+                            "Dim_Clone": this.state.Selected_Global_Rapport_Array[i].Dim_Clone,
+                          }
+                          
                         }
 
                         
@@ -2151,40 +1744,7 @@ console.log("AjouterRapport",this.state.AjouterRapport)
             /////////////////////////////////////////////
             if(this.state.Nom_Rappot_new!=""){
 
-
-
-              axios.post(window.apiUrl + "filter/",
-
-              {
-                  tablename: "Reporting_V3",
-                  identifier: this.state.dateDMY + uuid(),
-                  fields: "Report_Name",
-                  content: this.state.Nom_Rappot_new,
-                  dataselect: "Report_Name",
-                  dist: "dist",
-                  orderby: "*",
-              }
-          )
-     
-              .then(
-                  (result) => {
-                      // this.tableData = result.data;
-                      if (result.data.length !== 0) {
-               
-                     
-                          Swal.fire({
-                             toast: true,
-                             position: 'top',
-                             showConfirmButton: false,
-                             timer: 4000,
-                             width: 300,
-                             icon: 'warning',
-                             title: 'Nom de Rapport déjà utilisé'
-                           })
-     
-                      }else{
-  
-     
+ 
             axios.post(window.apiUrl + "sendid/",
             {
               tablename: "Reporting_V3",
@@ -2238,14 +1798,84 @@ this.state.ajoutertemp_Rapport.push({
 })
 
 
+////////////////////////////
+
+
+
+
+
+
+
+
+///////////////////////////
+
 var Report_Code_new =this.state.Report_Code_new
 if (this.state.Report_Code_new != "" || this.state.U_Rapportselected != "") {
-  this.mytable.addRow({ Report_Name,Report_Code_new }, true);
-  console.log(Report_Name);
+  
 
-  this.state.Membres.push({ "Report_Name": Report_Name, "Report_Code": Report_Code_new })
+  if(this.state.Membres.length==0){
+
+    this.mytable.current.table.addRow({ Report_Name, "Report_Code": Report_Code_new }, true);
+    console.log(Report_Name);
+  
+    this.setState({Membres:[{ "Report_Name": Report_Name, "Report_Code": Report_Code_new }]})
+  
+    console.log('Factbook_Membre push', this.state.Membres)
+  
+    this.setState({Report_Code_new:""})
+  this.setState({U_Rapportselected:""})
+  
+  
+    }else{
+      var  validation=false
+  
+      this.state.Membres.map((item,i)=>{
+        console.log( "----------------------------------", item.Report_Name,this.state.Report_Name)
+  
+        console.log( "----------------------------------", item.Report_Name==this.state.Report_Name)
+           if(item.Report_Name == this.state.Report_Name){
+                 console.log("------------------------------------------item.MailingList_Membres==this.state.MailingList_Membres")
+                 validation=true
+           }
+           
+  
+      })
+  
+  
+  
+  if(validation==false){
+    this.mytable.current.table.addRow({ Report_Name, "Report_Code": Report_Code_new }, true);
+    console.log(Report_Name);
+    // this.state.Membres.push({ "Report_Name": Report_Name, "Report_Code": Report_Code })
+    this.setState({Membres:this.state.Membres.concat([{ "Report_Name": Report_Name, "Report_Code": Report_Code_new }])})
+    console.log('Factbook_Membre push', this.state.Membres)
+  
+    this.setState({Report_Code_new:""})
+  this.setState({U_Rapportselected:""})
+  }else {
+    Swal.fire({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 4000,
+      icon: 'warning',
+      width: 600,
+      title: 'Veuillez sélectionner un rapport qui ne figure pas déjà dans la liste des rapports du factbook actuel.'
+    })
+  }
+  }
+  
+
+  // this.mytable.current.table.addRow({ Report_Name, "Report_Code": Report_Code_new }, true);
+  // console.log(Report_Name);
+
+  // this.state.Membres.push({ "Report_Name": Report_Name, "Report_Code": Report_Code_new })
 
   console.log('Factbook_Membre push', this.state.Membres)
+
+
+
+
   this.state.Report_Code = "";
   this.state.U_Rapportselected = "";
   this.state.items= {
@@ -2263,7 +1893,8 @@ if (this.state.Report_Code_new != "" || this.state.U_Rapportselected != "") {
 
 
 this.setState({
-  modal5: !this.state.modal5
+  modal5: !this.state.modal5,
+  modalConfirmationAjout:!this.state.modalConfirmationAjout
 });
 /////////////////////////////////////////////////
 
@@ -2276,7 +1907,7 @@ this.setState({
 
 
 
-            }})
+     
             
 
             }else{
@@ -2287,7 +1918,7 @@ this.setState({
                 timer: 4000,
                 width: 300,
                 icon: 'warning',
-                title: 'Ajouter un nouveau nom de rapport'
+                title: 'Veuillez saisir un nouveau nom pour votre rapport'
               })
             }
 
@@ -2297,7 +1928,7 @@ this.setState({
            var Report_Code=this.state.Report_Code
 
             if (this.state.Report_Code != "" || this.state.U_Rapportselected != "") {
-              this.mytable.addRow({ Report_Name }, true);
+              this.mytable.current.table.addRow({ Report_Name,Report_Code }, true);
               console.log(Report_Name);
 
               this.state.Membres.push({ "Report_Name": Report_Name, "Report_Code": Report_Code })
@@ -2324,14 +1955,101 @@ this.setState({
           }
 
   }
+  toggleConfirmationAjout=()=>{
+    this.setState({modalConfirmationAjout:!this.state.modalConfirmationAjout})
+  }
 
-  
+  NonEditRapport=()=>{
+    const Report_Name = this.state.U_Rapportselected;
+    var   Report_Code=this.state.Report_Code 
+    if (this.state.Report_Code != "" || this.state.U_Rapportselected != "") {
+      this.toggleConfirmationAjout()
+      if(this.state.Membres.length==0){
+
+        this.mytable.current.table.addRow({ Report_Name,Report_Code }, true);
+        console.log(Report_Name);
+
+        this.setState({Membres:[{ "Report_Name": Report_Name, "Report_Code": Report_Code }]})
+
+        console.log('Factbook_Membre push', this.state.Membres)
+      
+        this.setState({Report_Code:""})
+     this.setState({U_Rapportselected:""})
+
+
+        }else{
+          var  validation=false
+
+          this.state.Membres.map((item,i)=>{
+            console.log( "----------------------------------", item.Report_Name,this.state.Report_Name)
+
+            console.log( "----------------------------------", item.Report_Name==this.state.Report_Name)
+               if(item.Report_Name == this.state.Report_Name){
+                     console.log("------------------------------------------item.MailingList_Membres==this.state.MailingList_Membres")
+                     validation=true
+               }
+              
+          })
+      if(validation==false){
+        this.mytable.current.table.addRow({ Report_Name,Report_Code }, true);
+        console.log(Report_Name);
+        // this.state.Membres.push({ "Report_Name": Report_Name, "Report_Code": Report_Code })
+        this.setState({Membres:this.state.Membres.concat([{ "Report_Name": Report_Name, "Report_Code": Report_Code }])})
+        console.log('Factbook_Membre push', this.state.Membres)
+      
+        this.setState({Report_Code:""})
+     this.setState({U_Rapportselected:""})
+      }else {
+        Swal.fire({
+          toast: true,
+          position: 'top',
+          showConfirmButton: false,
+          timer: 4000,
+          icon: 'warning',
+          width: 600,
+          title: 'Veuillez sélectionner un rapport qui ne figure pas déjà dans la liste des rapports du factbook actuel.'
+        })
+  }
+      }
+
+    }
+
+
+  }
+  ///////////////////////
+  deletetab = () => {
+
+    this.toggleDelete()
+    this.state.cellTable.getRow().delete();
+    this.state.supprimertemp.push(this.state.cellTable.getData().Report_Name);
+}
+toggleDelete = () => {
+  this.setState({
+      modalDelete: !this.state.modalDelete
+  });
+}
+CellTableFun = (cell) => {
+  this.setState({ cellTable: cell })
+  this.setState({ cellName: cell.getData().Report_Name })
+}
+
+supprimerFunclick = (e, cell) => {
+  console.log(cell)
+  this.toggleDelete()
+  this.CellTableFun(cell)
+  //cell.getData();
+  //  alert("confirmation de Suppression" + " " + cell.getData().U_Alarme_Name);
+}
+supprimerFunIcon() {
+  return "<i class='fa fa-trash-alt icon'></i>";
+}
   ///////////////////
   render() {
 
     const { errors } = this.state;
     return (
-      <div>
+      <>
+       <Navbar history={this.state.history}/>
         <MDBBreadcrumb style={{ backgroundColor: '#b1b5b438',color: "#000",fontFamily: 'GOTHAM MEDIUM' }}>
           <MDBBreadcrumbItem>  Rapporteur</MDBBreadcrumbItem>
           <MDBBreadcrumbItem > FactBook </MDBBreadcrumbItem>
@@ -2341,7 +2059,7 @@ this.setState({
           {/** liste 1 */}
           <MDBRow >
             <MDBCol size="6">
-              <fieldset className="form-group" className="float-left" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px', margin: '20px', minHeight: '650px', height: 'auto', width: '98%', backgroundColor: "#c3c3c321" }}>
+              <fieldset className="form-group" className="float-left" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px', margin: '20px', minHeight: window.screen.availHeight / 1.56 + `px`, height: 'auto', width: '98%', backgroundColor: "#c3c3c321" }}>
 
 
 
@@ -2359,20 +2077,21 @@ this.setState({
                   <tbody></tbody>
                 </table >
 
-                <Rapport Tableaux={this.state.Tableaux}
-                  TAGS={this.state.TAGS}
-                  Master={this.state.Master}
-                  filterMaster={this.filterMaster}
-                  filterTAGS={this.filterTAGS}
-                  listMaster={this.state.listMaster}
-                  filterTableaux={this.filterTableaux}
-                  listRapportglobal={this.state.listRapportglobal}
-                  resetvalueoffilter={this.resetvalueoffilter}
-                  listTAGS={this.state.listTAGS}
-                  listTableau={this.state.listTableau}
-                  handleChange={this.handleChange}
-                  filterRapportglobal={this.filterRapportglobal}
-                  handleRapportselectedchange={this.handleRapportselectedchange} />
+      
+
+
+<div style={{marginTop:"175px"}}>
+{this.state.listRapportglobal.length != 0 && 
+      <FilterV1 filterName={"Rapport"}
+         outSelected={this.handleRapportselectedchange}
+        // outAllFiltred={outAllFiltred}
+        filter={[{ Report_TableauName: "Tableaux" }, { TAGS: "Mot Clé" }, { Report_Master: "Master" }]}
+        display={{ separator: "", elems: ["Report_Name"] }}
+        data={this.state.listRapportglobal}
+        styleScroll={{ width: "100%", maxHeight: window.screen.availHeight /2.5  + `px` }}
+        btnEdit={true} />
+        }
+</div>
 
 
 
@@ -2387,7 +2106,7 @@ this.setState({
             <MDBCol size="6">
               {/**  <MDBBtn  color="#e0e0e0 grey lighten-2" onClick={this.addAll} size="sm" style={{ marginTop: "13%", marginLeft: '-4%' }} id="btnaddAll" className="option" > <MDBIcon icon="angle-double-right" size="2x" /> </MDBBtn>*/}
               {/** liste 2 */}
-              <fieldset className="form-group" className="float-right" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px', margin: '20px', height: 'auto', minHeight: '650px', width: '98%', backgroundColor: "#c3c3c321" }}>
+              <fieldset className="form-group" className="float-right" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px', margin: '20px', height: 'auto', minHeight: window.screen.availHeight / 1.56 + `px`, width: '98%', backgroundColor: "#c3c3c321" }}>
                 {/*****************************Selectionnez une Liste************************* */}
                 <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle4} >Sélectionnez une Liste</MDBBtn>
 
@@ -2402,47 +2121,92 @@ this.setState({
                 </MDBModal>
                 {/* /***********************************  */}
 
-                <MDBModal isOpen={this.state.modal5} toggle={this.toggle5} centered size="lg" >
+                <MDBModal isOpen={this.state.modalConfirmationAjout} toggle={this.toggleConfirmationAjout} centered >
+                <MDBModalHeader toggle5={this.toggleConfirmationAjout}>Rapport</MDBModalHeader>
+                <MDBModalBody>
+                        Souhaitez-vous modifier ce rapport avant de l'ajouter à la liste des rapports du factbook ?
+                </MDBModalBody>
+                <MDBModalFooter>
+                <MDBBtn onClick={this.toggle5} > oui</MDBBtn>
+                <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.NonEditRapport}> non</MDBBtn>
+                  </MDBModalFooter>
+                </MDBModal>
+
+
+                <MDBModal isOpen={this.state.modal5} toggle={this.toggle5} centered size="fluid" >
 
 
 
 
 
 
-                  <MDBModalHeader toggle5={this.toggle5}>Changer les données</MDBModalHeader>
+                  <MDBModalHeader toggle5={this.toggle5}>Nouveau Rapport</MDBModalHeader>
 
                   <MDBModalBody>
                   <MDBTabContent activeItem={this.state.items["default"]}>
                     <MDBTabPane tabId="1">
 
-                      <MDBRow>
-                        <MDBCol size="4" style={{ marginTop: "-10px" }}>
-                          <MDBBtn size="sm" color="#eeeeee grey lighten-3" disabled={this.state.BtnClDesibled}
-                            style={{ fontSize: "13px", textAlign: "center", width: "90%" }} onClick={this.toggle7}>
-                            Compteurs Listes
-                          </MDBBtn>
-                        </MDBCol >
-                        <MDBCol size="8" ><b style={{ fontSize: "16px", marginTop: "22%" }} >{this.state.CompteurListI_Name}</b></MDBCol>
-                      </MDBRow>
-                      <MDBRow>
-                        <MDBCol size="4" >
-                          <MDBBtn size="sm" color="#eeeeee grey lighten-3" disabled={this.state.BtnMlDesibled} style={{ fontSize: "13px", textAlign: "center", width: "90%" }} onClick={this.toggle6}>
-                            Mesures Listes
-                          </MDBBtn>
+                    <MDBRow>
+        <MDBCol size="12">
+          <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
+            Nom Rapport <span className='text-danger' style={{ fontSize: '12px' }}>*</span>
+          </label>
 
-                        </MDBCol>
-                        <MDBCol size="8" style={{ marginTop: "14px" }}><b style={{ fontSize: "16px" }} >{this.state.ML_Name}</b></MDBCol>
-                      </MDBRow>
-                      <MDBRow>
+          <input type="text" id="1" id="defaultFormLoginEmailEx" name="Nom_Rappot_new" value={this.state.Nom_Rappot_new} onChange={this.handleChange} className="form-control" required />
 
-                        <MDBCol size="4" >
-                          <MDBBtn size="sm" color="#eeeeee grey lighten-3" disabled={this.state.BtnTlDesibled} style={{ fontSize: "13px", textAlign: "center", width: "90%" }} onClick={this.toggle8}>
-                            Time Intelligence
-                          </MDBBtn>
+        </MDBCol>
+        <MDBCol size="12">
+          <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
+            Mots clés
+          </label>
+          <input type="textarea" id="1" id="defaultFormLoginEmailEx" name="TAGS_New" value={this.state.TAGS_New} onChange={this.handleChange} className="form-control" required />
+        </MDBCol>
+        <MDBCol size="12">
+          <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
+            Description
+          </label>
 
-                        </MDBCol>
-                        <MDBCol size="8" style={{ marginTop: "14px" }}><b style={{ fontSize: "16px" }} >{this.state.tl_name}</b></MDBCol>
-                      </MDBRow>
+          <input type="textarea" id="1" id="defaultFormLoginEmailEx" name="Report_Description" value={this.state.Report_Description} onChange={this.handleChange} className="form-control" required />
+        </MDBCol>
+        <MDBCol size="12">
+          <fieldset className="form-group " style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px', width: "auto", height: "auto" }}>
+
+            <legend style={{ width: "220px", color: "#51545791", fontSize: "20px" }}>Sélectionner les données </legend>
+
+            <MDBRow>
+              <MDBCol size="4" style={{ marginTop: "-10px" }}>
+                <MDBBtn size="sm" color="#eeeeee grey lighten-3" disabled={this.state.BtnClDesibled}
+                  style={{ fontSize: "13px", textAlign: "center", width: "90%" }} onClick={this.toggle7}>
+                  Compteurs Listes
+                </MDBBtn>
+              </MDBCol >
+              <MDBCol size="8" ><b style={{ fontSize: "16px", marginTop: "22%" }} >{this.state.CompteurListI_Name}</b></MDBCol>
+            </MDBRow>
+            <MDBRow>
+              <MDBCol size="4" >
+                <MDBBtn size="sm" color="#eeeeee grey lighten-3" disabled={this.state.BtnMlDesibled}
+                 style={{ fontSize: "13px", textAlign: "center", width: "90%" }} onClick={this.toggle6}>
+                  Mesures Listes
+                </MDBBtn>
+
+              </MDBCol>
+              <MDBCol size="8" style={{ marginTop: "14px" }}><b style={{ fontSize: "16px" }} >{this.state.ML_Name}</b></MDBCol>
+            </MDBRow>
+            <MDBRow>
+
+              <MDBCol size="4" >
+                <MDBBtn size="sm" color="#eeeeee grey lighten-3" disabled={this.state.BtnTlDesibled} style={{ fontSize: "13px", textAlign: "center", width: "90%" }} onClick={this.toggle8}>
+                  Time Intelligence
+                </MDBBtn>
+
+              </MDBCol>
+              <MDBCol size="8" style={{ marginTop: "14px" }}><b style={{ fontSize: "16px" }} >{this.state.tl_name}</b></MDBCol>
+            </MDBRow>
+    
+          </fieldset>
+        </MDBCol>
+      </MDBRow>
+
 
                     </MDBTabPane>
 
@@ -2453,13 +2217,7 @@ this.setState({
 
                             <GenerateTable dummy={false} editor={false} supervisor={true} config={this.state.config} style={{  width: this.state.layoutFormat.width, height: this.state.layoutFormat.height}}
                             />  </div>}
-                            {this.state.AjouterRapport==true?(   <>  <label htmlFor="defaultFormLoginEmailEx" className="grey-text" style={{ fontSize: "20px" }}>
-                                  Tapez le nom du Nouveau Rapport ici :<span className='text-danger' style={{ fontSize: '12px' }}>*</span>
-                              </label>
-                              <input type="text" id="1" id="defaultFormLoginEmailEx" name="Nom_Rappot_new" className="form-control" value={this.state.Nom_Rappot_new} onChange={this.handleChange} required />
-                           </>   ):null}
-
-                            
+            
                     </MDBTabPane>
 
                  </MDBTabContent>
@@ -2478,8 +2236,12 @@ this.setState({
                     </MDBNavItem>
                   </MDBNav>
                   <MDBModalFooter>
-                    <MDBBtn color="#e0e0e0 grey lighten-2" style={{ marginRight: "40%" }} onClick={this.Ajouter_Rapport_Liste}> <MDBIcon icon="plus" className="ml-1" /> Ajouter</MDBBtn>
-                  </MDBModalFooter>
+
+
+               { this.state.BtnAjouterRapportCloner==true &&     <MDBBtn color="#e0e0e0 grey lighten-2" style={{ marginRight: "40%" }} onClick={this.Ajouter_Rapport_Liste} > <MDBIcon icon="plus" className="ml-1" /> Ajouter</MDBBtn>
+               
+               }
+                 </MDBModalFooter>
                 </MDBModal>
                 {/************* Nom_FactBook *************/}
                 <div style={{ marginTop: "20px" }} >
@@ -2561,7 +2323,30 @@ this.setState({
 
                       </tr>
                     </thead><tbody></tbody></table></div>
-                <div><div style={{ marginTop: "100px" }} className="listeValider" ref={el => (this.el = el)} /></div>
+                {/* <div><div style={{ marginTop: "100px" }} className="listeValider" ref={el => (this.el = el)} /></div> */}
+                  {this.state.tabulatorAfficher == true &&    
+                 <ReactTabulator style={{ marginTop: "90px" }} className="listeValider"
+                                ref={this.mytable}
+                                data={this.state.tableData}
+                                columns={this.state.columns}
+                                layout={"fitData"}
+                                index={"Report_Name"}
+                                options={{
+                                    pagination: true,
+                                    paginationSize: 7,
+                                    paginationSizeSelector: [7, 10, 15],
+                                    pagination: "local",
+                                    selectable: 1,
+                                    movableColumns: true,
+                                    resizableRows: true,
+                                    reactiveData: true,
+                                }}
+                                />
+
+                                
+                                }
+            <DeleteRow toggle={this.toggleDelete} modal={this.state.modalDelete} deletetab={this.deletetab} cellTable={this.state.cellTable} cellName={this.state.cellName} />
+
               </fieldset>
               {/** fin liste 2 */}
 
@@ -2572,13 +2357,13 @@ this.setState({
 
         <MDBModal isOpen={this.state.modal6} toggle={this.toggle6} centered size="lg">
 
-          <ModalML toggle2={this.toggle6} ML_Tags_Function={this.ML_Tags_Function} Code_Ml={this.state.Code_Ml} Name_Ml={this.state.Name_Ml} handleChange={this.handleChange} modelMl={this.modelMl} Listes_Ml={this.state.Listes_Ml} handleListeMLClick={this.handleListeMLClick} ML_Membre={this.state.ML_Membre} />
+          <Modal_ML_V2 toggle2={this.toggle6} ML_Tags_Function={this.ML_Tags_Function} Code_Ml={this.state.Code_Ml} Name_Ml={this.state.Name_Ml} handleChange={this.handleChange} modelMl={this.modelMl} Listes_Ml={this.state.Listes_Ml} handleListeMLClick={this.handleListeMLClick} ML_Membre={this.state.ML_Membre} />
 
 
           <MDBNav tabs className="nav-justified" color='indigo' style={{ backgroundColor: "#e0e0e0" }} >
 
             <MDBNavItem>
-              <MDBNavLink link onClick={() => this.MesuresListes()}>
+              <MDBNavLink link /*onClick={() => this.MesuresListes()}*/>
                 liste d'éditeurs
               </MDBNavLink>
             </MDBNavItem>
@@ -2594,13 +2379,13 @@ this.setState({
         {/**    Compteurs Listes Modale */}
         <MDBModal isOpen={this.state.modal7} toggle={this.toggle7} centered size="lg">
 
-          <ModalCL toggle4={this.toggle7} CL_Tags_Function={this.CL_Tags_Function} handleChange={this.handleChange} modelCl={this.modelCl} Listes_Cl={this.state.Listes_Cl} handleListeCompteurClick={this.handleListeCompteurClick} CL_Membre={this.state.CL_Membre} />
+          <Modal_CL_V2 toggle4={this.toggle7} CL_Tags_Function={this.CL_Tags_Function}  modelCl={this.modelCl} Listes_Cl={this.state.Listes_Cl} handleListeCompteurClick={this.handleListeCompteurClick} CL_Membre={this.state.CL_Membre} />
 
 
           <MDBNav tabs className="nav-justified" color='indigo' style={{ backgroundColor: "#e0e0e0" }} >
 
             <MDBNavItem>
-              <MDBNavLink link onClick={() => this.CL()}>
+              <MDBNavLink link /*onClick={() => this.CL()}*/>
                 liste d'éditeurs
               </MDBNavLink>
             </MDBNavItem>
@@ -2613,13 +2398,13 @@ this.setState({
         {/**    Time Intelligence Modale */}
         <MDBModal isOpen={this.state.modal8} toggle={this.toggle8} centered size="lg" >
 
-          <ModalTL Listes_TL={this.state.Listes_TL} handleChange={this.handleChange} handleListeTLClick={this.handleListeTLClick} toggle5={this.toggle8} />
+          <Modal_TL_V2  handleListeTLClick={this.handleListeTLClick} toggle={this.toggle8} />
 
 
           <MDBNav tabs className="nav-justified" color='indigo' style={{ backgroundColor: "#e0e0e0" }} >
 
             <MDBNavItem>
-              <MDBNavLink link to="/Rapporteur/TimeIntelligence" onClick={() => this.tl()} >
+              <MDBNavLink link /* to="/Rapporteur/TimeIntelligence" onClick={() => this.tl()} */>
                 liste d'éditeurs
               </MDBNavLink>
             </MDBNavItem>
@@ -2630,7 +2415,7 @@ this.setState({
             > <MDBIcon icon="plus" className="ml-1" /> Ajouter</MDBBtn>
           </MDBModalFooter>
         </MDBModal>
-      </div>);
+      </>);
   }
 
 
@@ -2641,117 +2426,6 @@ this.setState({
 export default FactBook;
 
 
-
-
-const Rapport = ({ Tableaux, TAGS, Master, filterMaster, filterTAGS, listMaster, filterTableaux, listRapportglobal, resetvalueoffilter, listTAGS, listTableau, handleChange, filterRapportglobal, handleRapportselectedchange }) => {
-  const scrollContainerStyle = { width: "350px", maxHeight: "410px" };
-  const [filterNameRapport, setFilterNameRapport] = useState([])
-  useEffect(() => {
-
-    const matna7inich = (e) => {
-      //console.log("listRapportglobal", listRapportglobal)
-      const text = e.target.value
-      //console.log(listRapportglobal.filter((el) => el.Report_Name.indexOf(text) >= 0))
-      //listRapportglobal.filter((el)=>el.Report_Name.indexOf(text)>=0)
-      setFilterNameRapport(listRapportglobal.filter((el) => el.Report_Name.indexOf(text) >= 0))
-
-
-    }
-
-    const input = document.querySelector("#myInput")
-
-    //console.log("this.state.modal", input)
-    if (input) {
-      input.addEventListener("keyup", matna7inich)
-    }
-
-    return function cleanup() {
-      input.removeEventListener("keyup", matna7inich)
-    }
-
-
-
-  }, [listRapportglobal])
-  useEffect(() => {
-    if (!filterNameRapport) return
-    filterRapportglobal(filterNameRapport)
-    //console.log("filterNameRapport", filterNameRapport)
-  }, [filterNameRapport])
-
-  return (<>
-
-    <MDBRow style={{ marginTop: "166px" }} >
-      <MDBCol style={{ padding: 0 + 'em' }} style={{ marginLeft: "1%" }}>
-        <label htmlFor="defaultFormLoginEmailEx7" >
-          Filter rapport :
-        </label>
-        <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px', marginLeft: '20px' }} onClick={() => { resetvalueoffilter(); }}>
-          <MDBIcon size='lg' icon="sync-alt" />
-        </MDBBtn>
-
-        <MDBCol className='p-0' style={{ marginRight: 0 + 'em', marginTop: 0 + 'px', paddingLeft: 1 + 'em' }}>
-
-
-          <MDBInput label="Tableaux :"
-            list="listTableau" style={{ marginBottom: 0.8 + 'em', marginTop: 0 + 'em' }}
-            onClick={filterTableaux}
-            autoComplete="off"
-            name="Tableaux" value={Tableaux}
-            onChange={handleChange}
-          />
-          <datalist id="listTableau">
-            {listTableau.map((listTableau, i) => <option key={i} value={listTableau}></option>)}
-
-          </datalist>
-
-
-          <MDBInput label="Mots clés:"
-            list="listTAGS" style={{ marginBottom: 0.8 + 'em' }}
-            onClick={filterTAGS}
-            name="TAGS" value={TAGS}
-            onChange={handleChange}
-            autoComplete="off"
-          />
-          <datalist id="listTAGS">
-            {listTAGS.map((listTAGS, i) => <option key={i} value={listTAGS}></option>)}
-          </datalist>
-
-          <MDBInput label="Master :"
-            list="listMaster" style={{ marginBottom: 0.8 + 'em' }}
-            autoComplete="off"
-            onClick={filterMaster}
-            name="Master" value={Master}
-            onChange={handleChange}
-          />
-          <datalist id="listMaster">
-            {listMaster.map((listMaster, i) => <option key={i} value={listMaster}></option>)}
-          </datalist>
-        </MDBCol>
-
-      </MDBCol>
-      {/**********   This is where the magic happens     ***********/}
-      <MDBCol className='p-0'>
-        <MDBCol style={{ marginLeft: "1%" }}>
-
-          <div className="d-flex justify-content-between " >
-            <p className=" m-0 p-0">Liste des rapports : </p>
-
-            {/* <input type="textarea" id="1" id="defaultFormLoginEmailEx" style={{width:"60%",marginTop:"-7px"}}   name="Report_Name_Search" value={this.state.Report_Name_Search} onChange={this.handleChange} className="form-control" required /> */}
-            <input type="text" id="myInput" autoComplete="off" placeholder="Rechrech..." className="form-control float-right " style={{ width: "60%", marginTop: "-2%" }} />
-
-          </div>
-          <MDBContainer style={{ padding: 0 + 'em', marginTop: "-10%" }} >
-            <MDBListGroup style={{ width: '100%' }} className="scrollbar scrollbar-primary  mt-5 mx-auto" style={scrollContainerStyle} id="myFilter">
-              {listRapportglobal.map((listRapportglobal, i) => <MDBListGroupItem hover key={i} name="Report_Name" value={listRapportglobal.Report_Name} style={{ padding: 0.5 + 'em' }} id={listRapportglobal.Report_Code} hover onClick={() => handleRapportselectedchange(listRapportglobal.Report_Name, listRapportglobal.Report_Code)}>{listRapportglobal.Report_Name}</MDBListGroupItem>)}
-            </MDBListGroup>
-          </MDBContainer>
-        </MDBCol>
-      </MDBCol>
-    </MDBRow>
-
-
-  </>)
-}
 
 
 
@@ -2802,7 +2476,7 @@ const ModalFactBook = ({ toggle4, listes, handleChange, handleClick, Nom }) => {
 
       return function cleanup() {
 
-        input.removeEventListener("keyup", FilterClListe)
+     //   input.removeEventListener("keyup", FilterClListe)
       }
 
     }
@@ -2845,735 +2519,25 @@ const ModalFactBook = ({ toggle4, listes, handleChange, handleClick, Nom }) => {
 
 }
 
-
-
-
-const ModalCL = ({ toggle7, modelCl, CL_Tags_Function, Listes_Cl, handleListeCompteurClick, handleChange, CL_Membre }) => {
-  //console.log("Listes_Cl", Listes_Cl)
-
-  const [filterCL_Liste, setfilterCL_Liste] = useState([])
-  const [filterCL_Membre, setfilterCL_Membre] = useState([])
-  const [CL_Membre_Select, setCL_Membre_Select] = useState([])
-  const [Member_select, setMember_select] = useState({})
-  const [btnDelete, setBtnDelete] = useState(true)
-  const [Le_Compteur, setLe_Compteur] = useState("")
-  const [Code_Compteur, setCode_Compteur] = useState("")
-  const [showTAGS_CL, setShowTAGS_CL] = useState(false)
-  const [CL_Tags_var, setCL_Tags_var] = useState("")
-  const [showBtnAjouterParMembre, setShowBtnAjouterParMembre] = useState(false)
-  const [showBtnAjouterAll, setShowBtnAjouterAll] = useState(false)
+const DeleteRow = ({ toggle, modal, deletetab, cellName }) => {
   useEffect(() => {
 
-    //console.log("--------------->",Listes_Cl)
-  }, [Listes_Cl])
-
-  //////////////////
-  useEffect(() => {
-
-    console.log("---------CL_Membre------>", CL_Membre)
-
-    if (filterCL_Membre != CL_Membre) {
-      setfilterCL_Membre(CL_Membre)
-    }
-  }, [CL_Membre])
-  ////////////
-  useEffect(() => {
-
-    //console.log("jjjj",CL_Membre.length!=0)
-    if (filterCL_Membre.length == 0) {
-      setfilterCL_Membre(CL_Membre)
-    }
-    if (CL_Membre.length != 0) {
-
-      const filterCLMembre = (e) => {
-
-        //console.log("CL_Membre", CL_Membre)
-        const text = e.target.value
-        //console.log("text", text)
-
-        console.log("filter", CL_Membre.filter(
-          (el, i) => {
-            // console.log(i,el)
-            return el.Le_Compteur.indexOf(text) >= 0
-          }
-        )
-        )
-
-        setfilterCL_Membre(CL_Membre.filter((el) => el.Le_Compteur.toLowerCase().indexOf(text.toLowerCase()) >= 0))
-
-
-      }
-
-      const input = document.querySelector("#myInputCl_Membre")
-
-      //console.log("input", input)
-      if (input) {
-
-        input.addEventListener("keyup", (e) => filterCLMembre(e))
-      }
-
-      return function cleanup() {
-
-        input.removeEventListener("keyup", filterCLMembre)
-      }
-
-    }
-
-  }, [CL_Membre])
-  ////////////////////
-  useEffect(() => {
-
-    //console.log("jjjj",Listes_Cl.length!=0)
-    if (filterCL_Liste.length == 0) {
-      setfilterCL_Liste(Listes_Cl)
-    }
-    if (Listes_Cl.length != 0) {
-      const FilterClListe = (e) => {
-
-        //console.log("Listes_Cl", Listes_Cl)
-        const text = e.target.value
-        //console.log("text", text)
-
-        console.log("filter", Listes_Cl.filter(
-          (el, i) => {
-            // console.log(i,el)
-            return el.CompteurListI_Name.indexOf(text) >= 0
-          }
-        )
-        )
-
-        setfilterCL_Liste(Listes_Cl.filter((el) => el.CompteurListI_Name.toLowerCase().indexOf(text.toLowerCase()) >= 0))
-
-
-      }
-
-      const input = document.querySelector("#myInputCl")
-
-      //console.log("input", input)
-      if (input) {
-
-        input.addEventListener("keyup", (e) => FilterClListe(e))
-      }
-
-      return function cleanup() {
-
-        input.removeEventListener("keyup", FilterClListe)
-      }
-
-    }
-
-  }, [Listes_Cl])
-  //////////////////////
-  useEffect(() => {
-    //if(!filterCL_Liste)return
-    console.log('---filterCL_Liste--->', filterCL_Liste)
-
-
-
-  }, [filterCL_Liste])
-
-  useEffect(() => {
-    //if(!filterCL_Liste)return
-    console.log('---filterCL_Liste--->', filterCL_Membre)
-
-
-
-  }, [filterCL_Membre])
-  useEffect(() => {
-    //if(!filterCL_Liste)return
-    console.log('---CL_Membre_Select--->', CL_Membre_Select)
-    modelCl(CL_Membre_Select)
-    if (CL_Membre_Select.length == 0) {
-      setBtnDelete(true)
-    }
-
-  }, [CL_Membre_Select])
-  function Ajouter_All() {
-    setCL_Membre_Select(CL_Membre)
-    setBtnDelete(false)
-    setShowTAGS_CL(false)
-    setShowBtnAjouterParMembre(true)
-    setCL_Tags_var("")
-  }
-  function Ajouter_Par_Member() {
-    const elem = document.querySelector(`#selectWestania`)
-    if (elem) {
-      //console.log("/////////////////////////",elem.value)
-      elem.selectedIndex = -1
-    }
-    //console.log("ajouter y2")
-    const array = []
-    //console.log("CL_Membre_Select",CL_Membre_Select)
-    //console.log("Member_select",Member_select)
-
-    if (!Object.keys(Member_select).length) return
-    //console.log("CL_Membre_Select.length",CL_Membre_Select.length)
-    if (CL_Membre_Select.length == 0) {
-      array.push(Member_select)
-      setCL_Membre_Select(array)
-      setBtnDelete(false)
-      setShowTAGS_CL(true)
-      setShowBtnAjouterAll(true)
-      //console.log("arrayarrayarrayarrayarrayarray",array)
-
-    }
-    else {
-      if (!CL_Membre_Select) return
-      if (!CL_Membre_Select.find((el) => JSON.stringify(el) == JSON.stringify(Member_select))) {
-        array.push(Member_select)
-        setCL_Membre_Select(array.concat(CL_Membre_Select))
-      } else {
-        Swal.fire({
-          toast: true,
-          position: 'top',
-
-          showConfirmButton: false,
-          timer: 4000,
-          icon: 'warning',
-          width: 400,
-          title: 'Déja Ajouter dans la liste'
-        })
-      }
-
-    }
-
-
-    //   for (var i = 0; i < filterCL_Membre.length; i++) {
-
-    //     if (filterCL_Membre[i].Le_Compteur === array[0].Le_Compteur) {
-
-    //         filterCL_Membre.splice(i, 1);
-    //     }
-
-    //   }
-    console.log('filterCL_MembrefilterCL_MembrefilterCL_Membre', filterCL_Membre)
-    console.log('KKKKK', CL_Membre)
-    setMember_select({})
-  }
-  function Delete_Member() {
-    setCL_Membre_Select([])
-    setMember_select({})
-    setShowTAGS_CL(false)
-    setShowBtnAjouterAll(false)
-    setShowBtnAjouterParMembre(false)
-    setCL_Tags_var("")
-  }
-
-  useEffect(() => {
-    console.log("------Member_select---->", Member_select)
-  }, [Member_select])
-
-
-  function handleClClick(id, name, e) {
-    setCode_Compteur(id);
-    setLe_Compteur(name);
-  }
-  useEffect(() => {
-    if (Le_Compteur != "" && Code_Compteur != "") {
-      setMember_select({ "Le_Compteur": Le_Compteur, "Code_Compteur": Code_Compteur })
-    }
-  }, [Le_Compteur, Code_Compteur])
-
-  useEffect(() => {
-    // if (!CL_Tags_var)return
-    CL_Tags_Function(CL_Tags_var)
-    console.log("CL_Tags_var", CL_Tags_var)
-
-  }, [CL_Tags_var])
-
-
-
-  const onChange = (e) => {
-    setCL_Tags_var(e.currentTarget.value);
-
-  }
-  return (
-    <>
-      <MDBModalHeader toggle={toggle7} >Sélectionnez Compteurs Listes:</MDBModalHeader>
-      <MDBModalBody>
-
-        <MDBRow>
-          <MDBCol size="12">
-            <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-              Liste des compteurs
-            </label>
-            <br />
-            <input type="text" id="myInputCl" autoComplete="off" placeholder="Rechrech..." className="form-control float-right " style={{ width: "100%" }} />
-
-            <select className="browser-default custom-select" name="CompteurListI_Name" size="8" >
-              {filterCL_Liste.map(liste => <option key={liste.CompteurList_Code} id={liste.CompteurList_Code} onClick={() => handleListeCompteurClick(liste.CompteurList_Code, liste.CompteurListI_Name, liste.CL_Membre)}>  {liste.CompteurListI_Name} </option>)}
-
-            </select>
-          </MDBCol>
-          {CL_Membre.length ? (
-            <MDBCol size="5">
-              <br />
-              <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-                Liste des membres
-              </label>
-              <input type="text" id="myInputCl_Membre" autoComplete="off" placeholder="Rechrech..." className="form-control float-right " style={{ width: "100%", marginTop: "-2%" }} />
-              <select id="selectWestania" className="browser-default custom-select" name="le_Compteur" size="8"/* onChange={handleChangeSelect_Membre}*/ >
-                <option style={{ display: "none" }} selected value> -- select an option -- </option>
-                {filterCL_Membre.map(liste => <option onClick={(e) => handleClClick(liste.Code_Compteur, liste.Le_Compteur, e)} >  {liste.Le_Compteur} </option>)}
-
-              </select>
-            </MDBCol>
-          ) : null}
-
-          {CL_Membre.length ? (
-            <MDBCol size="2" >
-
-              <MDBBtn style={{ marginTop: "100%", width: "80%" }} size="sm" onClick={Ajouter_All} disabled={showBtnAjouterAll}><MDBIcon icon="angle-double-right" size="2x" /></MDBBtn>
-              <MDBBtn style={{ width: "80%" }} size="sm" onClick={Ajouter_Par_Member} disabled={showBtnAjouterParMembre} ><MDBIcon icon="angle-right" size="2x" /></MDBBtn>
-              <MDBBtn style={{ width: "80%" }} size="sm" onClick={Delete_Member} disabled={btnDelete}><MDBIcon title="Supprimer" far icon="trash-alt" size="2x" /></MDBBtn>
-
-            </MDBCol>
-          ) : null}
-
-
-          {CL_Membre.length ? (
-
-            <MDBCol size="5">
-              <br />
-              <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-                Liste des membres sélectionnez
-              </label>
-
-              <select style={{ marginTop: "10%" }} className="browser-default custom-select" name="le_Compteur" size="8" >
-                {CL_Membre_Select.map(liste => <option >  {liste.Le_Compteur} </option>)}
-
-              </select>
-            </MDBCol>
-          ) : null}
-          {showTAGS_CL == true ? (<MDBCol size="12">
-
-            <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-              Mot clé d'une nouvelle liste compteur
-            </label>
-            <input type="text" id="1" id="defaultFormLoginEmailEx" name="CL_Tags_var" value={CL_Tags_var} onChange={onChange} className="form-control" required />
-
-
-
-          </MDBCol>) : null}
-        </MDBRow>
-      </MDBModalBody>
-    </>
-  )
-
-
-}
-
-const ModalML = ({ toggle6, ML_Tags_Function, modelMl, Code_Ml, Name_Ml, Listes_Ml, handleListeMLClick, handleChange, ML_Membre }) => {
-  //console.log("Listes_Ml", Listes_Ml)
-
-  const [filterML_Liste, setfilterML_Liste] = useState([])
-  const [filterML_Membre, setfilterML_Membre] = useState([])
-  const [ML_Membre_Select, setML_Membre_Select] = useState([])
-  const [Member_select, setMember_select] = useState({})
-  const [btnDelete, setBtnDelete] = useState(true)
-  const [m_name, setM_name] = useState("")
-  const [m_code, setM_code] = useState("")
-  const [ML_Tags_var, setML_Tags_var] = useState("")
-  const [showTAGS_ML, setShowTAGS_ML] = useState(false)
-  const [showBtnAjouterParMembre, setShowBtnAjouterParMembre] = useState(false)
-  const [showBtnAjouterAll, setShowBtnAjouterAll] = useState(false)
-  useEffect(() => {
-
-    console.log("--------Listes_Ml------->", Listes_Ml)
-  }, [Listes_Ml])
-
-  //////////////////
-  useEffect(() => {
-
-    console.log("---------ML_Membre------>", ML_Membre)
-
-    if (filterML_Membre != ML_Membre) {
-      setfilterML_Membre(ML_Membre)
-    }
-  }, [ML_Membre])
-  ////////////
-  useEffect(() => {
-
-    //console.log("jjjj",ML_Membre.length!=0)
-    if (filterML_Membre.length == 0) {
-      setfilterML_Membre(ML_Membre)
-    }
-    if (ML_Membre.length != 0) {
-
-      const filterMLMembre = (e) => {
-
-        //console.log("ML_Membre", ML_Membre)
-        const text = e.target.value
-        //console.log("text", text)
-
-        console.log("filter", ML_Membre.filter(
-          (el, i) => {
-            // console.log(i,el)
-            return el.m_name.indexOf(text) >= 0
-          }
-        )
-        )
-
-        setfilterML_Membre(ML_Membre.filter((el) => el.m_name.toLowerCase().indexOf(text.toLowerCase()) >= 0))
-
-
-      }
-
-      const input = document.querySelector("#myInputCl_Membre")
-
-      //console.log("input", input)
-      if (input) {
-
-        input.addEventListener("keyup", (e) => filterMLMembre(e))
-      }
-
-      return function cleanup() {
-
-        input.removeEventListener("keyup", filterMLMembre)
-      }
-
-    }
-
-  }, [ML_Membre])
-  ////////////////////
-  useEffect(() => {
-
-    //console.log("jjjj",Listes_Ml.length!=0)
-    if (filterML_Liste.length == 0) {
-      setfilterML_Liste(Listes_Ml)
-    }
-    if (Listes_Ml.length != 0) {
-      const FilterClListe = (e) => {
-
-        //console.log("Listes_Ml", Listes_Ml)
-        const text = e.target.value
-        //console.log("text", text)
-
-        console.log("filter", Listes_Ml.filter(
-          (el, i) => {
-            // console.log(i,el)
-            return el.ML_Name.indexOf(text) >= 0
-          }
-        )
-        )
-
-        setfilterML_Liste(Listes_Ml.filter((el) => el.ML_Name.toLowerCase().indexOf(text.toLowerCase()) >= 0))
-
-
-      }
-
-      const input = document.querySelector("#myInputCl")
-
-      //console.log("input", input)
-      if (input) {
-
-        input.addEventListener("keyup", (e) => FilterClListe(e))
-      }
-
-      return function cleanup() {
-
-        input.removeEventListener("keyup", FilterClListe)
-      }
-
-    }
-
-  }, [Listes_Ml])
-  //////////////////////
-  useEffect(() => {
-    //if(!filterML_Liste)return
-    console.log('---filterML_Liste--->', filterML_Liste)
-
-
-
-  }, [filterML_Liste])
-
-  useEffect(() => {
-    //if(!filterML_Liste)return
-    console.log('---filterML_Liste--->', filterML_Membre)
-
-
-
-  }, [filterML_Membre])
-  useEffect(() => {
-    //if(!filterML_Liste)return
-    console.log('---ML_Membre_Select--->', ML_Membre_Select)
-    modelMl(ML_Membre_Select)
-    if (ML_Membre_Select.length == 0) {
-      setBtnDelete(true)
-    }
-
-  }, [ML_Membre_Select])
-  function Ajouter_All() {
-    setML_Membre_Select(ML_Membre)
-    setBtnDelete(false)
-    setShowTAGS_ML(false)
-    setShowBtnAjouterParMembre(true)
-    setML_Tags_var("")
-  }
-  function Ajouter_Par_Member() {
-    const elem = document.querySelector(`#selectWestania`)
-    if (elem) {
-      //console.log("/////////////////////////",elem.value)
-      elem.selectedIndex = -1
-    }
-    //console.log("ajouter y2")
-    const array = []
-    //console.log("ML_Membre_Select",ML_Membre_Select)
-    //console.log("Member_select",Member_select)
-
-    if (!Object.keys(Member_select).length) return
-    //console.log("ML_Membre_Select.length",ML_Membre_Select.length)
-    if (ML_Membre_Select.length == 0) {
-      array.push(Member_select)
-      setML_Membre_Select(array)
-      setBtnDelete(false)
-      setShowTAGS_ML(true)
-      setShowBtnAjouterAll(true)
-      //console.log("arrayarrayarrayarrayarrayarray",array)
-
-    }
-    else {
-      if (!ML_Membre_Select) return
-      if (!ML_Membre_Select.find((el) => JSON.stringify(el) == JSON.stringify(Member_select))) {
-        array.push(Member_select)
-        setML_Membre_Select(array.concat(ML_Membre_Select))
-      } else {
-        Swal.fire({
-          toast: true,
-          position: 'top',
-
-          showConfirmButton: false,
-          timer: 4000,
-          icon: 'warning',
-          width: 400,
-          title: 'Déja Ajouter dans la liste'
-        })
-      }
-
-    }
-
-
-    //   for (var i = 0; i < filterML_Membre.length; i++) {
-
-    //     if (filterML_Membre[i].Le_Compteur === array[0].Le_Compteur) {
-
-    //         filterML_Membre.splice(i, 1);
-    //     }
-
-    //   }
-    console.log('filterCL_MembrefilterCL_MembrefilterCL_Membre', filterML_Membre)
-    console.log('KKKKK', ML_Membre)
-    setMember_select({})
-  }
-  function Delete_Member() {
-    setML_Membre_Select([])
-    setMember_select({})
-    setShowTAGS_ML(false)
-    setShowBtnAjouterAll(false)
-    setShowBtnAjouterParMembre(false)
-    setML_Tags_var("")
-
-  }
-
-  useEffect(() => {
-    console.log("------Member_select---->", Member_select)
-  }, [Member_select])
-
-
-  function handleMlClick(id, name, e) {
-    setM_code(id);
-    setM_name(name);
-  }
-  useEffect(() => {
-    if (m_name != "" && m_code != "") {
-      setMember_select({ "m_name": m_name, "m_code": m_code })
-    }
-  }, [m_name, m_code])
-
-  useEffect(() => {
-    // if (!CL_Tags_var)return
-    ML_Tags_Function(ML_Tags_var)
-    console.log("ML_Tags_var", ML_Tags_var)
-
-  }, [ML_Tags_var])
-
-
-
-  const onChange = (e) => {
-    setML_Tags_var(e.currentTarget.value);
-
-  }
-  return (
-    <>
-      <MDBModalHeader toggle={toggle6} >Sélectionnez measure Listes:</MDBModalHeader>
-      <MDBModalBody>
-
-        <MDBRow>
-          <MDBCol size="12">
-            <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-              Liste des compteurs
-            </label>
-            <br />
-            <input type="text" id="myInputCl" autoComplete="off" placeholder="Rechrech..." className="form-control float-right " style={{ width: "100%" }} />
-
-            <select className="browser-default custom-select" name="CompteurListI_Name" size="8" >
-              {filterML_Liste.map(liste => <option key={liste.ML_Code} id={liste.ML_Code} onClick={() => handleListeMLClick(liste.ML_Code, liste.ML_Name, liste.ML_Membre)}>  {liste.ML_Name} </option>)}
-
-            </select>
-          </MDBCol>
-          {ML_Membre.length ? (
-            <MDBCol size="5">
-              <br />
-              <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-                Liste des membres
-              </label>
-              <input type="text" id="myInputCl_Membre" autoComplete="off" placeholder="Rechrech..." className="form-control float-right " style={{ width: "100%", marginTop: "-2%" }} />
-              <select id="selectWestania" className="browser-default custom-select" name="le_Compteur" size="8"/* onChange={handleChangeSelect_Membre}*/ >
-                <option style={{ display: "none" }} selected value> -- select an option -- </option>
-                {filterML_Membre.map(liste => <option onClick={(e) => handleMlClick(liste.m_code, liste.m_name, e)} >  {liste.m_name} </option>)}
-
-              </select>
-            </MDBCol>
-          ) : null}
-
-          {ML_Membre.length ? (
-            <MDBCol size="2" >
-
-              <MDBBtn style={{ marginTop: "100%", width: "80%" }} size="sm" onClick={Ajouter_All} disabled={showBtnAjouterAll}><MDBIcon icon="angle-double-right" size="2x" /></MDBBtn>
-              <MDBBtn style={{ width: "80%" }} size="sm" onClick={Ajouter_Par_Member} disabled={showBtnAjouterParMembre} ><MDBIcon icon="angle-right" size="2x" /></MDBBtn>
-              <MDBBtn style={{ width: "80%" }} size="sm" onClick={Delete_Member} disabled={btnDelete}><MDBIcon title="Supprimer" far icon="trash-alt" size="2x" /></MDBBtn>
-
-            </MDBCol>
-          ) : null}
-
-
-          {ML_Membre.length ? (
-
-            <MDBCol size="5">
-              <br />
-              <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-                Liste des membres sélectionnez
-              </label>
-
-              <select style={{ marginTop: "10%" }} className="browser-default custom-select" name="le_Compteur" size="8" >
-                {ML_Membre_Select.map(liste => <option >  {liste.m_name} </option>)}
-
-              </select>
-            </MDBCol>
-          ) : null}
-          {showTAGS_ML == true ? (
-
-            <MDBCol size="12">
-
-              <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-                Mot clé d'une nouvelle liste compteur
-              </label>
-              <input type="text" id="1" id="defaultFormLoginEmailEx" name="ML_Tags_var" value={ML_Tags_var} onChange={onChange} className="form-control" required />
-
-
-
-            </MDBCol>) : null}
-        </MDBRow>
-      </MDBModalBody>
-    </>
-  )
-
-
-}
-
-
-const ModalTL = ({ toggle8, Listes_TL, handleListeTLClick, handleChange }) => {
-  //console.log("Listes_Ml", Listes_Ml)
-
-  const [filterTL_Liste, setfilterTL_Liste] = useState([])
-
-  useEffect(() => {
-
-    console.log("--------Listes_TL------->", Listes_TL)
-  }, [Listes_TL])
-
-  ////////////////////
-  useEffect(() => {
-
-    //console.log("jjjj",Listes_Ml.length!=0)
-    if (filterTL_Liste.length == 0) {
-      setfilterTL_Liste(Listes_TL)
-    }
-    if (Listes_TL.length != 0) {
-      const FilterTlListe = (e) => {
-
-        //console.log("Listes_Ml", Listes_Ml)
-        const text = e.target.value
-        //console.log("text", text)
-
-        console.log("filter", Listes_TL.filter(
-          (el, i) => {
-            // console.log(i,el)
-            return el.tl_name.indexOf(text) >= 0
-          }
-        )
-        )
-
-        setfilterTL_Liste(Listes_TL.filter((el) => el.tl_name.toLowerCase().indexOf(text.toLowerCase()) >= 0))
-
-
-      }
-
-      const input = document.querySelector("#myInputCl")
-
-      //console.log("input", input)
-      if (input) {
-
-        input.addEventListener("keyup", (e) => FilterTlListe(e))
-      }
-
-      return function cleanup() {
-
-        input.removeEventListener("keyup", FilterTlListe)
-      }
-
-    }
-
-  }, [Listes_TL])
-  //////////////////////
-  useEffect(() => {
-    //if(!filterML_Liste)return
-    console.log('---filterTL_Liste--->', filterTL_Liste)
-
-
-
-  }, [filterTL_Liste])
-
-
-
-
-  return (
-    <>
-      <MDBModalHeader toggle={toggle8} >Sélectionnez Time Intelligence:</MDBModalHeader>
-      <MDBModalBody>
-
-        <MDBRow>
-          <MDBCol size="12">
-            <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
-              Liste des compteurs
-            </label>
-            <br />
-            <input type="text" id="myInputCl" autoComplete="off" placeholder="Rechrech..." className="form-control float-right " style={{ width: "100%" }} />
-
-            <select className="browser-default custom-select" name="CompteurListI_Name" size="8" >
-              {filterTL_Liste.map(liste => <option key={liste.tl_id} id={liste.tl_id} onClick={() => handleListeTLClick(liste.tl_id, liste.tl_name, liste.tl_members)}>  {liste.tl_name} </option>)}
-
-            </select>
-          </MDBCol>
-
-
-
-
-
-        </MDBRow>
-      </MDBModalBody>
-    </>
-  )
-
-
+  }, [cellName])
+
+  return (<MDBContainer>
+
+      <MDBModal isOpen={modal} toggle={toggle} centered>
+          <MDBModalHeader toggle={toggle}>Confirmation de Suppression  </MDBModalHeader>
+          <MDBModalBody style={{ textAlign: "center", fontSize: '120%' }}>
+              Supprimer temporairement un membre
+              <p style={{ fontWeight: "bold", color: "#b71c1c" }}> {cellName}</p>
+          </MDBModalBody>
+          <MDBModalFooter>
+
+              <MDBBtn color="#b71c1c red darken-4" style={{ color: "#fff" }} onClick={deletetab}>Supprimer</MDBBtn>
+              <MDBBtn color="#e0e0e0 grey lighten-2" style={{ marginRight: "18%" }} onClick={toggle} >Annuller</MDBBtn>
+          </MDBModalFooter>
+      </MDBModal>
+  </MDBContainer>
+  );
 }

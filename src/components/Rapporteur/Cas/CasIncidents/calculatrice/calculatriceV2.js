@@ -20,7 +20,7 @@ import Button from "./component/Buttons.js"
 import Fetching from '../../../../Fetching';
 import Swal from 'sweetalert2';
 import { set } from "react-hook-form";
-
+import useState2 from "react-usestateref"
 
 const  Calculatrice =({valueincidentcallback,closemodel,datafromcasincidenttocalculatrice,componentcalculator,datamodifier,energycompteurselected})=>{
  
@@ -28,7 +28,7 @@ const[dataEnergyMeasureFilter,setdataEnergyMeasureFilter]=useState(false)
 const[dataEnergyCompteurFilter,setdataEnergyCompteurFilter]=useState(false)
 
 const [closemodal1,setclosemodal1]=useState(true)
-const [equation,setequation]=useState([])
+const [equation,setequation,equationRef]=useState2([])
 const [equationwithTilde,setequationwithTilde]=useState([])
 const [Sys_equation,setSys_equation]=useState([])
 const [Sys_equationwithTilde,setSys_equationwithTilde]=useState([])
@@ -71,34 +71,107 @@ const[listEnergyMeasureNormalised,setlistEnergyMeasureNormalised]=useState([])
 const[listNameEnergy,setlistNameEnergy]=useState([])
 const[U_measurelabel,setU_measurelabel]=useState("")
 
-    
 useEffect(() => {
-  if(datafromcasincidenttocalculatrice[4].length!=0){
+  if(datafromcasincidenttocalculatrice[4].length!=0&&datafromcasincidenttocalculatrice[5]!=""){
+    console.log("----------->",datafromcasincidenttocalculatrice)
+    var codeCompteur = datafromcasincidenttocalculatrice[5].substring(0, datafromcasincidenttocalculatrice[5].indexOf("$"))
+ //console.log("lllllllllllllllllllllllllllllllllllllllllllllllll",datafromcasincidenttocalculatrice[5].substring(0, datafromcasincidenttocalculatrice[5].indexOf("$")))
     setTAGFormule("")
     setTAGFormule(datafromcasincidenttocalculatrice[4])
+    setParsed_incidentselected(codeCompteur)
   }
-}, [datafromcasincidenttocalculatrice[4]])
+}, [])
 
   useEffect(() => {
+        console.log("Sys_equation2",Sys_equation)
+    console.log("equation2",equation)
     setSys_equationwithTilde(Sys_equation)
     setequationwithTilde(equation)
-    console.log("Sys_equation",Sys_equation)
-    console.log("equation",equation)
+
   }, [equation,Sys_equation])
 
   useEffect(() => {
 
 console.log("Sys_equationwithTilde",Sys_equationwithTilde)
   }, [equationwithTilde,Sys_equationwithTilde])
-
-    function sendData () {
+  useEffect(() => {
+    // textarea.focus();
+    // autosize(textarea);
+    console.log("---datafromcasincidenttocalculatrice-------",datafromcasincidenttocalculatrice[2])
+    console.log("---datafromcasincidenttocalculatrice----0---",datafromcasincidenttocalculatrice[2][0])
   
+    if (datafromcasincidenttocalculatrice[2][0].length != 0 /*&& datamodifier.length!=0*/) {
+      console.log("datafromcasincidenttocalculatrice[2]----->",datafromcasincidenttocalculatrice[2][0].split(" "))
+      var arrayEquation =datafromcasincidenttocalculatrice[2].concat("|")
+      var arraySysEquation =datafromcasincidenttocalculatrice[3].concat("|")
+     // var arraySysEquation =[aa].concat("|")
+      console.log("datafromcasincidenttocalculatrice[2]",arrayEquation)
+      console.log("datafromcasincidenttocalculatrice[3]" , arraySysEquation)
+  
+      setequation(arrayEquation)
+      setSys_equation(arraySysEquation)
+  // }
+    }else if(datafromcasincidenttocalculatrice[2][0].length == 0)
+    {
+      setequation(["|"])
+      setSys_equation(["|"])
+    }
+  
+  
+          axios1.get(window.apiUrl + "getAllEnergies/")
+          .then(
+            (result) => {
+              console.log('Energy')
+              console.log(result.data)
+              //tabulator
+              if (result.data.length !== null) {
+                  setdataEnergy(result.data)
+              //  this.setState({ dataEnergy: result.data })
+                var datalist = []
+    
+                result.data.forEach(function (arrayItem) {
+                  var x = arrayItem.Name_Energy;
+                  datalist.push(x)
+                  //console.log(x);
+                });
+                console.log('list of Name Energy')
+                console.log(listNameEnergy)
+                setlistNameEnergy(datalist)
+              } else {
+                console.log('no data change')
+              }
+            }
+          )
+  
+  }, [])
+      
+    function sendData () {
+  /******************************************************************** */
+var equationFinal=equation
+//console.log("equationFinal1",equationFinal)
+var index=equationFinal.indexOf("|")
+console.log(index)
+if ( equationFinal[index] === "|") { 
+  equationFinal.splice(index, 1); 
+}
+console.log("equationFinal2",equationFinal)
+/******************************************************************* */
+var SysequationFinal=Sys_equation
+//console.log("SysequationFinal1",SysequationFinal)
+var index=SysequationFinal.indexOf("|")
+console.log(index)
+if ( SysequationFinal[index] === "|") { 
+  SysequationFinal.splice(index, 1); 
+}
+console.log("SysequationFinal2",SysequationFinal)
+
+
       //equationwithTilde = equation
-      console.log("equationwithTilde  sendData",equationwithTilde)
-      equation.map((item, j) => {
+      console.log("equationwithTilde  sendData---------------------------------",equationwithTilde)
+      equationFinal.map((item, j) => {
         while (typeof equationwithTilde[j] === 'number' && typeof equationwithTilde[j + 1] === 'number') {
      
-            equationwithTilde[j] = Number(equationwithTilde[j] + "" + equationwithTilde[j + 1])
+          equationwithTilde[j] = Number(equationwithTilde[j] + "" + equationwithTilde[j + 1])
   
           equationwithTilde.splice(j + 1, 1);
         }
@@ -107,15 +180,15 @@ console.log("Sys_equationwithTilde",Sys_equationwithTilde)
       equationwithTilde.map((item, j) => {
         while (typeof  equationwithTilde[j] === 'number') {
      
-           equationwithTilde[j] = "#" +  equationwithTilde[j]
+          equationwithTilde[j] = "#" +  equationwithTilde[j]
         }
       }
       )
-      console.log("Sys_equationwithTilde  sendData" ,Sys_equationwithTilde)
+      console.log("Sys_equationwithTilde  sendData------------------------" ,Sys_equationwithTilde)
      
       //Sys_equationwithTilde = Sys_equation
 
-      Sys_equationwithTilde.map((item, j) => {
+      SysequationFinal.map((item, j) => {
         while (typeof Sys_equationwithTilde[j] === 'number' && typeof Sys_equationwithTilde[j + 1] === 'number') {
           
           Sys_equationwithTilde[j] = Number(Sys_equationwithTilde[j] + "" + Sys_equationwithTilde[j + 1])
@@ -134,21 +207,47 @@ console.log("Sys_equationwithTilde",Sys_equationwithTilde)
         }
       }
       )
+
+/******************************************************************* */
+
+//var SysequationwithTildeFinal=Sys_equationwithTilde
+//console.log("SysequationFinal1",SysequationFinal)
+// var index=SysequationwithTildeFinal.indexOf("|")
+// console.log(index)
+// if ( SysequationwithTildeFinal[index] === "|") { 
+
+//   SysequationwithTildeFinal.splice(index, 1);  
+// }
+console.log("SysequationwithTildeFinal---------------------",Sys_equationwithTilde)
+Sys_equationwithTilde.map((item, j) => {
+
+  console.log("item",item)
+  if ( Sys_equationwithTilde[index] === "|") { 
+    Sys_equationwithTilde.splice(index, 1); 
+  }
+})
+console.log("SysequationwithTildeFinal",Sys_equationwithTilde)
+
+/******************************************************************* */
+
+
+//console.log("SysequationFinal1",SysequationFinal)
+var index=equationwithTilde.indexOf("|")
+console.log("equationwithTildeFinal index",index)
+if ( equationwithTilde[index] === "|") { 
+  equationwithTilde.splice(index, 1); 
+}
+
+console.log("equationwithTildeFinal",equationwithTilde)
+/******************************************************************* */
+
+
 console.log("++++++MesureList++++Calculatrice++++",MesureList)
-var equationFinal=equation
-console.log("equationFinal",equationFinal)
-var index=equationFinal.indexOf("|")
-console.log(index)
-if ( equationFinal[index] === "|") { 
-  equationFinal.splice(index, 1); 
-}
-var SysequationFinal=Sys_equation
-console.log("equationFinal",SysequationFinal)
-var index=SysequationFinal.indexOf("|")
-console.log(index)
-if ( SysequationFinal[index] === "|") { 
-  SysequationFinal.splice(index, 1); 
-}
+//console.log("equationwithTildeFinal",equationFinal.join('~'))
+console.log("Parsed_incidentselected-------------------------------",Parsed_incidentselected)
+
+
+
       valueincidentcallback({
         0: U_incidentselected,//ELMAZERAA ELEC$LIVE INC
         1: equationFinal.join(''),
@@ -162,12 +261,10 @@ if ( SysequationFinal[index] === "|") {
         9: U_incidentselectedwithoutLive,//ELMAZERAA ELEC
         10: Listmesureenergy,
         11: MesureList,
-  
         12: TAGFormule,
         13:  U_measurelabel, //KWHJ
-  
-        14:  equationwithTilde.join('~') + '~',
-        15:  Sys_equationwithTilde.join('~') + '~',
+        14: equationwithTilde.join('~') + '~',
+        15: Sys_equationwithTilde.join('~') + '~',
         16: equationwithTilde.join('~'),
         17: dataEnergyMeasure,
         18:IdCompteurIncidente
@@ -187,10 +284,10 @@ if ( SysequationFinal[index] === "|") {
 
   var index=equation.indexOf("|")
 
-  if ( equation[index] === "|") { 
+  if ( equation[index] == "|") { 
     equation.splice(index, 1); 
   }
-  if ( Sys_equation[index] === "|") { 
+  if ( Sys_equation[index] == "|") { 
     Sys_equation.splice(index, 1); 
   }
   var insert = (arr, index, newItem) => [
@@ -210,6 +307,25 @@ if ( SysequationFinal[index] === "|") {
         //add number
 /////////////////////////////////////////////////////////////////////////
        // setequation([...equation, childData])
+       if(childData==")"&&(index==0||index==-1)){
+
+        console.log("------------",childData,index)
+        setmessageconseil("Ne peut pas ajouter ')'")
+        const result = insert(equation,index, "|")
+        setequation(result)
+        const resultSys = insert(Sys_equation,index, "|")
+        setSys_equation(resultSys)
+       }else{
+         console.log('-----------',equation[index-1], childData)
+        if(equation[index-1]=="("&&childData==")"){
+
+          setmessageconseil("Ne peut pas ajouter')'")
+          const result = insert(equation,index, "|")
+          setequation(result)
+          const resultSys = insert(Sys_equation,index, "|")
+          setSys_equation(resultSys)
+
+        }else{
        if ( selectionStart == false) {
           const res = insert(equation,index+1,(childData))
           const result = insert(res,index+2, "|")
@@ -225,12 +341,16 @@ if ( SysequationFinal[index] === "|") {
         const resultSys = insert(resSys,index+1, "|")
         setSys_equation(resultSys)
        }
+      
+       
+      }
+    }
      // }
       
     }
     function callbackOperatorFunction (childData){
 
-
+console.log("childData",childData)
 
       var index=equation.indexOf("|")
       console.log(index)
@@ -245,29 +365,47 @@ if ( SysequationFinal[index] === "|") {
         newItem,
         ...arr.slice(index)
       ]
+      let lastvalue =  equation[ index - 1]
+      console.log(lastvalue)
+      if (!equation.length || lastvalue == '+' || lastvalue == '-' || lastvalue == '*' || lastvalue == '(' || lastvalue == ')'
+      || lastvalue == '/' || lastvalue == 'VIDE(' || lastvalue == 'Sqrt(' || lastvalue == 'Mod('
+      || lastvalue == 'ArcCos(' || lastvalue == 'Log(' || lastvalue == 'Exp(' || lastvalue == 'ArcTan('
+      || lastvalue == 'ArcSin(' || lastvalue == 'Sin(' || lastvalue == 'Cos(' || lastvalue == 'Tan(') {
 
-
-
-        setlistvalequation(listvalequation + childData[0] + childData[1])
-console.log("childData[0] + childData[1]",childData.join(""))
+        setlistvalequation(listvalequation + childData[0]+childData[1])
+console.log("childData[0] + childData[1]",childData)
 
         if ( selectionStart == false) {
-          const res = insert(equation,index+1,childData.join(""))
-          const result = insert(res,index+2, "|")
+    
+          const res = insert(equation,index+1,childData[0])
+          const res2 = insert(res,index+1,childData[1])
+          const result = insert(res2,index+2, "|")
           setequation(result)
-          const resSys = insert(Sys_equation,index+1,childData.join(""))
-          const resultSys = insert(resSys,index+2, "|")
+          const resSys = insert(Sys_equation,index+1,childData[0])
+          const resSys2 = insert(resSys,index+1,childData[1])
+          const resultSys = insert(resSys2,index+2, "|")
          setSys_equation(resultSys)
        }else{
+        
         //add number
-        const res = insert(equation,index,childData.join(""))
-        const result = insert(res,index+1, "|")
+        const res = insert(equation,index,childData[0])
+        const res2 = insert(res,index+1,childData[1])
+        const result = insert(res2,index+2, "|")
         setequation(result)
-        const resSys = insert(Sys_equation,index,childData.join(""))
-        const resultSys = insert(resSys,index+2, "|")
-        setSys_equation(resultSys)
+        const resSys = insert(Sys_equation,index,childData[0])
+        const resSys2 = insert(resSys,index+1,childData[1])
+        const resultSys = insert(resSys2,index+2, "|")
+       setSys_equation(resultSys)
 
        }
+
+      }else{
+        setmessageconseil("Veuillez sélectionner un opérande avant de sélectionner un autre opérateur dans votre formule")
+        const result = insert(equation,index, "|")
+        setequation(result)
+        const resultSys = insert(Sys_equation,index, "|")
+        setSys_equation(resultSys)
+      }
     
     }
     function callbackoperator  (childData)  {
@@ -275,10 +413,10 @@ console.log("childData[0] + childData[1]",childData.join(""))
   
       var index=equation.indexOf("|")
       console.log("kkkkkkkk",index)
-      if ( equation[index] === "|") { 
+      if ( equation[index] == "|") { 
         equation.splice(index, 1); 
       }
-      if ( Sys_equation[index] === "|") { 
+      if ( Sys_equation[index] == "|") { 
         Sys_equation.splice(index, 1); 
       }
 
@@ -298,9 +436,16 @@ console.log("childData[0] + childData[1]",childData.join(""))
             console.log("index- 1",index- 1)
              console.log("childData",childData)
 
-         
+             if(index==0||index==-1){
 
-             var equationVar = equation.map((item, j) => {
+              setmessageconseil('Veuillez sélectionner un opérande avant de sélectionner un autre compteur')
+              const result = insert(equation,index, "|")
+              setequation(result)
+              const resultSys = insert(Sys_equation,index, "|")
+              setSys_equation(resultSys)
+            }else{
+
+                           var equationVar = equation.map((item, j) => {
                                 if (j === index-1) {
                                   return item = childData;
                                 } else {
@@ -309,7 +454,7 @@ console.log("childData[0] + childData[1]",childData.join(""))
                               });
                             console.log("-------",equationVar)
 
-                            var Sys_equationVar = resultSys_equationVariable.map((item, j) => {
+                            var Sys_equationVar = Sys_equation.map((item, j) => {
                               if (j === index-1) {
                                 return item = childData;
                               } else {
@@ -329,7 +474,7 @@ console.log("childData[0] + childData[1]",childData.join(""))
                            
                            
 
-
+                          }
 /*
                               var Sys_equationVar = Sys_equation.map((item, j) => {
                                         console.log(Sys_equation.length - 1)
@@ -354,7 +499,16 @@ console.log("childData[0] + childData[1]",childData.join(""))
         
   
           // }
+          console.log("index--------->",index)
+          
+          if(index==0||index==-1){
 
+  setmessageconseil('Veuillez sélectionner un opérande avant de sélectionner un autre compteur')
+  const result = insert(equation,index, "|")
+  setequation(result)
+  const resultSys = insert(Sys_equation,index, "|")
+  setSys_equation(resultSys)
+}else{
           if ( selectionStart == false) {
             const res = insert(equation,index+1,(childData))
             const result = insert(res,index+2, "|")
@@ -373,24 +527,73 @@ console.log("childData[0] + childData[1]",childData.join(""))
   
          }
         }
+      }
   
       }
   
 
     }
     function clearequation ()  {
-        setequation([])
-        setSys_equation([])
+        setequation(["|"])
+        setSys_equation(["|"])
     }
     function deleteequation  ()  {
       var index=equation.indexOf("|")
-      console.log(index)
+
+      console.log("------->",index-1)
       if (index-1 > -1) {
-        equation.splice(index-1, 1);
-        Sys_equation.splice(index-1, 1)
+        setequation((prev)=>{
+          const _prev=prev.concat()
+          console.log('"---------*****----->',equation[index-2],index-2)
+          console.log('"---------*****----->',equation[index-1],index-1)
+         
+    //      var array =["Sin","Cos", "ArcSin", "Tan", "ArcCos", "Log", "Exp", "ArcTan", "Mod", "Sqrt"]
+          //array.map((item,i)=>{
+        //    console.log('"---------**item***----->',item)
+          if (equation[index-2] == "Sin"||equation[index-2] == "Cos"||equation[index-2] == "ArcSin"||equation[index-2] == "Tan"
+          ||equation[index-2] == "ArcCos"||equation[index-2] == "Log"||equation[index-2] == "Exp"||equation[index-2] == "ArcTan"||
+          equation[index-2] == "Mod"||equation[index-2] == "Sqrt") {
+           console.log('"-----------_prev-----Sin----->',_prev)
+          // _prev.splice(index-1, 1);
+          //console.log("----------------------------------->",_prev);
+          _prev.splice(index-2,2)
+
+
+          }else {
+            console.log('"-----------_prev---------->',_prev)
+            // _prev.splice(index-1, 1);
+          //  console.log("----------------------------------->",_prev);
+            _prev.splice(index-1,1)
+          }
+        //})
+          return _prev
+          // return _prev
+        })
+    
+        setSys_equation((prev)=>{
+          const _prev=prev.concat()
+          if (Sys_equation[index-2] == "Sin"||Sys_equation[index-2] == "Cos"||Sys_equation[index-2] == "ArcSin"||Sys_equation[index-2] == "Tan"
+          ||Sys_equation[index-2] == "ArcCos"||Sys_equation[index-2] == "Log"||Sys_equation[index-2] == "Exp"||Sys_equation[index-2] == "ArcTan"||
+          Sys_equation[index-2] == "Mod"||Sys_equation[index-2] == "Sqrt") {
+
+            _prev.splice(index-2,2)
+          }else{
+          // console.log('"--------------------->',_prev)
+          // _prev.splice(index-1, 1);
+          console.log("----------------------------------->",_prev);
+          _prev.splice(index-1,1)
+        }
+          return _prev
+          // return _prev
+        })
+        //Sys_equation.splice(index-1, 1)
       }
+   
     
     }
+    useEffect(() => {
+
+  }, [equation,Sys_equation])
     function close  ()  {
       closemodel(false)
       setmodal(!modal)
@@ -406,10 +609,10 @@ console.log("childData[0] + childData[1]",childData.join(""))
     function  addfilscompteur () {
       var index=equation.indexOf("|")
       console.log(index)
-      if ( equation[index] === "|") { 
+      if ( equation[index] == "|") { 
         equation.splice(index, 1); 
       }
-      if ( Sys_equation[index] === "|") { 
+      if ( Sys_equation[index] == "|") { 
         Sys_equation.splice(index, 1); 
       }
       const insert = (arr, index, newItem) => [
@@ -418,18 +621,24 @@ console.log("childData[0] + childData[1]",childData.join(""))
         ...arr.slice(index)
       ]
       if ( U_compteurselected == "") {
-        setmessageconseil("Il faut d'abord selectionner un compteur ")
+        setmessageconseil("Veuillez d'abord sélectionner un compteur")
         const result = insert(equation,index+1, "|")
         setequation(result)
       } else if ( NameEnergy == "" &&  EnergyMeasure == "") {
-        setmessageconseil("S'il vous plaît sélectionner un capteur énergie et mesure")
+        setmessageconseil("Veuillez sélectionner un Compteur et une mesure, en couple.")
         const result = insert(equation,index+1, "|")
         setequation(result)
       } else if (EnergyMeasure == "") {
-        setmessageconseil("S'il vous plait sélectionner une mesure")
+        setmessageconseil("Veuillez sélectionner une mesure.")
         const result = insert(equation,index+1, "|")
         setequation(result)
       } else {
+        let lastvalue =  equation[ index - 1]
+        console.log(lastvalue)
+        if (!equation.length || lastvalue == '+' || lastvalue == '-' || lastvalue == '*' || lastvalue == '(' || lastvalue == ')'
+        || lastvalue == '/' || lastvalue == 'VIDE(' || lastvalue == 'Sqrt(' || lastvalue == 'Mod('
+        || lastvalue == 'ArcCos(' || lastvalue == 'Log(' || lastvalue == 'Exp(' || lastvalue == 'ArcTan('
+        || lastvalue == 'ArcSin(' || lastvalue == 'Sin(' || lastvalue == 'Cos(' || lastvalue == 'Tan(') {
         setmessageconseil("")
         // setequation([... equation, "Fils", "(",  U_compteurselected + '$' +  EnergyMeasure, ")"])
         // setSys_equation([... Sys_equation, "F", "(", '@' +  Sys_compteurselectedwithoutid + '$' + Sys_mesureid, ")"])
@@ -453,15 +662,23 @@ console.log("childData[0] + childData[1]",childData.join(""))
         setSys_equation(resultSys)
 
        }
+      }else{
+        setmessageconseil("Veuillez sélectionner un opérande avant de sélectionner un autre opérateur dans votre formule")
+        const result = insert(equation,index, "|")
+        setequation(result)
+        const resultSys = insert(Sys_equation,index, "|")
+        setSys_equation(resultSys)
+      }
+    
       }
     }
     function addincidentcompteur (){
       var index=equation.indexOf("|")
       console.log(index)
-      if ( equation[index] === "|") { 
+      if ( equation[index] == "|") { 
         equation.splice(index, 1); 
       }
-      if ( Sys_equation[index] === "|") { 
+      if ( Sys_equation[index] == "|") { 
         Sys_equation.splice(index, 1); 
       }
       const insert = (arr, index, newItem) => [
@@ -470,13 +687,18 @@ console.log("childData[0] + childData[1]",childData.join(""))
         ...arr.slice(index)
       ]
       if ( U_incidentselected == "") {
-        setmessageconseil("Il faut d'abord selectionner un incident ")
+        setmessageconseil("Veuillez d'abord sélectionner un incident pour continuer")
         const result = insert(equation,index+1, "|")
         setequation(result)
       } else {
         // setequation([...equation, "Sigma", "(", U_incidentselected, ")"])
         // setSys_equation([...Sys_equation, "I", "(", '€' + Sys_incidentselected, ")"])
-
+        let lastvalue =  equation[ index - 1]
+        console.log(lastvalue)
+        if (!equation.length || lastvalue == '+' || lastvalue == '-' || lastvalue == '*' || lastvalue == '(' || lastvalue == ')'
+        || lastvalue == '/' || lastvalue == 'VIDE(' || lastvalue == 'Sqrt(' || lastvalue == 'Mod('
+        || lastvalue == 'ArcCos(' || lastvalue == 'Log(' || lastvalue == 'Exp(' || lastvalue == 'ArcTan('
+        || lastvalue == 'ArcSin(' || lastvalue == 'Sin(' || lastvalue == 'Cos(' || lastvalue == 'Tan(') {
         var SigmaEquation=("Sigma"+"("+U_incidentselected+")")
         var SigmaSysEquation=("I"+"("+'€' + Sys_incidentselected+")")
         if ( selectionStart == false) {
@@ -496,16 +718,23 @@ console.log("childData[0] + childData[1]",childData.join(""))
         const resultSys = insert(resSys,index+1, "|")
         setSys_equation(resultSys)
 
-       }
+       }}else{
+        setmessageconseil("Veuillez sélectionner un opérande avant de sélectionner un autre opérateur dans votre formule")
+        const result = insert(equation,index, "|")
+        setequation(result)
+        const resultSys = insert(Sys_equation,index, "|")
+        setSys_equation(resultSys)
+      }
+       
       }
     }
     function addincident () {
       if ( U_compteurselected == "") {
 
-        setmessageconseil("Il faut d'abord sélectionner un incident ")
+        setmessageconseil("Veuillez d'abord sélectionner un incident pour continuer")
   
       } else if ( NameEnergy == "") {
-        setmessageconseil("S'il vous plaît sélectionner un capteur énergie ")
+        setmessageconseil("Veuillez d'abord sélectionner un compteur pour continuer ")
       } else {
         setmessageconseil("")
         var EMNcode = ''
@@ -575,8 +804,11 @@ console.log("childData[0] + childData[1]",childData.join(""))
       //In ES6 you can use the Spread Operator:
       var index=equation.indexOf("|")
       console.log(index)
-      if ( equation[index] === "|") { 
+      if ( equation[index] == "|") { 
         equation.splice(index, 1); 
+      }
+      if ( Sys_equation[index] == "|") { 
+        Sys_equation.splice(index, 1); 
       }
       const insert = (arr, index, newItem) => [
         ...arr.slice(0, index),
@@ -586,11 +818,17 @@ console.log("childData[0] + childData[1]",childData.join(""))
       let lastvalue =  equation[ index - 1]
       console.log(lastvalue)
       if ( NameEnergy == "" &&  EnergyMeasure == "") {
-        setmessageconseil("S'il vous plaît sélectionner un capteur énergie et mesure")
+        setmessageconseil("Veuillez d'abord sélectionner un compteur pour continuer et une mesure")
+        const result = insert(equation,index, "|")
+        setequation(result)
       } else if ( EnergyMeasure == "") {
-        setmessageconseil("S'il vous plait sélectionner une mesure")
+        setmessageconseil("Veuillez sélectionner  une mesure.")
+        const result = insert(equation,index, "|")
+        setequation(result)
       }else if ( U_compteurselected == "") {
-        setmessageconseil("Il faut d'abord selectionner un compteur ")
+        setmessageconseil("Il faut d'abord sélectionner  un compteur ")
+        const result = insert(equation,index, "|")
+        setequation(result)
       }  else if (!equation.length || lastvalue == '+' || lastvalue == '-' || lastvalue == '*' || lastvalue == '(' || lastvalue == ')'
         || lastvalue == '/' || lastvalue == 'VIDE(' || lastvalue == 'Sqrt(' || lastvalue == 'Mod('
         || lastvalue == 'ArcCos(' || lastvalue == 'Log(' || lastvalue == 'Exp(' || lastvalue == 'ArcTan('
@@ -607,26 +845,33 @@ console.log("childData[0] + childData[1]",childData.join(""))
         // }
   
         if ( selectionStart == false) {
+         
           const res = insert(equation,index+1,(U_compteurselected + '$' +  EnergyMeasure))
           const result = insert(res,index+2, "|")
           setequation(result)
           const resSys = insert(Sys_equation,index+2,(Sys_compteurselectedwithoutid + '$' + Sys_mesureid))
-         setSys_equation(resSys)
+          const resultSys = insert(resSys,index+2, "|")
+       setSys_equation(resultSys)
        }else{
+      
         //add number
         const res = insert(equation,index,(U_compteurselected + '$' +  EnergyMeasure))
         const result = insert(res,index+1, "|")
         setequation(result)
         const resSys = insert(Sys_equation,index+1,(Sys_compteurselectedwithoutid + '$' + Sys_mesureid))
-       setSys_equation(resSys)
+        const resultSys = insert(resSys,index+2, "|")
+       setSys_equation(resultSys)
 
        }
 
 
 
       } else {
-        setmessageconseil("Vous devez sélectionner un opérande")
-      
+        setmessageconseil("Veuillez sélectionner un opérande avant de sélectionner un autre opérateur dans votre formule")
+        const result = insert(equation,index, "|")
+        setequation(result)
+        const resultSys = insert(Sys_equation,index, "|")
+        setSys_equation(resultSys)
       }
     }
     function moveCursorToEnd(el) {
@@ -710,13 +955,15 @@ console.log("childData[0] + childData[1]",childData.join(""))
       // }
     }
 
-    useEffect(() => {
-      if (equation.length==0 && Sys_equation.length==0 ){
-         setequation(["|"])
+    // useEffect(() => {
+    //   if (equation.length==0 && Sys_equation.length==0 ){
+    //      setequation(["|"])
 
-         setSys_equation(["|"])
-      }
-    }, [equation,Sys_equation])
+    //      setSys_equation(["|"])
+    //   }
+    // }, [equation,Sys_equation])
+
+
     function moveCursorRight(el) {
 var index=equation.indexOf("|")
 
@@ -834,10 +1081,7 @@ setselectionStart(true)
       // setcountleft(countleft + 1)
       // setitemlengthleft(itemlength)
     }
-    useEffect(() => {
-     
-    }, [])
-
+ 
    function outSelectedCompteur(data){
         console.log("outSelectedCompteur",data)
         setU_compteurselected(data.Le_Compteur)
@@ -859,37 +1103,44 @@ setselectionStart(true)
 
         var nbrparenthopenInt=0
      var nbrparenthcloseInt=0
-     console.log("equation",equation)
+
       if(equation.length!=0){
-    //  for ( var i = 0; i < equation.length; i++) {
-          console.log("equation",equation)
-          var equationVar =equation.toString()
-        if (equationVar.match(/\(/gi) == "(") {
+     for ( var i = 0; i < equation.length; i++) {
+          console.log("equation",equation[i])
+          // var equationVar =equation.toString()
+          // console.log("equationVar",equationVar)
+
+        if (equation[i] == "(") {
        
      
           nbrparenthopenInt +=1
      
-        }else {
-          nbrparenthopenInt=0
         }
-        if (equationVar.match(/\)/gi) == ")") {
+        if (equation[i] == ")") {
           nbrparenthcloseInt += 1
          
-        }else {
-          nbrparenthcloseInt=0
         }
-      }
-    //}
 
-      console.log("-----------------",nbrparenthcloseInt,nbrparenthopenInt)
+  
+      }
+    }
+    var index=equation.length
+    console.log("------------------>",index)
+    console.log("------------------>",equation[index-2])
+    if ( equation[index-2] == "+" || equation[index-2] == "-" || equation[index-2] == "/" || equation[index-2] == "*" ) { 
+      equation.splice(index-2, 1); 
+      Sys_equation.splice(index-2, 1); 
+    }
+    
       if (nbrparenthopenInt == nbrparenthcloseInt) {
         setmessageconseil('')
-        if(U_incidentselected.length!=0){
+        if(U_incidentselected.length!=0&& TAGFormule!="" && equation.length!=1){
           sendData()
          close()
         
         }else
         {
+          if(U_incidentselected.length==0){
             console.log("U_incidentselected  videee")
             Swal.fire({
               toast: true,
@@ -899,12 +1150,39 @@ setselectionStart(true)
               timer: 4000,
               icon: 'warning',
               width:400,
-              title: "S'il vous plaît sélectionner un incident"})
+              title: "Veuillez d'abord sélectionner un incident pour continuer"})
+            }
+            else if(equation.length==1){
+              Swal.fire({
+                toast: true,
+                position: 'top',
+                
+                showConfirmButton: false,
+                timer: 4000,
+                icon: 'warning',
+                width:400,
+                title: "Veuillez remplir votre entrée de formule "
+              })
+              
+            }
+            else if(TAGFormule==""){
+              Swal.fire({
+                toast: true,
+                position: 'top',
+                
+                showConfirmButton: false,
+                timer: 4000,
+                icon: 'warning',
+                width:400,
+                title: "Veuillez remplir votre TAG de formule"
+              })
+              
+            }
         }
       } else if (nbrparenthopenInt > nbrparenthcloseInt) {
-        setmessageconseil('Il faut ajouter ")"')
+        setmessageconseil('Veuillez ajouter ")" avant de continuer')
       } else if (nbrparenthopenInt < nbrparenthcloseInt) {
-        setmessageconseil('Il faut effacer ")"')
+        setmessageconseil('Veuillez supprimer  ")" avant de continuer')
       }
       else {
         console.log("no")
@@ -920,56 +1198,7 @@ setselectionStart(true)
         backgroundColor: "#11ffee00",
       };
 
-      useEffect(() => {
-        // textarea.focus();
-        // autosize(textarea);
 
-        if (datafromcasincidenttocalculatrice[2][0].length != 0 /*&& datamodifier.length!=0*/) {
-          console.log("datafromcasincidenttocalculatrice[2]",datafromcasincidenttocalculatrice[2])
-        
-          // if(datamodifier.length!=0){
-          //   var equationString=datafromcasincidenttocalculatrice[2].toString()
-          //   var equationArray=equationString.split(' ').filter(e=>e)
-          //   setequation(equationArray)
-          //   setSys_equation(datafromcasincidenttocalculatrice[3])
-          // }else{
-            console.log("datafromcasincidenttocalculatrice" , datafromcasincidenttocalculatrice[3])
-          setequation(datafromcasincidenttocalculatrice[2])
-          setSys_equation(datafromcasincidenttocalculatrice[3])
-      // }
-        }else if(datafromcasincidenttocalculatrice[2][0].length == 0)
-        {
-          setequation([])
-          setSys_equation([])
-        }
-
-
-              axios1.get(window.apiUrl + "getAllEnergies/")
-              .then(
-                (result) => {
-                  console.log('Energy')
-                  console.log(result.data)
-                  //tabulator
-                  if (result.data.length !== null) {
-                      setdataEnergy(result.data)
-                  //  this.setState({ dataEnergy: result.data })
-                    var datalist = []
-        
-                    result.data.forEach(function (arrayItem) {
-                      var x = arrayItem.Name_Energy;
-                      datalist.push(x)
-                      //console.log(x);
-                    });
-                    console.log('list of Name Energy')
-                    console.log(listNameEnergy)
-                    setlistNameEnergy(datalist)
-                  } else {
-                    console.log('no data change')
-                  }
-                }
-              )
-    
-      }, [])
 
       useEffect(() => {
           console.log("NameEnergy",NameEnergy)
@@ -983,7 +1212,7 @@ setselectionStart(true)
                 
                   Object.keys(data).map((key, ii, aa) => {
                     const value = data[key]
-                    console.log("value maseur avec energie",value)
+                 //   console.log("value maseur avec energie",value)
                     setdataEnergyMeasure(value)
                    
                     setdataEnergyMeasureFilter(true)
@@ -1013,7 +1242,7 @@ setselectionStart(true)
                       Object.keys(data).map((key, ii, aa) => {
                         const value = data[key]
                          setlistcompteurglobal(value)
-                         console.log("value maseur avec energie",value)
+                        // console.log("value maseur avec energie",value)
                          setdataEnergyCompteurFilter(true)
                       })
                      } else {
@@ -1041,12 +1270,29 @@ setselectionStart(true)
                 }
       }, [NameEnergy,listNameEnergy])
       useEffect(() => {
-        console.log("dataEnergyMeasure",dataEnergyMeasure,"dataEnergyMeasureFilter" ,dataEnergyMeasureFilter)
+      //  console.log("dataEnergyMeasure",dataEnergyMeasure,"dataEnergyMeasureFilter" ,dataEnergyMeasureFilter)
     }, [dataEnergyMeasure,dataEnergyMeasureFilter])
     useEffect(() => {
-      console.log("listcompteurglobal",listcompteurglobal,"dataEnergyCompteurFilter" ,dataEnergyCompteurFilter)
+   //   console.log("listcompteurglobal",listcompteurglobal,"dataEnergyCompteurFilter" ,dataEnergyCompteurFilter)
   }, [dataEnergyCompteurFilter,listcompteurglobal])
-      return (<div>
+
+  useEffect(() => {
+  if(TAGFormule.length==20){
+    Swal.fire({
+      toast: true,
+      position: 'top',
+      
+      showConfirmButton: false,
+      timer: 4000,
+      icon: 'warning',
+      width:600,
+      title: "Un TAG  de formule ne peut pas comporter plus de 20 caractères"})
+    
+  }
+   }, [TAGFormule])
+
+      return (<>
+
         <MDBModal isOpen={ modal} toggle={componentcalculator} size="fluid" centered>
        
             <MDBModalHeader toggle={componentcalculator} >Calculatrice Cas Incidents</MDBModalHeader>
@@ -1065,18 +1311,48 @@ setselectionStart(true)
                         <tr >
                           <th style={{ width: '25%' }} className="gradient-custom-th p-0 " >{ U_incidentselected} </th>
                           <th style={{ width: '5%' }} className="gradient-custom-th p-0"><span className=" text-center" style={{ color: "#131413", fontSize: "14px" }}>=</span></th>
-                          <th style={{ width: '60%' }} className="gradient-custom-th p-0" ><textarea
+                          <th style={{ width: '60%' }} className="gradient-custom-th p-0" >
+                            {/* <textarea
                             style={style}
                             id="mytextarea"
                             autofocus
-                            value={equation.join('')}
+          
+                            value={equationRef.current.map(e=>{
+                              if (e=="|"){
+                                return '<span>|</span>'
+                              }
+                              else{
+                                return e
+                              }
+                            
+                            })}
                             rows={4}
                             style={{
                               width: '100%', backgroundColor: "#11ffee00", border: "none", maxHeight: "75px",
                               minHeight: "38px"
                             }}
                             disabled
-                          />  
+                          />   */}
+                            <div
+                            style={style}
+                            id="mytextarea"
+                            // autofocus
+                            style={{
+                              width: '100%', backgroundColor: "#11ffee00", border: "none", textAlign:"left",
+                              
+                            }}
+                            disabled
+                          >
+                            {equationRef.current.map(e=>{
+                              if (e=="|"){
+                                return <span className={"klinklin1"}>|</span>
+                              }
+                              else{
+                                return <span>{e}</span>
+                              }
+                            
+                            })}
+                            </div> 
                           </th>
   
                         </tr>
@@ -1099,10 +1375,13 @@ setselectionStart(true)
                     <MDBIcon size='lg' fas icon='times-circle'></MDBIcon>
                   </MDBBtn>
   
-                  <MDBInput label="TAG :" outline size="sm" type="text" placeholder="" name="TAGFormule" value={ TAGFormule}   onChange={(e) => setTAGFormule(e.target.value)} style={{ margin: 0 + 'em', fontFamily: 'Gotham Book' }} className='' />
+                  <MDBInput label="TAG :" outline size="sm" maxlength="20" type="text" placeholder="" name="TAGFormule" value={ TAGFormule} autoComplete="off"   onChange={(e) => setTAGFormule(e.target.value)} style={{ margin: 0 + 'em', fontFamily: 'Gotham Book' }} className='' />
   
-                  <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px', backgroundColor: '#7dd2d9' }} onClick={() =>  clearequation()}>
+                 
+                 <MDBBtn className=' button_round btn-floating' style={{ width: '28px', height: '28px', backgroundColor: '#7dd2d9' }} onClick={() =>  clearequation()}>
                     <MDBIcon size='lg' fas icon='trash-alt' ></MDBIcon>
+                 
+                 
                   </MDBBtn>
                   <MDBBtn className=' button_round btn-floating ' style={{ width: '28px', height: '28px' }} onClick={(e) => {  moveCursorRight(e); }}  >
                     <MDBIcon size='lg' fas icon='caret-right'></MDBIcon>
@@ -1144,7 +1423,7 @@ setselectionStart(true)
                           </MDBCol>
                           <MDBCol size="8">
                             <div className="form-group my-0" style={{ marginLeft: "27%" }}>
-                              <label htmlFor="example2">Compteur Selectionner :</label>
+                              <label htmlFor="example2">Compteur sélectionner  :</label>
   
                               <div className=' d-flex align-items-end' style={{ width: "100%" }}>
                                 <input list="listenergy" type="text"
@@ -1226,7 +1505,7 @@ setselectionStart(true)
                       <MDBRow>
                       <div className="screen" style={{width:"95.5%",backgroundColor:"#fff",minHeight:"460px",marginLeft: "12px",marginRight: '10px'}}>
                        
-                         <MDBCol size="12">    <div style={{marginLeft:"56%"}}>    <label htmlFor="example2">Mesure Selectionner :</label>
+                         <MDBCol size="12">    <div style={{marginLeft:"56%"}}>    <label htmlFor="example2">Mesure sélectionner  :</label>
   
   <input type="text"
     className="form-control form-control-sm" disabled
@@ -1271,7 +1550,7 @@ setselectionStart(true)
               <MDBBtn color="primary" onClick={ close} >Annuler</MDBBtn>
             </MDBModalFooter>
         </MDBModal>
-      </div>);
+      </>);
   
   }
   export default Calculatrice;

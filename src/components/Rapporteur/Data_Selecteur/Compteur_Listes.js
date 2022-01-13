@@ -7,7 +7,7 @@ import Moment from 'moment';
 import Tabulator from "tabulator-tables"; //import Tabulator library
 //import "tabulator-tables/dist/css/bulma/tabulator_bulma.min.css";
 import Swal from 'sweetalert2';
-
+import Navbar from "../../navbar";
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 const validPhoneRegex = RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/i);
 const validateForm = (errors) => {
@@ -24,6 +24,7 @@ class Compteur_Listes extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      history:props.history,
       CompteurListI_Name: "",
       CompteurListI_Name1: "",
       CompteurList_Code: "",
@@ -2254,7 +2255,8 @@ else {
     const scrollContainerStyle = { width: "350px", maxHeight: "410px" };
     const { errors } = this.state;
     return (
-      <div>
+      <>
+      <Navbar history={this.state.history}/>
         <MDBBreadcrumb style={{ backgroundColor: '#b1b5b438',color: "#000",fontFamily: 'GOTHAM MEDIUM' }}>
           <MDBBreadcrumbItem>  Rapporteur</MDBBreadcrumbItem>
           <MDBBreadcrumbItem > Compteur Listes</MDBBreadcrumbItem>
@@ -2459,7 +2461,7 @@ else {
           </MDBRow>
         </fieldset>
 
-      </div>);
+      </>);
   }
 
 

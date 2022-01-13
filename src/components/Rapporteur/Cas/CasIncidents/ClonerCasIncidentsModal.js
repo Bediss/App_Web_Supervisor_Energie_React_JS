@@ -62,7 +62,7 @@ function selectOne(){
             timer: 5000,
             icon: 'warning',
             width: 500,
-            title: "C'est le compteur de clonage ne clone pas"
+            title: "Vous ne pouvez pas cloner votre compteur source donc ce compteur n'a pas été cloné."
         })
     }
 
@@ -95,7 +95,7 @@ function selectOne(){
             timer: 4000,
             icon: 'warning',
             width: 400,
-            title: 'Déja Ajouter dans la liste'
+            title: 'Ce Compteur a déjà été ajoutée.'
         })
     }
 }

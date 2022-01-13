@@ -18,6 +18,7 @@ class Button extends React.Component {
     }
     //exemple cos sin ...
     sendfunction = (param) => {     
+        console.log('---------------------------',param)
         this.props.operatorfunction([param,'(']);
         //this.props.
         console.log([param,'('])
@@ -99,12 +100,12 @@ class Button extends React.Component {
                 <MDBContainer style={{ margin: 0 + 'px', padding: 0 + 'px',backgroundColor: "#fff" }}>
                     <MDBRow style={{ margin: 0 + 'em', width: '98%' }}>
                         <MDBBtn outline className=" m-0 p-0  btn-md" style={{ width: '25%', fontSize: '12px', textAlign: 'center' }} name='sin-1' onClick={() => this.sendfunction(this.state.btnsin1)} >sin-1</MDBBtn>
-                        <MDBBtn outline className=" m-0 px-0  btn-md" style={{ width: '25%', fontSize: '12px', textAlign: 'center' }} onClick={() => this.sendfunction({ count: this.state.count + 1 })} onClick={() => this.sendData(this.state.btnsin)}>sin</MDBBtn>
+                        <MDBBtn outline className=" m-0 px-0  btn-md" style={{ width: '25%', fontSize: '12px', textAlign: 'center' }} /*onClick={() => this.sendfunction({ count: this.state.count + 1 })}*/ onClick={() => this.sendfunction(this.state.btnsin)}>sin</MDBBtn>
                         <MDBBtn outline className=" m-0 p-0  btn-md" style={{ width: ' 25%', fontSize: '12px', textAlign: 'center' }} onClick={() => this.sendfunction(this.state.btncos)}>cos</MDBBtn>
                         <MDBBtn outline className=" m-0 p-0  btn-md" style={{ width: ' 25%', fontSize: '12px', textAlign: 'center' }} onClick={() => this.sendfunction(this.state.btntan)}>tan</MDBBtn>
                     </MDBRow>
                     <MDBRow style={{ margin: 0 + 'em', width: '98%' }}>
-                        <MDBBtn outline className=" m-0 p-0  btn-md" style={{ width: ' 25%', fontSize: '12px', textAlign: 'center' }} onClick={() => this.sendfunction(this.state.btncos1)}>cons-1</MDBBtn>
+                        <MDBBtn outline className=" m-0 p-0  btn-md" style={{ width: ' 25%', fontSize: '12px', textAlign: 'center' }} onClick={() => this.sendfunction(this.state.btncos1)}>cos-1</MDBBtn>
                         <MDBBtn outline className=" m-0 px-0  btn-md" style={{ width: ' 25%', fontSize: '12px', textAlign: 'center' }} onClick={() => this.sendfunction(this.state.btnlog)}>log</MDBBtn>
                         <MDBBtn outline className=" m-0 p-0  btn-md" style={{ width: ' 25%', fontSize: '12px', textAlign: 'center' }} onClick={() => this.sendfunction(this.state.btnexp)}>Exp</MDBBtn>
                         <MDBBtn outline className=" m-0 p-0  btn-md" style={{ width: ' 25%', fontSize: '12px', textAlign: 'center' }} onClick={() => this.sendfunction(this.state.btntan1)}>tan-1</MDBBtn>

@@ -8,8 +8,9 @@ import {
     MDBAlert
   } from "mdbreact";
   import "../components/RapportRouteCss.css"
+import {useStores} from "../store"
 const Test = ({ history,callback=()=>{} ,layoutFormat }) => {
-
+    const {mainStore} = useStores()
     const [isSynoptic, setIsSynoptic] = useState(null)
     const [isReport, setIsRapport] = useState(null)
     const [workObject, setWorkObject] = useState(null)
@@ -25,7 +26,7 @@ const Test = ({ history,callback=()=>{} ,layoutFormat }) => {
         setIsSynoptic(false)
         setIsRapport(false)
         const query = parseParams(history.location.search)
-
+      
         const { parent, tlCluster,tlIot } = { ...query }
         let { reportName: _tempReportName, reportId: _tempReportId, counters: _counters, cLabels: _cLabels, mesures: _mesures, mLabels: _mLabels } = { ...query }
 
@@ -35,7 +36,7 @@ const Test = ({ history,callback=()=>{} ,layoutFormat }) => {
         const mLabels = (_mLabels || "").split(",").filter(el => el)
         const reportName = _tempReportName ? decodeURI(_tempReportName) : undefined
         const reportId = _tempReportId
-
+        localStorage.setItem("ReportAdhoc",reportId)
         if (counters.length != cLabels.length) {
             console.log("counters", counters.length, cLabels.length)
             return
@@ -85,8 +86,13 @@ const Test = ({ history,callback=()=>{} ,layoutFormat }) => {
                         if (!data) return
                         callback(data)
                         setWorkObject(data.Body)
-                        setIsSynoptic(Boolean(getNested(data.Body, "object", "synoptic") && getNested(data.Body, "object")))
-                        setIsRapport(Boolean(getNested(data.Body, "objects")))
+                        const isSynoptic=Boolean(getNested(data.Body, "object", "synoptic") && getNested(data.Body, "object"))
+                        const isReport=Boolean(getNested(data.Body, "objects"))
+                        setIsSynoptic(isSynoptic)
+                        setIsRapport(isReport)
+                        mainStore.setAdHoc({reportId,type:data.type})
+                        // localStorage.setItem("ReportAdhoc",reportId)
+                        // localStorage.setItem("ReportAdhocType",data.type)
                     })
                     .catch(({response})=>{
                         
@@ -137,11 +143,16 @@ const Test = ({ history,callback=()=>{} ,layoutFormat }) => {
                 }).then(({ data }) => {
                     if (!Array.isArray(data) || data.length > 1) return;
                     data = data[0]
-                    console.log(">>>>>>>><<<><<<<<<<<<<",data)
+   
                     callback(data)
                     setWorkObject(data)
-                    setIsSynoptic(Boolean(getNested(data, "object", "synoptic") && getNested(data, "object")))
-                    setIsRapport(Boolean(getNested(data)))
+                    const isSynoptic=Boolean(getNested(data, "object", "synoptic") && getNested(data, "object"))
+                    const isReport=Boolean(getNested(data))
+                    setIsSynoptic(isSynoptic)
+                    setIsRapport(isReport)
+                    // localStorage.setItem("ReportAdhocType","report")
+                    mainStore.setAdHoc({reportId,type:isReport?"report":"synoptic"})
+
                 })
                 .catch(({response})=>{
                         

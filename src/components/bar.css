@@ -124,3 +124,9 @@
     /* width: 100%; */
     /* margin-left: -10%; */
   }
+
+.clockIt{
+    position:absolute;
+    right: 2%;
+    user-select: none;
+}

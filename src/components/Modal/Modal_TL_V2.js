@@ -19,7 +19,7 @@ const Modal_TL_V2 = ({ toggle, handleListeTLClick }) => {
                     if (result.data !== null) {
 
                         setListes_TL_Cluster(result.data.cluster)
-                        setListes_TL_IOT(result.data.iot_value)
+                        setListes_TL_IOT(result.data.iot_inner)
                     } else {
                     }
 

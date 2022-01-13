@@ -79,7 +79,7 @@ const ObjectiveAdvanced = ({ datafromcasincidents ,valueajoutertabcallback,dataE
             cellClick: function (e, cell) {
                 cell.getData();
                 console.log("supprimertemp")
-                supprimertemp.push(cell.getData().valeur);
+                supprimertemp.push(cell.getData().user_value);
                 console.log("supprimertemp", supprimertemp)
 
                 for (var i = 0; i < supprimertemp.length; i++) {
@@ -88,7 +88,8 @@ const ObjectiveAdvanced = ({ datafromcasincidents ,valueajoutertabcallback,dataE
                     var val = supprimertemp[i]
                     console.log("val",val)
                     var filteredObj = JsonOperateurValue.find(function (item, i) {
-                        if (item.valeur === val) {
+                        console.log("val",item.user_value)
+                        if (item.user_value === val) {
                             index = i;
                             return i;
                         }
@@ -107,7 +108,7 @@ const ObjectiveAdvanced = ({ datafromcasincidents ,valueajoutertabcallback,dataE
                     var val = supprimertemp[i]
                     console.log(val)
                     var filteredObj = dataTabulator.find(function (item, i) {
-                        if (item.valeur === val) {
+                        if (item.user_value === val) {
                             index = i;
                             return i;
                         }
@@ -165,6 +166,12 @@ const [ListSetobjective,setListSetobjective]=useState("")
 const [valuetomesure,setvaluetomesure]=useState('')
 
 const[MeasureGetObject,setMeasureGetObject]=useState([])
+
+////////////////////////
+const [inputValueType, setinputValueType] = useState("number")
+const [inputValueDisabled, setinputValueDisabled] = useState(false)
+const [inputNumberDisabled, setinputNumberDisabled] = useState(false)
+const[inputColorDisabled,setinputColorDisabled]=useState({})
 /////////////////
 useEffect(() => {
     if(datafromcasincidents.length!=0){
@@ -323,7 +330,9 @@ useEffect(() => {
                         //     haut: item.cc_m,
 
                         // })
-                       
+                        setinputValueType("text")
+                        setinputValueDisabled(true)
+                        setinputColorDisabled( {backgroundColor: "#00000012"})
                     }else if(modalnumber == 5){
                         setjsonbas({ "type": "o", "content": item.cc_m })
                         setbas(event1)
@@ -333,14 +342,16 @@ useEffect(() => {
                         //     bas: item.cc_m,
 
                         // })
-                      
+                        setinputValueType("text")
+                        setinputValueDisabled(true)
 
                     }else if(modalnumber == 7){
                         setjsondans({ "type": "o", "content": item.cc_m })
                         //settotale_Dans(event1)
                         setdans(event1)
                        
-
+                        setinputValueType("text")
+                        setinputValueDisabled(true)
                     } 
                     
                 } else {
@@ -354,10 +365,10 @@ useEffect(() => {
                     position: 'top',
 
                     showConfirmButton: false,
-                    timer: 4000,
+                    timer: 5000,
                     icon: 'warning',
-                    width: 400,
-                    title: 'S\'il vous plaît sélectionner une mesure possède une valeur'
+                    width: 600,
+                    title: "Veuillez saisir une entrée d'objectif valide"
                 })
       
 
@@ -512,47 +523,47 @@ useEffect(() => {
 
             })
         }else{
-            if (haut != "" && bas == "") {
-        //        const keyword = keyword;
-         //       const operateur = operateur;
-                 att = "Haut"
-                setAtt(att)
-                valeur = ("''" + haut + "''")
+        //     if (haut != "" && bas == "") {
+        // //        const keyword = keyword;
+        //  //       const operateur = operateur;
+        //          att = "Haut"
+        //         setAtt(att)
+        //         valeur = ( haut )
            
-                setvaleur(valeur)
-                if (jsonhaut == '') {
-                    valeurDev = { "type": "r", "content": haut }
-                } else {
-                    valeurDev = jsonhaut
-                }
-                var user_value = haut
-                dataTabulator.push({ keyword, operateur, att, user_value, valeurDev,valeur });
-                sethaut('')
-                setbas('')
-                validierAjoutTab=true
-            }
-            if (haut == "" && bas != "") {
-      //         const keyword = keyword;
-        //        const operateur = operateur;
-                att = "Bas"
-                setAtt(att)
+        //         setvaleur(valeur)
+        //         if (jsonhaut == '') {
+        //             valeurDev = { "type": "r", "content": haut }
+        //         } else {
+        //             valeurDev = jsonhaut
+        //         }
+        //         var user_value = haut
+        //         dataTabulator.push({ keyword, operateur, att, user_value, valeurDev,valeur });
+        //         sethaut('')
+        //         setbas('')
+        //         validierAjoutTab=true
+        //     }
+    //         if (haut == "" && bas != "") {
+    //   //         const keyword = keyword;
+    //     //        const operateur = operateur;
+    //             att = "Bas"
+    //             setAtt(att)
     
     
     
-                valeur = ("''" + bas + "''")
-                setvaleur(valeur)
-                if (jsonbas == '') {
-                    valeurDev = { "type": "r", "content": bas }
+    //             valeur = ( bas )
+    //             setvaleur(valeur)
+    //             if (jsonbas == '') {
+    //                 valeurDev = { "type": "r", "content": bas }
     
-                } else {
-                    valeurDev = jsonbas
-                }
-                var user_value = bas
-                dataTabulator.push({ keyword, operateur, att, user_value, valeurDev,valeur });
-                sethaut('')
-                setbas('')
-                validierAjoutTab=true
-            }
+    //             } else {
+    //                 valeurDev = jsonbas
+    //             }
+    //             var user_value = bas
+    //             dataTabulator.push({ keyword, operateur, att, user_value, valeurDev,valeur });
+    //             sethaut('')
+    //             setbas('')
+    //             validierAjoutTab=true
+    //         }
     
             if (haut != "" && bas != "") {
              //   const keyword = keyword;
@@ -560,16 +571,11 @@ useEffect(() => {
                  att = "Entre"
                 setAtt(att)
     
-                valeur = ("''" + haut + "'' and ''" + bas + "''")
+                valeur = ( haut + "," + bas )
     
                 setvaleur(valeur)
                 if (jsonbas == '' && jsonhaut == '') {
                     valeurDev = [{ "type": "r", "content": bas }, { "type": "r", "content": haut }]
-    
-                } else if (jsonbas == '' && jsonhaut !== '') {
-                    valeurDev = jsonhaut
-                } else if (jsonbas !== '' && jsonhaut == '') {
-                    valeurDev = jsonbas
                 } else {
                     valeurDev = [jsonbas, jsonhaut]
                 }
@@ -591,27 +597,29 @@ useEffect(() => {
                 att = "Dans"
                 setAtt(att)
     
-                 valeur = ("(" + totale_Dans.slice(0, -1) + ")")
+                 valeur = (  totale_Dans.slice(0, -1)  )
                 setvaleur(valeur)
     
                 const a = totale_Dans.slice(0, -1)
                 var user_value = a.replace(/'/g, "")
                 console.log("user_value----totale_Dans",user_value)
-                // if (jsondans == '') {
-                //     valeurDev = [{ "type": "r", "content": dans }]
-                // }else{
+                if (jsondans == '') {
+                    valeurDev = [{ "type": "r", "content": dans }]
+                }else{
                 valeurDev = jsondans
             
     
-                // }
+                }
                 dataTabulator.push({ keyword, operateur, att, user_value  , valeurDev,valeur });
                 setdans("")
                 validierAjoutTab=true
             }
             /////////////////////////////
             console.log("validierAjoutTab",validierAjoutTab)
+            console.log("valeurDev",valeurDev)
+            console.log("valeur",valeur)
            if(validierAjoutTab==true){
-            JsonOperateurValue.push({ "keyword": keyword, "operateur": operateur, "att": att, "valeur": valeur, "user_value": valeurDev })
+            JsonOperateurValue.push({ "keyword": keyword, "operateur": operateur, "att": att, "valeur": valeurDev, "user_value": valeur })
             setajoutertap(JsonOperateurValue)
             console.log("JsonOperateurValue----AjoutTab--->",JsonOperateurValue)
             sendData();
@@ -659,6 +667,7 @@ useEffect(() => {
         setmodal3(!modal3)
         if(modal3==false){
         getobjective()
+        
         }
     }
     function toggle5 (){
@@ -688,112 +697,6 @@ useEffect(() => {
 
 
 
-
-    // function toggle (nr) {
-
-    //     if (nr === 3 || nr === 7 || nr === 5) {
-    //         if (incidentselectedwithoutlive != '') {
-    //         if(modal3 == false){
-    //             getobjective()
-    //            setmodal3(!modal3)
-    //         }else if(modal5 == false){
-    //             getobjective()
-    //             setmodal5(!modal5)
-    //         }else if(modal7 == false){
-    //             getobjective()
-    //             setmodal7(!modal7)
-            
-    //         }
-
-    //         } else {
-    //             Swal.fire({
-    //                 toast: true,
-    //                 position: 'top',
-
-    //                 showConfirmButton: false,
-    //                 timer: 4000,
-    //                 icon: 'warning',
-    //                 width: 400,
-    //                 title: 'Sélectionner compteur s\'il vous plait '
-    //             })
-
-    //         }
-
-    //     } else if (nr === 4 || nr === 6 || nr === 8) {
-           
-    //         if (modal4 === true ) {
-    //             setvaluetomesure('')
-               
-    //         }else if(modal6 === true ){
-    //             setvaluetomesure('')
-    //         }else if (modal8 === true ){
-    //             setvaluetomesure('')
-    //         }
-    //         // if(nr === 4){
-    //         //     setmodal4(!modal4)
-    //         // }else if(nr === 6){
-    //         //     setmodal6(!modal6)
-    //         // }else if(nr === 8){
-    //         //     setmodal8(!modal8)
-    //         // }
-
-
-    //     } else {
-    //         // let modalNumber = 'modal' + nr
-    //         // modalNumber= !modalNumber
-
-
-    //     }
-    // }
-    // function componentDidUpdate() {
-
-
-    //     var $ = require("jquery");
-    //     if (keyword == "Intervalle" && operateur == "Inclure") {
-
-    //         $('#IntervalleNouveau').show();
-    //         $('#EnsembleNouveau').hide();
-
-    //     } else if (keyword == "Intervalle" && operateur == "Exclure") {
-
-    //         $('#IntervalleNouveau').show();
-    //         $('#EnsembleNouveau').hide();
-
-    //     } else if (keyword == "Ensemble" && operateur == "Inclure") {
-
-    //         $('#IntervalleNouveau').hide();
-    //         $('#EnsembleNouveau').show();
-
-    //     } else if (keyword == "Ensemble" && operateur == "Exclure") {
-
-    //         $('#IntervalleNouveau').hide();
-    //         $('#EnsembleNouveau').show();
-
-    //     } else {
-    //         $('#IntervalleNouveau').hide();
-    //         $('#EnsembleNouveau').hide();
-    //     }
-    //     //////////////////////
-    //     /** with delete row */
-    //     var data = JsonOperateurValue
-    //     for (var i = 0; i < supprimertemp.length; i++) {
-
-    //         var index = -1;
-    //         var val = supprimertemp[i]
-    //         var filteredObj = data.find(function (item, i) {
-    //             if (item.valeur === val) {
-    //                 index = i;
-    //                 return i;
-    //             }
-    //         });
-
-    //         if (index > -1) {
-    //             data.splice(index, 1);
-    //         }
-    //     }
-    //     /**********fin delete row  */
-    //     ajoutertap = data
-    // }
 
     function btnAjouterDans() {
         if (dans == "") {
@@ -825,6 +728,7 @@ useEffect(() => {
          setdans("")
 
         }
+        
       }
     
       function btndeleteDans() {
@@ -876,6 +780,25 @@ useEffect(() => {
     }, [dans])
 
       const scrollContainerStyle = { maxHeight: "300px" };
+
+
+
+      useEffect(() => {
+console.log("---------------------------bas.length------------",bas.length,"haut.length",haut.length)
+ if( (bas.length>=1||haut.length>=1) && inputValueDisabled==false && inputValueType=="number" ){
+
+    setinputNumberDisabled(true)
+
+ }else {
+    setinputNumberDisabled(false)
+ }
+
+
+        
+     }, [haut,bas,inputValueDisabled,inputValueType])
+
+
+
     return (
 
         <div>
@@ -896,7 +819,7 @@ useEffect(() => {
                                     className="browser-default custom-select" id="2" name="keyword" value={keyword} onChange={(e)=>setkeyword(e.target.value)} required>
                                     <option></option>
                                     <option>Intervalle</option>
-                                    <option>Ensemble</option>
+                                    {/* <option>Ensemble</option> */}
 
                                 </select>
                                 <br />
@@ -919,9 +842,10 @@ useEffect(() => {
              {keyword == "Intervalle" && operateur != "" &&
                                 <div  >
                                     <div>
-                                        <MDBInput style={{ height: '37px' }} label="Haute" outline size="sm" type="text" className="form-control" name="haut" value={haut} placeholder=""  onChange={(e)=>sethaut(e.target.value)}  /></div>
+                                        <MDBInput style={inputColorDisabled} label="Haut" autoComplete="off" outline size="sm"  type={inputValueType} disabled={inputValueDisabled} className="form-control" name="haut" value={haut} placeholder=""  onChange={(e)=>sethaut(e.target.value)}  />
+                                        </div>
                                     <MDBBtn className="p-0 flex-grow-1 bd-highlight col-example" style={{ width: '100%', marginLeft: 0 + 'px' }}
-
+                                        disabled={inputNumberDisabled}
                                         onClick={toggleFilterMesure3}
                                     >Get Objective</MDBBtn>
 
@@ -1020,9 +944,9 @@ useEffect(() => {
 
 
                                     <div>
-                                        <MDBInput style={{ height: '37px' }} label="Bas" outline size="sm" type="text" className="form-control" name="bas" value={bas} placeholder="" onChange={(e)=>setbas(e.target.value)} />
+                                        <MDBInput style={inputColorDisabled} label="Bas" outline size="sm" autoComplete="off" type={inputValueType} disabled={inputValueDisabled} className="form-control" name="bas" value={bas} placeholder="" onChange={(e)=>setbas(e.target.value)} />
                                         <MDBBtn className="p-0 flex-grow-1 bd-highlight col-example" style={{ width: '100%', marginLeft: 0 + 'px' }}
-
+                                            disabled={inputNumberDisabled}
                                             onClick={toggleFilterMesure5}
                                         >Get Objective</MDBBtn>
                                          <MDBModal isOpen={modalFilterMesure5} toggle={toggleFilterMesure5} size="lg">

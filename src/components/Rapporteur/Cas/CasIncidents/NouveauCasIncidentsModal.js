@@ -15,8 +15,13 @@ import { PropTypes } from 'react'
 import Fetching from "../../../Fetching"
 import Dropdown from 'react-bootstrap/Dropdown'
 import Calculatrice from "../CasIncidents/calculatrice/calculatriceV2";
+import useState2 from "react-usestateref"
 import FilterV1 from '../../../filterV1';
-const NouveauCasIncidentsModale = ({
+import {useStores} from "../../../../store"
+import {observer} from "mobx-react-lite"
+import { uitStore } from '../../../../store/stores';
+
+const NouveauCasIncidentsModale = observer(({
   toggleNouveau,
   toggleObjective,
   modalObjective,
@@ -75,62 +80,125 @@ const NouveauCasIncidentsModale = ({
   Sys_inputobjective,
   datamodifier,
   funModaleObjective,
-
+  Description,
+  validationEmploi,
+  ValidationObjectif,
+  dataObjectiveAdvanced,
+  Parsed_Formule
 }) => {
+
+  const {uitStore} = useStores()
+
   const scrollContainerStyle = { maxHeight: "300px" };
   const [inputValueType, setinputValueType] = useState("number")
   const [inputValueDisabled, setinputValueDisabled] = useState(false)
   const [U_inputobjective_string, setU_inputobjective_string] = useState(false)
+  // const [valeurBtn, setValeurBtn] = useState(false)
+  // const [avanceeBtn, setAvanceeBtn] = useState(false)
+  const [modalValuerAvance, setModalValuerAvance, modalValuerAvanceRef] = useState2(false)
+  const [modalValuer, setModalValuer, modalRef] = useState2(false)
+  const [operateur, setOperateur] = useState("")
+ 
+
+
+
+
   function AjoutTab(dataEmploi) {
     AjoutDataEmploi(dataEmploi)
   }
-
   useEffect(() => {
-    console.log("------Listmesureenergy---->>>>>>>>>>>>>>",Listmesureenergy)
+    
   }, [Listmesureenergy])
   useEffect(() => {
-    console.log("------modalFilterMesure3---->>>>>>>>>>>>>>",modalFilterMesure3)
+ 
   }, [modalFilterMesure3])
-
   useEffect(() => {
-    console.log("------energycompteurselected---->>>>>>>>>>>>>>",energycompteurselected)
+ 
   }, [energycompteurselected])
   useEffect(() => {
-    console.log("------dataEnergyMeasure---->>>>",dataEnergyMeasure)
+   
   }, [dataEnergyMeasure])
-
   useEffect(() => {
-    //  console.log("U_inputobjective------------->",U_inputobjective)
-    console.log("U_inputobjective.slice(0,8) ", U_inputobjective.slice(0, 8))
-    console.log("U_inputobjective.slice(0,8) ", U_inputobjective.slice(0, 9) == "Objective")
-
     if (U_inputobjective.length != 0 && (U_inputobjective.slice(0, 9) == "Objective")) {
-      console.log("U_inputobjectiveU_inputobjectiveU_inputobjectiveU_inputobjective", U_inputobjective)
+   
       setinputValueType("text")
       setinputValueDisabled(true)
 
     } else {
+
       setinputValueType("number")
       setinputValueDisabled(false)
 
       addUinputobjective(U_inputobjective)
       Sys_inputobjective = [U_inputobjective]
-      console.log("Sys_inputobjective------------->", Sys_inputobjective)
+
 
 
     }
   }, [U_inputobjective])
-
+  useEffect(() => {
+    function disableScrollInputNbr(event){
+      if(document.activeElement.type === "number" &&
+         document.activeElement.classList.contains("hideArrows"))
+      {
+          document.activeElement.blur();
+      }
+  }
+    document.addEventListener("wheel", disableScrollInputNbr);
+  
+    return () => {
+      document.removeEventListener("wheel",disableScrollInputNbr)
+    }
+  }, [])
   function outSelectedMesure(json) {
-    console.log('json----------------->', json, { "m_code": json.EMNCode, "m_name": json.measure_Label, "measure_ID": json.measure_ID })
+
     selectMeasureGetObject({ "m_code": json.EMNCode, "m_name": json.measure_Label, "measure_ID": json.measure_ID })
   }
-  function funModale(modalObject,nb){
-    console.log(modalObject,nb)
-    funModaleObjective(modalObject,nb)
+  function funModale(modalObject, nb) {
+   
+    funModaleObjective(modalObject, nb)
+
+  }
+  /************************* */
+  function btnAvancee() {
+    
+      uitStore.setIncState("advanced")
     
   }
+  /******************************************************* */
+  function btnValeur() {
 
+
+     uitStore.setIncState("basic")
+     
+  }
+
+
+
+
+  useEffect(() => {
+    if (operateur != "" ) {
+      onClickHandler(operateur)
+    } else if (operateur == "") {
+      onClickHandler("AVANCÉE")
+    }
+  }, [operateur])
+
+  function toggleValeurConfirmation() {
+   // setModalValuerAvance(!modalValuerAvance)
+  
+
+  }
+  function toggleValeur() {
+   // setModalValuer(!modalValuer)
+
+  }
+
+  function annuler(){
+    uitStore.setIncState("")
+    ValidationObjectif("")
+    setOperateur("")
+  }
   return (
 
     <>
@@ -171,12 +239,13 @@ const NouveauCasIncidentsModale = ({
                       U_Compteur,
                       Compteur_Incident,
                       FormulewithTildee.replace(/#/g, '').split('~'),
-                      Sys_equationwithTilde.replace(/#/g, '').split('~').filter(e=>e),
-                      TAG_Formule
-                    ]} 
+                      Sys_equationwithTilde.replace(/#/g, '').split('~').filter(e => e),
+                      TAG_Formule,
+                      Parsed_Formule
+                    ]}
                     energycompteurselected={energycompteurselected}
-                      
-                      />
+
+                  />
 
 
                 }
@@ -190,56 +259,53 @@ const NouveauCasIncidentsModale = ({
               <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px' }}>
                 <legend style={{ width: "173px", color: "#51545791", fontSize: "21px" }} >Formule de cas <span className='text-danger' style={{ fontSize: '12px' }}>*</span></legend>
                 <div className='pb-2' style={{ marginTop: "-23px" }}>
-           {TAG_Formule!=""&&     `TAG:${TAG_Formule}`}
+                  {TAG_Formule != "" && `TAG:${TAG_Formule}`}
                 </div>
                 <textarea type="text" className="form-control"
                   name="U_Formule"
                   value={U_Formule.replace(/~/g, ' ').replace(/#/g, '')} onChange={handleChange} required disabled />
               </fieldset>
-
-
-
             </div>
 
           </MDBCol>
 
-          <MDBCol size="3">
-            <div className="form-group">
-              <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px' }}>
 
-                <legend style={{ width: "124px", color: "#51545791", fontSize: "21px" }}>Operateur <span className='text-danger' style={{ fontSize: '12px' }}>*</span></legend>
-                <Dropdown className='' >
-                  <Dropdown.Toggle className='m-0' id="dropdown-basic"
-                    variant='#2BBBAD' style={{ width: '100%' }}>
-                    {valuedropdown}
-                  </Dropdown.Toggle>
+          <MDBCol size="12">
 
-                  <Dropdown.Menu>
+            <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px' }}>
+              <legend style={{ width: "118px", color: "#51545791", fontSize: "21px" }}>Objective <span className='text-danger' style={{ fontSize: '12px' }}>*</span></legend>
+              <MDBRow>
+
+                <MDBCol size="12" >
+
+                </MDBCol>
+
+                <MDBCol size="6" >
+                  <MDBBtn style={{ width: "96%" }} outline onClick={btnValeur} disabled={uitStore.getIncState("advanced")}>VALEUR</MDBBtn>
+                </MDBCol>
+                <MDBCol size="6" >
+                  <MDBBtn style={{ width: "96%" }} outline onClick={btnAvancee} disabled={uitStore.getIncState("basic")}>Avancée</MDBBtn>
+                </MDBCol>
+                { uitStore.getIncState("basic") == true && <MDBCol size="12" >
+
+                  <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px' }}>
+                    <legend style={{ width: "73px", color: "#51545791", fontSize: "21px" }}>Valeur<span className='text-danger' style={{ fontSize: '12px' }}>*</span></legend>
+                    <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
+                      Operateur <span className='text-danger' style={{ fontSize: '12px' }}>*</span>
+                    </label>
+                    <select className="browser-default custom-select" id="2" name="operateur" value={operateur} onChange={(e) => setOperateur(e.target.value)} required>
+                      <option></option>
+                      {operator.map((operatoritem, i) => <option key={i}  >{operatoritem}</option>)}
+
+                    </select>
+
+                    <label htmlFor="defaultFormLoginEmailEx" className="grey-text">
+                      Valeur <span className='text-danger' style={{ fontSize: '12px' }}>*</span>
+                    </label>
+
+                    <input type={inputValueType} disabled={inputValueDisabled} autoComplete="off" className="form-control form-control-sm hideArrows"  name="U_inputobjective" value={U_inputobjective} onChange={handleChange} />
 
 
-                    {operator.map((operatoritem, i) => <Dropdown.Item key={i} onClick={onClickHandler} >{operatoritem}</Dropdown.Item>)}
-
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={onClickHandler}>AVANCÉE
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-
-              </fieldset>
-
-            </div>
-
-          </MDBCol>
-          <MDBCol size="9">
-
-
-            <div className="form-group">
-              <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px' }}>
-                <legend style={{ width: "118px", color: "#51545791", fontSize: "21px" }}>Objective <span className='text-danger' style={{ fontSize: '12px' }}>*</span></legend>
-                <ul onClick={showgetobjective} className={displaycalculatriceobjective ? "displaycalculatrice pl-2" : "pl-2"}>Valeur</ul>
-                {displaycalculatriceobjective &&
-                  <div style={{ marginBottom: 8 + 'px' }}>
-                    <input type={inputValueType} disabled={inputValueDisabled} autoComplete="off" className="form-control form-control-sm" name="U_inputobjective" value={U_inputobjective} onChange={handleChange} />
 
 
                     <div className="d-flex bd-highlight example-parent">
@@ -249,18 +315,10 @@ const NouveauCasIncidentsModale = ({
                         onClick={toggleFilterMesure}
                       >Get Objective</MDBBtn>
 
-
-
-                      {/* <MDBBtn className='  px-2 btn-floating bd-highlight col-example ml-0' style={{ backgroundColor: '#7dd2d9' }} onClick={() => deleteequation()}>
-                        <MDBIcon size='lg' fas icon='times-circle'></MDBIcon>
-                      </MDBBtn> */}
-
                       <MDBBtn className=' btn-floating px-2 bd-highlight col-example mx-0' style={{ backgroundColor: '#7dd2d9' }} onClick={() => clearequation()}>
                         <MDBIcon size='lg' fas icon='trash-alt' ></MDBIcon>
                       </MDBBtn>
                     </div>
-
-
 
                     <MDBModal isOpen={modalFilterMesure} toggle={toggleFilterMesure} size="lg">
                       <MDBModalHeader toggle={toggleFilterMesure}>Get Objective</MDBModalHeader>
@@ -287,8 +345,6 @@ const NouveauCasIncidentsModale = ({
                         <MDBBtn color="primary" size="sm" onClick={toggleObjective}>Get Objective</MDBBtn>
                       </MDBModalFooter>
                     </MDBModal>
-
-
                     <MDBModal isOpen={modalObjective} toggle={toggleObjective} size="md">
                       <MDBModalHeader toggle={toggleObjective}>Get Objective</MDBModalHeader>
                       <MDBModalBody>
@@ -347,39 +403,47 @@ const NouveauCasIncidentsModale = ({
                         <MDBBtn color="primary" size="sm" onClick={() => Annulersendsetobjective()}>Annuler</MDBBtn>
                       </MDBModalFooter>
                     </MDBModal>
+                    <hr/>
+                      <MDBBtn color="#9e9e9e grey"   onClick={annuler} className="float-right" size="sm">Annuler</MDBBtn>
+                  </fieldset>
+                </MDBCol>}
 
+                {uitStore.getIncState("advanced") == true && <MDBCol size="12" >
+                  <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px' }}>
+                    <legend style={{ width: "118px", color: "#51545791", fontSize: "21px" }}>Avancée <span className='text-danger' style={{ fontSize: '12px' }}>*</span></legend>
+                    <div style={{ marginTop: 10 + 'px' }}>
+                      <ObjectiveAdvanced valueajoutertabcallback={callbackAdvancedObjective}
+                        dataEnergyMeasure={dataEnergyMeasure}
+                        toggleFilterMesure3={toggleFilterMesure3}
+                        modalFilterMesure3={modalFilterMesure3}
+                        funModale={funModale}
+                        toggleFilterMesure5={toggleFilterMesure5}
+                        modalFilterMesure7={modalFilterMesure7}
+                        toggleFilterMesure7={toggleFilterMesure7}
+                        modalFilterMesure5={modalFilterMesure5}
+                        datafromcasincidents={[
+                          MesureList,
+                          CodecompteurObjective,
+                          incidentselectedwithoutlive,//2//compteur selected
+                          Listmesureenergy,//3
+                          energycompteurselected,//4//Energy compteur selected
+                          dataEnergyMeasure,
+                          U_Compteur,
+                          modalFilterMesure]}></ObjectiveAdvanced>
 
-                  </div>}
-                <ul onClick={showadvanced} className={displayadvanced ? "displayadvanced pl-2" : "pl-2"}>Avancée</ul>
-                {displayadvanced &&
-                  <div style={{ marginTop: 10 + 'px' }}>
-                    <ObjectiveAdvanced valueajoutertabcallback={callbackAdvancedObjective}
-                      dataEnergyMeasure={dataEnergyMeasure}
-                      toggleFilterMesure3={toggleFilterMesure3}
-                      modalFilterMesure3={modalFilterMesure3}
-                      funModale={funModale}
-                      toggleFilterMesure5={toggleFilterMesure5}
-                      modalFilterMesure7={modalFilterMesure7}
-                      toggleFilterMesure7={toggleFilterMesure7}
-                      modalFilterMesure5={modalFilterMesure5}
-                      datafromcasincidents={[
-                        MesureList,
-                        CodecompteurObjective,
-                        incidentselectedwithoutlive,//2//compteur selected
-                        Listmesureenergy,//3
-                        energycompteurselected,//4//Energy compteur selected
-                        dataEnergyMeasure,
-                        U_Compteur,
-                        modalFilterMesure]}></ObjectiveAdvanced>
-                  </div>}
-
-
-              </fieldset>
-
-            </div>
-
-
+                    </div>
+<hr/>
+                    <MDBBtn color="#9e9e9e grey" onClick={annuler} size="sm" className="float-right">Annuler</MDBBtn>
+                  </fieldset>
+                </MDBCol>}
+              </MDBRow>
+            </fieldset>
           </MDBCol>
+
+
+
+
+
           <MDBCol size="12">
             <div className="form-group" >
               <label htmlFor="defaultFormLoginEmailEx4" className="grey-text" >
@@ -400,7 +464,7 @@ const NouveauCasIncidentsModale = ({
 
                   <select
                     className="browser-default custom-select" id="2" name="periode" value={periode} onChange={handleChange} required>
-                    <option value="vide"></option>
+                    <option value=""></option>
                     <option value="Temps_Reel">Temps réel</option>
                     <option value="Journalier">Journalier</option>
                     <option value="Hebdomadaire">Hebdomadaire</option>
@@ -438,7 +502,7 @@ const NouveauCasIncidentsModale = ({
           <MDBCol size="12">
             <fieldset className="form-group" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px' }}>
               <legend style={{ width: "180px", color: "#51545791", fontSize: "21px" }}>Emploi du Temps</legend>
-              <Emploi_Temps AjoutTab={AjoutTab} />
+              <Emploi_Temps AjoutTab={AjoutTab} ValidationEmploi={validationEmploi} />
             </fieldset>
           </MDBCol>
 
@@ -454,10 +518,5 @@ const NouveauCasIncidentsModale = ({
   );
 
 
-}
-
+})
 export default NouveauCasIncidentsModale;
-
-
-
-

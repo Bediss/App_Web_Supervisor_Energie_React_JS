@@ -106,7 +106,7 @@
     <rect x="722.59" y="157.97" width="153.24" height="28.63" fill="#fff"/><text transform="translate(725 174.29)" font-size="12.12" fill="#231f20" class="Name_Compteur">
          <tspan x="0" y="0" id="DDR03___MZCB1B1___">Armoire Distribution</tspan>
     </text>
-    <circle cx="870.19" cy="174.8" r="15.02" transform="translate(642.44 1031.97) rotate(-86.5)" fill="#fff" stroke="#60c9d9" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB1B1___TAINC"/>
+    <circle cx="870.19" cy="174.8" r="15.02" transform="translate(642.44 1031.97) rotate(-86.5)" fill="#fff" stroke="#696229" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB1B1___TAINC"/>
     <rect x="23.9" y="10.29" width="983" height="631" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
     
     <circle cx="458.83" cy="517.61" r="15.02" transform="translate(-227.89 433.22) rotate(-41.5)" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB4B2___TAINC"/>
@@ -676,11 +676,11 @@
     <rect x="1117.01" y="563.17" width="71.78" height="18" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(1108.01 574.91)" font-size="12.12" fill="#231f20" class="Name_Compteur">
        <tspan x="0" y="0" id="DDR03___MZCB40___">Géneral TR4</tspan>
     </text>
-    <circle xmlns="http://www.w3.org/2000/svg" cx="1264.59" cy="575.27" r="13" transform="translate(614.12 1800.64) rotate(-86.5)" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB40___TAINC"/>
-    <circle xmlns="http://www.w3.org/2000/svg" cx="1256.59" cy="500.59" r="13" transform="translate(681.15 1722.54) rotate(-86.5)" fill="#fff" stroke="#652d90" stroke-miterlimit="10" stroke-width="3" id="___MZCB60___TAINC" class="incident_Null"/>
-    <circle cx="1255.59" cy="421.83" r="13" transform="translate(758.82 1647.59) rotate(-86.5)" fill="#fff" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB50___TAINC"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="1264.59" cy="575.27" r="15" transform="translate(614.12 1800.64) rotate(-86.5)" fill="#fff" stroke="#008a68" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB40___TAINC"/>
+    <circle xmlns="http://www.w3.org/2000/svg" cx="1256.59" cy="500.59" r="15" transform="translate(681.15 1722.54) rotate(-86.5)" fill="#fff" stroke="#652d90" stroke-miterlimit="10" stroke-width="3" id="___MZCB60___TAINC" class="incident_Null"/>
+    <circle cx="1255.59" cy="421.83" r="15" transform="translate(758.82 1647.59) rotate(-86.5)" fill="#fff" stroke="#ec0a71" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB50___TAINC"/>
     <circle cx="1255.59" cy="339.57" r="15" transform="translate(840.93 1570.35) rotate(-86.5)" fill="#fff" stroke="#fded32" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB30___TAINC"/>
-    <circle cx="1255.59" cy="243.48" r="13" transform="translate(936.84 1480.14) rotate(-86.5)" fill="#fff" stroke="#696229" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB20___TAINC"/>
+    <circle cx="1255.59" cy="243.48" r="15" transform="translate(936.84 1480.14) rotate(-86.5)" fill="#fff" stroke="#696229" stroke-miterlimit="10" stroke-width="3" class="incident_Null" id="___MZCB20___TAINC"/>
     <rect x="1343.01" y="226.68" width="6.78" height="153.49" fill="#fff"/>
     <rect x="1021.29" y="8.67" width="319" height="630.91" rx="12" ry="12" fill="none" stroke="#231f20" stroke-miterlimit="10" stroke-width="0.75"/>
     <rect x="1047.72" y="8" width="107.07" height="10.72" fill="#fff"/><text xmlns="http://www.w3.org/2000/svg" transform="translate(1065.53 11.59)" font-size="12.12" fill="#231f20" class="Name_Compteur">
@@ -714,8 +714,8 @@
     <tspan xmlns="http://www.w3.org/2000/svg" x="0" y="0" id="DDR03___MZCB12___">Géneral TR1-2</tspan>
     </text>
     <line x1="1292.79" y1="136.6" x2="1308.27" y2="136.6" fill="blue" stroke="blue" stroke-miterlimit="10" stroke-width="3"/>
-    <line x1="983.79" y1="196.67" x2="1278.79" y2="196.67" fill="none" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="3"/>
-    <line x1="983.29" y1="198.17" x2="983.29" y2="170.17" fill="none" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(1290.33 148.26) scale(2.34 1)" font-size="7.26" fill="blue" stroke="blue" stroke-miterlimit="10" font-family="balto" text-decoration="underline">TR1<tspan x="12.56" y="0" letter-spacing="-0.03em">-</tspan>
+    <line x1="983.79" y1="230" x2="1250" y2="230" fill="none" stroke="#696229" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="983.29" y1="231" x2="983.29" y2="170.17" fill="none" stroke="#696229" stroke-miterlimit="10" stroke-width="3"/><text transform="translate(1290.33 148.26) scale(2.34 1)" font-size="7.26" fill="blue" stroke="blue" stroke-miterlimit="10" font-family="balto" text-decoration="underline">TR1<tspan x="12.56" y="0" letter-spacing="-0.03em">-</tspan>
         <tspan x="15.3" y="0">1</tspan>
     </text>
     <g id="_Groupe_97" data-name="&lt;Groupe&gt;">
@@ -764,7 +764,7 @@
     </g>
     <line xmlns="http://www.w3.org/2000/svg" x1="355.36" y1="430" x2="443.71" y2="430" fill="none" stroke="#008a68" stroke-miterlimit="10" stroke-width="3"/>
     <line x1="1291.79" y1="189.6" x2="1307.27" y2="189.6" fill="none" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="3"/>
-    <line x1="984.29" y1="171.67" x2="885.29" y2="171.67" fill="none" stroke="#5fc8d9" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="984.29" y1="171.67" x2="885.29" y2="171.67" fill="none" stroke="#696229" stroke-miterlimit="10" stroke-width="3"/>
     <rect y="0.21" width="58" height="33.69" fill="none"/>
 
       <circle xmlns="http://www.w3.org/2000/svg" id="___MZCB01___TAINC" data-name="   MZC011   39" cx="1028.87" cy="19.66" r="15.02" transform="translate(946.43 1046.73) rotate(-86.5)" fill="#fff" stroke="#939598" stroke-miterlimit="10" stroke-width="3" class="incident_Null"/>

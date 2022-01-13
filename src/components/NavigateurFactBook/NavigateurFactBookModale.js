@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { MDBBtn,MDBModal, MDBModalHeader, MDBContainer, MDBModalBody,MDBModalFooter, MDBListGroupItem, MDBListGroup, MDBIcon, MDBRow, MDBCol} from "mdbreact";
 import Swal from 'sweetalert2';
 import EditerRapport from '../NavigateurTableau/EditerRapport';
-const NavigateurFactBookModale = ({ toggle, historyProps, EnregisterNewRapport, Visualiser_Rapport_Id }) => {
+const NavigateurFactBookModale = ({ toggle,modal, historyProps, EnregisterNewRapport, Visualiser_Rapport_Id }) => {
   /****************************************************Variable************************************************ */
   const [listeFactBook, setListeFactBook] = useState([])
   const [listeRapport, setListeRapport] = useState([])
@@ -101,15 +101,17 @@ const NavigateurFactBookModale = ({ toggle, historyProps, EnregisterNewRapport, 
     setMDBListGroupItemSelectedRapport(i)
 
 
-    axios.get(`${window.apiUrl}getReportById/?reportId=${Report_Code}&b&n&tn`)
+    axios.get(`${window.apiUrl}getReportById/?reportId=${Report_Code}&n&tn`)
       .then(
         (result) => {
           if (result.data.length !== 0) {
 
-            if (result.data.Body.objects != undefined) {
-              setBtn_Editer_Rapport(false)
-            } else {
+        //    if (result.data.Body.objects != undefined) {
+  
+              if(result.data.type=="synoptic"){
               setBtn_Editer_Rapport(true)
+            } else {
+              setBtn_Editer_Rapport(false)
             }
 
           }
@@ -155,7 +157,7 @@ const NavigateurFactBookModale = ({ toggle, historyProps, EnregisterNewRapport, 
         timer: 4000,
         icon: 'warning',
         width: 400,
-        title: 'En peut sélectionner un rapport'
+        title: 'Veuillez sélectionner un rapport'
       })
     }
 
@@ -386,12 +388,12 @@ const NavigateurFactBookModale = ({ toggle, historyProps, EnregisterNewRapport, 
             <MDBBtn color="#e0e0e0 grey lighten-2" style={{ width: "236px" }} onClick={Visualiser_Rapport}> Visualiser Rapport <MDBIcon icon="file-invoice" className="ml-1" /></MDBBtn>
           </MDBCol>
           <MDBCol size="4" style={{ marginLeft: "-13px" }}>
-            <MDBBtn style={{ width: "235px" }} onClick={toggleEditerRapport}  /*disabled={true}*/disabled={btn_Editer_Rapport} > Éditer Rapport <MDBIcon icon="edit" className="ml-1" /></MDBBtn>
+            <MDBBtn style={{ width: "235px" }} onClick={toggleEditerRapport} /*disabled={true}*/ disabled={btn_Editer_Rapport} > Éditer Rapport <MDBIcon icon="edit" className="ml-1" /></MDBBtn>
           </MDBCol>
         </MDBRow>
       </MDBModalFooter>
       <MDBModal isOpen={modelEditerRapport} toggle={toggleEditerRapport} size="lg" centered>
-        <EditerRapport historyProps={historyProps} toggleEditerRapport={toggleEditerRapport} toggle={toggle} Report_Code={Report_Code} EnregisterNewRapportFunction={EnregisterNewRapportFunction} Rapportnewclone={Rapportnewclone} />
+        <EditerRapport historyProps={historyProps} modal={modal} toggleEditerRapport={toggleEditerRapport} toggle={toggle} Report_Code={Report_Code} EnregisterNewRapportFunction={EnregisterNewRapportFunction} Rapportnewclone={Rapportnewclone} />
       </MDBModal>
     </>
 

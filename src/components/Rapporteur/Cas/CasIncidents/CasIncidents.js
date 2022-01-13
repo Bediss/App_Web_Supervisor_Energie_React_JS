@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
   MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter,
   MDBBreadcrumb, MDBBreadcrumbItem, MDBInput, MDBIcon, MDBRow, MDBCol,
@@ -9,7 +9,7 @@ import Calculatrice from "../CasIncidents/calculatrice/calculatriceV2";
 import axios from 'axios';
 import axios1 from '../../../axios';
 import uuid from 'react-uuid';
-import Tabulator from "tabulator-tables"; 
+import Tabulator from "tabulator-tables";
 import Dropdown from 'react-bootstrap/Dropdown'
 import Moment from 'moment';
 import Datetime from 'react-datetime';
@@ -22,17 +22,18 @@ import FilterV1 from '../../../filterV1';
 import NouveauCasIncidentsModale from "./NouveauCasIncidentsModal";
 import ModifierCasIncidentsModal from "./ModifierCasIncidentsModal";
 import ClonerCasIncidentsModal from "./ClonerCasIncidentsModal";
-
-import { ReactTabulator,reactFormatter } from 'react-tabulator'
+import Navbar from "../../../navbar";
+import { ReactTabulator, reactFormatter } from 'react-tabulator'
+import Emploi_Temps from "../Emploi_TempsV2";
 class CasIncident extends React.Component {
 
 
   constructor(props) {
     super(props)
     this.state = {
-     // dataReactTabulator:[],
-      columnsReactTabulator:[
-      
+      // dataReactTabulator:[],
+      columnsReactTabulator: [
+
         {
           title: "Nom de Cas Incident",
           field: "U_Alarme_Name",
@@ -46,7 +47,7 @@ class CasIncident extends React.Component {
           width: "13%",
           headerFilter: "input",
           cellClick: this.datamodifierFun,
-       
+
         },
         {
           title: "Formule de cas",
@@ -54,14 +55,14 @@ class CasIncident extends React.Component {
           width: "13%",
           headerFilter: "input",
           cellClick: this.datamodifierFun,
-         
+
         },
         {
           title: "Operateur",
           field: "Operateur",
           width: "7%",
           cellClick: this.datamodifierFun,
-        
+
 
         },
 
@@ -71,7 +72,7 @@ class CasIncident extends React.Component {
           field: "Objectif",
           width: "10%",
           cellClick: this.datamodifierFun,
-       
+
 
         },
         {
@@ -79,20 +80,20 @@ class CasIncident extends React.Component {
           field: "Frequence",
           width: "9%",
           cellClick: this.datamodifierFun,
-         
+
         }, {
           title: "Emploi du Temps",
           field: "UserInterface",
           width: "14%",
           cellClick: this.datamodifierFun,
-        
+
         },
         {
           title: "Date suivante",
           field: "Next_Check",
           width: "12%",
           cellClick: this.datamodifierFun,
-        
+
         },
         {
           title: "Supprimer",
@@ -100,15 +101,16 @@ class CasIncident extends React.Component {
           width: "8%",
           hozAlign: "center",
           formatter: this.supprimerFunIcon,
-          cellClick: this.supprimerFunclick}
+          cellClick: this.supprimerFunclick
+        }
 
       ],
       ////////
-      tableData:[],
-      modalDelete:false,
-      cellName:"",
-      Compteur_Incident_Clonne:"",
-      evaluation:1,
+      tableData: [],
+      modalDelete: false,
+      cellName: "",
+      Compteur_Incident_Clonne: "",
+      evaluation: 1,
       //////cloner opjective /////
       isDisabledbutton: false,
       isDisabledbuttonclone: false,
@@ -126,7 +128,7 @@ class CasIncident extends React.Component {
       modal8: false,// pour clone objective
       sendtoModifyObjectiveAdvanced: [],
       FormulewithTildee: '',
-      Sys_equationwithTilde:'',
+      Sys_equationwithTilde: '',
       operator: ['<', '>', '<=', '>=', '=', '!='],
       operatoradvanced: false,
       operatorlogic: false,
@@ -170,7 +172,7 @@ class CasIncident extends React.Component {
       btn0: '0',
       btn1: '1',
       btn2: '2',
-      btn3: '3',  
+      btn3: '3',
       btn4: '4',
       btn5: '5',
       btn6: '6',
@@ -199,7 +201,7 @@ class CasIncident extends React.Component {
       ///Objective
       U_measurelabel: '',
       U_inputobjective: [],
-      objectifValeurInput:'',
+      objectifValeurInput: '',
       Sys_inputobjective: [],
       listobjectivefromDB: [],
       indexmesure: '',
@@ -211,7 +213,7 @@ class CasIncident extends React.Component {
       Objectif_tab: "",
       OperateurValueObjectif_tab: "",
       UserInterfaceObjectif_tab: "",
-  
+
       ////Frequence ///////////////////
       Frequence_tab: "",
       OperateurValue_tab: "",
@@ -221,21 +223,21 @@ class CasIncident extends React.Component {
       position: null,
 
       Frequence: '', //data return from db
-      periode: "",
-      TempsUnite: "",
+      periode: "Journalier",
+      TempsUnite: "Heure",
       Temps_Reel_unite: 'Min',
       Journalier_unite: 'Heure',
       Habdomadaire_unite: 'Jour',
       Mensuel_unite: 'Jour',
       Annelle_unite: 'Mois',
-          //////////
-          num:1,
-          numTemps_Reel:1,
-          numJournalier:1,
-          numHabdomadaire:1,
-          numMensuel:1,
-          numAnnelle:1,
-    
+      //////////
+      num: 1,
+      numTemps_Reel: 1,
+      numJournalier: 1,
+      numHabdomadaire: 1,
+      numMensuel: 1,
+      numAnnelle: 1,
+
       //Supprim
       supprimertemp: [],
       modificationtemp: [],
@@ -247,13 +249,13 @@ class CasIncident extends React.Component {
       ajout: "",
       ajoutertemp: [],
       ajoutertap: [],
-      modifiertab:[],
+      modifiertab: [],
       ajouterUserInterface: [],
       valeur2: "",
       operateur2: "",
       operateurvalue: "",
       /////////////////
-      dataMaseurCalculatrice:"",
+      dataMaseurCalculatrice: "",
       //////////////////
       errors: {
         U_Alarme_Name: '* Obligatoire',
@@ -267,27 +269,27 @@ class CasIncident extends React.Component {
         Frequence: '* Obligatoire',
         Next_Check: '* Obligatoire',
         Description: '* Obligatoire',
-     
+
         //operateur
         //getobjective
         //
       },
       //////
-      MeasureGetObject:[],
-      modalFilterMesure:false,
-      modalFilterMesure3:false,
-      modalFilterMesure5:false,
-      modalFilterMesure7:false,
-      listeCompteurPourCloner:[],
-      codeCompterIncidentCalculatrice:"",
-      OperateurValueModifier:[],
-      modifierUserInterface:[],
-      dataObjectiveAdvanced:[],
-      
+      MeasureGetObject: [],
+      modalFilterMesure: false,
+      modalFilterMesure3: false,
+      modalFilterMesure5: false,
+      modalFilterMesure7: false,
+      listeCompteurPourCloner: [],
+      codeCompterIncidentCalculatrice: "",
+      OperateurValueModifier: [],
+      modifierUserInterface: [],
+      dataObjectiveAdvanced: [],
       ////////
       Next_Check: null,
       dateDMY: Moment(this.getDate.date).format('DD-MM-YYYY-hh-mm-ss-SSSSSS-'),
-
+      history: props.history,
+      validationEmploiTemp: false,
     }
     this.table = React.createRef();
     this.handleChange = this.handleChange.bind(this);
@@ -324,10 +326,13 @@ class CasIncident extends React.Component {
     this.clonerobjective = this.clonerobjective.bind(this)
     //////////////////////////////////////////////////////////
     this.datamodifierFun = this.datamodifierFun.bind(this)
-    this.supprimerFunIcon=this.supprimerFunIcon.bind(this)
-    this.supprimerFunclick=this.supprimerFunclick.bind(this)
+    this.supprimerFunIcon = this.supprimerFunIcon.bind(this)
+    this.supprimerFunclick = this.supprimerFunclick.bind(this)
   }
+
+
   componentDidMount() {
+    console.log(this.state.history)
     axios1.post(window.apiUrl + "getIncidents/")
       .then(
         (result) => {
@@ -335,6 +340,7 @@ class CasIncident extends React.Component {
           ////////////////////////////////////////////////////////////////////////////////////////////
           const dataglobale = result.data
 
+          const temp=[]
           if (result.data !== null) {
             for (var i = 0; i < dataglobale.length; i++) {
               const Alarme_Code = dataglobale[i].Alarme_Code
@@ -349,13 +355,13 @@ class CasIncident extends React.Component {
               const U_Compteur = dataglobale[i].U_Compteur
               const U_Formule = dataglobale[i].U_Formule.replace(/~/g, ' ').replace(/#/g, '')
               const U_FormulewithTilde = dataglobale[i].U_Formule
-        
+
               const Nbr_Error = dataglobale[i].Nbr_Error
               const TAG_Formule = dataglobale[i].TAG_Formule
               const Objectifjson = [JSON.parse(JSON.stringify(dataglobale[i].Objectif))]
               const evaluation = dataglobale[i].evaluation
               var Frequency = [dataglobale[i].Frequence]
-         
+
               var Frequence_tab = ""
               var OperateurValue_tab = ""
               var UserInterface_tab = ""
@@ -369,17 +375,17 @@ class CasIncident extends React.Component {
               var Objectif_Sys_input = null
               var Objectif = null
               if (Frequency != null) {
-        
+
                 Frequency.forEach(function (element) {
                   Frequence = element.Frequence.FrequenceUser,
-                
-                  OperateurValue_tab = element.OperateurValue,
+
+                    OperateurValue_tab = element.OperateurValue,
                     UserInterface_tab = element.UserInterface
                 })
-         
+
                 OperateurValue = OperateurValue_tab;
                 UserInterface = UserInterface_tab;
-            
+
               }
               if (Objectifjson != null) {
 
@@ -400,17 +406,19 @@ class CasIncident extends React.Component {
                 "Operateur": Operateur, "Objectif": Objectif, "Objectifjson": Objectifjson,
                 "Next_Check": Next_Check, "U_Alarme_Name": U_Alarme_Name,
                 "Description": Description, "U_Compteur": U_Compteur,
-                "U_Formule": U_Formule, "U_FormulewithTilde": U_FormulewithTilde, "Nbr_Error": Nbr_Error, "TAG_Formule": TAG_Formule,"evaluation":evaluation
+                "U_Formule": U_Formule, "U_FormulewithTilde": U_FormulewithTilde, "Nbr_Error": Nbr_Error, "TAG_Formule": TAG_Formule, "evaluation": evaluation
 
               }
-              this.state.tableData.push(dataCasIncident)
-         
-            }
+              // this.state.tableData.push(dataCasIncident)
 
+              temp.push(dataCasIncident)
+            }
+            
           } else {
-           
+            
           }
-     
+          this.setState({tableData:temp})
+
         }
       )
       .catch(({ response }) => {
@@ -423,7 +431,7 @@ class CasIncident extends React.Component {
           }
         }
       }
-      )   
+      )
 
 
   }
@@ -431,17 +439,17 @@ class CasIncident extends React.Component {
     // console.log('modal number ' + nr)
     if (nr == 3) {
       //this.state.incidentselectedwithoutlive
-      if ( this.state.U_Compteur != '') {
+      if (this.state.U_Compteur != '') {
         let modalNumber = 'modal' + nr
-    
-      if (this.state[modalNumber] == false) {
-        this.getobjective()
-      }
-        
+
+        if (this.state[modalNumber] == false) {
+          this.getobjective()
+        }
+
         this.setState({
           [modalNumber]: !this.state[modalNumber]
         });
-        
+
       } else {
         Swal.fire({
           toast: true,
@@ -450,18 +458,18 @@ class CasIncident extends React.Component {
           timer: 4000,
           icon: 'warning',
           width: 400,
-          title: 'Sélectionner compteur s\'il vous plait '
+          title: 'Veuillez sélectionner un compteur de votre choix '
         })
 
       }
     } else if (nr == 1) { //Nouveau cas incident 
-   
+
       let modalNumber = 'modal' + nr
       // console.log(modalNumber)
       // console.log("hiiiiiiiiiiiii")
       //////////////// Vide tous les champs d'ajout/////////////////
-      this.state.U_inputobjective=[];
-      this.state.Sys_inputobjective=[];
+      this.state.U_inputobjective = [];
+      this.state.Sys_inputobjective = [];
       this.state.Alarme_Code = "";
       this.state.Compteur_Incident = "";
       this.state.Formule = "";
@@ -477,7 +485,7 @@ class CasIncident extends React.Component {
       this.state.Nbr_Error = "0";
       this.state.TAG_Formule = "";
       this.state.valuedropdown = "Type";
-    
+      this.state.FormulewithTildee = ""
       // this.state.U_inputobjective="";
       ///////////////////////////////
       this.state.errors = {
@@ -504,106 +512,132 @@ class CasIncident extends React.Component {
       });
       // !this.state[modalNumber]
     } else if (nr == 6) { //Modifier
-    console.log("this.state.datamodifier",this.state.datamodifier)
-        if (this.state.datamodifier.length != 0) {
-          this.setState({
-            modal6: !this.state.modal6
-          })
-          this.setState({...this.state.datamodifier[0]})
-          if (this.state.Operateur == "A") {
-            this.setState({displaymodifyadvanced:true,displaycalculatriceobjective:true})
-            this.setState({sendtoModifyObjectiveAdvanced:this.state.datamodifier[0].Objectifjson[0].Sys_inputobjective})
-          } else {
-            this.setState({displaymodifyadvanced:false,displaycalculatriceobjective:true})
-            console.log('datamodifier',this.state.datamodifier[0].Objectifjson[0].U_inputobjective)
-            this.setState({U_inputobjective:this.state.datamodifier[0].Objectifjson[0].U_inputobjective})
-          }
-          this.setState({periode:this.state.datamodifier[0].Frequency[0].Frequence.Periode})
-          this.setState({TempsUnite:this.state.datamodifier[0].Frequency[0].Frequence.UniteTemp})
-          this.setState({num:this.state.datamodifier[0].Frequency[0].Frequence.num})
-          this.setState({OperateurValueModifier:this.state.datamodifier[0].OperateurValue})
-          this.setState({Sys_inputobjective:this.state.datamodifier[0].Objectifjson[0].Sys_inputobjective})
-          this.setState({evaluation:this.state.datamodifier[0].evaluation})
-          var compteurwithoutid = this.state.datamodifier[0].Compteur_Incident.substring(0, this.state.datamodifier[0].Compteur_Incident.indexOf("$"))
+      console.log("this.state.datamodifier", this.state.datamodifier)
+      if (this.state.datamodifier.length != 0) {
+        this.setState({
+          modal6: !this.state.modal6
+        })
+
+      //  this.setState({ ...this.state.datamodifier[0] })
+      this.state.Alarme_Code = this.state.datamodifier[0].Alarme_Code;
+      this.state.Compteur_Incident = this.state.datamodifier[0].Compteur_Incident;
+      this.state.Formule = this.state.datamodifier[0].Formule;
+      this.state.U_Alarme_Name = this.state.datamodifier[0].U_Alarme_Name;
+      this.state.Description = this.state.datamodifier[0].Description;
+      this.state.U_Compteur = this.state.datamodifier[0].U_Compteur;
+      this.state.U_Formule = this.state.datamodifier[0].U_Formule;
+      this.state.Nbr_Error = this.state.datamodifier[0].Nbr_Error;
+      this.state.TAG_Formule = this.state.datamodifier[0].TAG_Formule;
+      this.state.Frequency = this.state.datamodifier[0].Frequency;
+
+      this.state.Parsed_Formule = this.state.datamodifier[0].Parsed_Formule;
+      console.log("this.state.Parsed_Formule---------------------------------------------------------------------984444444444444444-----------------------------------",this.state.Parsed_Formule )
      
-          axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${compteurwithoutid}`
+        this.state.Operateur = this.state.datamodifier[0].Operateur
+        console.log('Operateur', this.state.datamodifier[0].Operateur)
+        if (this.state.Operateur == "A") {
+          this.setState({ displaymodifyadvanced: true, displaycalculatriceobjective: true })
+          this.setState({ sendtoModifyObjectiveAdvanced: this.state.datamodifier[0].Objectifjson[0].Sys_inputobjective })
+          console.log('datamodifier', this.state.datamodifier[0].Objectifjson[0].Sys_inputobjective)
+          //    this.setState({dataObjectiveAdvanced:this.state.datamodifier[0].Objectifjson[0].Sys_inputobjective})
+        } else {
+          this.setState({ displaymodifyadvanced: false, displaycalculatriceobjective: true })
+          console.log('datamodifier', this.state.datamodifier[0].Objectifjson)
+          this.state.U_inputobjective = this.state.datamodifier[0].Objectifjson[0].U_inputobjective
+        }
+        this.state.Next_Check = this.state.datamodifier[0].Next_Check;
+        this.state.valuedropdown = this.state.datamodifier[0].Operateur;
+        this.state.periode = this.state.datamodifier[0].Frequency[0].Frequence.Periode
+        this.state.TempsUnite = this.state.datamodifier[0].Frequency[0].Frequence.UniteTemp
+        this.state.num = this.state.datamodifier[0].Frequency[0].Frequence.NbUnite
+        console.log("this.state.num", this.state.datamodifier[0].Frequency[0].Frequence)
+        this.state.OperateurValueModifier = this.state.datamodifier[0].OperateurValue
+        console.log("this.state.num", this.state.datamodifier[0].OperateurValue)
+ 
+         this.state.Objectif=this.state.datamodifier[0].Objectifjson
+         console.log("------------------------ this.state.Objectif---- this.state.Objectif-", this.state.Objectif)
+        this.state.Sys_inputobjective = this.state.datamodifier[0].Objectifjson[0].Sys_inputobjective
+        this.state.evaluation = this.state.datamodifier[0].evaluation
+        var compteurwithoutid = this.state.datamodifier[0].Compteur_Incident.substring(0, this.state.datamodifier[0].Compteur_Incident.indexOf("$"))
+
+        axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${compteurwithoutid}`
         ).then(
           (result) => {
-  
-  
-  
+
+
+
             if (result.data !== null) {
-          //     console.log("getEnergyFromCounters",result.data)
+              //     console.log("getEnergyFromCounters",result.data)
               var energycompteurselected = result.data[0]["Energie"]
 
-              this.setState({energycompteurselected:result.data[0]["Energie"]})        
+              this.setState({ energycompteurselected: result.data[0]["Energie"] })
 
-                      this.state.CodecompteurObjective = 'O' + compteurwithoutid.replace(result.data[0]["OUTP_Prefix_Energy"], result.data[0]["INP_Prefix_Energy"])
-            //         console.log(this.state.CodecompteurObjective)
-                    this.state.incidentselectedwithoutlive = this.state.datamodifier[0].U_Compteur.substring(0, this.state.datamodifier[0].U_Compteur.indexOf("$"))
-                    ///////////////
-                    axios1.get(window.apiUrl+`getMLByEnergy/?energies=${energycompteurselected}`)
-  
-  
+              this.state.CodecompteurObjective = 'O' + compteurwithoutid.replace(result.data[0]["OUTP_Prefix_Energy"], result.data[0]["INP_Prefix_Energy"])
+              //         console.log(this.state.CodecompteurObjective)
+              this.state.incidentselectedwithoutlive = this.state.datamodifier[0].U_Compteur.substring(0, this.state.datamodifier[0].U_Compteur.indexOf("$"))
+              ///////////////
+              axios1.get(window.apiUrl + `getMLByEnergy/?energies=${energycompteurselected}`)
+
+
                 .then(
-                  ({data}) => {
+                  ({ data }) => {
 
-                 var value=[]
+                    var value = []
                     Object.keys(data).map((key, ii, aa) => {
-                       value = data[key]
-             //         console.log("value maseur avec energie",value)
-                  })
-                  
-                  
-                      var mesurelist = []
-                      var listmesureenergy = []
-                     value.forEach(function (arrayItem) {
-                       
-                          var x = arrayItem.measure_ID; //1
-                          var y = arrayItem.measure_Label; //kwh
-                          var z = arrayItem.EMNCode; //2-1
-                          
-                          listmesureenergy.push({
-                            "measure_ID": x,
-                            "measure_Label": y
-                          })
-                          mesurelist.push({
-                            "m_code": z,
-                            "m_name": y
-                          })
-                        
+                      value = data[key]
+                      //         console.log("value maseur avec energie",value)
+                    })
+
+
+                    var mesurelist = []
+                    var listmesureenergy = []
+                    value.forEach(function (arrayItem) {
+
+                      var x = arrayItem.measure_ID; //1
+                      var y = arrayItem.measure_Label; //kwh
+                      var z = arrayItem.EMNCode; //2-1
+
+                      listmesureenergy.push({
+                        "measure_ID": x,
+                        "measure_Label": y
                       })
-                 
-                    
-                      this.state.MesureList = mesurelist
-                      this.state.Listmesureenergy = listmesureenergy
-                   //    console.log(mesurelist)
+                      mesurelist.push({
+                        "m_code": z,
+                        "m_name": y
+                      })
+
+                    })
+
+
+                    this.state.MesureList = mesurelist
+                    this.state.Listmesureenergy = listmesureenergy
+                    //    console.log(mesurelist)
                     //   console.log(listmesureenergy)
-                  
+
                   })
-          } 
+            }
           }
         )
-        
-        } else {
-         
-          Swal.fire({
-            toast: true,
-            position: 'top',
-  
-            showConfirmButton: false,
-            timer: 4000,
-            icon: 'warning',
-            width: 400,
-            title: 'Sélectionner pour le modifier'
-          })
-        }
 
-      
-     
-     
-      
-     
+      } else {
+
+        Swal.fire({
+          toast: true,
+          position: 'top',
+
+          showConfirmButton: false,
+          timer: 4000,
+          icon: 'warning',
+          width: 400,
+          title: 'Sélectionner pour le modifier'
+        })
+      }
+
+
+
+
+
+
     } else if (nr == 5) { //Cloner
 
       if (this.state.datamodifier.length != []) {
@@ -615,8 +649,8 @@ class CasIncident extends React.Component {
         this.state.Alarme_Code = this.state.datamodifier[0].Alarme_Code;
         this.state.Compteur_Incident = this.state.datamodifier[0].Compteur_Incident;
         var extractCompteur_Incident = this.state.Compteur_Incident.substring(0, this.state.Compteur_Incident.indexOf("$"))
-        console.log("extractCompteur_Incident------>",extractCompteur_Incident)
-        this.setState({Compteur_Incident_Clonne:extractCompteur_Incident})
+        console.log("extractCompteur_Incident------>", extractCompteur_Incident)
+        this.setState({ Compteur_Incident_Clonne: extractCompteur_Incident })
         // console.log('formule' + this.state.Formule)
         // console.log('formule' + this.state.datamodifier[0].Formule)
         this.state.Formule = this.state.datamodifier[0].Formule;
@@ -670,7 +704,7 @@ class CasIncident extends React.Component {
         this.state.Formule = this.state.datamodifier[0].Formule;
 
         this.state.Parsed_Formule = this.state.datamodifier[0].Parsed_Formule;
-        this.state.Operateur = this.state.datamodifier[0].Operateur;
+     this.state.Operateur = this.state.datamodifier[0].Operateur;
         this.state.valuedropdown = this.state.datamodifier[0].Operateur;
         this.state.Objectif = this.state.datamodifier[0].Objectif;
         this.state.Objectifjson = this.state.datamodifier[0].Objectifjson;
@@ -722,60 +756,59 @@ class CasIncident extends React.Component {
   ajouter() {
     self = this
 
- 
-//////////////////////////////////////////////////dataObjectiveAdvanced
 
-console.log("this.state.dataObjectiveAdvanced",this.state.dataObjectiveAdvanced)
+    //////////////////////////////////////////////////dataObjectiveAdvanced
 
-  
-    if(this.state.dataObjectiveAdvanced.length!=0){
+    console.log("this.state.dataObjectiveAdvanced", this.state.dataObjectiveAdvanced)
+
+
+    if (this.state.dataObjectiveAdvanced.length != 0) {
       var Uinputobjective = []
-    for (var i = 0; i < this.state.dataObjectiveAdvanced.length; i++) {
-      const valeur = this.state.dataObjectiveAdvanced[i].valeur
-      const c = valeur.replace(/'/g, "").replace("and ", "-").replace("(", "").replace(")", "")
- 
-      var valueobj = c
-      // console.log("valeur", valueobj)
-      //inclure exclure
-      var operateurvalue = this.state.dataObjectiveAdvanced[i].operateur
-      //intervalle ensemble
-      var keywordvalue = this.state.dataObjectiveAdvanced[i].keyword
-      //// console.log("operateur", this.state.operateur)
-      
-      Uinputobjective.push(keywordvalue + ' ' + operateurvalue + " Periode " + valueobj + " ")
-    }
-    // console.log(Uinputobjective)
-    if (Uinputobjective.length == 1) {
+      for (var i = 0; i < this.state.dataObjectiveAdvanced.length; i++) {
+        const user_value = this.state.dataObjectiveAdvanced[i].user_value
+        // const c = valeur.replace(/'/g, "").replace("and ", "-").replace("(", "").replace(")", "")
+
+        var valueobj = user_value
+        // console.log("valeur", valueobj)
+        //inclure exclure
+        var operateurvalue = this.state.dataObjectiveAdvanced[i].operateur
+        //intervalle ensemble
+        var keywordvalue = this.state.dataObjectiveAdvanced[i].keyword
+        //// console.log("operateur", this.state.operateur)
+
+        Uinputobjective.push(keywordvalue + ' ' + operateurvalue + " Periode " + valueobj + " ")
+      }
       // console.log(Uinputobjective)
-      
-        this.state.Objectif= [{
+      if (Uinputobjective.length == 1) {
+        // console.log(Uinputobjective)
+
+        this.state.Objectif = [{
           "U_inputobjective": 'Objective : ' + Uinputobjective,
-          "Sys_inputobjective":this.state.dataObjectiveAdvanced
+          "Sys_inputobjective": this.state.dataObjectiveAdvanced
         }]
 
-   
-    } else {
-      // console.log(Uinputobjective.join('et'))
-    
-        this.state.Objectif=[{
+
+      } else {
+        // console.log(Uinputobjective.join('et'))
+
+        this.state.Objectif = [{
           "U_inputobjective": 'Objective : ' + Uinputobjective.join('et '),
           "Sys_inputobjective": this.state.dataObjectiveAdvanced
         }]
-  
+
+      }
     }
-    }
 
 
 
-////////////////////////////
+    ////////////////////////////
 
-console.log("this.state.Objectif",this.state.Objectif)
+    console.log("this.state.Objectif", this.state.Objectif)
 
- ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
     if (this.state.Alarme_Code !== null && this.state.Compteur_Incident !== "" && this.state.Formule !== "" && this.state.Parsed_Formule !== ""
       && this.state.valuedropdown !== "Type" && this.state.Objectif !== "" && this.state.periode !== "" && this.state.Next_Check !== ""
-      && this.state.U_Alarme_Name !== "" && this.state.U_Compteur !== "" && this.state.U_Formule !== "") 
-      {
+      && this.state.U_Alarme_Name !== "" && this.state.U_Compteur !== "" && this.state.U_Formule !== "" && this.state.validationEmploiTemp == false) {
 
       this.setState({
         modal1: false
@@ -785,14 +818,17 @@ console.log("this.state.Objectif",this.state.Objectif)
 
       for (var i = 0; i < this.state.ajoutertap.length; i++) {
         var valeur = this.state.ajoutertap[i].valeur
-        .replace("(date_trunc(''week'', now())::date + interval ''6 day'')::date","Dimanche")
-        .replace("(date_trunc(''week'', now())::date + interval ''5 day'')::date","Samedi")
-        .replace("(date_trunc(''week'', now())::date + interval ''4 day'')::date","Vendredi")
-        .replace("(date_trunc(''week'', now())::date + interval ''3 day'')::date","Jeudi")
-        .replace("(date_trunc(''week'', now())::date + interval ''2 day'')::date","Mercredi")
-        .replace("(date_trunc(''week'', now())::date + interval ''1 day'')::date","Mardi")
-        .replace("(date_trunc(''week'', now())::date)::date","Lundi")
-        .replace("(", "").replace(")", "").replace("and ", ",").replace(/''/g, " ").replace(/''/g, "")
+          .replace("dimanche", "Dimanche")
+          .replace("samedi", "Samedi")
+          .replace("vendredi", "Vendredi")
+          .replace("jeudi", "Jeudi")
+          .replace("mercredi", "Mercredi")
+          .replace("mardi", "Mardi")
+          .replace("lundi", "Lundi")
+          .replace("last_a", "Dernier jour de l'année")
+          .replace("last_m", "Dernier jour du mois")
+          .replace("last_s", "Dernier jour de la semaine")
+          .replace("(", "").replace(")", "").replace("and ", ",").replace(/\|/g, " ").replace(/''/g, "")
         this.state.valeur2 = valeur
         this.state.operateur2 = this.state.ajoutertap[i].operateur
         this.state.ajouterUserInterface.push(this.state.operateur2 + " Periode " + this.state.valeur2 + " ")
@@ -818,11 +854,11 @@ console.log("this.state.Objectif",this.state.Objectif)
           "Periode": this.state.periode,
           "UniteTemp": this.state.TempsUnite,
           "FrequenceUser": this.state.num + '_' + this.state.TempsUnite
-        }, "OperateurValue": this.state.ajoutertap, 
-           "UserInterface": this.state.ajouterUserInterface
+        }, "OperateurValue": this.state.ajoutertap,
+        "UserInterface": this.state.ajouterUserInterface
       }
       this.state.Frequency = b
-    
+
       //to delete "[" "]" in the first and the end of the list , demanded by responsable of the database
       const d = JSON.stringify(this.state.Objectif).slice(1, -1)
       // console.log(d)
@@ -877,39 +913,40 @@ console.log("this.state.Objectif",this.state.Objectif)
 
       const UserInterface = this.state.FrequencyJson[0].UserInterface;
 
-    
-  
-     // const Objectif = JSON.stringify(this.state.Objectif[0].U_inputobjective);
-     const Objectif = Objectifjson22.U_inputobjective
-      
-      
-      console.log("Objectif",Objectif)
-   
 
-      const OperateurValue =this.state.FrequencyJson[0].OperateurValue
-      const Objectifjson=this.state.Objectif
+
+      // const Objectif = JSON.stringify(this.state.Objectif[0].U_inputobjective);
+      const Objectif = Objectifjson22.U_inputobjective
+
+
+      console.log("Objectif", Objectif)
+
+
+      const OperateurValue = this.state.FrequencyJson[0].OperateurValue
+      const Objectifjson = this.state.Objectif
       const Frequency = [this.state.Frequency];
-              this.table.current.table.addRow({
-                Alarme_Code,
-                Compteur_Incident,
-                Formule,
-                Parsed_Formule,
-                Objectifjson,
-                OperateurValue,
-                Nbr_Error, 
-                U_Alarme_Name,
-                 U_Compteur, 
-                 U_Formule, 
-                 Operateur, 
-                 Objectif,
-                 Frequency,
-                 Description,
-                 TAG_Formule,
-                Frequence, 
-                UserInterface, 
-                Next_Check}, true);
-     console.log("ajoutertemp",this.state.ajout);
-     console.log("ajoutertemp",this.state.ajoutertemp);
+      this.table.current.table.addRow({
+        Alarme_Code,
+        Compteur_Incident,
+        Formule,
+        Parsed_Formule,
+        Objectifjson,
+        OperateurValue,
+        Nbr_Error,
+        U_Alarme_Name,
+        U_Compteur,
+        U_Formule,
+        Operateur,
+        Objectif,
+        Frequency,
+        Description,
+        TAG_Formule,
+        Frequence,
+        UserInterface,
+        Next_Check
+      }, true);
+      console.log("ajoutertemp", this.state.ajout);
+      console.log("ajoutertemp", this.state.ajoutertemp);
       this.state.Alarme_Code = "";
       this.state.Compteur_Incident = "";
       this.state.Formule = "";
@@ -924,10 +961,10 @@ console.log("this.state.Objectif",this.state.Objectif)
       this.state.U_Formule = "";
       this.state.Nbr_Error = "0";
       this.state.TAG_Formule = "";
-      this.state.periode="";
-      this.state.TempsUnite="";
-      this.state.num=1;
-      
+      this.state.periode = "";
+      this.state.TempsUnite = "";
+      this.state.num = 1;
+      this.state.FormulewithTildee = ""
       //return true;
 
       Swal.fire({
@@ -940,7 +977,7 @@ console.log("this.state.Objectif",this.state.Objectif)
         title: 'Ajouter'
 
       })
-    } else if(this.state.U_Alarme_Name == ""){
+    } else if (this.state.U_Alarme_Name == "") {
       Swal.fire({
         toast: true,
         position: 'top',
@@ -950,7 +987,7 @@ console.log("this.state.Objectif",this.state.Objectif)
         icon: 'warning',
         title: 'Remplir le champ Nom de Cas incident.'
       })
-    }else if(this.state.U_Compteur == ""){
+    } else if (this.state.U_Compteur == "") {
       Swal.fire({
         toast: true,
         position: 'top',
@@ -962,7 +999,7 @@ console.log("this.state.Objectif",this.state.Objectif)
 
       })
 
-    } else if(this.state.U_Formule.length==0){
+    } else if (this.state.U_Formule.length == 0) {
       Swal.fire({
         toast: true,
         position: 'top',
@@ -974,7 +1011,7 @@ console.log("this.state.Objectif",this.state.Objectif)
 
       })
 
-    } else if(this.state.valuedropdown == "Type" || this.state.valuedropdown == "" ){
+    } else if (this.state.valuedropdown == "Type" || this.state.valuedropdown == "") {
       Swal.fire({
         toast: true,
         position: 'top',
@@ -986,7 +1023,7 @@ console.log("this.state.Objectif",this.state.Objectif)
 
       })
 
-    } else if(this.state.Objectif.length==0){
+    } else if (this.state.Objectif.length == 0) {
       Swal.fire({
         toast: true,
         position: 'top',
@@ -998,7 +1035,7 @@ console.log("this.state.Objectif",this.state.Objectif)
 
       })
 
-    } else if(this.state.periode.length==0){
+    } else if (this.state.periode.length == 0) {
       Swal.fire({
         toast: true,
         position: 'top',
@@ -1010,7 +1047,18 @@ console.log("this.state.Objectif",this.state.Objectif)
 
       })
 
-    }else{
+    } else if (this.state.validationEmploiTemp == true) {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 300,
+        icon: 'warning',
+        title: "Il faut enregistrer l'emploi du temps"
+      })
+    }
+    else {
       Swal.fire({
         toast: true,
         position: 'top',
@@ -1021,16 +1069,16 @@ console.log("this.state.Objectif",this.state.Objectif)
         title: 'Remplir tous les champs obligatoire '
 
       })
-     // console.log(this.state.Alarme_Code)
-     // console.log(this.state.Compteur_Incident)
-     // console.log(this.state.Formule)
-     // console.log(this.state.valuedropdown)
-     // console.log(this.state.Objectif)
-     // console.log(this.state.FrequencyJson)
-     // console.log(this.state.Next_Check)
-     // console.log(this.state.U_Alarme_Name)
-     // console.log(this.state.U_Compteur)
-     // console.log(this.state.U_Formule)
+      // console.log(this.state.Alarme_Code)
+      // console.log(this.state.Compteur_Incident)
+      // console.log(this.state.Formule)
+      // console.log(this.state.valuedropdown)
+      // console.log(this.state.Objectif)
+      // console.log(this.state.FrequencyJson)
+      // console.log(this.state.Next_Check)
+      // console.log(this.state.U_Alarme_Name)
+      // console.log(this.state.U_Compteur)
+      // console.log(this.state.U_Formule)
 
     }
 
@@ -1041,169 +1089,297 @@ console.log("this.state.Objectif",this.state.Objectif)
   }
   modifier() {
 
-//////////////////////////////////////////////////dataObjectiveAdvanced
+    //////////////////////////////////////////////////dataObjectiveAdvanced
 
-console.log("this.state.dataObjectiveAdvanced",this.state.dataObjectiveAdvanced)
+    console.log("this.state.dataObjectiveAdvanced", this.state.dataObjectiveAdvanced)
+    console.log("this.state.sendtoModifyObjectiveAdvanced", this.state.sendtoModifyObjectiveAdvanced)
 
-  
-    if(this.state.dataObjectiveAdvanced.length!=0){
+    if (this.state.dataObjectiveAdvanced.length != 0) {
       var Uinputobjective = []
-    for (var i = 0; i < this.state.dataObjectiveAdvanced.length; i++) {
-      const valeur = this.state.dataObjectiveAdvanced[i].valeur
-      const c = valeur.replace(/'/g, "")
-      const d = c.replace("and ", "-")
-      const e = d.replace("(", "")
-      const f = e.replace(")", "")
-     
-      var valueobj = f
-      // console.log("valeur", valueobj)
-      //inclure exclure
-      var operateurvalue = this.state.dataObjectiveAdvanced[i].operateur
-      //intervalle ensemble
-      var keywordvalue = this.state.dataObjectiveAdvanced[i].keyword
-      //// console.log("operateur", this.state.operateur)
-      
-      Uinputobjective.push(keywordvalue + ' ' + operateurvalue + " Periode " + valueobj + " ")
-    }
-    // console.log(Uinputobjective)
-    if (Uinputobjective.length == 1) {
+      for (var i = 0; i < this.state.dataObjectiveAdvanced.length; i++) {
+        const user_value = this.state.dataObjectiveAdvanced[i].user_value
+
+
+        var valueobj = user_value
+        // console.log("valeur", valueobj)
+        //inclure exclure
+        var operateurvalue = this.state.dataObjectiveAdvanced[i].operateur
+        //intervalle ensemble
+        var keywordvalue = this.state.dataObjectiveAdvanced[i].keyword
+        //// console.log("operateur", this.state.operateur)
+
+        Uinputobjective.push(keywordvalue + ' ' + operateurvalue + " Periode " + valueobj + " ")
+      }
       // console.log(Uinputobjective)
-      
-        this.state.Objectif= [{
+      if (Uinputobjective.length == 1) {
+        // console.log(Uinputobjective)
+
+        this.state.Objectif = [{
           "U_inputobjective": 'Objective : ' + Uinputobjective,
-          "Sys_inputobjective":this.state.dataObjectiveAdvanced
+          "Sys_inputobjective": this.state.dataObjectiveAdvanced
         }]
 
-   
-    } else {
-      // console.log(Uinputobjective.join('et'))
-    
-        this.state.Objectif=[{
+
+      } else {
+        // console.log(Uinputobjective.join('et'))
+
+        this.state.Objectif = [{
           "U_inputobjective": 'Objective : ' + Uinputobjective.join('et '),
           "Sys_inputobjective": this.state.dataObjectiveAdvanced
         }]
-  
+
+      }
     }
+
+    console.log("this.state.U_inputobjectiveU_inputobjectiveU_inputobjectiveU_inputobjective", this.state.U_inputobjective)
+    console.log("this.state.Sys_inputobjectiveSys_inputobjectiveSys_inputobjectiveSys_inputobjective", this.state.Sys_inputobjective)
+    console.log("this.state.Objectif------------------------------", this.state.Objectif)
+    console.log("this.state.Objectif------------typeof------------------", typeof this.state.Objectif)
+    console.log("this.state.Objectif------------------------------", this.state.Objectifjson)
+    if (this.state.Objectif == undefined || typeof this.state.Objectif == "string") {
+      console.log("///////////////////-------->>>>>>>>", this.state.Objectif)
+      this.state.Objectif = []
+    } else {
+      if (this.state.Objectif.length != 0) {
+        if (this.state.dataObjectiveAdvanced.length == 0 && this.state.Objectif[0].Sys_inputobjective[0].valeur[0].content == "") {
+          this.state.Objectif = []
+          console.log("this.state.Objectif---------------------lllllllllllllllllll---------", this.state.Objectif)
+        }
+      }
+
     }
 
+    ////////////////////////////
 
+    console.log("this.state.Objectif", this.state.Objectif)
 
-////////////////////////////
+    ////////////////////////////////////////////////////
+    if (this.state.Alarme_Code !== null && this.state.Compteur_Incident !== "" && this.state.Formule !== "" && this.state.Parsed_Formule !== ""
+      && this.state.valuedropdown !== "Type" && this.state.Objectif.length != 0 && this.state.periode !== "" && this.state.Next_Check !== ""
+      && this.state.U_Alarme_Name !== "" && this.state.U_Compteur !== "" && this.state.U_Formule !== "" && this.state.validationEmploiTemp == false && this.state.Operateur != "") {
+      //////////////////////////////////////////////////////////////////////////////
+      this.state.U_inputobjective = this.state.objectifValeurInput
 
-console.log("this.state.Objectif",this.state.Objectif)
+      console.log("this.state.U_inputobjective", this.state.U_inputobjective)
+      // console.log("this.state.modifiertab-------------->",this.state.modifiertab)
+      console.log("this.state.modifiertab", this.state.modifiertab)
+      for (var i = 0; i < this.state.modifiertab.length; i++) {
+        const valeur = this.state.modifiertab[i].valeur
+          .replace("dimanche", "Dimanche")
+          .replace("samedi", "Samedi")
+          .replace("vendredi", "Vendredi")
+          .replace("jeudi", "Jeudi")
+          .replace("mercredi", "Mercredi")
+          .replace("mardi", "Mardi")
+          .replace("lundi", "Lundi")
+          .replace("last_a", "Dernier jour de l'année")
+          .replace("last_m", "Dernier jour du mois")
+          .replace("last_s", "Dernier jour de la semaine")
+          .replace("(", "").replace(")", "").replace("and ", ",").replace(/\|/g, " ")
+        this.state.valeur2 = valeur
+        this.state.operateur2 = this.state.modifiertab[i].operateur
+        //console.log("operateur",this.state.operateur)
+        this.state.modifierUserInterface.push(this.state.operateur2 + " Periode " + this.state.valeur2 + " ")
+      }
+      //console.log("this.state.modifierUserInterface",this.state.modifierUserInterface)
+      this.setState({
+        modal6: !this.state.modal6 //modifier
+      });
 
- ////////////////////////////////////////////////////
-
-    //////////////////////////////////////////////////////////////////////////////
-    this.state.U_inputobjective =this.state.objectifValeurInput
-
-    console.log("this.state.U_inputobjective",this.state.U_inputobjective)
- // console.log("this.state.modifiertab-------------->",this.state.modifiertab)
- console.log("this.state.modifiertab",this.state.modifiertab)
-  for (var i = 0; i <this.state.modifiertab.length ; i++) 
-{
-  const valeur =this.state.modifiertab[i].valeur        
-  .replace("(date_trunc(''week'', now())::date + interval ''6 day'')::date","Dimanche")
-  .replace("(date_trunc(''week'', now())::date + interval ''5 day'')::date","Samedi")
-  .replace("(date_trunc(''week'', now())::date + interval ''4 day'')::date","Vendredi")
-  .replace("(date_trunc(''week'', now())::date + interval ''3 day'')::date","Jeudi")
-  .replace("(date_trunc(''week'', now())::date + interval ''2 day'')::date","Mercredi")
-  .replace("(date_trunc(''week'', now())::date + interval ''1 day'')::date","Mardi")
-  .replace("(date_trunc(''week'', now())::date)::date","Lundi")
-  .replace("(", "").replace(")", "").replace("and ", ",").replace(/'/g, "")
-    this.state.valeur2=valeur
-this.state.operateur2=this.state.modifiertab[i].operateur
-//console.log("operateur",this.state.operateur)
-this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.state.valeur2+ " ") 
-}
-//console.log("this.state.modifierUserInterface",this.state.modifierUserInterface)
-    this.setState({
-      modal6: !this.state.modal6 //modifier
-    });
-
-    Swal.fire({
-      toast: true,
-      position: 'top',
-      showConfirmButton: false,
-      timer: 4000,
-      width: 300,
-      icon: 'success',
-      title: 'Modifier'
-
-  })
-
-    const Alarme_Code = this.state.Alarme_Code;
-
-    const Compteur_Incident = this.state.Compteur_Incident;
-
-    const Formule = this.state.Formule;
-    //c
-    const Parsed_Formule = this.state.Parsed_Formule;
-    //c
-    const Operateur = this.state.Operateur;
-    //e
-    const Objectif = this.state.Objectif;
-
-
-    const FrequenceJson = {"Periode":this.state.periode,"UniteTemp":this.state.TempsUnite,"NbUnite":this.state.num,"FrequenceUser": this.state.num+'_'+this.state.TempsUnite}
-    this.state.FrequencyJson={"Frequence" : FrequenceJson,"OperateurValue":this.state.modifiertab,"UserInterface": this.state.modifierUserInterface}
- 
-
-    const Frequency = this.state.FrequencyJson
-   // console.log("+++++++++++",Frequency.Frequence.FrequenceUser)
-    //= (this.state.num + '_' + this.state.TempsUnite);
-
-    const Next_Check = this.state.Next_Check;
-    const U_Alarme_Name = this.state.U_Alarme_Name;
-    //e
-    const Description = this.state.Description;
-    //c
-    const U_Compteur = this.state.U_Compteur;
-    const U_Formule = this.state.U_Formule;
-    const Nbr_Error = this.state.Nbr_Error;
-    const TAG_Formule = this.state.TAG_Formule;
-    const DBAction = "1";
-    /////////////////////////////
-    const O1 = JSON.stringify(Objectif[0])
-    const Objectifjson = O1.replace(/'/g,"''")
-
-    const F1 = JSON.stringify(Frequency)
-    const Frequencywithoutsimplecode = F1
-
-    this.state.modificationtemp.push(
-
-      {
-        "Alarme_Code": Alarme_Code,
-        "Compteur_Incident": Compteur_Incident,
-        "Formule": Formule,
-        "Parsed_Formule": Parsed_Formule,
-        "Operateur": Operateur,
-        "Objectif": JSON.parse(Objectifjson),
-        "Frequence": JSON.parse(Frequencywithoutsimplecode),
-        "Next_Check": Next_Check,
-        "U_Alarme_Name": U_Alarme_Name,
-        "Description": Description,
-        "U_Compteur": U_Compteur,
-        "U_Formule": U_Formule,
-        "Nbr_Error": Nbr_Error,
-        "TAG_Formule": TAG_Formule,
-        "evaluation":1,
-        "DBAction": DBAction
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 300,
+        icon: 'success',
+        title: 'Modifier'
 
       })
-  
-    const aaa={Alarme_Code,U_Alarme_Name,U_Compteur,U_Formule,Operateur,Objectif : Objectif[0].U_inputobjective,Frequence : Frequency.Frequence.FrequenceUser,
-      UserInterface:Frequency.UserInterface,Next_Check}
-      console.log("----------------------------aaaa--------------------->",aaa)
+
+      const Alarme_Code = this.state.Alarme_Code;
+
+      const Compteur_Incident = this.state.Compteur_Incident;
+
+      const Formule = this.state.Formule;
+      //c
+      const Parsed_Formule = this.state.Parsed_Formule;
+      //c
+      const Operateur = this.state.Operateur;
+      //e
+      const Objectif = this.state.Objectif;
+
+
+      const FrequenceJson = { "Periode": this.state.periode, "UniteTemp": this.state.TempsUnite, "NbUnite": this.state.num, "FrequenceUser": this.state.num + '_' + this.state.TempsUnite }
+      this.state.FrequencyJson = { "Frequence": FrequenceJson, "OperateurValue": this.state.modifiertab, "UserInterface": this.state.modifierUserInterface }
+
+
+      const Frequency = this.state.FrequencyJson
+      // console.log("+++++++++++",Frequency.Frequence.FrequenceUser)
+      //= (this.state.num + '_' + this.state.TempsUnite);
+
+      const Next_Check = this.state.Next_Check;
+      const U_Alarme_Name = this.state.U_Alarme_Name;
+      //e
+      const Description = this.state.Description;
+      //c
+      const U_Compteur = this.state.U_Compteur;
+      const U_Formule = this.state.U_Formule;
+      const Nbr_Error = this.state.Nbr_Error;
+      const TAG_Formule = this.state.TAG_Formule;
+      const DBAction = "1";
+      /////////////////////////////
+      ///console.log("+++++++++++++++++++++++++++++++++++++++",Objectif[0])
+      var Objectifjson = ""
+      if (this.state.Objectif.length != 0) {
+        const O1 = JSON.stringify(Objectif[0])
+        Objectifjson = O1.replace(/'/g, "''")
+      }
+      const F1 = JSON.stringify(Frequency)
+      const Frequencywithoutsimplecode = F1
+
+      this.state.modificationtemp.push(
+
+        {
+          "Alarme_Code": Alarme_Code,
+          "Compteur_Incident": Compteur_Incident,
+          "Formule": Formule,
+          "Parsed_Formule": Parsed_Formule,
+          "Operateur": Operateur,
+          "Objectif": JSON.parse(Objectifjson),
+          "Frequence": JSON.parse(Frequencywithoutsimplecode),
+          "Next_Check": Next_Check,
+          "U_Alarme_Name": U_Alarme_Name,
+          "Description": Description,
+          "U_Compteur": U_Compteur,
+          "U_Formule": U_Formule,
+          "Nbr_Error": Nbr_Error,
+          "TAG_Formule": TAG_Formule,
+          "evaluation": 1,
+          "DBAction": DBAction
+
+        })
+
+      const aaa = {
+        Alarme_Code, U_Alarme_Name, U_Compteur, U_Formule, Operateur, Objectif: Objectif[0].U_inputobjective, Frequence: Frequency.Frequence.FrequenceUser,
+        UserInterface: Frequency.UserInterface,Frequency:[Frequency], Next_Check,Description,Formule,
+      }
+      console.log("----------------------------aaaa--------------------->", aaa)
       this.table.current.table.updateData([aaa])
-    this.state.Nbr_Error = "";
-    this.state.U_Alarme_Name = "";
-    this.state.U_Compteur = "";
-    this.state.U_Formule = "";
-    this.state.Operateur = "";
-    this.state.Objectif = "";
-    this.state.Frequency = "";
-    this.state.Next_Check = "0";
+      this.state.Nbr_Error = "";
+      this.state.U_Alarme_Name = "";
+      this.state.U_Compteur = "";
+      this.state.U_Formule = "";
+      this.state.Operateur = "";
+      this.state.Objectif = "";
+      this.state.Frequency = "";
+      this.state.Next_Check = "0";
+
+
+    } else if (this.state.U_Alarme_Name == "") {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 600,
+        icon: 'warning',
+        title: 'Remplir le champ Nom de Cas incident.'
+      })
+    } else if (this.state.U_Compteur == "") {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 500,
+        icon: 'warning',
+        title: 'Remplir le champ Compteur.'
+
+      })
+
+    } else if (this.state.U_Formule.length == 0) {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 300,
+        icon: 'warning',
+        title: 'Remplir le champ Formule de cas.'
+
+      })
+
+    } else if (this.state.valuedropdown == "Type" || this.state.valuedropdown == "") {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 500,
+        icon: 'warning',
+        title: 'Remplir le champ Operateur.'
+
+      })
+
+    } else if (this.state.Objectif.length == 0) {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 500,
+        icon: 'warning',
+        title: 'Remplir le champ Objectif.'
+
+      })
+
+    } else if (this.state.periode.length == 0) {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 300,
+        icon: 'warning',
+        title: 'Remplir le champ Frequence.'
+
+      })
+
+    } else if (this.state.validationEmploiTemp == true) {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 300,
+        icon: 'warning',
+        title: "Il faut enregistrer l'emploi du temps"
+      })
+    }
+    else {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 500,
+        icon: 'warning',
+        title: 'Remplir tous les champs obligatoire '
+
+      })
+      // console.log(this.state.Alarme_Code)
+      // console.log(this.state.Compteur_Incident)
+      // console.log(this.state.Formule)
+      // console.log(this.state.valuedropdown)
+      // console.log(this.state.Objectif)
+      // console.log(this.state.FrequencyJson)
+      // console.log(this.state.Next_Check)
+      // console.log(this.state.U_Alarme_Name)
+      // console.log(this.state.U_Compteur)
+      // console.log(this.state.U_Formule)
+
+    }
   }
   copieralarme = () => {
 
@@ -1218,7 +1394,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
 
 
       //// console.log(Alarme_Code)
-      this.setState({ isDisabledbutton: true })
+   //   this.setState({ isDisabledbutton: true })
 
       axios.post(window.apiUrl + "sendid/",
         {
@@ -1269,6 +1445,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
 
               this.state.U_Alarme_Name = 'copie ' + this.state.datamodifier[0].U_Alarme_Name;
               this.state.Description = this.state.datamodifier[0].Description;
+              console.log("this.state.datamodifier[0].Description",this.state.datamodifier[0].Description)
               this.state.U_Compteur = this.state.datamodifier[0].U_Compteur;
 
               this.state.U_Formule = this.state.datamodifier[0].U_Formule;
@@ -1289,9 +1466,10 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
               //c
               const Operateur = this.state.Operateur;
               //e
-              const Objectif = JSON.stringify(this.state.Objectif);
+              const Objectif = this.state.Objectif
               const Objectifjson22 = this.state.Objectifjson[0];
               const Frequency22 = this.state.Frequency[0];
+              console.log("Frequency22",Frequency22)
               //correct
               const Next_Check = this.state.Next_Check;
               const U_Alarme_Name = this.state.U_Alarme_Name;
@@ -1305,11 +1483,11 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
               const DBAction = "2";
               /////////////////////////////
               const O1 = JSON.stringify(Objectifjson22)
-              const Objectifjsonn = O1.replace(/'/g,"''")
+              const Objectifjsonn = O1.replace(/'/g, "''")
               // console.log("Objectif",Objectifjson)
               /////////////////////
-              const F1 = JSON.stringify(Frequency22)
-              const Frequencywithoutsimplecode = F1.replace(/'/g,"''")
+              //const F1 = JSON.stringify(Frequency22)
+              // const Frequencywithoutsimplecode = F1
               // console.log("Frequency",Frequencywithoutsimplecode)
               ////////////////////////////
               this.state.ajout = (
@@ -1320,7 +1498,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
                   "Parsed_Formule": Parsed_Formule,
                   "Operateur": Operateur,
                   "Objectif": JSON.parse(Objectifjsonn),
-                  "Frequence": JSON.parse(Frequencywithoutsimplecode),
+                  "Frequence":Frequency22,
                   "Next_Check": Next_Check,
                   "U_Alarme_Name": U_Alarme_Name,
                   "Description": Description,
@@ -1336,7 +1514,7 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
               console.log("this.state.ajoutertemp", this.state.ajoutertemp)
               const Frequence = this.state.Frequency[0].Frequence.FrequenceUser;
               // console.log("Frequence", Frequence)
-              const UserInterface = this.state.Frequency[0].UserInterface[0];
+              const UserInterface = this.state.Frequency[0].UserInterface.join(",");
               //const UserInterface = this.state.Frequency[0].UserInterface
               // console.log("UserInterface", UserInterface)
               // console.log(this.state.ajout)
@@ -1351,11 +1529,14 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
               //   "U_Formule": U_Formule, "U_FormulewithTilde": U_FormulewithTilde, "Nbr_Error": Nbr_Error, "TAG_Formule": TAG_Formule
 
               // }
-              const OperateurValue =this.state.Frequency[0].OperateurValue
+              const OperateurValue = this.state.Frequency[0].OperateurValue
               const Frequency = this.state.Frequency;
-             const Objectifjson=this.state.Objectifjson
-              this.table.current.table.addRow({Alarme_Code,Compteur_Incident,Formule,Parsed_Formule,Objectifjson,OperateurValue,
-                Nbr_Error, U_Alarme_Name, U_Compteur, U_Formule, Operateur, Objectif,Frequency,Description,TAG_Formule,
+              console.log("Frequency22",Frequency)
+              const Objectifjson = this.state.Objectifjson
+              console.log("ObjectifjsonObjectifjsonObjectifjsonObjectifjson",Objectifjson)
+              this.table.current.table.addRow({
+                Alarme_Code, Compteur_Incident, Formule, Parsed_Formule, Objectifjson, OperateurValue,
+                Nbr_Error, U_Alarme_Name, U_Compteur, U_Formule, Operateur, Objectif, Frequency, Description, TAG_Formule,
                 Frequence, UserInterface, Next_Check
               }, true);
 
@@ -1392,116 +1573,290 @@ this.state.modifierUserInterface.push(this.state.operateur2+" Periode "+this.sta
       modalDelete: !this.state.modalDelete
     });
   }
-  CellTableFun = (cell)=>{
-    this.setState({cellTable:cell})
-    this.setState({cellName:cell.getData().U_Alarme_Name})
-          }
+  CellTableFun = (cell) => {
+    this.setState({ cellTable: cell })
+    this.setState({ cellName: cell.getData().U_Alarme_Name })
+  }
 
-   deletetab=()=>{
+  deletetab = () => {
 
-  this.toggleDelete()
-  this.state.cellTable.getRow().delete();
-  const O1 = JSON.stringify(this.state.cellTable.getData().Objectifjson)
-  const Objectifjson = O1.replace(/'/g,"''")
-  const F1 = JSON.stringify(this.state.cellTable.getData().Frequency)
-  const Frequency = F1.replace(/'/g,"''")
-  this.state.supprimertemp.push(
-    {
-      "Alarme_Code": this.state.cellTable.getData().Alarme_Code,
-      "Compteur_Incident": this.state.cellTable.getData().Compteur_Incident,
-      "Formule": this.state.cellTable.getData().Formule,
-      "Parsed_Formule": this.state.cellTable.getData().Parsed_Formule,
-      "Operateur": this.state.cellTable.getData().Operateur,
-      "Objectif": Objectifjson,
-      "Frequence": Frequency,
-      "Next_Check": this.state.cellTable.getData().Next_Check,
-      "U_Alarme_Name": this.state.cellTable.getData().U_Alarme_Name,
-      "Description": this.state.cellTable.getData().Description,
-      "U_Compteur": this.state.cellTable.getData().U_Compteur,
-      "U_Formule": this.state.cellTable.getData().U_FormulewithTilde,
-      "Nbr_Error": this.state.cellTable.getData().Nbr_Error,
-      "TAG_Formule": this.state.cellTable.getData().TAG_Formule,
-      "DBAction": "3"
-    })
+    this.toggleDelete()
+    this.state.cellTable.getRow().delete();
+    var Objectifjson = ""
+    if (this.state.cellTable.getData().Objectifjson.length != 0) {
+      const O1 = JSON.stringify(this.state.cellTable.getData().Objectifjson)
+      Objectifjson = O1.replace(/'/g, "''")
+    }
+    var Frequency = ""
+    if (this.state.cellTable.getData().Frequency.length != 0) {
+      const F1 = JSON.stringify(this.state.cellTable.getData().Frequency)
+      Frequency = F1
+    }
+    this.state.supprimertemp.push(
+      {
+        "Alarme_Code": this.state.cellTable.getData().Alarme_Code,
+        "Compteur_Incident": this.state.cellTable.getData().Compteur_Incident,
+        "Formule": this.state.cellTable.getData().Formule,
+        "Parsed_Formule": this.state.cellTable.getData().Parsed_Formule,
+        "Operateur": this.state.cellTable.getData().Operateur,
+        "Objectif": Objectifjson,
+        "Frequence": Frequency,
+        "Next_Check": this.state.cellTable.getData().Next_Check,
+        "U_Alarme_Name": this.state.cellTable.getData().U_Alarme_Name,
+        "Description": this.state.cellTable.getData().Description,
+        "U_Compteur": this.state.cellTable.getData().U_Compteur,
+        "U_Formule": this.state.cellTable.getData().U_FormulewithTilde,
+        "Nbr_Error": this.state.cellTable.getData().Nbr_Error,
+        "TAG_Formule": this.state.cellTable.getData().TAG_Formule,
+        "DBAction": "3"
+      })
 
-   }
+  }
   Enregistrer() {
-   // console.log(this.state.ajoutertemp.length)
-if(this.state.supprimertemp.length!=0&&this.state.ajoutertemp.length!=0){
-   for (var i = 0; i < this.state.supprimertemp.length; i++) {
+    // console.log(this.state.ajoutertemp.length)
+    if (this.state.supprimertemp.length != 0 && this.state.ajoutertemp.length != 0) {
+      for (var i = 0; i < this.state.supprimertemp.length; i++) {
 
-    var index = -1;
-    var index2 = -1;
-    var val = this.state.supprimertemp[i].Alarme_Code
-    console.log(val)
-    var filteredObj = this.state.ajoutertemp.find(function (item, i) {
-        if (item.Alarme_Code === val) {
+        var index = -1;
+        var index2 = -1;
+        var val = this.state.supprimertemp[i].Alarme_Code
+        console.log(val)
+        var filteredObj = this.state.ajoutertemp.find(function (item, i) {
+          if (item.Alarme_Code === val) {
             index = i;
             return i;
+          }
+        });
+        var filteredObj2 = this.state.supprimertemp.find(function (item, j) {
+          if (item.Alarme_Code === val) {
+            index2 = j;
+            return j;
+          }
+        });
+        console.log(index, filteredObj);
+        if (index > -1) {
+          this.state.ajoutertemp.splice(index, 1);
         }
-    });
-    var filteredObj2 = this.state.supprimertemp.find(function (item, j) {
-      if (item.Alarme_Code === val) {
-          index2 = j;
-          return j;
+        console.log(index2, filteredObj2);
+        if (index2 > -1) {
+          this.state.supprimertemp.splice(index2, 1);
+        }
+
       }
-  });
-    console.log(index, filteredObj);
-    if (index > -1) {
-      this.state.ajoutertemp.splice(index, 1);
     }
-    console.log(index2, filteredObj2);
-    if (index2 > -1) {
-      this.state.supprimertemp.splice(index2, 1);
-    }
+    console.log("this.state.ajoutertemp", this.state.ajoutertemp, "this.state.supprimertemp", this.state.supprimertemp)
+    if (this.state.ajoutertemp.length != 0 || this.state.modificationtemp.length != 0 || this.state.supprimertemp.length != 0) {
+      axios.post(window.apiUrl + "updatedelete/", {
+        tablename: "Alarme_F_Reporting_V3",
+        identifier: this.state.dateDMY + uuid(),
+        datatomodified: [].concat(this.state.ajoutertemp).concat(this.state.modificationtemp).concat(this.state.supprimertemp)
+      }
+      )
+        .then((response) => {
+          // console.log("Enregistrer");
+          // console.log(response.status);
+          // console.log(response.statusText);
+          // console.log(response);
+          // console.log(response.data);
+          if (response.status == 200) {
+            Swal.fire({
+              toast: true,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 4000,
+              width: 300,
+              icon: 'success',
+              title: 'Enregister avec succès'
 
-}
-}
-console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprimertemp",this.state.supprimertemp)
-    if (this.state.ajoutertemp.length!=0 || this.state.modificationtemp.length!=0 || this.state.supprimertemp.length!=0){
-    axios.post(window.apiUrl + "updatedelete/", {
-      tablename: "Alarme_F_Reporting_V3",
-      identifier: this.state.dateDMY + uuid(),
-      datatomodified: [].concat(this.state.ajoutertemp).concat(this.state.modificationtemp).concat(this.state.supprimertemp),
+            })
 
-      // datatodelete: ["Event_Code;Event_Name;Frequency;Next_Check;Event_Description;DBAction"].concat(this.state.supprimertemp)
-    }
-    )
-      .then((response) => {
-       // console.log("Enregistrer");
-       // console.log(response.status);
-       // console.log(response.statusText);
-       // console.log(response);
-       // console.log(response.data);
+            this.setState({
+              modalDelete: false,
+              cellName: "",
+              Compteur_Incident_Clonne: "",
+              evaluation: 1,
+              //////cloner opjective /////
+              isDisabledbutton: false,
+              isDisabledbuttonclone: false,
+              outputprefixx: "",
+              inputprefixx: "",
+              loading: true,
+              modal: false,
+              modal1: false,//Nouveau cas incident Add form
+              modal2: false, //Calculatrice
+              modal3: false, //Objective
+              modal4: false,//sel objective
+              modal5: false,//Cloner
+              modal6: false,//Modifier
+              modal7: false,// pour supp
+              modal8: false,// pour clone objective
+              sendtoModifyObjectiveAdvanced: [],
+              FormulewithTildee: '',
+              Sys_equationwithTilde: '',
+              operator: ['<', '>', '<=', '>=', '=', '!='],
+              operatoradvanced: false,
+              operatorlogic: false,
+              Nbr_Error: '0',
+              U_Alarme_Name: '',
 
-        Swal.fire({
-          toast: true,
-          position: 'top',
-          showConfirmButton: false,
-          timer: 4000,
-          width: 300,
-          icon: 'success',
-          title: 'Enregister avec succès'
+              Description: '',
+              Operateur: '',
 
+              Objectif: '',
+              Objectifjson: '',
+
+              Frequency: '', //field frequence in the table
+
+              Next_Check: '',
+
+              Alarme_Code: '',
+              Compteur_Incident: '',
+              Formule: '',
+              U_Compteur: '',
+              U_Formule: '',
+              TAG_Formule: '',
+
+              CodecompteurObjective: '',
+              CodecompteurObjectivevalue: '',
+              MesureidObjective: '',
+              displaysetobjective: false,
+              energycompteurselected: '',
+
+              Sys_compteurselectedwithoutid: '',
+              U_compteurselected: '',
+              ///////////////////////
+              ListSetobjective: [],
+              //////////////////////
+              incidentselectedwithoutlive: '',
+              Listmesureenergy: [], //10
+              dataEnergy: [],
+              MesureList: [],
+              Parsed_Formule: '',
+              valuedropdown: 'Type',
+              btn0: '0',
+              btn1: '1',
+              btn2: '2',
+              btn3: '3',
+              btn4: '4',
+              btn5: '5',
+              btn6: '6',
+              btn7: '7',
+              btn8: '8',
+              btn9: '9',
+              btnaddition: '+',
+              btnvirgule: '.',
+              //Filter
+              NameEnergy: '',
+              Compteur_Parent: '',
+              secteur: '',
+              pointproduction: '',
+              pointdistribution: '',
+              pointconsommation: '',
+              listcompteurParent: [],
+              listsecteur: [],
+              listpointproduction: [],
+              listpointdistribution: [],
+              listpointconsommation: [],
+              ///
+              //Result Filter
+              listcompteurglobal: [],
+              listfieldfiltername: [],
+              listfieldfiltercontent: [],
+              ///Objective
+              U_measurelabel: '',
+              U_inputobjective: [],
+              objectifValeurInput: '',
+              Sys_inputobjective: [],
+              listobjectivefromDB: [],
+              indexmesure: '',
+              valuetomesure: '',
+              objectivechoixselected: '',
+              displaycalculatriceobjective: false,
+              displayadvanced: false,
+              displaymodifyadvanced: false,
+              Objectif_tab: "",
+              OperateurValueObjectif_tab: "",
+              UserInterfaceObjectif_tab: "",
+
+              ////Frequence ///////////////////
+              Frequence_tab: "",
+              OperateurValue_tab: "",
+              UserInterface_tab: "",
+
+              dataCasIncident: [],
+              position: null,
+
+              Frequence: '', //data return from db
+              periode: "Journalier",
+              TempsUnite: "Heure",
+              Temps_Reel_unite: 'Min',
+              Journalier_unite: 'Heure',
+              Habdomadaire_unite: 'Jour',
+              Mensuel_unite: 'Jour',
+              Annelle_unite: 'Mois',
+              //////////
+              num: 1,
+              numTemps_Reel: 1,
+              numJournalier: 1,
+              numHabdomadaire: 1,
+              numMensuel: 1,
+              numAnnelle: 1,
+
+              //Supprim
+              supprimertemp: [],
+              modificationtemp: [],
+
+              ////////////Modifier/////////////////
+              datamodifier: [],
+              //////
+              ////////Ajouter//////////
+              ajout: "",
+              ajoutertemp: [],
+              ajoutertap: [],
+              modifiertab: [],
+              ajouterUserInterface: [],
+              valeur2: "",
+              operateur2: "",
+              operateurvalue: "",
+              /////////////////
+              dataMaseurCalculatrice: "",
+              /////////////////
+              //////
+              MeasureGetObject: [],
+              modalFilterMesure: false,
+              modalFilterMesure3: false,
+              modalFilterMesure5: false,
+              modalFilterMesure7: false,
+              listeCompteurPourCloner: [],
+              codeCompterIncidentCalculatrice: "",
+              OperateurValueModifier: [],
+              modifierUserInterface: [],
+              dataObjectiveAdvanced: [],
+              
+              ////////
+              Next_Check: null,
+              validationEmploiTemp: false,
+            })
+
+          }
         })
+        .catch((err) => console.error(err));
+      setTimeout(function () {
+        window.location.reload(1);
+      }, 500);
+
+    }
+    else {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        width: 300,
+        icon: 'warning',
+        title: 'Veuillez créer ou modifier un cas-incident'
       })
-      .catch((err) => console.error(err));
-    setTimeout(function () {
-      window.location.reload(1);
-    }, 3000);
-    
-  }
-  else{
-    Swal.fire({
-      toast: true,
-      position: 'top',
-      showConfirmButton: false,
-      timer: 4000,
-      width: 300,
-      icon: 'warning',
-      title: 'Créez ou Modifier une cas-incident.'
-  })
-}
+    }
   }
 
   showadvanced = () => {
@@ -1523,12 +1878,12 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
     /* this.setState({
        modal3: !this.state.modal3
      }); */
-     //console.log("asma",[{"m_code": this.state.MeasureGetObject[0].m_code, "m_name": this.state.MeasureGetObject[0].m_name}])
+    //console.log("asma",[{"m_code": this.state.MeasureGetObject[0].m_code, "m_name": this.state.MeasureGetObject[0].m_name}])
     axios.post(window.apiUrl + "getobjective/",
 
       {
 
-        ML: [{"m_code": this.state.MeasureGetObject[0].m_code, "m_name": this.state.MeasureGetObject[0].m_name}],
+        ML: [{ "m_code": this.state.MeasureGetObject[0].m_code, "m_name": this.state.MeasureGetObject[0].m_name }],
         CL: [{
           "Code_Compteur": this.state.CodecompteurObjective,
           "Le_Compteur": this.state.incidentselectedwithoutlive
@@ -1543,56 +1898,59 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
 
 
           if (result.data !== null) {
-          this.state.listobjectivefromDB = result.data;
-        //   console.log("this.state.listobjectivefromDB",this.state.listobjectivefromDB)
-          // console.log(result.data.length)
-          //this.setState({listobjectivefromDB : result.data})
+            this.state.listobjectivefromDB = result.data;
+            //   console.log("this.state.listobjectivefromDB",this.state.listobjectivefromDB)
+            // console.log(result.data.length)
+            //this.setState({listobjectivefromDB : result.data})
 
-          if (this.state.listobjectivefromDB.length !=0) {
-            //  console.log("this.state.MeasureGetObject",this.state.MeasureGetObject)
-            //m_name
-           const listmesure = [{"measure_ID": this.state.MeasureGetObject[0].measure_ID, "measure_Label": this.state.listobjectivefromDB[0].m_name +":"+this.state.listobjectivefromDB[0].value}]
-            //this.setState({ Listmesureenergy: [this.state.listobjectivefromDB[0].m_name + ':' + this.state.listobjectivefromDB[0].value]})
-         //  console.log("Listmesureenergy---------------------",this.state.Listmesureenergy)
-           
-            // this.state.listobjectivefromDB.map((item1, i) => {
+            if (this.state.listobjectivefromDB.length != 0) {
+              //  console.log("this.state.MeasureGetObject",this.state.MeasureGetObject)
+              //m_name
+              const listmesure = [{ "measure_ID": this.state.MeasureGetObject[0].measure_ID, "measure_Label": this.state.listobjectivefromDB[0].m_name + ":" + this.state.listobjectivefromDB[0].value }]
+              //this.setState({ Listmesureenergy: [this.state.listobjectivefromDB[0].m_name + ':' + this.state.listobjectivefromDB[0].value]})
+              //  console.log("Listmesureenergy---------------------",this.state.Listmesureenergy)
 
-              
-  
-            //   const listmesure = this.state.Listmesureenergy.map((item2, j) => {
-            //     if (item2.measure_Label === item1.m_name) {
-            //       var x = item2.measure_Label + ':' + item1.value
-            //       item2.measure_Label = x
-            //       return item2
-            //     } else if (item2.measure_Label === item1.m_name + ':0') {
-            //       var x = item1.m_name + ':' + item1.value
-            //       item2.measure_Label = x
-            //       return item2
-            //     } else {
-            //       if (item2.measure_Label.includes(':')) { return item2; }
-            //       else {
-            //         var y = item2.measure_Label + ':0'
-            //         item2.measure_Label = y
-            //         return item2;
-            //       }
-            //     }
-            //   });
+              // this.state.listobjectivefromDB.map((item1, i) => {
+
+
+
+              //   const listmesure = this.state.Listmesureenergy.map((item2, j) => {
+              //     if (item2.measure_Label === item1.m_name) {
+              //       var x = item2.measure_Label + ':' + item1.value
+              //       item2.measure_Label = x
+              //       return item2
+              //     } else if (item2.measure_Label === item1.m_name + ':0') {
+              //       var x = item1.m_name + ':' + item1.value
+              //       item2.measure_Label = x
+              //       return item2
+              //     } else {
+              //       if (item2.measure_Label.includes(':')) { return item2; }
+              //       else {
+              //         var y = item2.measure_Label + ':0'
+              //         item2.measure_Label = y
+              //         return item2;
+              //       }
+              //     }
+              //   });
               this.setState({ Listmesureenergy: listmesure })
 
-         // console.log('+++++++++++++++++++++++++++++++++++++++++++',this.state.Listmesureenergy)
-       //   });
+              // console.log('+++++++++++++++++++++++++++++++++++++++++++',this.state.Listmesureenergy)
+              //   });
 
-          } else if (this.state.listobjectivefromDB.length === 0) {
+            } else if (this.state.listobjectivefromDB.length === 0) {
+
+            }
+            //tabulator
 
           }
-          //tabulator
-
-        }}
+        }
       )
   }
 
   callbackValueIncident = (childData) => {
-    // console.log("page Incidents",childData[2])
+    console.log("page Incidents", childData[14])
+    console.log("page Incidents", childData[16])
+    console.log("page Incidents sys", childData[15])
     // console.log("page Incidents U_Compteur",childData[0])
     // console.log("energycompteurselected------------------------------------------------>",childData[8])
     // console.log("MesureList------------------------------------------------>",childData[11])
@@ -1603,7 +1961,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
     this.setState({ Compteur_Incident: childData[2] });//c
 
     this.setState({ Formule: childData[15] });//c
-
+    console.log("Parsed_Formule------------------------------->>>>>>>>>>>>>>>>>>>>>>",childData[4] + '=' + childData[15])
     this.setState({ Parsed_Formule: childData[4] + '=' + childData[15] });//c
     this.setState({ CodecompteurObjective: childData[5] });
     this.setState({ MesureidObjective: childData[6] })
@@ -1611,24 +1969,24 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
     this.setState({ energycompteurselected: childData[8] })
     this.setState({ incidentselectedwithoutlive: childData[9] })
     this.setState({ Listmesureenergy: childData[10] })
-  //  console.log("childData[10]",childData[10])
+    //  console.log("childData[10]",childData[10])
     this.setState({ MesureList: childData[11] })
     this.setState({ TAG_Formule: childData[12] })
     this.setState({ U_measurelabel: childData[13] })
     this.setState({ Description: childData[0] + '=' + childData[14] })
     this.setState({ FormulewithTildee: childData[16] })
     this.setState({ Sys_equationwithTilde: childData[15] })
-  //  this.setState({dataMaseurCalculatrice:childData[17]})
-      this.setState({codeCompterIncidentCalculatrice:childData[18]})
-     //   console.log(childData)
+    //  this.setState({dataMaseurCalculatrice:childData[17]})
+    this.setState({ codeCompterIncidentCalculatrice: childData[18] })
+    //   console.log(childData)
     //console.log(childData1)
   }
 
   callbackAdvancedObjective = (childData) => {
 
     // console.log('dataaaaaaaaaaaaaaaaaaaaaaaa objectiveeeeeeee')
-    console.log("pageCasIncident",childData)
-    this.setState({dataObjectiveAdvanced:childData[1]})
+    console.log("pageCasIncident", childData)
+    this.setState({ dataObjectiveAdvanced: childData[1] })
     // var Uinputobjective = []
     // if(childData[1].length!=0){
     // for (var i = 0; i < childData[1].length; i++) {
@@ -1637,7 +1995,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
     //   const d = c.replace("and ", "-")
     //   const e = d.replace("(", "")
     //   const f = e.replace(")", "")
-     
+
     //   var valueobj = f
     //   // console.log("valeur", valueobj)
     //   //inclure exclure
@@ -1645,7 +2003,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
     //   //intervalle ensemble
     //   var keywordvalue = childData[1][i].keyword
     //   //// console.log("operateur", this.state.operateur)
-      
+
     //   Uinputobjective.push(keywordvalue + ' ' + operateurvalue + " Periode " + valueobj + " ")
     // }
     // // console.log(Uinputobjective)
@@ -1721,7 +2079,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
 
             // var code = result.data
             // console.log(typeof (result.data))
-            
+
             // console.log(result.data)
             // // console.log(JSON.parse(result.data))
             // var array = code.split(",");
@@ -1737,7 +2095,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
         })
   }
   getnameenergy = (c) => {
-     //console.log("Energy name",this.state.modal5);
+    //console.log("Energy name",this.state.modal5);
     if (this.state.modal5 == false) {
       // console.log("Energy name");
       axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${c}`)
@@ -1754,31 +2112,31 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
 
               this.setState({ NameEnergy: result.data[0].Energie })
               /////////////////Filter global select list compteur of this energy//////////
-              axios1.get(window.apiUrl+`getAllCounters/?energie=${result.data[0].Energie}`)
+              axios1.get(window.apiUrl + `getAllCounters/?energie=${result.data[0].Energie}`)
 
-            
+
                 .then(
-                  ({data}) => {
-                       
-                   var  value =[]
+                  ({ data }) => {
+
+                    var value = []
                     Object.keys(data).map((key, ii, aa) => {
-                       value = data[key]
-              
-                       console.log("value maseur avec energie",value)
-       
+                      value = data[key]
+
+                      console.log("value maseur avec energie", value)
+
                     })
 
-              
-                      this.setState({ listcompteurglobal: value})
-               
-                  
+
+                    this.setState({ listcompteurglobal: value })
+
+
 
                   }
                 )
 
-}
+            }
             //  else {
-        
+
             //   axios.post(window.apiUrl + "filter/",
 
             //     {
@@ -1796,12 +2154,12 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
             //       (result) => {
             //         this.tableData = result.data;
 
-      
+
             //         if (this.tableData !== null) {
             //           this.setState({ listcompteurglobal: result.data })
-               
+
             //         } else {
-                 
+
             //         }
 
 
@@ -1833,189 +2191,202 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
   }
   CloneCompteur = () => {
     //this.getmaxid();
-   if(this.state.listeCompteurPourCloner.length!=0){
-    this.setState({ isDisabledbuttonclone: true })
-    this.setState({
-      modal5: false
-    })
-    // console.log('hiiiiiiiiiiiiiiiiiii')
-    axios1.get(window.apiUrl + "getAllEnergies/")
-      .then(
-        (result) => {
-        
-          if (result.data!== null) {
+    if (this.state.listeCompteurPourCloner.length != 0) {
+      this.setState({ isDisabledbuttonclone: true })
+      this.setState({
+        modal5: false
+      })
+      // console.log('hiiiiiiiiiiiiiiiiiii')
+      axios1.get(window.apiUrl + "getAllEnergies/")
+        .then(
+          (result) => {
+
+            if (result.data !== null) {
 
 
 
 
-            this.setState({ dataEnergy: result.data })
-            var nameenergyinput = this.state.NameEnergy
-            var outputprefix = ''
-            var inputprefix = ''
-            result.data.forEach(function (arrayItem) {
-              if (arrayItem.Name_Energy == nameenergyinput) {
-                outputprefix = arrayItem.OUTP_Prefix_Energy;
-                inputprefix = arrayItem.INP_Prefix_Energy;
-              }
+              this.setState({ dataEnergy: result.data })
+              var nameenergyinput = this.state.NameEnergy
+              var outputprefix = ''
+              var inputprefix = ''
+              result.data.forEach(function (arrayItem) {
+                if (arrayItem.Name_Energy == nameenergyinput) {
+                  outputprefix = arrayItem.OUTP_Prefix_Energy;
+                  inputprefix = arrayItem.INP_Prefix_Energy;
+                }
 
-            });
-            this.setState({
-              CodecompteurObjective: 'O' + this.state.Sys_compteurselectedwithoutid.replace(outputprefix, inputprefix)
-            });
-            axios.post(window.apiUrl + "sendid/",
-              {
-                tablename: "Alarme_F_Reporting_V3",
-                identifier: this.state.dateDMY + uuid(),
-                nombermaxcode: this.state.listeCompteurPourCloner.length,
-                primaryfield: "Alarme_Code",
-                fields: "*",
-                content: "*",
+              });
+              this.setState({
+                CodecompteurObjective: 'O' + this.state.Sys_compteurselectedwithoutid.replace(outputprefix, inputprefix)
+              });
+              axios.post(window.apiUrl + "sendid/",
+                {
+                  tablename: "Alarme_F_Reporting_V3",
+                  identifier: this.state.dateDMY + uuid(),
+                  nombermaxcode: this.state.listeCompteurPourCloner.length,
+                  primaryfield: "Alarme_Code",
+                  fields: "*",
+                  content: "*",
 
-              }
-            )
+                }
+              )
 
-              .then(
-                (result) => {
-                  if (result.data == null) {
-                    alert("N'existe pas max code ");
-                    this.setState({ isDisabledbuttonclone: false })
-                  } else {
-                    var code = result.data
-                    var array = code.split(",");
-                    this.setState({ Alarme_Code: array })
-                    for (var i = 0; i < this.state.listeCompteurPourCloner.length; i++) {
-                      //////////////////////////////
-                      var codecompteur = 'O' + this.state.listeCompteurPourCloner[i].Code_Compteur.replace(outputprefix, inputprefix)
-                      var inputprefixcompteur = this.state.listeCompteurPourCloner[i].Code_Compteur
-                      ///add row
-                      var Alarme_Code = array[i]
-                      ///CC1$28
-                      var extractCompteur_Incident = this.state.Compteur_Incident.substring(0, this.state.Compteur_Incident.indexOf("$"))
-                      console.log("extractCompteur_Incident------>",extractCompteur_Incident)
-                 // this.setState({Compteur_Incident_Clonne:extractCompteur_Incident})
-                      const Compteur_Incident = this.state.Compteur_Incident.replace(extractCompteur_Incident, this.state.listeCompteurPourCloner[i].Code_Compteur)
-                      console.log("Compteur_Incident------>",Compteur_Incident)
+                .then(
+                  (result) => {
+                    if (result.data == null) {
+                      alert("N'existe pas max code ");
+                      this.setState({ isDisabledbuttonclone: false })
+                    } else {
+                      var code = result.data
+                      var array = code.split(",");
+                      this.setState({ Alarme_Code: array })
+                      for (var i = 0; i < this.state.listeCompteurPourCloner.length; i++) {
+                        //////////////////////////////
+                        var codecompteur = 'O' + this.state.listeCompteurPourCloner[i].Code_Compteur.replace(outputprefix, inputprefix)
+                        var inputprefixcompteur = this.state.listeCompteurPourCloner[i].Code_Compteur
+                        ///add row
+                        var Alarme_Code = array[i]
+                        ///CC1$28
+                        var extractCompteur_Incident = this.state.Compteur_Incident.substring(0, this.state.Compteur_Incident.indexOf("$"))
+                        console.log("extractCompteur_Incident------>", extractCompteur_Incident)
+                        // this.setState({Compteur_Incident_Clonne:extractCompteur_Incident})
+                        const Compteur_Incident = this.state.Compteur_Incident.replace(extractCompteur_Incident, this.state.listeCompteurPourCloner[i].Code_Compteur)
+                        console.log("Compteur_Incident------>", Compteur_Incident)
+
+                        ///CC1$0
+                        var extractFormule = this.state.Formule.substring(0, this.state.Formule.indexOf("$"))
+                        console.log("extractFormule---55--->", extractFormule)
+                        const Formule = this.state.Formule.replace(extractFormule, this.state.listeCompteurPourCloner[i].Code_Compteur)
+                        console.log("Formule------>", Formule)
+                        //E1$28=CC1$0~
+                        var extractParsed_Formule = this.state.Parsed_Formule.substring(3, this.state.Parsed_Formule.indexOf("$"))
+                        console.log("extractParsed_Formule------>", extractParsed_Formule)
+                        console.log("inputprefixcompteur------>", inputprefixcompteur)
+                        var aa = new RegExp(extractParsed_Formule, "g")
+
+                        //   console.log("aa------>",aa)
+                        const Parsed_Formule = this.state.Parsed_Formule.replace(aa, inputprefixcompteur);
+
+
+                        console.log("Parsed_Formule------>", Parsed_Formule)
+                        //c
+                        const Operateur = this.state.Operateur;
+                        //e
+          
+                        //correct
+                        const Next_Check = this.state.Next_Check;
+                        //const U_Alarme_Name = this.state.U_Alarme_Name;
+                        const U_Alarme_Name = "Alarme " + this.state.listeCompteurPourCloner[i].Le_Compteur;
+                        //ElMazeraa Elec$Inc LIVE<O:CC1$0:ElMazeraa Elec_KWh-J
                    
-                      ///CC1$0
-                      var extractFormule = this.state.Formule.substring(0, this.state.Formule.indexOf("$"))
-                      console.log("extractFormule---55--->",extractFormule)
-                      const Formule = this.state.Formule.replace(extractFormule, this.state.listeCompteurPourCloner[i].Code_Compteur)
-                      console.log("Formule------>",Formule)
-                      //E1$28=CC1$0~
-                      var extractParsed_Formule = this.state.Parsed_Formule.substring(3, this.state.Parsed_Formule.indexOf("$")) 
-                      console.log("extractParsed_Formule------>",extractParsed_Formule)
-                      console.log("inputprefixcompteur------>",inputprefixcompteur)
-                        var aa = new RegExp(extractParsed_Formule,"g")
-                        
-                   //   console.log("aa------>",aa)
-                      const Parsed_Formule = this.state.Parsed_Formule.replace(aa, inputprefixcompteur);
-                     
-                 
-                      console.log("Parsed_Formule------>",Parsed_Formule)
-                      //c
-                      const Operateur = this.state.Operateur;
-                      //e
-                      const Objectifjson22 = this.state.Objectifjson[0];
-                      const Frequency = this.state.Frequency;
-                      const Objectif = this.state.Objectifjson[0].U_inputobjective
-                      //correct
-                      const Next_Check = this.state.Next_Check;
-                      //const U_Alarme_Name = this.state.U_Alarme_Name;
-                      const U_Alarme_Name = "Alarme "+this.state.listeCompteurPourCloner[i].Le_Compteur;
-                      //ElMazeraa Elec$Inc LIVE<O:CC1$0:ElMazeraa Elec_KWh-J
-                      if (this.state.Description != '' && this.state.Description != null) {
-                        var extractDescription = this.state.Description.substring(0, this.state.Description.indexOf("$"))
-                        var Description = this.state.Description.replace(extractDescription, this.state.listeCompteurPourCloner[i].Le_Compteur);//Abattage elec;
+                        //ElMazeraa Elec$Inc-LIVE
+                        var extractnamecompteur = this.state.U_Compteur.substring(0, this.state.U_Compteur.indexOf("$"))
+                        console.log("extractnamecompteur------>", extractnamecompteur)
+                        const U_Compteur = this.state.U_Compteur.replace(extractnamecompteur, this.state.listeCompteurPourCloner[i].Le_Compteur);//Abattage elec
+                        //ElMazeraa Elec$Inc-LIVE=ElMazeraa Elec$KWh-J~
+                        console.log("U_Compteur------>", U_Compteur)
+                        var extractU_Formule = this.state.U_Formule.substring(0, this.state.U_Formule.indexOf("$"));
+                        console.log("extractU_Formule------>", extractU_Formule)
+                        var bb = new RegExp(extractU_Formule, "g")
+                        const U_Formule = this.state.U_Formule.replace(bb, this.state.listeCompteurPourCloner[i].Le_Compteur)
+                        console.log("U_Formule------>", U_Formule)
+                       
+                        const Frequency = this.state.Frequency;
+                        const Objectif = this.state.Objectifjson[0].U_inputobjective.replace(extractU_Formule,this.state.listeCompteurPourCloner[i].Le_Compteur)
+                        //////////////////
+                         const jsonObjectif = JSON.stringify(this.state.Objectifjson[0]).replace(extractU_Formule,this.state.listeCompteurPourCloner[i].Le_Compteur)
+                         .replace(aa, inputprefixcompteur);
 
-                      } else {
-                        var Description = this.state.Description
+                         const Objectifjson22 = JSON.parse(jsonObjectif)
+                         //////////////
+                        console.log("-----------------",Objectif)
+                        console.log("--------------",jsonObjectif)
+                        console.log("-------Objectifjson22-------",Objectifjson22)
+                        if (this.state.Description != '' && this.state.Description != null) {
+                   //       var extractDescription = this.state.Description.substring(0, this.state.Description.indexOf("$"))
+                        this.state.Description=U_Formule
+                          var Description = this.state.Description//.replace(extractDescription, this.state.listeCompteurPourCloner[i].Le_Compteur);//Abattage elec;
+
+                        } else {
+                          var Description = this.state.Description
+                        }
+
+
+                        //g
+                        const Nbr_Error = this.state.Nbr_Error;
+                        const TAG_Formule = this.state.TAG_Formule;
+                        const DBAction = "2";
+
+                        /////////////////////////////
+                        const O1 = JSON.stringify(Objectifjson22)
+                        const Objectifjsonn = O1.replace(/'/g, "''")
+                        // console.log("Objectif",Objectifjsonn)
+                        ///////////////////////
+
+                        const F1 = JSON.stringify(Frequency[0])
+                        const Frequencywithoutsimplecode = F1
+
+                        this.state.ajout = (
+                          {
+                            "Alarme_Code": Alarme_Code,
+                            "Compteur_Incident": Compteur_Incident,
+                            "Formule": Formule,
+                            "Parsed_Formule": Parsed_Formule,
+                            "Operateur": Operateur,
+                            "Objectif": JSON.parse(Objectifjsonn),
+                            "Frequence": JSON.parse(Frequencywithoutsimplecode),
+                            "Next_Check": Next_Check,
+                            // U_Alarme_Name
+                            "U_Alarme_Name": U_Alarme_Name,
+                            "Description": Description,
+                            "U_Compteur": U_Compteur,
+                            "U_Formule": U_Formule,
+                            "Nbr_Error": Nbr_Error,
+                            "TAG_Formule": TAG_Formule,
+                            "evaluation": 1,
+                            "DBAction": DBAction
+                          })
+
+
+                        this.state.ajoutertemp.push(this.state.ajout);
+                        // console.log(this.state.ajoutertemp)
+                        const Frequence = this.state.Frequency[0].Frequence.FrequenceUser;
+                        const UserInterface = this.state.Frequency[0].UserInterface[0];
+
+                        const OperateurValue = this.state.Frequency[0].OperateurValue
+
+                        const Objectifjson = this.state.Objectifjson
+                        this.table.current.table.addRow({
+                          Alarme_Code, Compteur_Incident, Formule, Parsed_Formule, Objectifjson, OperateurValue,
+                          Nbr_Error, U_Alarme_Name, U_Compteur, U_Formule, Operateur, Objectif, Frequency, Description, TAG_Formule,
+                          Frequence, UserInterface, Next_Check
+                        }, true);
+
+                        //////////////////////////////////////////
+
                       }
-                      //ElMazeraa Elec$Inc-LIVE
-                      var extractnamecompteur = this.state.U_Compteur.substring(0, this.state.U_Compteur.indexOf("$"))
-                      console.log("extractnamecompteur------>",extractnamecompteur)
-                      const U_Compteur = this.state.U_Compteur.replace(extractnamecompteur, this.state.listeCompteurPourCloner[i].Le_Compteur);//Abattage elec
-                      //ElMazeraa Elec$Inc-LIVE=ElMazeraa Elec$KWh-J~
-                      console.log("U_Compteur------>",U_Compteur)
-                      var extractU_Formule = this.state.U_Formule.substring(0, this.state.U_Formule.indexOf("$"));
-                      console.log("extractU_Formule------>",extractU_Formule)
-                      var bb = new RegExp(extractU_Formule,"g")
-                      const U_Formule = this.state.U_Formule.replace(bb, this.state.listeCompteurPourCloner[i].Le_Compteur)
-                      console.log("U_Formule------>",U_Formule)
+                      this.setState({ isDisabledbuttonclone: false })
 
-
-
-                      //g
-                      const Nbr_Error = this.state.Nbr_Error;
-                      const TAG_Formule = this.state.TAG_Formule;
-                      const DBAction = "2";
-
-                      /////////////////////////////
-                      const O1 = JSON.stringify(Objectifjson22)
-                      const Objectifjsonn = O1.replace(/'/g,"''")
-                      // console.log("Objectif",Objectifjsonn)
-                      ///////////////////////
-
-                      const F1 = JSON.stringify(Frequency[0])
-                      const Frequencywithoutsimplecode = F1.replace(/'/g,"''")
-    
-                      this.state.ajout = (
-                        {
-                          "Alarme_Code": Alarme_Code,
-                          "Compteur_Incident": Compteur_Incident,
-                          "Formule": Formule,
-                          "Parsed_Formule": Parsed_Formule,
-                          "Operateur": Operateur,
-                          "Objectif":  JSON.parse(Objectifjsonn),
-                          "Frequence": JSON.parse(Frequencywithoutsimplecode),
-                          "Next_Check": Next_Check,
-                          // U_Alarme_Name
-                          "U_Alarme_Name": U_Alarme_Name ,
-                          "Description": Description,
-                          "U_Compteur": U_Compteur,
-                          "U_Formule": U_Formule,
-                          "Nbr_Error": Nbr_Error,
-                          "TAG_Formule": TAG_Formule,
-                          "evaluation": 1,
-                          "DBAction": DBAction
-                        })
-
-
-                      this.state.ajoutertemp.push(this.state.ajout);
-                      // console.log(this.state.ajoutertemp)
-                      const Frequence = this.state.Frequency[0].Frequence.FrequenceUser;
-                      const UserInterface = this.state.Frequency[0].UserInterface[0];
-
-                      const OperateurValue =this.state.Frequency[0].OperateurValue
-        
-                     const Objectifjson=this.state.Objectifjson
-                      this.table.current.table.addRow({Alarme_Code,Compteur_Incident,Formule,Parsed_Formule,Objectifjson,OperateurValue,
-                        Nbr_Error, U_Alarme_Name, U_Compteur, U_Formule, Operateur, Objectif,Frequency,Description,TAG_Formule,
-                        Frequence, UserInterface, Next_Check}, true);
-
-                      //////////////////////////////////////////
+                      ////////////////////////////////////////////////////////////////////////
 
                     }
-                    this.setState({ isDisabledbuttonclone: false })
-
-                    ////////////////////////////////////////////////////////////////////////
-
-                  }
 
 
-                })
+                  })
 
 
 
 
-            ////////////////////////////////////////////////////////////////////////
-            // console.log(this.state.listcompteurglobal.length + '//////////////////////////////')
+              ////////////////////////////////////////////////////////////////////////
+              // console.log(this.state.listcompteurglobal.length + '//////////////////////////////')
 
-          } else {
-            // console.log('no data change')
+            } else {
+              // console.log('no data change')
+            }
           }
-        }
-      )
-    }else {
+        )
+    } else {
       Swal.fire({
         toast: true,
         position: 'top',
@@ -2024,8 +2395,8 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
         timer: 4000,
         icon: 'warning',
         width: 400,
-        title: 'Liste des compteurs vides'
-    })
+        title: 'La liste des compteurs ne peut pas être vide. Veuillez saisir un nom de liste valide.'
+      })
     }
   }
   componentcalculator = () => {
@@ -2035,30 +2406,38 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
     // console.log('calll')
     // console.log(this.state.displaycalculator)
   }
-  onClickHandler = event => {
-    const valuedropdownn = event.target.innerHTML;
-    // console.log(valuedropdownn)
-    if (valuedropdownn == 'AVANCÉE') {
-      // console.log(this.state.Operateur)
-      this.setState({ Operateur: 'A' })
-      this.setState({ valuedropdown: 'A' })
-      this.setState({ displayadvanced: true })
+  onClickHandler = (operateur) => {
 
-      this.setState({ displaycalculatriceobjective: false })
-      //this.showadvanced();
-      //this.setState({ operatoradvanced: !this.state.operatoradvanced })
-      //this.setState({ operatorlogic: false })
+
+
+
+    console.log("------------------", operateur)
+    if (operateur != '') {
+      if (operateur == 'AVANCÉE') {
+        // console.log(this.state.Operateur)
+        this.setState({ Operateur: 'A' })
+        this.setState({ valuedropdown: 'A' })
+        this.setState({ displayadvanced: true })
+
+        this.setState({ displaycalculatriceobjective: false })
+        //this.showadvanced();
+        //this.setState({ operatoradvanced: !this.state.operatoradvanced })
+        //this.setState({ operatorlogic: false })
+      } else {
+        // console.log(valuedropdownn)
+        ///    const valuedropdownnn = valuedropdownn.replace("&gt;", '>').replace("&lt;", '<').replace("&amp;", '&')
+        // console.log(valuedropdownnn)
+        this.setState({ Operateur: operateur })
+        this.setState({ valuedropdown: operateur })
+        this.setState({ displayadvanced: false })
+
+        this.setState({ displaycalculatriceobjective: true })
+        // console.log(this.state.Operateur)
+
+      }
     } else {
-      // console.log(valuedropdownn)
-      const valuedropdownnn = valuedropdownn.replace("&gt;", '>').replace("&lt;", '<').replace("&amp;", '&')
-      // console.log(valuedropdownnn)
-      this.setState({ Operateur: valuedropdownnn })
-      this.setState({ valuedropdown: valuedropdownnn })
-      this.setState({ displayadvanced: false })
-
-      this.setState({ displaycalculatriceobjective: true })
-      // console.log(this.state.Operateur)
-
+      this.setState({ Operateur: operateur })
+      this.setState({ valuedropdown: operateur })
     }
   }
   handleChange(e) {
@@ -2252,14 +2631,14 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
 
               .then(
                 (result) => {
-                 
+
                   // console.log('EnergyMeasureNormalized')
                   if (result.data.length !== 0) {
-                 //   console.log("EnergyMeasureNormalised",result.data)
+                    //   console.log("EnergyMeasureNormalised",result.data)
                     //this.setState({ dataEnergyMeasure: result.data })
                     //tabulator
                     var nameenergyinput = this.state.NameEnergy
-                 //   console.log("nameenergyinput",nameenergyinput)
+                    //   console.log("nameenergyinput",nameenergyinput)
                     var mesurelist = []
                     result.data.forEach(function (arrayItem) {
 
@@ -2267,7 +2646,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
                         var x = arrayItem.measure_ID; //1
                         var y = arrayItem.measure_Label; //kwh
                         var z = arrayItem.EMNCode; //2-1
-                        
+
                         //mesurelabel = y
                         /* listmesureenergy.push({
                           "measure_ID":x,
@@ -2278,7 +2657,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
                         })
                       }
                     })
-           
+
                     /////////////////send query get objective/////////
                     if (mesurelist != []) {
                       ///////know find code compteur with input prefix
@@ -2425,7 +2804,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
 
               .then(
                 (result) => {
-            
+
 
                   //tabulator
                   //this.setState({ dataCompteur: result.data })
@@ -2462,7 +2841,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
 
               .then(
                 (result) => {
-               //   this.tableData = result.data;
+                  //   this.tableData = result.data;
 
                   //tabulator
                   //this.setState({ dataCompteur: result.data })
@@ -2581,7 +2960,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
                         timer: 4000,
                         icon: 'success',
                         width: 400,
-                        title: 'La liste des compteurs filtrés est clonée.'
+                        title: 'Les compteurs de votre liste de recherche ont été clonés'
                       })
                     }
 
@@ -2626,7 +3005,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
     this.setState({ modal7: !this.state.modal7 })
   }
   getindexcompteur(event) {
-     console.log('event',event);
+    console.log('event', event);
     // console.log(event);
     // console.log(this.state.listcompteurglobal);
     this.setState({ indexmesure: event })
@@ -2635,11 +3014,11 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
   }
 
   getindexmesue(event, value) {
-   console.log("getindexmesue",event,value)
+    console.log("getindexmesue", event, value)
     this.setState({ indexmesure: event })
     this.setState({ MesureidObjective: value })
 
- 
+
     this.setState({ modal4: !this.state.modal4 })
     // this.setState({ modal6: !this.state.modal6 })
     // this.setState({ modal8: !this.state.modal8 })
@@ -2650,21 +3029,21 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
     // console.log(this.state.indexmesure)
     // console.log(this.state.Listmesureenergy[this.state.indexmesure])
     //var cc_m 
-    console.log("this.state.Listmesureenergy",this.state.Listmesureenergy)
+    console.log("this.state.Listmesureenergy", this.state.Listmesureenergy)
     const listmesure = this.state.Listmesureenergy.map((item, j) => {
-      console.log("j === this.state.indexmesure",j === this.state.indexmesure)
+      console.log("j === this.state.indexmesure", j === this.state.indexmesure)
       if (j === this.state.indexmesure) {
         //cc_m = item.measure_Label + ":" + this.state.valuetomesure;
-         console.log(item);
+        console.log(item);
         console.log(item.measure_Label.includes(':'));
         if (item.measure_Label.includes(':') === true) {
           item.measure_Label = item.measure_Label.replace(/[^:]+$/g, this.state.valuetomesure);
-         // this.sendsetobjective()
+          // this.sendsetobjective()
 
           return item;
         } else if (item.measure_Label.includes(':') === false) {
           item.measure_Label = item.measure_Label + ':' + this.state.valuetomesure
-         // this.sendsetobjective()
+          // this.sendsetobjective()
           return item
         }
 
@@ -2674,7 +3053,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
       }
     });
 
-//console.log("listmesure",listmesure)
+    //console.log("listmesure",listmesure)
     this.setState({ Listmesureenergy: listmesure })
     // console.log("this.state.ListSetobjective",this.state.ListSetobjective)
     // console.log("this.state.CodecompteurObjective",this.state.CodecompteurObjective)
@@ -2700,7 +3079,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
         "value": this.state.valuetomesure,
       })
     }
-    console.log("this.state.ListSetobjective--------------+++++++++++++++------------",this.state.ListSetobjective)
+    console.log("this.state.ListSetobjective--------------+++++++++++++++------------", this.state.ListSetobjective)
     this.sendsetobjective()
     this.setState({ modal4: !this.state.modal4 })
     this.state.valuetomesure = ""
@@ -2721,7 +3100,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
       .then(
         (result) => {
           //this.tableData = result.data;
-      //     console.log("insertiot",result.data)
+          //     console.log("insertiot",result.data)
           this.state.ListSetobjective = []
           //this.setState({ modal4: !this.state.modal4 })
 
@@ -2740,8 +3119,8 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
   }
   handlemesureselectedchange = (event1, event2) => {
     // console.log(event1)
-  //   console.log(this.state.listobjectivefromDB.length)
-  //   console.log("listobjectivefromDB",this.state.listobjectivefromDB)
+    //   console.log(this.state.listobjectivefromDB.length)
+    //   console.log("listobjectivefromDB",this.state.listobjectivefromDB)
     // console.log(event1.includes(this.state.listobjectivefromDB.m_name + ':'))
     var number = 0
     if (this.state.listobjectivefromDB.length > 0) {
@@ -2776,10 +3155,10 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
           // console.log('hii')
         } else {
           // console.log('alert s\'il vous plait sélectionner une mesure possede une valeur différente 0.')
-          
+
         }
       })
-    //  console.log(number)
+      //  console.log(number)
 
       if (number == 0) {
         Swal.fire({
@@ -2787,20 +3166,20 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
           position: 'top',
 
           showConfirmButton: false,
-          timer: 4000,
+          timer: 6000,
           icon: 'warning',
-          width: 400,
-          title: 'S\'il vous plaît sélectionner une mesure possède une valeur'
+          width: 600,
+          title: "Veuillez saisir une valeur d'objectif valide"
         })
         //// console.log("alert aucun objectif declaré")
         //// console.log("alert")
 
-      }else if (number == 1){
-         this.setState({
-            modal3: false
-          })
+      } else if (number == 1) {
+        this.setState({
+          modal3: false
+        })
 
-          this.setState({ modalFilterMesure: false })
+        this.setState({ modalFilterMesure: false })
       }
 
 
@@ -2813,7 +3192,7 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
         timer: 4000,
         icon: 'warning',
         width: 400,
-        title: 'Aucun objectif ne déclaré dans la base de donnée'
+        title: 'Aucun objectif déclaré dans la base de donnée'
       })
       //// console.log("alert aucun objectif declaré")
       //// console.log("alert")
@@ -2824,19 +3203,23 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
 
   };
   addUinputobjective = (value) => {
-    console.log("kkkkkk",value)
-    
-    if(value.length!=0){
-    this.setState({
-      Objectif: [{
-        "U_inputobjective": "objective : " + [value].join(''),
-        "Sys_inputobjective": [{
-          "keyword": null, "operateur": null, "att": null,
-          "valeur": [{ "type": "r", "content": [value].join('') }], "user_value": null
-        }
-        ]
-      }]
-    });}
+    console.log("kkkkkk------------", value)
+    console.log("kkkkkk--------length----", value.length)
+
+    if (value.length != 0) {
+      console.log("kkkkkk------------", value)
+      this.setState({
+        Objectif: [{
+          "U_inputobjective": "objective : " + [value].join(''),
+          "Sys_inputobjective": [{
+            "keyword": null, "operateur": null, "att": null,
+            "valeur": [{ "type": "r", "content": [value].join('') }], "user_value": null
+          }
+          ]
+        }]
+      });
+    }
+
   }
   clearequation = () => {
     this.setState({ U_inputobjective: [] });
@@ -2847,818 +3230,841 @@ console.log("this.state.ajoutertemp",this.state.ajoutertemp,"this.state.supprime
   onClick() {
     this.toggle(3)
   }
-
-
   lod() {
     window.addEventListener('beforeunload', function (e) {
       e.preventDefault();
       e.returnValue = 'Les modifications que vous avez apportées ne seront peut-être pas enregistrées.';
     });
   }
-//////////////////////////////////////////////////
-  selectDataTabulator=(ArrayData)=>{
-    this.setState({datamodifier:ArrayData})
+  //////////////////////////////////////////////////
+  selectDataTabulator = (ArrayData) => {
+    this.setState({ datamodifier: ArrayData })
   }
 
-  datamodifierFun= (e, cell, row)=> {
-  
-    const datamodifier = [];
-   // var position = cell.getRow().getPosition()
-    datamodifier.splice(0, 2)
-    datamodifier.push(cell.getData());
+  datamodifierFun = (e, cell, row) => {
+
+    var datamodifier = [cell.getData()];
+    // var position = cell.getRow().getPosition()
+    //datamodifier.splice(0, 2)
+    const position = cell.getRow().getPosition()
+    this.setState({ position })
+    console.log("datamodifier", datamodifier)
     this.selectDataTabulator(datamodifier)
+    // this.setState({datamodifier:datamodifier})
 
   }
-  supprimerFunIcon(){
-    return "<i class='fa fa-trash-alt icon'></i>"; 
+  supprimerFunIcon() {
+    return "<i class='fa fa-trash-alt icon'></i>";
   }
-  supprimerFunclick=(e, cell)=>{
+  supprimerFunclick = (e, cell) => {
     console.log(cell)
     this.toggleDelete()
     this.CellTableFun(cell)
     //cell.getData();
-  //  alert("confirmation de Suppression" + " " + cell.getData().U_Alarme_Name);
+    //  alert("confirmation de Suppression" + " " + cell.getData().U_Alarme_Name);
 
-  
 
-   
+
+
   }
-  
-  ModifierDataEmploi=(DataEmploi)=>{
-//console.log("-----------------DataEmploi--------------------",DataEmploi)
-this.setState({modifiertab:DataEmploi})
+
+  ModifierDataEmploi = (DataEmploi) => {
+    //console.log("-----------------DataEmploi--------------------",DataEmploi)
+    this.setState({ modifiertab: DataEmploi })
   }
-/////////////////////////////////////////
-  AjoutDataEmploi=(DataEmploi)=>{
+  /////////////////////////////////////////
+  AjoutDataEmploi = (DataEmploi) => {
     // console.log("-----------------DataEmploi--------------------",DataEmploi)
-    this.setState({ajoutertap:DataEmploi})
-      }
-  selectMeasureGetObject=(jsonMeasur)=>{
-  //  console.log("page cas incident ",[jsonMeasur])
-this.setState({MeasureGetObject:[jsonMeasur]})
+    this.setState({ ajoutertap: DataEmploi })
   }
-  toggleFilterMesure=()=>{
+  selectMeasureGetObject = (jsonMeasur) => {
+    //  console.log("page cas incident ",[jsonMeasur])
+    this.setState({ MeasureGetObject: [jsonMeasur] })
+  }
+  toggleFilterMesure = () => {
     //console.log(this.state.U_Compteur)
-    if(this.state.U_Compteur!=""){
+    if (this.state.U_Compteur != "") {
 
-if(this.state.codeCompterIncidentCalculatrice==""&&this.state.datamodifier.length!=0){
+      if (this.state.codeCompterIncidentCalculatrice == "" && this.state.datamodifier.length != 0) {
 
-  axios1.get(window.apiUrl+`getMLByEnergy/?energies=${this.state.energycompteurselected}`)
-            
-  .then(
-    ({data})=>{
+        axios1.get(window.apiUrl + `getMLByEnergy/?energies=${this.state.energycompteurselected}`)
 
-  Object.keys(data).map((key, ii, aa) => {
-    const value = data[key]
-    //console.log("value maseur avec energie",value)
-  
-   this.setState({dataMaseurCalculatrice:value})
-})
+          .then(
+            ({ data }) => {
 
-  })
-  .catch(({ response }) => {
+              Object.keys(data).map((key, ii, aa) => {
+                const value = data[key]
+                //console.log("value maseur avec energie",value)
 
-    // console.log("------------",response)
-    if (response != null) {
-      if (response.status == "401") {
+                this.setState({ dataMaseurCalculatrice: value })
+              })
 
-        window.location.assign("/login")
-        localStorage.clear();
+            })
+          .catch(({ response }) => {
+
+            // console.log("------------",response)
+            if (response != null) {
+              if (response.status == "401") {
+
+                window.location.assign("/login")
+                localStorage.clear();
+
+              }
+            }
+          }
+          )
+
+      } else if (this.state.codeCompterIncidentCalculatrice != "") {
+
+        // console.log("codeCompterIncidentCalculatrice",this.state.codeCompterIncidentCalculatrice)
+        axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${this.state.codeCompterIncidentCalculatrice}`)
+
+          .then(
+            (result) => {
+              //   console.log("result",result.data[0].Energie)
+              var Energie = result.data[0].Energie
+              //console.log("Energie",Energie)
+
+
+
+              axios1.get(window.apiUrl + `getMLByEnergy/?energies=${Energie}`)
+
+                .then(
+                  ({ data }) => {
+                    var value = []
+                    Object.keys(data).map((key, ii, aa) => {
+                      value = data[key]
+                      // console.log("value maseur avec energie",value)
+
+
+                    })
+                    this.setState({ dataMaseurCalculatrice: [] })
+                    this.setState({ dataMaseurCalculatrice: value })
+                  })
+                .catch(({ response }) => {
+
+                  // console.log("------------",response)
+                  if (response != null) {
+                    if (response.status == "401") {
+
+                      window.location.assign("/login")
+                      localStorage.clear();
+
+                    }
+                  }
+                }
+                )
+            })
+
 
       }
+      this.setState({ modalFilterMesure: !this.state.modalFilterMesure })
+
+      // setmodalFilterMesure(!modalFilterMesure)
+    } else {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        icon: 'warning',
+        width: 400,
+        title: 'Veuillez sélectionner un compteur de votre choix '
+      })
     }
   }
-  )   
-
-}else if (this.state.codeCompterIncidentCalculatrice!=""){
-
- // console.log("codeCompterIncidentCalculatrice",this.state.codeCompterIncidentCalculatrice)
-  axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${this.state.codeCompterIncidentCalculatrice}`)
-
-        .then(
-          (result) => {
-     //   console.log("result",result.data[0].Energie)
-var Energie =result.data[0].Energie
-//console.log("Energie",Energie)
-    
-
-
-      axios1.get(window.apiUrl+`getMLByEnergy/?energies=${Energie}`)
-            
-      .then(
-        ({data})=>{
-          var value = []
-      Object.keys(data).map((key, ii, aa) => {
-       value = data[key]
-       // console.log("value maseur avec energie",value)
-      
-      
-    })
-    this.setState({dataMaseurCalculatrice:[]})
-     this.setState({dataMaseurCalculatrice:value})
-      })
-      .catch(({ response }) => {
-    
-        // console.log("------------",response)
-        if (response != null) {
-          if (response.status == "401") {
-    
-            window.location.assign("/login")
-            localStorage.clear();
-    
-          }
-        }
-      }
-      )   
-          })
-
-
-}
-    this.setState({modalFilterMesure:!this.state.modalFilterMesure})
-
-   // setmodalFilterMesure(!modalFilterMesure)
-  } else {
-    Swal.fire({
-      toast: true,
-      position: 'top',
-      showConfirmButton: false,
-      timer: 4000,
-      icon: 'warning',
-      width: 400,
-      title: 'Sélectionner compteur s\'il vous plait '
-    })}
-  }
-  toggleFilterMesure3=()=>{
+  toggleFilterMesure3 = () => {
     console.log(this.state.U_Compteur)
-    if(this.state.U_Compteur!=""){
+    if (this.state.U_Compteur != "") {
 
-if(this.state.codeCompterIncidentCalculatrice==""&&this.state.datamodifier.length!=0){
+      if (this.state.codeCompterIncidentCalculatrice == "" && this.state.datamodifier.length != 0) {
 
-  axios1.get(window.apiUrl+`getMLByEnergy/?energies=${this.state.energycompteurselected}`)
-            
-  .then(
-    ({data})=>{
+        axios1.get(window.apiUrl + `getMLByEnergy/?energies=${this.state.energycompteurselected}`)
 
-  Object.keys(data).map((key, ii, aa) => {
-    const value = data[key]
-    //console.log("value maseur avec energie",value)
-  
-   this.setState({dataMaseurCalculatrice:value})
-})
+          .then(
+            ({ data }) => {
 
-  })
-  .catch(({ response }) => {
+              Object.keys(data).map((key, ii, aa) => {
+                const value = data[key]
+                //console.log("value maseur avec energie",value)
 
-    // console.log("------------",response)
-    if (response != null) {
-      if (response.status == "401") {
+                this.setState({ dataMaseurCalculatrice: value })
+              })
 
-        window.location.assign("/login")
-        localStorage.clear();
+            })
+          .catch(({ response }) => {
+
+            // console.log("------------",response)
+            if (response != null) {
+              if (response.status == "401") {
+
+                window.location.assign("/login")
+                localStorage.clear();
+
+              }
+            }
+          }
+          )
+
+      } else if (this.state.codeCompterIncidentCalculatrice != "") {
+
+        // console.log("codeCompterIncidentCalculatrice",this.state.codeCompterIncidentCalculatrice)
+        axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${this.state.codeCompterIncidentCalculatrice}`)
+
+          .then(
+            (result) => {
+              //   console.log("result",result.data[0].Energie)
+              var Energie = result.data[0].Energie
+              //console.log("Energie",Energie)
+
+
+
+              axios1.get(window.apiUrl + `getMLByEnergy/?energies=${Energie}`)
+
+                .then(
+                  ({ data }) => {
+                    var value = []
+                    Object.keys(data).map((key, ii, aa) => {
+                      value = data[key]
+                      // console.log("value maseur avec energie",value)
+
+
+                    })
+                    this.setState({ dataMaseurCalculatrice: [] })
+                    this.setState({ dataMaseurCalculatrice: value })
+                  })
+                .catch(({ response }) => {
+
+                  // console.log("------------",response)
+                  if (response != null) {
+                    if (response.status == "401") {
+
+                      window.location.assign("/login")
+                      localStorage.clear();
+
+                    }
+                  }
+                }
+                )
+            })
+
 
       }
+      this.setState({ modalFilterMesure3: !this.state.modalFilterMesure3 })
+
+      // setmodalFilterMesure(!modalFilterMesure)
+    } else {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        icon: 'warning',
+        width: 400,
+        title: 'Veuillez sélectionner un compteur de votre choix '
+      })
     }
   }
-  )   
-
-}else if (this.state.codeCompterIncidentCalculatrice!=""){
-
- // console.log("codeCompterIncidentCalculatrice",this.state.codeCompterIncidentCalculatrice)
-  axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${this.state.codeCompterIncidentCalculatrice}`)
-
-        .then(
-          (result) => {
-     //   console.log("result",result.data[0].Energie)
-var Energie =result.data[0].Energie
-//console.log("Energie",Energie)
-    
-
-
-      axios1.get(window.apiUrl+`getMLByEnergy/?energies=${Energie}`)
-            
-      .then(
-        ({data})=>{
-          var value = []
-      Object.keys(data).map((key, ii, aa) => {
-       value = data[key]
-       // console.log("value maseur avec energie",value)
-      
-      
-    })
-    this.setState({dataMaseurCalculatrice:[]})
-     this.setState({dataMaseurCalculatrice:value})
-      })
-      .catch(({ response }) => {
-    
-        // console.log("------------",response)
-        if (response != null) {
-          if (response.status == "401") {
-    
-            window.location.assign("/login")
-            localStorage.clear();
-    
-          }
-        }
-      }
-      )   
-          })
-
-
-}
-    this.setState({modalFilterMesure3:!this.state.modalFilterMesure3})
-
-   // setmodalFilterMesure(!modalFilterMesure)
-  } else {
-    Swal.fire({
-      toast: true,
-      position: 'top',
-      showConfirmButton: false,
-      timer: 4000,
-      icon: 'warning',
-      width: 400,
-      title: 'Sélectionner compteur s\'il vous plait '
-    })}
-  }
-  toggleFilterMesure5=()=>{
+  toggleFilterMesure5 = () => {
     console.log(this.state.U_Compteur)
-    if(this.state.U_Compteur!=""){
+    if (this.state.U_Compteur != "") {
 
-if(this.state.codeCompterIncidentCalculatrice==""&&this.state.datamodifier.length!=0){
+      if (this.state.codeCompterIncidentCalculatrice == "" && this.state.datamodifier.length != 0) {
 
-  axios1.get(window.apiUrl+`getMLByEnergy/?energies=${this.state.energycompteurselected}`)
-            
-  .then(
-    ({data})=>{
+        axios1.get(window.apiUrl + `getMLByEnergy/?energies=${this.state.energycompteurselected}`)
 
-  Object.keys(data).map((key, ii, aa) => {
-    const value = data[key]
-    //console.log("value maseur avec energie",value)
-  
-   this.setState({dataMaseurCalculatrice:value})
-})
+          .then(
+            ({ data }) => {
 
-  })
-  .catch(({ response }) => {
+              Object.keys(data).map((key, ii, aa) => {
+                const value = data[key]
+                //console.log("value maseur avec energie",value)
 
-    // console.log("------------",response)
-    if (response != null) {
-      if (response.status == "401") {
+                this.setState({ dataMaseurCalculatrice: value })
+              })
 
-        window.location.assign("/login")
-        localStorage.clear();
+            })
+          .catch(({ response }) => {
+
+            // console.log("------------",response)
+            if (response != null) {
+              if (response.status == "401") {
+
+                window.location.assign("/login")
+                localStorage.clear();
+
+              }
+            }
+          }
+          )
+
+      } else if (this.state.codeCompterIncidentCalculatrice != "") {
+
+        // console.log("codeCompterIncidentCalculatrice",this.state.codeCompterIncidentCalculatrice)
+        axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${this.state.codeCompterIncidentCalculatrice}`)
+
+          .then(
+            (result) => {
+              //   console.log("result",result.data[0].Energie)
+              var Energie = result.data[0].Energie
+              //console.log("Energie",Energie)
+
+
+
+              axios1.get(window.apiUrl + `getMLByEnergy/?energies=${Energie}`)
+
+                .then(
+                  ({ data }) => {
+                    var value = []
+                    Object.keys(data).map((key, ii, aa) => {
+                      value = data[key]
+                      // console.log("value maseur avec energie",value)
+
+
+                    })
+                    this.setState({ dataMaseurCalculatrice: [] })
+                    this.setState({ dataMaseurCalculatrice: value })
+                  })
+                .catch(({ response }) => {
+
+                  // console.log("------------",response)
+                  if (response != null) {
+                    if (response.status == "401") {
+
+                      window.location.assign("/login")
+                      localStorage.clear();
+
+                    }
+                  }
+                }
+                )
+            })
+
 
       }
+      this.setState({ modalFilterMesure5: !this.state.modalFilterMesure5 })
+
+      // setmodalFilterMesure(!modalFilterMesure)
+    } else {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        icon: 'warning',
+        width: 400,
+        title: 'Veuillez sélectionner un compteur de votre choix '
+      })
     }
   }
-  )   
-
-}else if (this.state.codeCompterIncidentCalculatrice!=""){
-
- // console.log("codeCompterIncidentCalculatrice",this.state.codeCompterIncidentCalculatrice)
-  axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${this.state.codeCompterIncidentCalculatrice}`)
-
-        .then(
-          (result) => {
-     //   console.log("result",result.data[0].Energie)
-var Energie =result.data[0].Energie
-//console.log("Energie",Energie)
-    
-
-
-      axios1.get(window.apiUrl+`getMLByEnergy/?energies=${Energie}`)
-            
-      .then(
-        ({data})=>{
-          var value = []
-      Object.keys(data).map((key, ii, aa) => {
-       value = data[key]
-       // console.log("value maseur avec energie",value)
-      
-      
-    })
-    this.setState({dataMaseurCalculatrice:[]})
-     this.setState({dataMaseurCalculatrice:value})
-      })
-      .catch(({ response }) => {
-    
-        // console.log("------------",response)
-        if (response != null) {
-          if (response.status == "401") {
-    
-            window.location.assign("/login")
-            localStorage.clear();
-    
-          }
-        }
-      }
-      )   
-          })
-
-
-}
-    this.setState({modalFilterMesure5:!this.state.modalFilterMesure5})
-
-   // setmodalFilterMesure(!modalFilterMesure)
-  } else {
-    Swal.fire({
-      toast: true,
-      position: 'top',
-      showConfirmButton: false,
-      timer: 4000,
-      icon: 'warning',
-      width: 400,
-      title: 'Sélectionner compteur s\'il vous plait '
-    })}
-  }
-  toggleFilterMesure7=()=>{
+  toggleFilterMesure7 = () => {
     console.log(this.state.U_Compteur)
-    if(this.state.U_Compteur!=""){
+    if (this.state.U_Compteur != "") {
 
-if(this.state.codeCompterIncidentCalculatrice==""&&this.state.datamodifier.length!=0){
+      if (this.state.codeCompterIncidentCalculatrice == "" && this.state.datamodifier.length != 0) {
 
-  axios1.get(window.apiUrl+`getMLByEnergy/?energies=${this.state.energycompteurselected}`)
-            
-  .then(
-    ({data})=>{
+        axios1.get(window.apiUrl + `getMLByEnergy/?energies=${this.state.energycompteurselected}`)
 
-  Object.keys(data).map((key, ii, aa) => {
-    const value = data[key]
-    //console.log("value maseur avec energie",value)
-  
-   this.setState({dataMaseurCalculatrice:value})
-})
+          .then(
+            ({ data }) => {
 
-  })
-  .catch(({ response }) => {
+              Object.keys(data).map((key, ii, aa) => {
+                const value = data[key]
+                //console.log("value maseur avec energie",value)
 
-    // console.log("------------",response)
-    if (response != null) {
-      if (response.status == "401") {
+                this.setState({ dataMaseurCalculatrice: value })
+              })
 
-        window.location.assign("/login")
-        localStorage.clear();
+            })
+          .catch(({ response }) => {
+
+            // console.log("------------",response)
+            if (response != null) {
+              if (response.status == "401") {
+
+                window.location.assign("/login")
+                localStorage.clear();
+
+              }
+            }
+          }
+          )
+
+      } else if (this.state.codeCompterIncidentCalculatrice != "") {
+
+        // console.log("codeCompterIncidentCalculatrice",this.state.codeCompterIncidentCalculatrice)
+        axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${this.state.codeCompterIncidentCalculatrice}`)
+
+          .then(
+            (result) => {
+              //   console.log("result",result.data[0].Energie)
+              var Energie = result.data[0].Energie
+              //console.log("Energie",Energie)
+
+
+
+              axios1.get(window.apiUrl + `getMLByEnergy/?energies=${Energie}`)
+
+                .then(
+                  ({ data }) => {
+                    var value = []
+                    Object.keys(data).map((key, ii, aa) => {
+                      value = data[key]
+                      // console.log("value maseur avec energie",value)
+
+
+                    })
+                    this.setState({ dataMaseurCalculatrice: [] })
+                    this.setState({ dataMaseurCalculatrice: value })
+                  })
+                .catch(({ response }) => {
+
+                  // console.log("------------",response)
+                  if (response != null) {
+                    if (response.status == "401") {
+
+                      window.location.assign("/login")
+                      localStorage.clear();
+
+                    }
+                  }
+                }
+                )
+            })
+
 
       }
+      this.setState({ modalFilterMesure7: !this.state.modalFilterMesure7 })
+
+      // setmodalFilterMesure(!modalFilterMesure)
+    } else {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 4000,
+        icon: 'warning',
+        width: 400,
+        title: 'Veuillez sélectionner un compteur de votre choix '
+      })
     }
   }
-  )   
+  functionListePourCloner = (liste) => {
+    // console.log("-------------------->",liste)
 
-}else if (this.state.codeCompterIncidentCalculatrice!=""){
-
- // console.log("codeCompterIncidentCalculatrice",this.state.codeCompterIncidentCalculatrice)
-  axios1.get(window.apiUrl + `getEnergyFromCounters/?counters=${this.state.codeCompterIncidentCalculatrice}`)
-
-        .then(
-          (result) => {
-     //   console.log("result",result.data[0].Energie)
-var Energie =result.data[0].Energie
-//console.log("Energie",Energie)
-    
-
-
-      axios1.get(window.apiUrl+`getMLByEnergy/?energies=${Energie}`)
-            
-      .then(
-        ({data})=>{
-          var value = []
-      Object.keys(data).map((key, ii, aa) => {
-       value = data[key]
-       // console.log("value maseur avec energie",value)
-      
-      
-    })
-    this.setState({dataMaseurCalculatrice:[]})
-     this.setState({dataMaseurCalculatrice:value})
-      })
-      .catch(({ response }) => {
-    
-        // console.log("------------",response)
-        if (response != null) {
-          if (response.status == "401") {
-    
-            window.location.assign("/login")
-            localStorage.clear();
-    
-          }
-        }
-      }
-      )   
-          })
-
-
-}
-    this.setState({modalFilterMesure7:!this.state.modalFilterMesure7})
-
-   // setmodalFilterMesure(!modalFilterMesure)
-  } else {
-    Swal.fire({
-      toast: true,
-      position: 'top',
-      showConfirmButton: false,
-      timer: 4000,
-      icon: 'warning',
-      width: 400,
-      title: 'Sélectionner compteur s\'il vous plait '
-    })}
-  }
-  functionListePourCloner=(liste)=>
-  {
-   // console.log("-------------------->",liste)
-
-    this.setState({listeCompteurPourCloner:liste})
+    this.setState({ listeCompteurPourCloner: liste })
 
   }
-  funObjectifValeurInputModifier=(objectifValeurInput)=>{
+  funObjectifValeurInputModifier = (objectifValeurInput) => {
 
-    this.setState({objectifValeurInput:objectifValeurInput})
+    this.setState({ objectifValeurInput: objectifValeurInput })
 
   }
 
-  funModaleObjective=(modalObject,nb)=>{
-    if(nb==3){
-this.setState({modalFilterMesure3:false})
-}else if(nb==5){
-  this.setState({modalFilterMesure5:false})
+  funModaleObjective = (modalObject, nb) => {
+    if (nb == 3) {
+      this.setState({ modalFilterMesure3: false })
+    } else if (nb == 5) {
+      this.setState({ modalFilterMesure5: false })
 
-}else if(nb==7){
-  this.setState({modalFilterMesure7:false})
+    } else if (nb == 7) {
+      this.setState({ modalFilterMesure7: false })
 
-}
+    }
   }
 
+  validationEmploi = (Validation) => {
+    console.log("cas incidents pas validation emploi", Validation)
+    this.setState({ validationEmploiTemp: Validation })
+  }
+  ValidationObjectif = (valeur) => {
+    this.state.U_inputobjective = valeur
 
+  }
   render() {
     const scrollContainerStyle = { maxHeight: "300px" };
 
     return (
-      <React.Fragment>
-        {
-          this.state.loading ? (
-            <Fetching />
-          ) : (
-            <div>
-              <MDBBreadcrumb style={{ backgroundColor: '#b1b5b438',color: "#000",fontFamily: 'GOTHAM MEDIUM' }}>
-                <MDBBreadcrumbItem>  Rapporteur</MDBBreadcrumbItem>
-                <MDBBreadcrumbItem > Cas-Incidents</MDBBreadcrumbItem>
-              </MDBBreadcrumb>
+
+      <>
+        <Navbar history={this.state.history} />
+        <MDBBreadcrumb style={{ backgroundColor: '#b1b5b438', color: "#000", fontFamily: 'GOTHAM MEDIUM' }}>
+          <MDBBreadcrumbItem>  Rapporteur</MDBBreadcrumbItem>
+          <MDBBreadcrumbItem > Cas-Incidents</MDBBreadcrumbItem>
+        </MDBBreadcrumb>
 
 
-              <div style={{ margin: 30 }}>
-                <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle(1)} style={{ width: "196px"}} className="float-left">Nouveau <MDBIcon icon="plus-square" className="ml-1" /></MDBBtn>
-  {/***Nouveau******************************************************************************************************************************************************** */}             
-              
-                <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} size="lg" centered className="modal-dialog-scrollable" >
-                  <NouveauCasIncidentsModale 
-                toggleNouveau={this.toggle(1)} 
-                toggleObjective={this.toggle(3)} 
-                modalObjective={this.state.modal3} 
-                toggleValue={this.toggle(4)} 
-                modalValue={this.state.modal4}
-                U_Alarme_Name ={this.state.U_Alarme_Name}
-                handleChange={this.handleChange}
-                componentcalculator={this.componentcalculator}
-                U_Compteur={this.state.U_Compteur}
-                displaycalculator={this.state.displaycalculator}
-                callbackValueIncident={this.callbackValueIncident}
-                callbackmodel={this.callbackmodel}
-                Compteur_Incident={this.state.Compteur_Incident}
-                FormulewithTildee={this.state.FormulewithTildee}
-                Sys_equationwithTilde={this.state.Sys_equationwithTilde}
-                TAG_Formule={this.state.TAG_Formule}
-                U_Formule={this.state.U_Formule}
-                valuedropdown={this.state.valuedropdown}
-                operator={this.state.operator}
-                onClickHandler={this.onClickHandler}
-                showgetobjective={this.state.showgetobjective}
-                displaycalculatriceobjective={this.state.displaycalculatriceobjective}
-                U_inputobjective={this.state.U_inputobjective}
-                Sys_inputobjective={this.state.Sys_inputobjective}
-                energycompteurselected={this.state.energycompteurselected}
-                incidentselectedwithoutlive={this.state.incidentselectedwithoutlive}
-                Listmesureenergy={this.state.Listmesureenergy}
-                handlemesureselectedchange={this.handlemesureselectedchange}
-                getindexmesue={this.getindexmesue}
-                addvaluetomesue={this.addvaluetomesue}
-                valuetomesure={this.state.valuetomesure}
-                Annulersendsetobjective={this.Annulersendsetobjective}
-                showadvanced={this.showadvanced}
-                displayadvanced={this.state.displayadvanced}
-                callbackAdvancedObjective={this.callbackAdvancedObjective}
-                MesureList={this.state.MesureList}
-                CodecompteurObjective={this.state.CodecompteurObjective}
-                Next_Check={this.state.Next_Check}
-                periode={this.state.periode}
-                TempsUnite={this.state.TempsUnite}
-                num={this.state.num}
-                ajouter={this.ajouter}
-             //   deleteequation={this.deleteequation}
-                clearequation={this.clearequation}
-                AjoutDataEmploi={this.AjoutDataEmploi}
-                dataEnergyMeasure={this.state.dataMaseurCalculatrice}
-                selectMeasureGetObject={this.selectMeasureGetObject}
-                modalFilterMesure={this.state.modalFilterMesure}
-                toggleFilterMesure={this.toggleFilterMesure}
-                modalFilterMesure3={this.state.modalFilterMesure3}
-                toggleFilterMesure3={this.toggleFilterMesure3}
-                modalFilterMesure5={this.state.modalFilterMesure5}
-                toggleFilterMesure5={this.toggleFilterMesure5}
-                modalFilterMesure7={this.state.modalFilterMesure7}
-                toggleFilterMesure7={this.toggleFilterMesure7}
-                addUinputobjective={this.addUinputobjective}
-                datamodifier={this.state.datamodifier}
-                funModaleObjective={this.funModaleObjective}
-                />
-                
-                </MDBModal> 
-  {/*********************************************************************************************************************************************************** */}             
+        <div style={{ margin: 30 }}>
+          <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle(1)} style={{ width: "196px" }} className="float-left">Nouveau <MDBIcon icon="plus-square" className="ml-1" /></MDBBtn>
+          {/***Nouveau******************************************************************************************************************************************************** */}
 
-                <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle(5)} style={{ width: "196px"}} className="float-left" >Cloner <MDBIcon icon="clone" className="ml-1" /></MDBBtn>
-  {/****Cloner******************************************************************************************************************************************************* */}             
+          <MDBModal isOpen={this.state.modal1} toggle={this.toggle(1)} size="lg" centered className="modal-dialog-scrollable" >
+            <NouveauCasIncidentsModale
+              toggleNouveau={this.toggle(1)}
+              toggleObjective={this.toggle(3)}
+              modalObjective={this.state.modal3}
+              toggleValue={this.toggle(4)}
+              modalValue={this.state.modal4}
+              U_Alarme_Name={this.state.U_Alarme_Name}
+              handleChange={this.handleChange}
+              componentcalculator={this.componentcalculator}
+              U_Compteur={this.state.U_Compteur}
+              displaycalculator={this.state.displaycalculator}
+              callbackValueIncident={this.callbackValueIncident}
+              callbackmodel={this.callbackmodel}
+              Compteur_Incident={this.state.Compteur_Incident}
+              FormulewithTildee={this.state.FormulewithTildee}
+              Sys_equationwithTilde={this.state.Sys_equationwithTilde}
+              TAG_Formule={this.state.TAG_Formule}
+              U_Formule={this.state.U_Formule}
+              valuedropdown={this.state.valuedropdown}
+              operator={this.state.operator}
+              onClickHandler={this.onClickHandler}
+              showgetobjective={this.state.showgetobjective}
+              displaycalculatriceobjective={this.state.displaycalculatriceobjective}
+              U_inputobjective={this.state.U_inputobjective}
+              Sys_inputobjective={this.state.Sys_inputobjective}
+              energycompteurselected={this.state.energycompteurselected}
+              incidentselectedwithoutlive={this.state.incidentselectedwithoutlive}
+              Listmesureenergy={this.state.Listmesureenergy}
+              handlemesureselectedchange={this.handlemesureselectedchange}
+              getindexmesue={this.getindexmesue}
+              addvaluetomesue={this.addvaluetomesue}
+              valuetomesure={this.state.valuetomesure}
+              Annulersendsetobjective={this.Annulersendsetobjective}
+              showadvanced={this.showadvanced}
+              displayadvanced={this.state.displayadvanced}
+              callbackAdvancedObjective={this.callbackAdvancedObjective}
+              MesureList={this.state.MesureList}
+              CodecompteurObjective={this.state.CodecompteurObjective}
+              Next_Check={this.state.Next_Check}
+              periode={this.state.periode}
+              TempsUnite={this.state.TempsUnite}
+              num={this.state.num}
+              ajouter={this.ajouter}
+              //   deleteequation={this.deleteequation}
+              clearequation={this.clearequation}
+              AjoutDataEmploi={this.AjoutDataEmploi}
+              dataEnergyMeasure={this.state.dataMaseurCalculatrice}
+              selectMeasureGetObject={this.selectMeasureGetObject}
+              modalFilterMesure={this.state.modalFilterMesure}
+              toggleFilterMesure={this.toggleFilterMesure}
+              modalFilterMesure3={this.state.modalFilterMesure3}
+              toggleFilterMesure3={this.toggleFilterMesure3}
+              modalFilterMesure5={this.state.modalFilterMesure5}
+              toggleFilterMesure5={this.toggleFilterMesure5}
+              modalFilterMesure7={this.state.modalFilterMesure7}
+              toggleFilterMesure7={this.toggleFilterMesure7}
+              addUinputobjective={this.addUinputobjective}
+              datamodifier={this.state.datamodifier}
+              funModaleObjective={this.funModaleObjective}
+              Description={this.state.Description}
+              validationEmploi={this.validationEmploi}
+              ValidationObjectif={this.ValidationObjectif}
+              dataObjectiveAdvanced={this.state.dataObjectiveAdvanced}
+              Parsed_Formule={this.state.Parsed_Formule}
+            />
 
-                <MDBModal isOpen={this.state.modal5} toggle={this.toggle(5)} size="fluid">
-                          <ClonerCasIncidentsModal 
-                              toggleClone={this.toggle(5)} 
-                               listcompteurglobal={this.state.listcompteurglobal}
-                                NameEnergy={this.state.NameEnergy}
-                                CloneCompteur={this.CloneCompteur}
-                                Compteur_Incident_Clonne={this.state.Compteur_Incident_Clonne}
-                                functionListePourCloner={this.functionListePourCloner}
-                                />
-                </MDBModal>
-  {/*********************************************************************************************************************************************************** */}             
-               
-                <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle(6)} id="btnmod" style={{width: "196px"}} className="float-left">Modifier <MDBIcon icon="pen-square"  className="ml-1" /></MDBBtn>
-  {/*******Modifier**************************************************************************************************************************************************** */}             
+          </MDBModal>
+          {/*********************************************************************************************************************************************************** */}
 
-                <MDBModal isOpen={this.state.modal6} toggle={this.toggle(6)} size="lg" centered className="modal-dialog-scrollable">
-                <ModifierCasIncidentsModal
-                toggleModifier={this.toggle(6)} 
-                toggleObjective={this.toggle(3)} 
-                modalObjective={this.state.modal3} 
-                toggleValue={this.toggle(4)} 
-                modalValue={this.state.modal4}
-                U_Alarme_Name ={this.state.U_Alarme_Name}
-                handleChange={this.handleChange}
-                componentcalculator={this.componentcalculator}
-                U_Compteur={this.state.U_Compteur}
-                displaycalculator={this.state.displaycalculator}
-                callbackValueIncident={this.callbackValueIncident}
-                callbackmodel={this.callbackmodel}
-                Compteur_Incident={this.state.Compteur_Incident}
-                FormulewithTildee={this.state.FormulewithTildee}
-                Sys_equationwithTilde={this.state.Sys_equationwithTilde}
-                TAG_Formule={this.state.TAG_Formule}
-                U_Formule={this.state.U_Formule}
-                valuedropdown={this.state.valuedropdown}
-                operator={this.state.operator}
-                onClickHandler={this.onClickHandler}
-                showgetobjective={this.state.showgetobjective}
-                displaycalculatriceobjective={this.state.displaycalculatriceobjective}
-                U_inputobjective={this.state.U_inputobjective}
-                Sys_inputobjective={this.state.Sys_inputobjective}
-                energycompteurselected={this.state.energycompteurselected}
-                incidentselectedwithoutlive={this.state.incidentselectedwithoutlive}
-                Listmesureenergy={this.state.Listmesureenergy}
-                handlemesureselectedchange={this.handlemesureselectedchange}
-                getindexmesue={this.getindexmesue}
-                addvaluetomesue={this.addvaluetomesue}
-                valuetomesure={this.state.valuetomesure}
-                Annulersendsetobjective={this.Annulersendsetobjective}
-                callbackAdvancedObjective={this.callbackAdvancedObjective}
-                MesureList={this.state.MesureList}
-                CodecompteurObjective={this.state.CodecompteurObjective}
-                Next_Check={this.state.Next_Check}
-                periode={this.state.periode}
-                TempsUnite={this.state.TempsUnite}
-                num={this.state.num}
-                modifier={this.modifier}
-               // deleteequation={this.deleteequation}
-                clearequation={this.clearequation}
-                ModifierDataEmploi={this.ModifierDataEmploi}
-                dataEnergyMeasure={this.state.dataMaseurCalculatrice}
-                selectMeasureGetObject={this.selectMeasureGetObject}
-                modalFilterMesure={this.state.modalFilterMesure}
-                toggleFilterMesure={this.toggleFilterMesure}
-                showmodifyadvanced={this.showmodifyadvanced}
-                displaymodifyadvanced={this.state.displaymodifyadvanced}
-                addUinputobjective={this.addUinputobjective}
-                OperateurValueModifier={this.state.OperateurValueModifier}
-                Formule={this.state.Formule}
-                funObjectifValeurInputModifier={this.funObjectifValeurInputModifier}
-                sendtoModifyObjectiveAdvanced={this.state.sendtoModifyObjectiveAdvanced}
-                datamodifier={this.state.datamodifier}
-                modalFilterMesure3={this.state.modalFilterMesure3}
-                toggleFilterMesure3={this.toggleFilterMesure3}
-                modalFilterMesure5={this.state.modalFilterMesure5}
-                toggleFilterMesure5={this.toggleFilterMesure5}
-                modalFilterMesure7={this.state.modalFilterMesure7}
-                toggleFilterMesure7={this.toggleFilterMesure7}
-                funModaleObjective={this.funModaleObjective}
-                />
-                
-                </MDBModal>
-  {/*********************************************************************************************************************************************************** */}             
-                
-                <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.copieralarme} style={{width: "196px" }} className="float-left" disabled={this.state.isDisabledbutton}>Copier <MDBIcon icon="copy" className="ml-1" /></MDBBtn>
-                <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle(8)} style={{ float: 'left' }} className="float-left" /*disabled={this.state.isDisabledbuttonclone}*/ disabled >Cloner objective <MDBIcon icon="clone" className="ml-1" /></MDBBtn>
-  {/****Cloner objective ******************************************************************************************************************************************************* */}             
+          <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle(5)} style={{ width: "196px" }} className="float-left" >Cloner <MDBIcon icon="clone" className="ml-1" /></MDBBtn>
+          {/****Cloner******************************************************************************************************************************************************* */}
 
-                <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} size="lg">
-                  {/* <MDBModalHeader toggle={this.toggle(4)}>MDBModal title</MDBModalHeader> */}
-                  <MDBModalHeader toggle={this.toggle(8)}>Cloner Objective</MDBModalHeader>
-                  <MDBModalBody>
-                    <MDBRow>
-                      <MDBCol style={{}} size='6'>
-                        <label htmlFor="defaultFormLoginEmailEx7" >
-                          Filter Compteur :
-                        </label>
+          <MDBModal isOpen={this.state.modal5} toggle={this.toggle(5)} size="fluid">
+            <ClonerCasIncidentsModal
+              toggleClone={this.toggle(5)}
+              listcompteurglobal={this.state.listcompteurglobal}
+              NameEnergy={this.state.NameEnergy}
+              CloneCompteur={this.CloneCompteur}
+              Compteur_Incident_Clonne={this.state.Compteur_Incident_Clonne}
+              functionListePourCloner={this.functionListePourCloner}
+            />
+          </MDBModal>
+          {/*********************************************************************************************************************************************************** */}
+
+          <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle(6)} id="btnmod" style={{ width: "196px" }} className="float-left">Modifier <MDBIcon icon="pen-square" className="ml-1" /></MDBBtn>
+          {/*******Modifier**************************************************************************************************************************************************** */}
+
+          <MDBModal isOpen={this.state.modal6} toggle={this.toggle(6)} size="lg" centered className="modal-dialog-scrollable">
+            <ModifierCasIncidentsModal
+              toggleModifier={this.toggle(6)}
+              toggleObjective={this.toggle(3)}
+              modalObjective={this.state.modal3}
+              toggleValue={this.toggle(4)}
+              modalValue={this.state.modal4}
+              U_Alarme_Name={this.state.U_Alarme_Name}
+              handleChange={this.handleChange}
+              componentcalculator={this.componentcalculator}
+              U_Compteur={this.state.U_Compteur}
+              displaycalculator={this.state.displaycalculator}
+              callbackValueIncident={this.callbackValueIncident}
+              callbackmodel={this.callbackmodel}
+              Compteur_Incident={this.state.Compteur_Incident}
+              FormulewithTildee={this.state.FormulewithTildee}
+              Sys_equationwithTilde={this.state.Sys_equationwithTilde}
+              TAG_Formule={this.state.TAG_Formule}
+              U_Formule={this.state.U_Formule}
+              valuedropdown={this.state.valuedropdown}
+              operator={this.state.operator}
+              onClickHandler={this.onClickHandler}
+              showgetobjective={this.state.showgetobjective}
+              displaycalculatriceobjective={this.state.displaycalculatriceobjective}
+              U_inputobjective={this.state.U_inputobjective}
+              Sys_inputobjective={this.state.Sys_inputobjective}
+              energycompteurselected={this.state.energycompteurselected}
+              incidentselectedwithoutlive={this.state.incidentselectedwithoutlive}
+              Listmesureenergy={this.state.Listmesureenergy}
+              handlemesureselectedchange={this.handlemesureselectedchange}
+              getindexmesue={this.getindexmesue}
+              addvaluetomesue={this.addvaluetomesue}
+              valuetomesure={this.state.valuetomesure}
+              Annulersendsetobjective={this.Annulersendsetobjective}
+              callbackAdvancedObjective={this.callbackAdvancedObjective}
+              MesureList={this.state.MesureList}
+              CodecompteurObjective={this.state.CodecompteurObjective}
+              Next_Check={this.state.Next_Check}
+              periode={this.state.periode}
+              TempsUnite={this.state.TempsUnite}
+              num={this.state.num}
+              modifier={this.modifier}
+              // deleteequation={this.deleteequation}
+              clearequation={this.clearequation}
+              ModifierDataEmploi={this.ModifierDataEmploi}
+              dataEnergyMeasure={this.state.dataMaseurCalculatrice}
+              selectMeasureGetObject={this.selectMeasureGetObject}
+              modalFilterMesure={this.state.modalFilterMesure}
+              toggleFilterMesure={this.toggleFilterMesure}
+              showmodifyadvanced={this.showmodifyadvanced}
+              displaymodifyadvanced={this.state.displaymodifyadvanced}
+              addUinputobjective={this.addUinputobjective}
+              OperateurValueModifier={this.state.OperateurValueModifier}
+              Formule={this.state.Formule}
+              funObjectifValeurInputModifier={this.funObjectifValeurInputModifier}
+              sendtoModifyObjectiveAdvanced={this.state.sendtoModifyObjectiveAdvanced}
+              datamodifier={this.state.datamodifier}
+              modalFilterMesure3={this.state.modalFilterMesure3}
+              toggleFilterMesure3={this.toggleFilterMesure3}
+              modalFilterMesure5={this.state.modalFilterMesure5}
+              toggleFilterMesure5={this.toggleFilterMesure5}
+              modalFilterMesure7={this.state.modalFilterMesure7}
+              toggleFilterMesure7={this.toggleFilterMesure7}
+              funModaleObjective={this.funModaleObjective}
+              Operateur={this.state.Operateur}
+              Description={this.state.Description}
+              validationEmploi={this.validationEmploi}
+              ValidationObjectif={this.ValidationObjectif}
+              dataObjectiveAdvanced={this.state.dataObjectiveAdvanced}
+              Parsed_Formule={this.state.Parsed_Formule}
+            />
+
+          </MDBModal>
+          {/*********************************************************************************************************************************************************** */}
+
+          <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.copieralarme} style={{ width: "196px" }} className="float-left" disabled={this.state.isDisabledbutton}>Copier <MDBIcon icon="copy" className="ml-1" /></MDBBtn>
+          <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.toggle(8)} style={{ float: 'left' }} className="float-left" /*disabled={this.state.isDisabledbuttonclone}*/ disabled >Cloner objective <MDBIcon icon="clone" className="ml-1" /></MDBBtn>
+          {/****Cloner objective ******************************************************************************************************************************************************* */}
+
+          <MDBModal isOpen={this.state.modal8} toggle={this.toggle(8)} size="lg">
+            {/* <MDBModalHeader toggle={this.toggle(4)}>MDBModal title</MDBModalHeader> */}
+            <MDBModalHeader toggle={this.toggle(8)}>Cloner Objective</MDBModalHeader>
+            <MDBModalBody>
+              <MDBRow>
+                <MDBCol style={{}} size='6'>
+                  <label htmlFor="defaultFormLoginEmailEx7" >
+                    Filter Compteur :
+                  </label>
 
 
-                        <MDBCol className='p-0' style={{ marginRight: 0 + 'em', marginTop: 0 + 'px', paddingLeft: 1 + 'em' }}>
-                          <MDBInput label="Energie :"
-                          autoComplete="off"
-                            style={{ marginBottom: 0.8 + 'em', marginTop: 0 + 'em' }}
-                            name="NameEnergy" value={this.state.NameEnergy}
-                            onChange={this.handleChange} disabled />
+                  <MDBCol className='p-0' style={{ marginRight: 0 + 'em', marginTop: 0 + 'px', paddingLeft: 1 + 'em' }}>
+                    <MDBInput label="Energie :"
+                      autoComplete="off"
+                      style={{ marginBottom: 0.8 + 'em', marginTop: 0 + 'em' }}
+                      name="NameEnergy" value={this.state.NameEnergy}
+                      onChange={this.handleChange} disabled />
 
-                          <MDBInput label="Compteur Parent :"
-                          autoComplete="off"
-                            list="listcompteurparent" style={{ marginBottom: 0.8 + 'em', marginTop: 0 + 'em' }}
+                    <MDBInput label="Compteur Parent :"
+                      autoComplete="off"
+                      list="listcompteurparent" style={{ marginBottom: 0.8 + 'em', marginTop: 0 + 'em' }}
 
-                            onClick={this.filtercompteurparent}
-                            name="Compteur_Parent" value={this.state.Compteur_Parent}
-                            onChange={this.handleChange} />
-                          <datalist id="listcompteurparent">
-                            {this.state.listcompteurParent.map((listcompteurParent, i) => <option key={i} value={listcompteurParent}></option>)}
-                          </datalist>
+                      onClick={this.filtercompteurparent}
+                      name="Compteur_Parent" value={this.state.Compteur_Parent}
+                      onChange={this.handleChange} />
+                    <datalist id="listcompteurparent">
+                      {this.state.listcompteurParent.map((listcompteurParent, i) => <option key={i} value={listcompteurParent}></option>)}
+                    </datalist>
 
-                          <MDBInput label="Secteur :"
-                          autoComplete="off"
-                            list="listsecteur" style={{ marginBottom: 0.8 + 'em' }}
+                    <MDBInput label="Secteur :"
+                      autoComplete="off"
+                      list="listsecteur" style={{ marginBottom: 0.8 + 'em' }}
 
-                            onClick={this.filtersecteur}
-                            name="secteur" value={this.state.secteur}
-                            onChange={this.handleChange} />
-                          <datalist id="listsecteur">
-                            {this.state.listsecteur.map((listsecteur, i) => <option key={i} value={listsecteur}></option>)}
-                          </datalist>
+                      onClick={this.filtersecteur}
+                      name="secteur" value={this.state.secteur}
+                      onChange={this.handleChange} />
+                    <datalist id="listsecteur">
+                      {this.state.listsecteur.map((listsecteur, i) => <option key={i} value={listsecteur}></option>)}
+                    </datalist>
 
-                          <MDBInput label="Point de Production :"
-                          autoComplete="off"
-                            list="listptproduction" style={{ marginBottom: 0.8 + 'em' }}
+                    <MDBInput label="Point de Production :"
+                      autoComplete="off"
+                      list="listptproduction" style={{ marginBottom: 0.8 + 'em' }}
 
-                            onClick={this.filterpointproduction}
-                            name="pointproduction" value={this.state.pointproduction}
-                            onChange={this.handleChange}
-                          />
-                          <datalist id="listptproduction">
-                            {this.state.listpointproduction.map(listpointproduction => <option value={listpointproduction}></option>)}
-                          </datalist>
+                      onClick={this.filterpointproduction}
+                      name="pointproduction" value={this.state.pointproduction}
+                      onChange={this.handleChange}
+                    />
+                    <datalist id="listptproduction">
+                      {this.state.listpointproduction.map(listpointproduction => <option value={listpointproduction}></option>)}
+                    </datalist>
 
-                          <MDBInput label="Point de Distribution :"
-                          autoComplete="off"
-                            list="listptdistribution" style={{ marginBottom: 0.8 + 'em' }}
+                    <MDBInput label="Point de Distribution :"
+                      autoComplete="off"
+                      list="listptdistribution" style={{ marginBottom: 0.8 + 'em' }}
 
-                            onClick={this.filterpointdistrubition}
-                            name="pointdistribution" value={this.state.pointdistribution}
-                            onChange={this.handleChange}
-                          />
-                          <datalist id="listptdistribution">
-                            {this.state.listpointdistribution.map((listpointdistribution, i) => <option key={i} value={listpointdistribution}></option>)}
-                          </datalist>
+                      onClick={this.filterpointdistrubition}
+                      name="pointdistribution" value={this.state.pointdistribution}
+                      onChange={this.handleChange}
+                    />
+                    <datalist id="listptdistribution">
+                      {this.state.listpointdistribution.map((listpointdistribution, i) => <option key={i} value={listpointdistribution}></option>)}
+                    </datalist>
 
-                          <MDBInput label="Point de Consommation :"
-                          autoComplete="off"
-                            list="listptconsommation" style={{ marginBottom: 0.8 + 'em' }}
+                    <MDBInput label="Point de Consommation :"
+                      autoComplete="off"
+                      list="listptconsommation" style={{ marginBottom: 0.8 + 'em' }}
 
-                            onClick={this.filterpointconsommation}
-                            name="pointconsommation" value={this.state.pointconsommation}
-                            onChange={this.handleChange} />
-                          <datalist id="listptconsommation">
-                            {this.state.listpointconsommation.map((listpointconsommation, i) => <option key={i} value={listpointconsommation}></option>)}
+                      onClick={this.filterpointconsommation}
+                      name="pointconsommation" value={this.state.pointconsommation}
+                      onChange={this.handleChange} />
+                    <datalist id="listptconsommation">
+                      {this.state.listpointconsommation.map((listpointconsommation, i) => <option key={i} value={listpointconsommation}></option>)}
 
-                          </datalist>
-                        </MDBCol>
+                    </datalist>
+                  </MDBCol>
 
-                      </MDBCol>
-                      <MDBCol size='6'>
+                </MDBCol>
+                <MDBCol size='6'>
 
-                        <div className="d-flex justify-content-between ">
-                          <p className=" m-0 p-0">Liste compteur : </p>
+                  <div className="d-flex justify-content-between ">
+                    <p className=" m-0 p-0">Liste compteur : </p>
+
+                  </div>
+                  <MDBContainer style={{ padding: 0 + 'em' }}>
+                    <MDBListGroup style={{ width: '100%' }} className="scrollbar scrollbar-primary  mx-auto" style={scrollContainerStyle}>
+                      {/* {this.state.listcompteurglobal.map((listcompteurglobal, i) => <MDBListGroupItem hover key={i} value={listcompteurglobal.Le_Compteur} style={{ padding: 0.5 + 'em' }} hover onClick={() => this.handlecompteurselectedchange(listcompteurglobal.Le_Compteur, listcompteurglobal.Code_Compteur)}>{listcompteurglobal.Le_Compteur}</MDBListGroupItem>)} */}
+                      {this.state.listcompteurglobal.map((listcompteurglobal, i) =>
+                        <div className="d-flex d-flex bd-highlight example-parent" style={{
+                          borderLeft: '0.5px solid #d6d4d4',
+                          borderRight: '0.5px solid #d6d4d4',
+                          borderTop: '0.5px solid #d6d4d4',
+                          borderBottom: 'none'
+                        }} >
+                          <MDBListGroupItem hover key={i} value={listcompteurglobal.Le_Compteur}
+                            style={{ padding: 0.5 + 'em' }} hover
+                            onClick={() => this.handlecompteurselectedchange(listcompteurglobal.Le_Compteur, listcompteurglobal.Code_Compteur)}>
+                            {listcompteurglobal.Le_Compteur}</MDBListGroupItem>
+                          <MDBBtn size="sm" color="default" className="float-right" className="flex-shrink-1 bd-highlight col-example"
+
+                            onClick={() => this.getindexcompteur(i)}
+                          >
+                            <MDBIcon icon="trash-alt" />
+
+                          </MDBBtn>
 
                         </div>
-                        <MDBContainer style={{ padding: 0 + 'em' }}>
-                          <MDBListGroup style={{ width: '100%' }} className="scrollbar scrollbar-primary  mx-auto" style={scrollContainerStyle}>
-                            {/* {this.state.listcompteurglobal.map((listcompteurglobal, i) => <MDBListGroupItem hover key={i} value={listcompteurglobal.Le_Compteur} style={{ padding: 0.5 + 'em' }} hover onClick={() => this.handlecompteurselectedchange(listcompteurglobal.Le_Compteur, listcompteurglobal.Code_Compteur)}>{listcompteurglobal.Le_Compteur}</MDBListGroupItem>)} */}
-                            {this.state.listcompteurglobal.map((listcompteurglobal, i) =>
-                              <div className="d-flex d-flex bd-highlight example-parent" style={{
-                                borderLeft: '0.5px solid #d6d4d4',
-                                borderRight: '0.5px solid #d6d4d4',
-                                borderTop: '0.5px solid #d6d4d4',
-                                borderBottom: 'none'
-                              }} >
-                                <MDBListGroupItem hover key={i} value={listcompteurglobal.Le_Compteur}
-                                  style={{ padding: 0.5 + 'em' }} hover
-                                  onClick={() => this.handlecompteurselectedchange(listcompteurglobal.Le_Compteur, listcompteurglobal.Code_Compteur)}>
-                                  {listcompteurglobal.Le_Compteur}</MDBListGroupItem>
-                                <MDBBtn size="sm" color="default" className="float-right" className="flex-shrink-1 bd-highlight col-example"
-
-                                  onClick={() => this.getindexcompteur(i)}
-                                >
-                                  <MDBIcon icon="trash-alt" />
-
-                                </MDBBtn>
-
-                              </div>
-                            )}
-                            <MDBModal isOpen={this.state.modal7} toggle={this.toggle(7)} size="sm">
-                              {/* <MDBModalHeader toggle={this.toggle(4)}>MDBModal title</MDBModalHeader> */}
-                              <MDBModalBody>
-                                <label>Êtes-vous sûr de vouloir supprimer?</label>
+                      )}
+                      <MDBModal isOpen={this.state.modal7} toggle={this.toggle(7)} size="sm">
+                        {/* <MDBModalHeader toggle={this.toggle(4)}>MDBModal title</MDBModalHeader> */}
+                        <MDBModalBody>
+                          <label>Êtes-vous sûr de vouloir supprimer?</label>
 
 
-                              </MDBModalBody>
-                              <MDBModalFooter>
-                                <MDBBtn color="default" size="sm" onClick={() => this.deleteitemfromlistg()}>Supprimer</MDBBtn>
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                          <MDBBtn color="default" size="sm" onClick={() => this.deleteitemfromlistg()}>Supprimer</MDBBtn>
 
-                                <MDBBtn color="primary" size="sm" onClick={this.toggle(7)}>Annuler</MDBBtn>
-                              </MDBModalFooter>
-                            </MDBModal>
-                          </MDBListGroup>
-                        </MDBContainer>
+                          <MDBBtn color="primary" size="sm" onClick={this.toggle(7)}>Annuler</MDBBtn>
+                        </MDBModalFooter>
+                      </MDBModal>
+                    </MDBListGroup>
+                  </MDBContainer>
 
 
 
-                      </MDBCol>
+                </MDBCol>
 
-                    </MDBRow>
-
-
-                  </MDBModalBody>
-
-                  <MDBModalFooter>
-                    <MDBBtn color="default" size="sm" onClick={this.clonerobjective}>Cloner</MDBBtn>
-
-                    <MDBBtn color="primary" size="sm" onClick={this.toggle(8)}>Annuler</MDBBtn>
-                  </MDBModalFooter>
-                </MDBModal>
-  {/*********************************************************************************************************************************************************** */}             
-
-                <MDBBtn color="#bdbdbd grey lighten-1" className="float-right" onClick={this.Enregistrer} style={{width: "196px"}}> Enregistrer <MDBIcon icon="save" className="ml-1" /></MDBBtn>
+              </MDBRow>
 
 
-                {/* <div className="tabulator"  style={{ marginTop: 30 + 'px' }} ref={el => (this.el = el)} /> */}
+            </MDBModalBody>
 
-                <ReactTabulator   style={{ marginTop: 30 + 'px' }}
-        ref={this.table}
-       // cellClick={this.click}
-       // rowClick={this.click2}
-        data={this.state.tableData}
-        columns={this.state.columnsReactTabulator}
-        layout={"fitData"}
-        index={"Alarme_Code"}
-        options={{ pagination:true,
-          paginationSize:8,
-          paginationSizeSelector:[3, 6, 8, 10],
-          pagination: "local", 
-          selectable: 1,
-          movableColumns: true,      
-          resizableRows: true,
-          reactiveData: true,}}
-        />
-        <DeleteRow toggle={this.toggleDelete}  modal={this.state.modalDelete} deletetab={this.deletetab} cellTable={this.state.cellTable} cellName={this.state.cellName}   />
-          
-              </div>
+            <MDBModalFooter>
+              <MDBBtn color="default" size="sm" onClick={this.clonerobjective}>Cloner</MDBBtn>
+
+              <MDBBtn color="primary" size="sm" onClick={this.toggle(8)}>Annuler</MDBBtn>
+            </MDBModalFooter>
+          </MDBModal>
+          {/*********************************************************************************************************************************************************** */}
+
+          <MDBBtn color="#bdbdbd grey lighten-1" className="float-right" onClick={this.Enregistrer} style={{ width: "196px" }}> Enregistrer <MDBIcon icon="save" className="ml-1" /></MDBBtn>
 
 
-            </div>
+          {/* <div className="tabulator"  style={{ marginTop: 30 + 'px' }} ref={el => (this.el = el)} /> */}
 
-          )}
-      </React.Fragment>
+          {/* {this.state.tableData.length ?  */}
+          <ReactTabulator style={{ marginTop: 30 + 'px' }}
+            ref={this.table}
+            // cellClick={this.click}
+            // rowClick={this.click2}
+            data={this.state.tableData}
+            columns={this.state.columnsReactTabulator}
+            layout={"fitData"}
+            index={"Alarme_Code"}
+            options={{
+              pagination: true,
+              paginationSize: 8,
+
+              paginationSizeSelector: [8, 10],
+              pagination: "local",
+              selectable: 1,
+              movableColumns: true,
+              resizableRows: true,
+              reactiveData: true,
+            }}
+          /> 
+          {/* : <></>} */}
+          <DeleteRow toggle={this.toggleDelete} modal={this.state.modalDelete} deletetab={this.deletetab} cellTable={this.state.cellTable} cellName={this.state.cellName} />
+
+        </div>
+
+
+      </>
+
+
     )
 
   }
 }
 export default CasIncident;
-const DeleteRow = ({toggle,modal,deletetab,cellName}) => {
+const DeleteRow = ({ toggle, modal, deletetab, cellName }) => {
   useEffect(() => {
 
   }, [cellName])
-  
-      return ( <MDBContainer>
-  
-          <MDBModal isOpen={modal} toggle={toggle}>
-            <MDBModalHeader toggle={toggle}>confirmation de Suppression  </MDBModalHeader>
-            <MDBModalBody>
-            Supprimer temporairement l'alarme  {cellName}
-            </MDBModalBody>
-            <MDBModalFooter>
-           
-              <MDBBtn color="#b71c1c red darken-4" style={{color: "#fff"}}  onClick={deletetab}>Supprimer</MDBBtn>
-              <MDBBtn color="#e0e0e0 grey lighten-2"  style={{marginRight:"18%"}} onClick={toggle} >Annuller</MDBBtn>
-            </MDBModalFooter>
-          </MDBModal>
-        </MDBContainer>
-         );
-  }
-   
+
+  return (<MDBContainer>
+
+    <MDBModal isOpen={modal} toggle={toggle} centered>
+      <MDBModalHeader toggle={toggle}>Confirmation de Suppression  </MDBModalHeader>
+      <MDBModalBody style={{ textAlign: "center", fontSize: '120%' }}>
+        Supprimer temporairement l'alarme
+        <p style={{ fontWeight: "bold", color: "#b71c1c" }}> {cellName}</p>
+      </MDBModalBody>
+      <MDBModalFooter>
+
+        <MDBBtn color="#b71c1c red darken-4" style={{ color: "#fff" }} onClick={deletetab}>Supprimer</MDBBtn>
+        <MDBBtn color="#e0e0e0 grey lighten-2" style={{ marginRight: "18%" }} onClick={toggle} >Annuller</MDBBtn>
+      </MDBModalFooter>
+    </MDBModal>
+  </MDBContainer>
+  );
+}

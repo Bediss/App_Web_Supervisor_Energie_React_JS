@@ -1,12 +1,14 @@
 import React, { useEffect, useState }from "react";
 import { MDBContainer,MDBRow ,MDBCol, MDBBtn, MDBIcon, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBBreadcrumb, MDBBreadcrumbItem, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem } from 'mdbreact';
-import axios from 'axios';
+import axios1 from "../../axios";
+import axios from "axios";
 import uuid from 'react-uuid';
 import Moment from 'moment';
 import Tabulator from "tabulator-tables"; //import Tabulator library
 //import "tabulator-tables/dist/css/bulma/tabulator_bulma.min.css";
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Swal from 'sweetalert2';
+import Navbar from "../../navbar";
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 const validPhoneRegex = RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/i);
 const validateForm = (errors) => {
@@ -17,10 +19,52 @@ const validateForm = (errors) => {
   );
   return valid;
 }
+import { ReactTabulator, reactFormatter } from 'react-tabulator'
 class MailingListes extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      columns: [
+        {
+          title: "Nom de l'utilisateur",
+          field: "User_Master_Name",
+          width: '30%',
+
+        },
+        {
+          title: "Contact",
+          field: "MailingList_Membres",
+          width: '40%',
+
+        },
+
+        {
+          title: "Supprimer",
+          width: "29%",
+          hozAlign: "center",
+          formatter: this.supprimerFunIcon,
+          cellClick: this.supprimerFunclick,
+          // formatter: function () { //plain text value
+
+          //   return "<i class='fa fa-trash-alt icon'></i>";
+
+          // },
+
+          // cellClick: function (e, cell) {
+          //   cell.getData();
+          //   cell.getRow().delete();
+
+          //   supprimertemp.push(cell.getData().MailingList_Membres);
+
+          //   console.log("supprimertemp", supprimertemp)
+          // }
+        }],
+        tableData : [],
+        modalDelete:false,
+        cellName:"",
+        cellTable:"",
+        tabulatorAfficher: false,
+      history:props.history,
       Nom_MailingList: "",
       Nom_MailingList1: "",
       MailingList_Code: "",
@@ -61,6 +105,7 @@ class MailingListes extends React.Component {
         Nom_MailingList: '* Obligatoire',
       }
     }
+    this.mytable = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.ajouter = this.ajouter.bind(this);
     this.masterListes = this.masterListes.bind(this);
@@ -83,56 +128,18 @@ class MailingListes extends React.Component {
     });
   }
 
-  el = React.createRef();
+  // el = React.createRef();
 
-  mytable = "Tabulator"; //variable to hold your table
-  tableData = [] //data for table to display
+  // mytable = "Tabulator"; //variable to hold your table
+  // tableData = [] //data for table to display
 
   componentDidMount() {
     //getdate
     this.getDate();
     //////
 
-
-   
-
-
-
-
-    axios.defaults.withCredentials = true;
-    axios.post(window.apiUrl + "display/",
-
-      {
-        tablename: "User_Master",
-        identifier: this.state.dateDMY + uuid(),
-        fields: "*",
-        content: "*"
-      }
-    )
-      .then(
-        (rep) => {
-          if (rep.data !== null) {
-            this.state.masterListe = rep.data;
-            console.log(this.state.masterListe)
-          } else {
-            console.log('User_Master est vide')
-
-          }
-        })
-
-  }
-
-  ///*******function MasterListes
-  masterListes() {
-    this.setState({
-
-    });
-    console.log("Button Master liste clicked")
     this.state.Nom_MailingList1 = "User Master Liste";
-    console.log(this.state.Nom_MailingList1)
-
-
-    var $ = require("jquery");
+  var $ = require("jquery");
     $('#listeuser').show();
     $('#btnuser').show();
 
@@ -143,6 +150,31 @@ class MailingListes extends React.Component {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
       });
     });
+
+    axios1.get(window.apiUrl + "getUsers/")
+      .then(
+        (rep) => {
+          if (rep.data !== null) {
+ 
+            this.setState({masterListe : rep.data})
+           
+          } else {
+            console.log('User_Master est vide')
+
+          }
+        })
+
+  }
+
+  ///*******function MasterListes
+  masterListes() {
+
+    console.log("Button Master liste clicked")
+   // this.state.Nom_MailingList1 = "User Master Liste";
+    //console.log(this.state.Nom_MailingList1)
+
+
+    
 
   }
   ///********fin function MasterListes
@@ -173,7 +205,7 @@ class MailingListes extends React.Component {
         timer: 4000,
         icon: 'warning',
         width: 300,
-        title: 'Liste est vide '
+        title: 'Liste est vide'
       })
 
     } else {
@@ -187,15 +219,7 @@ class MailingListes extends React.Component {
  
 ////////////////
  /// API MailingList
- axios.post(window.apiUrl + "display/",
- {
-   tablename: "MailingList_V3",
-   identifier: this.state.dateDMY + uuid(),
-   fields: "*",
-   content: "*",
-
- }
-)
+ axios1.get(window.apiUrl + "getMailingList/")
  .then(
    (result) => {
      if (result.data !== null) {
@@ -256,7 +280,8 @@ class MailingListes extends React.Component {
 
 
       this.setState({
-        modal: !this.state.modal
+        modal: !this.state.modal,
+        tabulatorAfficher: true
       });
       var $ = require("jquery");
       $('#btnModifier').show();
@@ -286,47 +311,7 @@ class MailingListes extends React.Component {
             }
           }
         )
-
-      ///tabulator 
-      this.mytable = new Tabulator(this.el, {
-        data: this.tableData, //link data to table
-        reactiveData: true, //enable data reactivity
-        height: "450px",
-        columns: [
-          {
-            title: "Nom de l'utilisateur",
-            field: "User_Master_Name",
-            width: '30%',
-
-          },
-
-          {
-            title: "Contact",
-            field: "MailingList_Membres",
-            width: '40%',
-
-          },
-
-          {
-            title: "Supprimer",
-            width: "28%",
-            hozAlign: "center",
-            formatter: function () { //plain text value
-
-              return "<i class='fa fa-trash-alt icon'></i>";
-
-            },
-
-            cellClick: function (e, cell) {
-              cell.getData();
-              supprimertemp.push(cell.getData().MailingList_Membres);
-              cell.getRow().delete();
-              console.log("supprimertemp", supprimertemp)
-            }
-          },], //define table columns
-      });
-
-
+       this.setState({tableData:[]})
     } else {
 
       Swal.fire({
@@ -353,7 +338,7 @@ class MailingListes extends React.Component {
         timer: 4000,
         icon: 'warning',
         width: 300,
-        title: 'Créez ou Modifier une liste'
+        title: 'Veuillez créer ou modifier une Mailing Liste  pour enregistrer'
       })
 
     } else {
@@ -377,22 +362,76 @@ class MailingListes extends React.Component {
       } else {
         console.log("***********************************************")
 
-        this.state.listeTest = this.tableData.concat(this.state.Membres)
+        this.state.listeTest = this.state.tableData.concat(this.state.Membres)
         console.log("listeTest", this.state.listeTest)
 
-        if (this.state.User_Master_Name != "" || this.state.User_Master_Code != "" || this.state.MailingList_Membres != "") {
+        if (this.state.User_Master_Name != "" && this.state.User_Master_Code != "" && this.state.MailingList_Membres != "") {
 
-          var data = [{ "MailingList_Membres": MailingList_Membres }]
-          console.log(data)
 
-          //  for ( var j=0; j<1 ; j++){
-          //    for (var i = 0; i < this.state.listeTest.length; i++) {
-          //  console.log('testttt', data[0].MailingList_Membres == this.state.listeTest[i].MailingList_Membres)
-          //      if (data[0].MailingList_Membres != this.state.listeTest[i].MailingList_Membres) {
-          this.mytable.addRow({ User_Master_Code, User_Master_Name, MailingList_Membres }, true);
+         console.log("this.state.MailingList_Membres ",this.state.MailingList_Membres )
+         console.log(" this.state.Membres", this.state.Membres )
+
+         if(this.state.Membres.length==0){
+          console.log("---------------this.state.Membres.length==0")
+          this.mytable.current.table.addRow({ User_Master_Code, User_Master_Name, MailingList_Membres }, true);
           console.log(User_Master_Code, User_Master_Name, MailingList_Membres);
-          this.state.Membres.push({ "MailingList_Membres": MailingList_Membres, "User_Master_Name": User_Master_Name, "User_Master_Code": User_Master_Code })
-          console.log('MailingList_Membres push', this.state.Membres)
+         // this.state.Membres.push({ "MailingList_Membres": MailingList_Membres, "User_Master_Name": User_Master_Name, "User_Master_Code": User_Master_Code })
+          this.setState({Membres:[{ "MailingList_Membres": MailingList_Membres, "User_Master_Name": User_Master_Name, "User_Master_Code": User_Master_Code }]})
+   
+          
+         }else{
+         var  validation=false
+         
+          this.state.Membres.map((item,i)=>{
+            console.log( "----------------------------------", item.MailingList_Membres,this.state.MailingList_Membres)
+
+            console.log( "----------------------------------", item.MailingList_Membres==this.state.MailingList_Membres)
+               if(item.MailingList_Membres == this.state.MailingList_Membres){
+                     console.log("------------------------------------------item.MailingList_Membres==this.state.MailingList_Membres")
+                     validation=true
+               }
+               
+
+          })
+          // console.log('temmmmm',this.state.tableData.length)
+          // console.log('temmmmm',this.state.tableData)
+          // if(this.state.tableData.length!=0){
+          //   this.state.tableData.map((item,i)=>{
+          //     console.log( "----------------------------------", item.MailingList_Membres,this.state.MailingList_Membres)
+  
+          //     console.log( "----------------------------------", item.MailingList_Membres==this.state.MailingList_Membres)
+          //        if(item.MailingList_Membres == this.state.MailingList_Membres){
+          //              console.log("------------------------------------------item.MailingList_Membres==this.state.MailingList_Membres")
+          //              validation=true
+          //        }
+                 
+  
+          //   })
+          // }
+
+          if(validation==false){
+          this.mytable.current.table.addRow({ User_Master_Code, User_Master_Name, MailingList_Membres }, true);
+          console.log(User_Master_Code, User_Master_Name, MailingList_Membres);
+          this.setState({Membres:this.state.Membres.concat([{ "MailingList_Membres": MailingList_Membres, "User_Master_Name": User_Master_Name, "User_Master_Code": User_Master_Code }])})
+        }else {
+          Swal.fire({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 4000,
+            icon: 'warning',
+            width: 600,
+            title: 'Ces coordonnées ont déjà été ajoutées'
+          })
+
+        }
+
+         }
+         console.log('MailingList_Membres push', this.state.Membres)
+          // this.mytable.current.table.addRow({ User_Master_Code, User_Master_Name, MailingList_Membres }, true);
+          // console.log(User_Master_Code, User_Master_Name, MailingList_Membres);
+          // this.state.Membres.push({ "MailingList_Membres": MailingList_Membres, "User_Master_Name": User_Master_Name, "User_Master_Code": User_Master_Code })
+          // console.log('MailingList_Membres push', this.state.Membres)
           this.state.User_Master_Name = ""
           this.state.User_Master_Code = ""
           this.state.MailingList_Membres = ""
@@ -415,25 +454,6 @@ class MailingListes extends React.Component {
 
     console.log(this.state.Nom)
     console.log(this.state.MailingList_Code)
-
-    const supprimertemp = this.state.supprimertemp;
-
-    /// API MailingList
-    axios.post(window.apiUrl + "display/",
-      {
-        tablename: "MailingList_V3",
-        identifier: this.state.dateDMY + uuid(),
-        fields: "*",
-        content: "*",
-
-      }
-    )
-      .then(
-        (result) => {
-          console.log('result dataaaaaaaaaaaaaaaaaaaaaaa')
-          console.log(result.data)
-
-          if (result.data != null) {
             if(this.state.Nom==""){
                 console.log("tl_name vide")
                 Swal.fire({
@@ -443,150 +463,30 @@ class MailingListes extends React.Component {
                   timer: 4000,
                   width: 400,
                   icon: 'warning',
-                  title: "Sélectionner une liste pour ajouter"
+                  title: "Sélectionnez une liste à ajouter"
               })
           }else {
-          for (var i = 0; i < result.data.length; i++) {
-            this.state.MailingList_Code = result.data[i].MailingList_Code
+          for (var i = 0; i < this.state.listes.length; i++) {
+            this.state.MailingList_Code = this.state.listes[i].MailingList_Code
             console.log(this.state.MailingList_Code)
+            console.log(this.state.code)
             if (this.state.code == this.state.MailingList_Code) {
               this.setState({
-                modal4: !this.state.modal4
+                modal4: !this.state.modal4,
+                tabulatorAfficher: true
             });
         this.setState({Nom_MailingList:this.state.Nom})
-        this.setState({ liste_MailingList_Membres: result.data[i].MailingList_Membres })
-              this.tableData = result.data[i].MailingList_Membres;
-              console.log(" this.tableData", this.tableData)
-         //     this.state.liste_MailingList_Membres = result.data[i].MailingList_Membres;
-              this.state.listePath = result.data[i].Path;
-              this.state.listeType = result.data[i].Type;
-              console.log("listePath", this.state.listePath)
-              console.log("listeType", this.state.listeType)
-              console.log("MailingList_Membres", this.state.liste_MailingList_Membres)
-              if (this.state.liste_MailingList_Membres.length == 0) {
-
-                Swal.fire({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 4000,
-                    width: 500,
-                    title: ('Ajouter des Utilisateurs  dans ' + this.state.Nom)
-
-                })
-                this.mytable = new Tabulator(this.el, {
-                  data: this.tableData, //link data to table
-                  reactiveData: true, //enable data reactivity
-                  height: "450px",
-                  columns: [
-                    {
-                      title: "Nom de l'utilisateur",
-                      field: "User_Master_Name",
-                      width: '30%',
-  
-                    },
-                    {
-                      title: "Contact",
-                      field: "MailingList_Membres",
-                      width: '40%',
-  
-                    },
-  
-                    {
-                      title: "Supprimer",
-                      width: "29%",
-                      hozAlign: "center",
-                      formatter: function () { //plain text value
-  
-                        return "<i class='fa fa-trash-alt icon'></i>";
-  
-                      },
-  
-                      cellClick: function (e, cell) {
-                        cell.getData();
-                        cell.getRow().delete();
-  
-                        supprimertemp.push(cell.getData().MailingList_Membres);
-  
-                        console.log("supprimertemp", supprimertemp)
-                      }
-                    },], //define table columns
-                });
-                this.mytable.clearData()
-            } else {
-
-
-              ///tabulator 
-              this.mytable = new Tabulator(this.el, {
-                data: this.tableData, //link data to table
-                reactiveData: true, //enable data reactivity
-                height: "450px",
-                columns: [
-                  {
-                    title: "Nom de l'utilisateur",
-                    field: "User_Master_Name",
-                    width: '30%',
-
-                  },
-                  {
-                    title: "Contact",
-                    field: "MailingList_Membres",
-                    width: '40%',
-
-                  },
-
-                  {
-                    title: "Supprimer",
-                    width: "29%",
-                    hozAlign: "center",
-                    formatter: function () { //plain text value
-
-                      return "<i class='fa fa-trash-alt icon'></i>";
-
-                    },
-
-                    cellClick: function (e, cell) {
-                      cell.getData();
-                      cell.getRow().delete();
-
-                      supprimertemp.push(cell.getData().MailingList_Membres);
-
-                      console.log("supprimertemp", supprimertemp)
-                    }
-                  },], //define table columns
-              });
-
-
-            }}
-          }
+        this.setState({ liste_MailingList_Membres: this.state.listes[i].MailingList_Membres })
+        this.setState({tableData : this.state.listes[i].MailingList_Membres,
+                       Membres:this.state.listes[i].MailingList_Membres
+                      })
+    
+        }
+           }
         }
         var $ = require("jquery");
         $('#btnModifier').show();
         $('#btnNouveau').hide();
-
-
-    }
-    else {
-        console.log("liste vide")
-        Swal.fire({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 4000,
-            width: 300,
-            icon: 'warning',
-            title: ' la liste est vide'
-        })
-    }
-
-        }
-
-      )
-    /// FIN API MailingList
-
-
-    /////
-
   }
 
   supprimerAll() {
@@ -617,7 +517,7 @@ class MailingListes extends React.Component {
     this.state.supprimertemp.push(this.state.supprimer);
     console.log(this.state.supprimertemp);
     if (newMembres.length == []) {
-      this.mytable.clearData()
+     // this.mytable.current.table.clearData()
       console.log("Array is empty!")
     }
     this.state.Nom_MailingList = ""
@@ -646,7 +546,7 @@ class MailingListes extends React.Component {
           timer: 4000,
           width: 300,
           icon: 'success',
-          title: 'Supprimer avec succès'
+          title: 'Votre liste a été supprimée avec succès'
 
         })
       })
@@ -673,7 +573,7 @@ class MailingListes extends React.Component {
 
     const MailingList_Membres = this.state.MailingList_Membres;
 
-    this.mytable.addData({ MailingList_Membres }, true);
+    this.mytable.current.table.addData({ MailingList_Membres }, true);
   }
 
 
@@ -818,7 +718,7 @@ class MailingListes extends React.Component {
         timer: 4000,
         width: 300,
         icon: 'warning',
-        title: 'Créez ou Modifier une liste '
+        title: 'Veuillez créer ou modifier une Mailing Liste '
       })
 
     } else {
@@ -846,7 +746,7 @@ class MailingListes extends React.Component {
             timer: 4000,
             width: 300,
             icon: 'success',
-            title: 'Enregister avec succès'
+            title: 'Votre liste a été enregistrée avec succès'
           })
         })
         .catch((err) => console.error(err));
@@ -881,10 +781,38 @@ class MailingListes extends React.Component {
 
 
 
+deletetab = () => {
+
+    this.toggleDelete()
+    this.state.cellTable.getRow().delete();
+    this.state.supprimertemp.push(this.state.cellTable.getData().MailingList_Membres);
+}
+toggleDelete = () => {
+  this.setState({
+      modalDelete: !this.state.modalDelete
+  });
+}
+CellTableFun = (cell) => {
+  this.setState({ cellTable: cell })
+  this.setState({ cellName: cell.getData().MailingList_Membres })
+}
+
+supprimerFunclick = (e, cell) => {
+  console.log(cell)
+  this.toggleDelete()
+  this.CellTableFun(cell)
+  //cell.getData();
+  //  alert("confirmation de Suppression" + " " + cell.getData().U_Alarme_Name);
+}
+supprimerFunIcon() {
+  return "<i class='fa fa-trash-alt icon'></i>";
+}
   render() {
     const { errors } = this.state;
+    const scrollContainerStyle = {width: "100%", maxHeight: window.screen.availHeight / 2.10 + `px`,marginTop:"148px" };
     return (
-      <div>
+      <>
+        <Navbar history={this.state.history}/>
         <MDBBreadcrumb style={{ backgroundColor: '#b1b5b438',color: "#000",fontFamily: 'GOTHAM MEDIUM' }}>
           <MDBBreadcrumbItem>  Rapporteur</MDBBreadcrumbItem>
           <MDBBreadcrumbItem > Mailing Listes</MDBBreadcrumbItem>
@@ -896,16 +824,16 @@ class MailingListes extends React.Component {
 
           <MDBRow >
                         <MDBCol size="6">
-          <fieldset className="form-group" className="float-left" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px', margin: '20px', minHeight: '650px', height: 'auto', width: '98%', backgroundColor: "#c3c3c321" }}>
+          <fieldset className="form-group" className="float-left" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px', margin: '20px', minHeight: window.screen.availHeight / 1.56 + `px`, height: 'auto', width: '98%', backgroundColor: "#c3c3c321" }}>
 
             {/***************************** Master Liste************************* */}
-            <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.masterListes} >Master Liste</MDBBtn>
+            {/* <MDBBtn color="#e0e0e0 grey lighten-2" onClick={this.masterListes} >Master Liste</MDBBtn> */}
 
-            <input type="text" id="myInput" placeholder="Rechrech..." className="form-control float-right option" style={{ width: "25%", marginTop: "1%" }} />
+            <input type="text" id="myInput" placeholder="Rechrech..." autoComplete="off" className="form-control float-right" style={{ width: "25%", marginTop: "1%" }} />
 
             {/****************************************************** */}
 
-            < table border="1" style={{ marginTop: "22px" }} className="tab  float-right" >
+            < table border="1" style={{ marginTop: "30px" }} className="tab  float-right" >
               <thead >
                 <tr>
                   <th style={{ width: '18%', backgroundColor: "#e0e0e0e0" }} > <b style={{ fontSize: "16px" }}> Fichier Source </b></th>
@@ -917,7 +845,7 @@ class MailingListes extends React.Component {
               <tbody></tbody>
             </table >
 
-            <div className="tableMaster option" id="listeuser" style={{ 'height': '450px', 'overflowY': 'scroll', marginTop: "100px" }} >
+            <div id="" className="scrollbar scrollbar-primary  mx-auto" style={scrollContainerStyle} >
               {/*****user Master table****** */}
 
               <table  > <thead > <tr >
@@ -935,7 +863,7 @@ class MailingListes extends React.Component {
                         < select className="browser-default custom-select" name="MailingList_Membres" value={this.state.MailingList_Membres} onChange={this.handleChange}>
                           <option></option>
                           <option>  {i.Email_User_Master} </option>
-                          <option >  {i.SMS_User_Master}</option>
+                          <option>  {i.SMS_User_Master}</option>
                         </select>
                       </td>
                     </tr></tbody>)}
@@ -954,7 +882,7 @@ class MailingListes extends React.Component {
 
           {/**  <MDBBtn  color="#e0e0e0 grey lighten-2" onClick={this.addAll} size="sm" style={{ marginTop: "13%", marginLeft: '-4%' }} id="btnaddAll" className="option" > <MDBIcon icon="angle-double-right" size="2x" /> </MDBBtn>*/}
           {/** liste 2 */}
-          <fieldset className="form-group" className="float-right" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px', margin: '20px', height: 'auto', minHeight: '650px', width: '98%', backgroundColor: "#c3c3c321" }}>
+          <fieldset className="form-group" className="float-right" style={{ border: "2px groove", padding: "10px", borderColor: "#e0e0e0", borderStyle: "solid", borderRadius: '4px', margin: '20px', height: 'auto', minHeight: window.screen.availHeight / 1.56 + `px`, width: '98%', backgroundColor: "#c3c3c321" }}>
           
           
           
@@ -1048,8 +976,7 @@ class MailingListes extends React.Component {
                         <MDBModalHeader toggle={this.toggle1}  >Attention :</MDBModalHeader>
                         <MDBModalBody>
                           <label htmlFor="defaultFormLoginEmailEx" className="red-text" style={{ fontSize: "20px" }}>
-                            Voulez-vous vraiment supprimer la MailingList selectionner ?
-                          </label>
+                          Veuillez confirmer que vous souhaitez supprimer la Mailing liste sélectionnée?                        </label>
 
                         </MDBModalBody>
                         <MDBModalFooter>
@@ -1065,7 +992,28 @@ class MailingListes extends React.Component {
 
                   </tr>
                 </thead><tbody></tbody></table></div>
-            <div><div style={{ marginTop: "100px" }} className="listeValider" ref={el => (this.el = el)} /></div>
+            {/* <div><div style={{ marginTop: "100px" }} className="listeValider" ref={el => (this.el = el)} /></div> */}
+            {this.state.tabulatorAfficher == true &&      
+            <ReactTabulator style={{ marginTop: "90px" }} className="listeValider"
+                                ref={this.mytable}
+                                data={this.state.tableData}
+                                columns={this.state.columns}
+                                layout={"fitData"}
+                                index={"MailingList_Membres"}
+                                options={{
+                                    pagination: true,
+                                    paginationSize: 7,
+                                    paginationSizeSelector: [7, 10, 15],
+                                    pagination: "local",
+                                    selectable: 1,
+                                    movableColumns: true,
+                                    resizableRows: true,
+                                    reactiveData: true,
+                                }}
+                            />}
+
+            <DeleteRow toggle={this.toggleDelete} modal={this.state.modalDelete} deletetab={this.deletetab} cellTable={this.state.cellTable} cellName={this.state.cellName} />
+
           </fieldset>
           {/** fin liste 2 */}
           </MDBCol>
@@ -1073,7 +1021,7 @@ class MailingListes extends React.Component {
 
         </fieldset>
 
-      </div>);
+      </>);
   }
 
 
@@ -1081,6 +1029,13 @@ class MailingListes extends React.Component {
 
 
 }
+
+
+
+export default MailingListes;
+
+
+
 
 
 
@@ -1183,4 +1138,25 @@ const ModalMailing = ({ toggle4, listes, handleClick, handleChange,Nom }) => {
 
 
 }
-export default MailingListes;
+const DeleteRow = ({ toggle, modal, deletetab, cellName }) => {
+  useEffect(() => {
+
+  }, [cellName])
+
+  return (<MDBContainer>
+
+      <MDBModal isOpen={modal} toggle={toggle} centered>
+          <MDBModalHeader toggle={toggle}>Confirmation de Suppression  </MDBModalHeader>
+          <MDBModalBody style={{ textAlign: "center", fontSize: '120%' }}>
+              Supprimer temporairement un membre
+              <p style={{ fontWeight: "bold", color: "#b71c1c" }}> {cellName}</p>
+          </MDBModalBody>
+          <MDBModalFooter>
+
+              <MDBBtn color="#b71c1c red darken-4" style={{ color: "#fff" }} onClick={deletetab}>Supprimer</MDBBtn>
+              <MDBBtn color="#e0e0e0 grey lighten-2" style={{ marginRight: "18%" }} onClick={toggle} >Annuller</MDBBtn>
+          </MDBModalFooter>
+      </MDBModal>
+  </MDBContainer>
+  );
+}
